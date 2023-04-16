@@ -7,7 +7,7 @@ import { hasDynamicIsland } from 'react-native-device-info';
 import { hp } from './constants/layout';
 import { StatusBar, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import { RootNavigation } from 'navigation';
+import { RootNavigation } from './navigation';
 
 const App = () => {
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { createNavigationContainerRef } from '@react-navigation/native';
-import { StackParamsList } from '../../declarations/navigation';
+import { StackParamsList } from '../../declaration/navigation';
 
 export const navigationRef = createNavigationContainerRef();
 

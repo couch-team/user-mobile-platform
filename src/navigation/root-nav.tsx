@@ -6,7 +6,7 @@ import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import DashboardNavigation from './dashboard';
+// import DashboardNavigation from './dashboard';
 
 const Stack = createStackNavigator<RootNavigationRoutes>();
 
@@ -18,11 +18,11 @@ const AppNavigation = () => {
       <Stack.Navigator
         initialRouteName={isLoggedIn ? 'Dashboard' : 'Auth'}
         screenOptions={{ headerShown: false }}>
-        {isLoggedIn ? (
+        {/* {isLoggedIn ? (
           <Stack.Screen component={DashboardNavigation} name="Dashboard" />
-        ) : (
-          <Stack.Screen component={AuthNavigation} name="Auth" />
-        )}
+        ) : ( */}
+        <Stack.Screen component={AuthNavigation} name="Auth" />
+        {/* )} */}
       </Stack.Navigator>
     </NavigationContainer>
   );
