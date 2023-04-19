@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     // bottom: hp(40),
   },
   bodyContainer: {
-    height: hp(650),
+    height: hp(800),
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     paddingVertical: hp(42),
     paddingHorizontal: wp(24),

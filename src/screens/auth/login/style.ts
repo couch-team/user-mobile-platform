@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     paddingVertical: hp(42),
+    height: hp(600),
     paddingHorizontal: wp(24),
   },
   welcomeText: {

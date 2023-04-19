@@ -10,7 +10,7 @@ export type AuthParamList = {
   VerifyOtp: any;
   Register: any;
   ForgetPassword: any;
-  ConfirmEmail: any;
+  BasicProfile: any;
   EnterPin: any;
   ConfirmPin: any;
 };

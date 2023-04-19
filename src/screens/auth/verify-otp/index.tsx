@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -53,11 +53,12 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
                 <Text style={styles.resendCodeButtonText}>Resend code</Text>
               </TouchableOpacity>
             </View>
-            <LongButton
-              buttonStyle={styles.buttonStyle}
-              title="Verify Email Address"
-            />
           </View>
+          <LongButton
+            onPress={() => navigate('BasicProfile')}
+            buttonStyle={styles.buttonStyle}
+            title="Verify Email Address"
+          />
         </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaView>
