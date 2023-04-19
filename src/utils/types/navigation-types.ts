@@ -7,7 +7,7 @@ export type AuthParamList = {
   Onboarding: any;
   CompleteOnboarding: any;
   Login: any;
-  OTPModal: any;
+  VerifyOtp: any;
   Register: any;
   ForgetPassword: any;
   ConfirmEmail: any;

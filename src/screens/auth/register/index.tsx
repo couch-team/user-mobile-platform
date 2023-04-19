@@ -63,7 +63,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
               isNotBottom
               buttonStyle={styles.buttonStyle}
               title="Get Started"
-              disabled
+              onPress={() => navigate('VerifyOtp')}
             />
             <View style={styles.signInLinkContainer}>
               <Text style={styles.signInText}>Have an account?</Text>

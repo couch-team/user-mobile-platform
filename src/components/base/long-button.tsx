@@ -63,7 +63,7 @@ const LongButton = ({
 const styles = StyleSheet.create({
   containerStyle: {
     position: 'absolute',
-    bottom: hp(40) + getBottomSpace(),
+    bottom: hp(60) + getBottomSpace(),
     justifyContent: 'center',
     alignSelf: 'center',
   },
