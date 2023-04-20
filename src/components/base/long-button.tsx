@@ -7,9 +7,10 @@ import {
   StyleSheet,
   ViewStyle,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { getBottomSpace, hp, wp } from '../../constants/layout';
-import { Colors, Typography } from '../../theme/config';
+import { Colors, Images, Typography } from '../../theme/config';
 
 interface LongButtonProps {
   loading?: boolean;
@@ -20,6 +21,7 @@ interface LongButtonProps {
   onPress?: () => void;
   isNotBottom?: boolean;
   disabled?: boolean;
+  hasLongArrow?: boolean;
 }
 
 const LongButton = ({
@@ -30,6 +32,7 @@ const LongButton = ({
   containerStyle,
   onPress,
   disabled,
+  hasLongArrow,
   isNotBottom,
 }: LongButtonProps) => {
   return (
@@ -45,6 +48,22 @@ const LongButton = ({
         ]}>
         {loading ? (
           <ActivityIndicator size="small" color={Colors.WHITE} />
+        ) : hasLongArrow ? (
+          <View style={styles.longArrowContainer}>
+            <Text
+              style={[
+                styles.title,
+                titleStyle,
+                disabled && styles.titleDisabledStyle,
+              ]}>
+              {title}
+            </Text>
+            <Image
+              source={Images['long-arrow']}
+              resizeMode="contain"
+              style={styles.longArrow}
+            />
+          </View>
         ) : (
           <Text
             style={[
@@ -87,6 +106,15 @@ const styles = StyleSheet.create({
   disabledStyle: {
     backgroundColor: Colors.COUCH_BLUE,
     opacity: 0.2,
+  },
+  longArrowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  longArrow: {
+    width: wp(53),
+    marginLeft: wp(16),
+    height: hp(10),
   },
 });
 

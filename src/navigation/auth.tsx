@@ -6,6 +6,8 @@ import Login from '../screens/auth/login';
 import Register from '../screens/auth/register';
 import VerifyOtp from '../screens/auth/verify-otp';
 import BasicProfile from '../screens/auth/basic-profile';
+import Nationality from '../screens/auth/basic-profile/Nationality';
+import UploadProfile from '../screens/auth/basic-profile/UploadProfile';
 
 const Stack = createStackNavigator<AuthParamList>();
 
@@ -19,6 +21,8 @@ const AuthNavigation = () => {
       <Stack.Screen component={Register} name="Register" />
       <Stack.Screen component={VerifyOtp} name="VerifyOtp" />
       <Stack.Screen component={BasicProfile} name="BasicProfile" />
+      <Stack.Screen component={Nationality} name="Nationality" />
+      <Stack.Screen component={UploadProfile} name="UploadProfile" />
     </Stack.Navigator>
   );
 };

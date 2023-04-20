@@ -5,9 +5,19 @@ import { styles } from './style';
 import { Images } from '../../../theme/config';
 import LongButton from '../../../components/base/long-button';
 import { genderRoles } from '../../../constants';
+import CouchDatePicker from '../../../components/base/date-picker';
+import { AuthParamList } from '../../../utils/types/navigation-types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const BasicProfile = () => {
+type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
+type Props = {
+  navigation: AuthNavigationProps;
+};
+
+const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [dateValue, setDateValue] = useState();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.bodyContainer}>
@@ -15,7 +25,7 @@ const BasicProfile = () => {
         <View style={styles.textBodyContainer}>
           <Text style={styles.welcomeText}>Setup Basic Profile</Text>
           <Text style={styles.getStartedText}>
-            Let’s get to know you more...
+            Let's get to know you more...
           </Text>
         </View>
         <View style={styles.profileStepContainer}>
@@ -85,9 +95,18 @@ const BasicProfile = () => {
               }}
             />
           </View>
+          <View>
+            <CouchDatePicker
+              label="Date of birth"
+              dateValue={dateValue}
+              setDateValue={setDateValue}
+              openDateValue={openDatePicker}
+              onOpenPicker={setOpenDatePicker}
+            />
+          </View>
         </View>
       </View>
-      <LongButton title="Continue" />
+      <LongButton title="Continue" onPress={() => navigate('Nationality')} />
     </SafeAreaView>
   );
 };

@@ -39,7 +39,11 @@ const Register = ({ navigation: { navigate } }: Props) => {
             <View style={styles.formContainer}>
               <FormTextInput label="Fullname" />
               <FormTextInput label="Email address" />
-              <FormTextInput label="Password" />
+              <FormTextInput
+                label="Password"
+                isPassword
+                inputIcon={Images['help-circle']}
+              />
             </View>
             <View style={styles.termsTextContainer}>
               <TouchableOpacity

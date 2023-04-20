@@ -11,8 +11,9 @@ export type AuthParamList = {
   Register: any;
   ForgetPassword: any;
   BasicProfile: any;
-  EnterPin: any;
-  ConfirmPin: any;
+  Nationality: any;
+  UploadProfile: any;
+  UserOnboarding: any;
 };
 
 export type DashboardParamList = {

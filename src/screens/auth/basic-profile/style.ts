@@ -7,9 +7,31 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.PRIMARY,
   },
+  logoContainer: {
+    marginTop: hp(40),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: hp(140),
+  },
   bodyContainer: {
     marginTop: hp(20),
     marginHorizontal: wp(24),
+  },
+  bodyTextContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(20),
+  },
+  bodyMainText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(14),
+    color: Colors.PLACEHOLDER_COLOR,
+  },
+  bodySubText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+    paddingTop: hp(10),
+    color: Colors.WHITE,
   },
   logo: {
     width: wp(86),
@@ -92,5 +114,48 @@ export const styles = StyleSheet.create({
   radioIcon: {
     width: wp(20),
     height: hp(20),
+  },
+  profileSectionContainer: {
+    height: hp(500),
+    backgroundColor: Colors.PRIMARY_DARKBLUE,
+  },
+  profileImageContainer: {
+    position: 'absolute',
+    top: -hp(100),
+    alignSelf: 'center',
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+  },
+  instructionText: {
+    marginTop: hp(110),
+    paddingHorizontal: wp(38),
+    fontFamily: Typography.fontFamily.SoraRegular,
+    color: Colors.PLACEHOLDER_COLOR,
+    textAlign: 'center',
+    lineHeight: hp(26),
+    fontSize: hp(13),
+  },
+  buttonStyle: {
+    marginTop: hp(100),
+  },
+  longArrowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: hp(20),
+    alignItems: 'center',
+  },
+  longArrowText: {
+    fontFamily: Typography.fontFamily.SoraMedium,
+    fontSize: hp(16),
+    lineHeight: hp(20),
+    color: Colors.COUCH_BLUE,
+  },
+  longArrow: {
+    width: wp(53),
+    height: hp(20),
+    marginLeft: wp(16),
+    tintColor: Colors.COUCH_BLUE,
   },
 });
