@@ -5,6 +5,7 @@ const Images = {
   calendar: require('../../assets/images/icons/calendar.png'),
   checkbox: require('../../assets/images/icons/checkbox.png'),
   'chevron-down': require('../../assets/images/icons/chevron-down.png'),
+  ellipse: require('../../assets/images/icons/ellipse.png'),
   'eye-off': require('../../assets/images/icons/eye-off.png'),
   'help-circle': require('../../assets/images/icons/help-circle.png'),
   line: require('../../assets/images/icons/line.png'),

@@ -36,3 +36,34 @@ export const moods = [
     icon: Images['mood-4'],
   },
 ];
+
+export const helpLists = [
+  {
+    id: 1,
+    title: 'Overcome Depression',
+  },
+  {
+    id: 2,
+    title: 'Talk to a Therapist',
+  },
+  {
+    id: 3,
+    title: 'Be more Productive',
+  },
+  {
+    id: 4,
+    title: 'Feel less anxious',
+  },
+  {
+    id: 5,
+    title: 'Recover from Traumatic events',
+  },
+  {
+    id: 6,
+    title: 'Improve Self Confidence',
+  },
+  {
+    id: 7,
+    title: 'Relax and Feel better',
+  },
+];

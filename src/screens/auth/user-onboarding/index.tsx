@@ -44,7 +44,7 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
         <View style={styles.moodIconContainer}>
           {moods.map(mood => {
             return (
-              <TouchableOpacity style={styles.moodContainer}>
+              <TouchableOpacity key={mood.id} style={styles.moodContainer}>
                 <Image
                   source={mood.icon}
                   resizeMode="contain"

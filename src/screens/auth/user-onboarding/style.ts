@@ -12,6 +12,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  bodyContainer: {
+    marginTop: hp(20),
+    marginHorizontal: wp(24),
+  },
+  mainBodyText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(18),
+    color: Colors.WHITE,
+  },
   logo: {
     width: wp(94),
     height: hp(20),
