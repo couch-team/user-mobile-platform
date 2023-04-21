@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
     height: hp(20),
   },
   profileSectionContainer: {
-    height: hp(500),
+    height: hp(550),
     backgroundColor: Colors.PRIMARY_DARKBLUE,
   },
   profileImageContainer: {
@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
     fontSize: hp(13),
   },
   buttonStyle: {
-    marginTop: hp(100),
+    marginTop: hp(150),
   },
   longArrowContainer: {
     flexDirection: 'row',
