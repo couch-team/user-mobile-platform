@@ -9,6 +9,7 @@ import {
   ViewStyle,
   TouchableOpacity,
   ImageSourcePropType,
+  TextStyle,
 } from 'react-native';
 import { Colors, Images, Typography } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
@@ -21,6 +22,7 @@ interface FormTextInputProps extends RNTextInputProps {
   show?: boolean;
   showPassword?: () => void;
   inputIcon?: ImageSourcePropType;
+  formLabelTextStyle?: TextStyle;
 }
 
 const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
@@ -33,6 +35,7 @@ const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
       show,
       showPassword,
       inputIcon,
+      formLabelTextStyle,
       ...props
     },
     ref,
@@ -41,7 +44,9 @@ const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
     return (
       <View style={styles.formInputContainer}>
         <View style={styles.formLabelContainer}>
-          <Text style={styles.formLabelText}>{label}</Text>
+          <Text style={[styles.formLabelText, formLabelTextStyle]}>
+            {label}
+          </Text>
           {inputIcon && (
             <TouchableOpacity>
               <Image

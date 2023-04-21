@@ -15,6 +15,8 @@ export type AuthParamList = {
   UploadProfile: any;
   UserOnboarding: any;
   UserOnboarding1: any;
+  UserOnboarding2: any;
+  UserOnboarding3: any;
 };
 
 export type DashboardParamList = {

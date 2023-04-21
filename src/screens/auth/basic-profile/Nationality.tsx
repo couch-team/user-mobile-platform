@@ -19,9 +19,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
 
-  const onSelectCountry = async (selectedCountry: any) => {
-    console.log(selectedCountry);
-  };
+  const onSelectCountry = async (selectedCountry: any) => { };
 
   return (
     <SafeAreaView style={styles.container}>

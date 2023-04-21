@@ -3,6 +3,7 @@ const Images = {
   'active-radio': require('../../assets/images/icons/active-radio.png'),
   background: require('../../assets/images/icons/background.png'),
   calendar: require('../../assets/images/icons/calendar.png'),
+  check: require('../../assets/images/icons/check.png'),
   checkbox: require('../../assets/images/icons/checkbox.png'),
   'chevron-down': require('../../assets/images/icons/chevron-down.png'),
   ellipse: require('../../assets/images/icons/ellipse.png'),

@@ -10,6 +10,8 @@ import Nationality from '../screens/auth/basic-profile/Nationality';
 import UploadProfile from '../screens/auth/basic-profile/UploadProfile';
 import UserOnboarding from '../screens/auth/user-onboarding';
 import UserOnboarding1 from '../screens/auth/user-onboarding/UserOnboarding1';
+import UserOnboarding2 from '../screens/auth/user-onboarding/UserOnboarding2';
+import UserOnboarding3 from '../screens/auth/user-onboarding/UserOnboarding3';
 
 const Stack = createStackNavigator<AuthParamList>();
 
@@ -27,6 +29,8 @@ const AuthNavigation = () => {
       <Stack.Screen component={UploadProfile} name="UploadProfile" />
       <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
       <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
+      <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />
+      <Stack.Screen component={UserOnboarding3} name="UserOnboarding3" />
     </Stack.Navigator>
   );
 };

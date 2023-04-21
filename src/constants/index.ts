@@ -1,4 +1,4 @@
-import { Images } from '../theme/config';
+import { Colors, Images } from '../theme/config';
 
 export const genderRoles = [
   {
@@ -65,5 +65,47 @@ export const helpLists = [
   {
     id: 7,
     title: 'Relax and Feel better',
+  },
+];
+
+export const rates = [
+  {
+    id: 1,
+    title: 'Good',
+    color: Colors.GREEN,
+  },
+  {
+    id: 2,
+    title: 'Average',
+    color: Colors.COUCH_BLUE_900,
+  },
+  {
+    id: 3,
+    title: 'Bad',
+    color: Colors.YELLOW,
+  },
+  {
+    id: 4,
+    title: 'Very Bad',
+    color: Colors.PEACHY_RED,
+  },
+];
+
+export const medicalConditions = [
+  {
+    id: 1,
+    title: 'Diabetes',
+  },
+  {
+    id: 2,
+    title: 'Asthma',
+  },
+  {
+    id: 3,
+    title: 'Back/Joint pain',
+  },
+  {
+    id: 4,
+    title: 'Heart disease',
   },
 ];
