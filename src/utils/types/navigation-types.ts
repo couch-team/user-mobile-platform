@@ -17,6 +17,11 @@ export type AuthParamList = {
   UserOnboarding1: any;
   UserOnboarding2: any;
   UserOnboarding3: any;
+  CompleteOnboarding1: any;
+  UserOnboarding4: any;
+  UserOnboarding5: any;
+  UserOnboarding6: any;
+  UserOnboarding7: any;
 };
 
 export type DashboardParamList = {

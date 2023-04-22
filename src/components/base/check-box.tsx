@@ -40,11 +40,11 @@ const Checkbox = ({
         styles.checkBoxContainer,
         selectedCheck && !hideCheckBox && styles.selectedBoxStyle,
         selectedCheckType === index.title &&
-        // eslint-disable-next-line react-native/no-inline-styles
-        hideCheckBox && {
-          borderColor: index.color,
-          backgroundColor: 'rgba(239, 250, 235, 0.12)',
-        },
+          // eslint-disable-next-line react-native/no-inline-styles
+          hideCheckBox && {
+            borderColor: index.color || Colors.COUCH_BLUE,
+            backgroundColor: 'rgba(239, 250, 235, 0.12)',
+          },
         checkBoxStyle,
       ]}>
       {hideCheckBox ? null : (
@@ -66,8 +66,12 @@ const Checkbox = ({
             checkTitleStyle,
             selectedCheck && styles.selectedBoxTextStyle,
             hideCheckBox && {
-              color: index.color,
+              color: index.color || Colors.COUCH_BLUE_50,
             },
+            selectedCheckType === index.title &&
+              hideCheckBox &&
+              !index.color &&
+              styles.selectedBoxTextStyle,
           ]}>
           {checkTitle}
         </Text>
@@ -76,7 +80,10 @@ const Checkbox = ({
           <Image
             source={Images.check}
             resizeMode="contain"
-            style={[styles.checkBoxIcon, { tintColor: index.color }]}
+            style={[
+              styles.checkBoxIcon,
+              { tintColor: index.color || Colors.COUCH_BLUE },
+            ]}
           />
         )}
       </View>

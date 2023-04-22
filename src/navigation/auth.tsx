@@ -12,6 +12,9 @@ import UserOnboarding from '../screens/auth/user-onboarding';
 import UserOnboarding1 from '../screens/auth/user-onboarding/UserOnboarding1';
 import UserOnboarding2 from '../screens/auth/user-onboarding/UserOnboarding2';
 import UserOnboarding3 from '../screens/auth/user-onboarding/UserOnboarding3';
+import UserOnboarding4 from '../screens/auth/user-onboarding/UserOnboarding4';
+import CompleteOnboarding1 from '../screens/auth/user-onboarding/CompleteOnboarding1';
+import UserOnboarding5 from 'screens/auth/user-onboarding/UserOnboarding5';
 
 const Stack = createStackNavigator<AuthParamList>();
 
@@ -31,6 +34,12 @@ const AuthNavigation = () => {
       <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
       <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />
       <Stack.Screen component={UserOnboarding3} name="UserOnboarding3" />
+      <Stack.Screen
+        component={CompleteOnboarding1}
+        name="CompleteOnboarding1"
+      />
+      <Stack.Screen component={UserOnboarding4} name="UserOnboarding4" />
+      <Stack.Screen component={UserOnboarding5} name="UserOnboarding5" />
     </Stack.Navigator>
   );
 };

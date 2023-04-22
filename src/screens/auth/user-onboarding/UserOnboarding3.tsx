@@ -101,9 +101,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={selectedOptions?.length > 0 ? false : true}
-          title="Continue"
-          onPress={() => navigate('UserOnboarding2')}
+          disabled={selectedOptions?.length > 0 || goodCondition ? false : true}
+          title="Complete This Stage "
+          onPress={() => navigate('CompleteOnboarding1')}
         />
       </View>
     </SafeAreaView>

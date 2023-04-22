@@ -29,7 +29,10 @@ const ProgressHeader = ({
       <Image
         source={Images.ellipse}
         resizeMode="contain"
-        style={styles.ellipseIcon}
+        style={[
+          styles.ellipseIcon,
+          firstProgress === 1 && { tintColor: Colors.GREEN_100 },
+        ]}
       />
       <Progress.Bar
         progress={secondProgress}

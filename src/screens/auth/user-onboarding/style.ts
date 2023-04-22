@@ -12,9 +12,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  instructionTextContainer: {
+    marginTop: hp(80),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   bodyContainer: {
     marginTop: hp(20),
     marginHorizontal: wp(24),
+  },
+  instructionBodyText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    fontSize: hp(20),
+    width: wp(200),
+    textAlign: 'center',
+    color: Colors.WHITE,
   },
   mainBodyText: {
     fontFamily: Typography.fontFamily.SoraRegular,
@@ -90,6 +102,9 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: Typography.fontFamily.SoraRegular,
   },
+  topPadding: {
+    paddingTop: hp(20),
+  },
   moodIconContainer: {
     flexDirection: 'row',
     marginTop: hp(48),
@@ -137,5 +152,20 @@ export const styles = StyleSheet.create({
   checkboxTextStyle: {
     fontSize: hp(12),
     right: wp(5),
+  },
+  boxesIcon: {
+    width: deviceWidth,
+    height: hp(400),
+    marginTop: hp(50),
+  },
+  nextStageButtonStyle: {
+    marginBottom: hp(75),
+  },
+  gradientImage: {
+    bottom: hp(60),
+    width: deviceWidth,
+  },
+  saveProgressButtonStyle: {
+    backgroundColor: Colors.COUCH_BLUE_400,
   },
 });

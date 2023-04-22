@@ -109,3 +109,37 @@ export const medicalConditions = [
     title: 'Heart disease',
   },
 ];
+
+export const therapistsVisits = [
+  {
+    id: 1,
+    title: 'Yes, I have',
+  },
+  {
+    id: 2,
+    title: 'None I can think of at the moment',
+  },
+];
+
+export const anxiousState = [
+  {
+    id: 1,
+    title: 'Not at all',
+    color: Colors.GREEN,
+  },
+  {
+    id: 2,
+    title: 'Some days',
+    color: Colors.COUCH_BLUE_900,
+  },
+  {
+    id: 3,
+    title: 'More than half the days',
+    color: Colors.YELLOW,
+  },
+  {
+    id: 4,
+    title: 'Nearly everyday',
+    color: Colors.PEACHY_RED,
+  },
+];
