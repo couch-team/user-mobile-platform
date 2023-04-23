@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ProgressHeader from '../../../components/base/progress-header';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { anxiousState } from '../../../constants';
+import { functionState } from '../../../constants';
 import Checkbox from '../../../components/base/check-box';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';
@@ -12,31 +12,31 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
-  'UserOnboarding6'
+  'UserOnboarding7'
 >;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
-const UserOnboarding6 = ({ navigation: { navigate } }: Props) => {
+const UserOnboarding7 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={0.6} />
+      <ProgressHeader firstProgress={1} secondProgress={0.8} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Mental Related Info"
-          currentCount={3}
+          currentCount={4}
           totalCount={5}
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>
-            Do you have some of these difficult feelings and issues that made it
-            hard for you to function?
+            Has any traumatic event happened within the past few weeks or
+            months?
           </Text>
 
           <View style={styles.helpListContainer}>
-            {anxiousState.map(rate => {
+            {functionState.map(rate => {
               return (
                 <Checkbox
                   selectedCheckType={selectedStatus}
@@ -56,11 +56,11 @@ const UserOnboarding6 = ({ navigation: { navigate } }: Props) => {
           disabled={selectedStatus ? false : true}
           isNotBottom
           title="Continue"
-          onPress={() => navigate('UserOnboarding7')}
+          onPress={() => navigate('UserOnboarding8')}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-export default UserOnboarding6;
+export default UserOnboarding7;

@@ -143,3 +143,92 @@ export const anxiousState = [
     color: Colors.PEACHY_RED,
   },
 ];
+
+export const functionState = [
+  {
+    id: 1,
+    title: 'Not at all',
+    color: Colors.GREEN,
+  },
+  {
+    id: 3,
+    title: 'Im not sure',
+    color: Colors.YELLOW,
+  },
+  {
+    id: 4,
+    title: 'Yes, definitely',
+    color: Colors.PEACHY_RED,
+  },
+];
+
+export const traumaticEvents = [
+  {
+    id: 1,
+    title: 'Grief',
+  },
+  {
+    id: 2,
+    title: 'Domestic abuse',
+  },
+  {
+    id: 3,
+    title: 'Sexual abuse',
+  },
+  {
+    id: 4,
+    title: 'Accidents',
+  },
+  {
+    id: 5,
+    title: 'Childhood trauma',
+  },
+  {
+    id: 6,
+    title: 'Heart disease',
+  },
+  {
+    id: 7,
+    title: 'Back/Joint pain',
+  },
+  {
+    id: 8,
+    title: 'Heart disease',
+  },
+];
+
+export const healthyLevel = [
+  {
+    id: 1,
+    title: 'Nearly Everyday',
+    color: Colors.GREEN,
+  },
+  {
+    id: 2,
+    title: 'More than half the days',
+    color: Colors.COUCH_BLUE_900,
+  },
+  {
+    id: 3,
+    title: 'Some Days',
+    color: Colors.YELLOW,
+  },
+  {
+    id: 4,
+    title: 'Not at All',
+    color: Colors.PEACHY_RED,
+  },
+];
+
+export const sleepPattern = [
+  {
+    id: 1,
+    title: 'Good—(7-9 Hours of sleep)',
+    color: Colors.GREEN,
+  },
+  {
+    id: 4,
+    title: 'Bad — (Less than 7 Hours of sleep)',
+    color: Colors.PEACHY_RED,
+  },
+];

@@ -13,9 +13,11 @@ type AuthNavigationProps = StackNavigationProp<
 >;
 type Props = {
   navigation: AuthNavigationProps;
+  route: any;
 };
 
-const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
+const CompleteOnboarding1 = ({ navigation: { navigate }, route }: Props) => {
+  const url = route.params?.url;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -47,7 +49,7 @@ const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
         <LongButton
           buttonStyle={styles.nextStageButtonStyle}
           title="Continue to Next Stage"
-          onPress={() => navigate('UserOnboarding4')}
+          onPress={() => navigate(url || 'UserOnboarding4')}
         />
         <LongButton
           buttonStyle={styles.saveProgressButtonStyle}

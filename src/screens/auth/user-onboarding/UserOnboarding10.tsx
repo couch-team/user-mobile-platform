@@ -4,39 +4,42 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ProgressHeader from '../../../components/base/progress-header';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { anxiousState } from '../../../constants';
+import { sleepPattern } from '../../../constants';
 import Checkbox from '../../../components/base/check-box';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
-  'UserOnboarding6'
+  'UserOnboarding10'
 >;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
-const UserOnboarding6 = ({ navigation: { navigate } }: Props) => {
+const UserOnboarding10 = ({ navigation }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
+  const {
+    Auth: { login },
+  } = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={0.6} />
+      <ProgressHeader firstProgress={1} secondProgress={1} thirdProgress={1} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
-          headerTitle="Mental Related Info"
-          currentCount={3}
-          totalCount={5}
+          headerTitle="Productivity info"
+          currentCount={2}
+          totalCount={2}
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>
-            Do you have some of these difficult feelings and issues that made it
-            hard for you to function?
+            Have you been productive to a healthy level?
           </Text>
 
           <View style={styles.helpListContainer}>
-            {anxiousState.map(rate => {
+            {sleepPattern.map(rate => {
               return (
                 <Checkbox
                   selectedCheckType={selectedStatus}
@@ -55,12 +58,12 @@ const UserOnboarding6 = ({ navigation: { navigate } }: Props) => {
         <LongButton
           disabled={selectedStatus ? false : true}
           isNotBottom
-          title="Continue"
-          onPress={() => navigate('UserOnboarding7')}
+          title="Complete Final stage"
+          onPress={() => login()}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-export default UserOnboarding6;
+export default UserOnboarding10;

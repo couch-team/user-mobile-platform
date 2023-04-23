@@ -146,8 +146,8 @@ export const styles = StyleSheet.create({
     tintColor: Colors.COUCH_BLUE,
   },
   checkboxStyle: {
-    width: wp(150),
-    marginRight: wp(16),
+    width: wp(160),
+    marginRight: wp(5),
   },
   checkboxTextStyle: {
     fontSize: hp(12),

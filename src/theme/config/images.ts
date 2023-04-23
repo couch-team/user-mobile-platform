@@ -24,6 +24,15 @@ const Images = {
   search: require('../../assets/images/icons/search.png'),
   shield: require('../../assets/images/icons/shield.png'),
   radio: require('../../assets/images/icons/radio.png'),
+
+  //bottom tabs
+  activity: require('../../assets/images/bottom-tabs/activity.png'),
+  category: require('../../assets/images/bottom-tabs/category.png'),
+  'category-active': require('../../assets/images/bottom-tabs/category-active.png'),
+  home: require('../../assets/images/bottom-tabs/home.png'),
+  'home-active': require('../../assets/images/bottom-tabs/home-active.png'),
+  profile: require('../../assets/images/bottom-tabs/profile.png'),
+  settings: require('../../assets/images/bottom-tabs/settings.png'),
 };
 
 export default Images;

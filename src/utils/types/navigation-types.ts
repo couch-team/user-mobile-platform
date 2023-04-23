@@ -22,6 +22,9 @@ export type AuthParamList = {
   UserOnboarding5: any;
   UserOnboarding6: any;
   UserOnboarding7: any;
+  UserOnboarding8: any;
+  UserOnboarding9: any;
+  UserOnboarding10: any;
 };
 
 export type DashboardParamList = {
@@ -54,6 +57,8 @@ export type DashboardParamList = {
 
 export type BottomTabParamList = {
   Home: any;
-  Scan: any;
+  Explore: any;
+  Activities: any;
   Settings: any;
+  Profile: any;
 };
