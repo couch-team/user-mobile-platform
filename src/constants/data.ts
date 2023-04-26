@@ -232,3 +232,34 @@ export const sleepPattern = [
     color: Colors.PEACHY_RED,
   },
 ];
+
+export const moodTracker = [
+  {
+    id: 1,
+    title: 'Excited',
+    icon: Images.excited,
+    bgColor: Colors.LIGHT_PURPLE,
+    textColor: Colors.COUCH_BLUE_1100,
+  },
+  {
+    id: 2,
+    title: 'Happy',
+    icon: Images.happy,
+    bgColor: Colors.LIGHT_GREEN_100,
+    textColor: Colors.GREEN_100,
+  },
+  {
+    id: 3,
+    title: 'Sad',
+    icon: Images.sad,
+    bgColor: Colors.LIGHT_YELLOW_100,
+    textColor: Colors.YELLOW_100,
+  },
+  {
+    id: 4,
+    title: 'Angry',
+    icon: Images.angry,
+    bgColor: Colors.LIGHT_PEACHY_RED_100,
+    textColor: Colors.PEACHY_RED_100,
+  },
+];

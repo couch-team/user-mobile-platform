@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ProgressHeader from '../../../components/base/progress-header';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { functionState } from '../../../constants';
+import { functionState } from '../../../constants/data';
 import Checkbox from '../../../components/base/check-box';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';

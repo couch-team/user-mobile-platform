@@ -1,6 +1,7 @@
 const Images = {
   'active-checkbox': require('../../assets/images/icons/active-checkbox.png'),
   'active-radio': require('../../assets/images/icons/active-radio.png'),
+  angry: require('../../assets/images/icons/angry.png'),
   background: require('../../assets/images/icons/background.png'),
   boxes: require('../../assets/images/icons/boxes.png'),
   calendar: require('../../assets/images/icons/calendar.png'),
@@ -8,8 +9,10 @@ const Images = {
   checkbox: require('../../assets/images/icons/checkbox.png'),
   'chevron-down': require('../../assets/images/icons/chevron-down.png'),
   ellipse: require('../../assets/images/icons/ellipse.png'),
+  excited: require('../../assets/images/icons/excited.png'),
   'eye-off': require('../../assets/images/icons/eye-off.png'),
   gradient: require('../../assets/images/icons/gradient.png'),
+  happy: require('../../assets/images/icons/happy.png'),
   'help-circle': require('../../assets/images/icons/help-circle.png'),
   line: require('../../assets/images/icons/line.png'),
   logo: require('../../assets/images/icons/logo.png'),
@@ -19,11 +22,14 @@ const Images = {
   'mood-2': require('../../assets/images/icons/mood-2.png'),
   'mood-3': require('../../assets/images/icons/mood-3.png'),
   'mood-4': require('../../assets/images/icons/mood-4.png'),
+  notification: require('../../assets/images/icons/notification.png'),
   'profile-group': require('../../assets/images/icons/profile-group.png'),
   'profile-image': require('../../assets/images/icons/profile-image.png'),
+  sad: require('../../assets/images/icons/sad.png'),
   search: require('../../assets/images/icons/search.png'),
   shield: require('../../assets/images/icons/shield.png'),
   radio: require('../../assets/images/icons/radio.png'),
+  x: require('../../assets/images/icons/x.png'),
 
   //bottom tabs
   activity: require('../../assets/images/bottom-tabs/activity.png'),

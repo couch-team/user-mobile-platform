@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from '../../../theme/config';
 import LongButton from '../../../components/base/long-button';
-import { genderRoles } from '../../../constants';
+import { genderRoles } from '../../../constants/data';
 import CouchDatePicker from '../../../components/base/date-picker';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';

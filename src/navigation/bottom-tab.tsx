@@ -53,7 +53,7 @@ const BottomTabBar = () => {
           height: hp(100),
           backgroundColor: Colors.PRIMARY_DARKBLUE,
         },
-        tabBarActiveTintColor: Colors.WHITE,
+        tabBarActiveTintColor: Colors.PRIMARY_DARKBLUE,
         tabBarLabelStyle: {
           fontSize: hp(12),
           fontFamily: Typography.fontFamily.SoraRegular,
