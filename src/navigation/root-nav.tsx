@@ -7,6 +7,7 @@ import { RootNavigationRoutes } from '../utils/types/navigation-types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import DashboardNavigation from './dashboard';
+import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 
 const Stack = createStackNavigator<RootNavigationRoutes>();
 
@@ -19,7 +20,16 @@ const AppNavigation = () => {
         initialRouteName={isLoggedIn ? 'Dashboard' : 'Auth'}
         screenOptions={{ headerShown: false }}>
         {isLoggedIn ? (
-          <Stack.Screen component={DashboardNavigation} name="Dashboard" />
+          <>
+            <Stack.Screen component={DashboardNavigation} name="Dashboard" />
+            <Stack.Group screenOptions={{ presentation: 'modal' }}>
+              <Stack.Screen
+                name="TakeTour"
+                component={TakeTour}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+          </>
         ) : (
           <Stack.Screen component={AuthNavigation} name="Auth" />
         )}

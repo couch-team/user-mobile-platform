@@ -33,6 +33,10 @@ const Colors = {
   PEACHY_RED: '#F89B9B',
   PEACHY_RED_100: '#F78282',
   LIGHT_PEACHY_RED_100: '#F782823D',
+  GREEN_CYAN: '#7ECDC8',
+  PURPLE: '#A861EB',
+  LIGHT_GREEN_400: '#D7F3CC1F',
+  WARNING_AMBER: '#FFB800',
 };
 
 export const lightColors = {

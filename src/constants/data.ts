@@ -263,3 +263,41 @@ export const moodTracker = [
     textColor: Colors.PEACHY_RED_100,
   },
 ];
+
+export const tourInfoData = [
+  {
+    id: 1,
+    title: 'Journals',
+    color: Colors.COUCH_BLUE,
+    icon: Images.dairy,
+    description: 'Write how you feel...',
+  },
+  {
+    id: 2,
+    title: 'Mind Space',
+    color: Colors.GREEN_100,
+    description: 'Listen to soothing music & Podcasts...',
+    icon: Images.headphones,
+  },
+  {
+    id: 3,
+    title: 'Mood Tracker',
+    color: Colors.WARNING_AMBER,
+    description: 'Let’s help you track your mood daily',
+    icon: Images.smile,
+  },
+  {
+    id: 4,
+    title: 'Therapy',
+    description: 'Let out your frustrations on us ❤️',
+    color: Colors.PURPLE,
+    icon: Images.heart,
+  },
+  {
+    id: 5,
+    title: 'Community',
+    description: 'Let out your frustrations on us ❤️',
+    color: Colors.GREEN_CYAN,
+    icon: Images.users,
+  },
+];

@@ -1,6 +1,7 @@
 export type RootNavigationRoutes = {
   Auth: AuthParamList;
   Dashboard: DashboardParamList;
+  TakeTour: any;
 };
 
 export type AuthParamList = {

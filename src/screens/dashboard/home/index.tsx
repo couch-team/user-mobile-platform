@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { moodTracker } from 'constants/data';
 import LongButton from 'components/base/long-button';
+import XButton from 'components/base/x-button';
+import { navigation } from 'navigation/utils';
 
 const Home = () => {
   return (
@@ -54,13 +56,7 @@ const Home = () => {
           </View>
         </View>
         <View style={styles.tourInfoContainer}>
-          <TouchableOpacity style={styles.xIconContainer} activeOpacity={0.5}>
-            <Image
-              source={Images.x}
-              resizeMode="contain"
-              style={styles.xIcon}
-            />
-          </TouchableOpacity>
+          <XButton />
           <View style={styles.tourBodyContainer}>
             <Image
               source={Images['profile-image']}
@@ -74,6 +70,7 @@ const Home = () => {
               </Text>
               <LongButton
                 isNotBottom
+                onPress={() => navigation.navigate('TakeTour')}
                 buttonStyle={styles.buttonStyle}
                 title="Take a Short Tour"
               />
