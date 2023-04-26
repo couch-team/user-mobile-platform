@@ -8,6 +8,7 @@ import {
   ViewStyle,
   ActivityIndicator,
   Image,
+  ImageStyle,
 } from 'react-native';
 import { getBottomSpace, hp, wp } from '../../constants/layout';
 import { Colors, Images, Typography } from '../../theme/config';
@@ -22,6 +23,7 @@ interface LongButtonProps {
   isNotBottom?: boolean;
   disabled?: boolean;
   hasLongArrow?: boolean;
+  longArrowStyle?: ImageStyle;
 }
 
 const LongButton = ({
@@ -34,6 +36,7 @@ const LongButton = ({
   disabled,
   hasLongArrow,
   isNotBottom,
+  longArrowStyle,
 }: LongButtonProps) => {
   return (
     <View style={!isNotBottom && [styles.containerStyle, containerStyle]}>
@@ -61,7 +64,7 @@ const LongButton = ({
             <Image
               source={Images['long-arrow']}
               resizeMode="contain"
-              style={styles.longArrow}
+              style={[styles.longArrow, longArrowStyle]}
             />
           </View>
         ) : (

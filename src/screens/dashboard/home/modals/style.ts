@@ -42,6 +42,18 @@ export const styles = StyleSheet.create({
     fontSize: hp(14),
     textAlign: 'center',
   },
+  descriptionBodyText: {
+    paddingTop: hp(25),
+    color: Colors.COUCH_TEXT_COLOR,
+    paddingHorizontal: wp(30),
+    fontFamily: Typography.fontFamily.SoraRegular,
+    lineHeight: hp(24),
+    textAlign: 'center',
+  },
+  longArrowStyle: {
+    tintColor: Colors.BLACK,
+    right: wp(7),
+  },
   paginationWrapper: {
     position: 'absolute',
     zIndex: 10000,
@@ -50,6 +62,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  longButtonStyle: {
+    marginTop: hp(70),
+    width: wp(112),
+  },
+  titleStyle: {
+    color: Colors.BLACK,
   },
   paginationDots: {
     width: wp(21),

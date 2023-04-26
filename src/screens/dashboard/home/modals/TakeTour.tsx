@@ -1,18 +1,12 @@
 import React, { useRef, useState } from 'react';
-import {
-  View,
-  Image,
-  FlatList,
-  ImageBackground,
-  ScrollView,
-  Text,
-} from 'react-native';
+import { View, Image, ImageBackground, ScrollView, Text } from 'react-native';
 import { styles } from './style';
 import XButton from 'components/base/x-button';
 import { tourInfoData } from 'constants/data';
 import { navigation } from 'navigation/utils';
-import { Colors, Images } from 'theme/config';
+import { Images } from 'theme/config';
 import { deviceWidth } from 'constants/layout';
+import LongButton from 'components/base/long-button';
 
 const TakeTour = () => {
   const scrollRef = useRef<ScrollView>(null);
@@ -50,6 +44,8 @@ const TakeTour = () => {
             setSliderPage(event);
           }}>
           {tourInfoData?.map((tourInfo, index) => {
+            console.log(index);
+            console.log(tourInfoData?.length);
             return (
               <View key={index} style={styles.singleTourContainer}>
                 <Image
@@ -71,6 +67,27 @@ const TakeTour = () => {
                     ]}>
                     {tourInfo.description}
                   </Text>
+                  <Text style={styles.descriptionBodyText}>
+                    Let's customize your account better you would help in
+                    answering a few questions. Would you love to answer the
+                    questions now?
+                  </Text>
+                  <LongButton
+                    isNotBottom
+                    hasLongArrow={
+                      tourInfo.id === tourInfoData?.length ? false : true
+                    }
+                    title={
+                      tourInfo.id === tourInfoData?.length ? 'End tour' : ''
+                    }
+                    longArrowStyle={styles.longArrowStyle}
+                    titleStyle={styles.titleStyle}
+                    //@ts-ignore
+                    buttonStyle={[
+                      styles.longButtonStyle,
+                      { backgroundColor: tourInfo.color },
+                    ]}
+                  />
                 </View>
               </View>
             );
