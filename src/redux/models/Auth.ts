@@ -4,6 +4,7 @@ import { showMessage } from 'react-native-flash-message';
 const IsState = {
   isLoggedIn: false,
   isRegistered: false,
+  access_token: null,
 };
 
 export const Auth = {

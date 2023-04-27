@@ -14,6 +14,7 @@ import FormTextInput from '../../../components/base/form-input';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Config from 'react-native-config';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const Login = ({ navigation: { navigate } }: Props) => {
+  console.log(Config);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>
