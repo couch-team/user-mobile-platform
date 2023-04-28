@@ -23,6 +23,7 @@ interface FormTextInputProps extends RNTextInputProps {
   showPassword?: () => void;
   inputIcon?: ImageSourcePropType;
   formLabelTextStyle?: TextStyle;
+  hasError?: string;
 }
 
 const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
@@ -36,6 +37,7 @@ const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
       showPassword,
       inputIcon,
       formLabelTextStyle,
+      hasError,
       ...props
     },
     ref,
@@ -57,32 +59,42 @@ const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
             </TouchableOpacity>
           )}
         </View>
-        <RNTextInput
-          style={[
-            styles.textInput,
-            focused && styles.focusedStyle,
-            containerStyle,
-          ]}
-          focusable={true}
-          value={value}
-          selectionColor={Colors.COUCH_BLUE}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          secureTextEntry={show}
-          placeholderTextColor={Colors.PLACEHOLDER_COLOR}
-          {...{ ref }}
-          {...props}
-        />
+        <View>
+          <RNTextInput
+            style={[
+              styles.textInput,
+              focused && styles.focusedStyle,
+              containerStyle,
+            ]}
+            focusable={true}
+            value={value}
+            selectionColor={Colors.COUCH_BLUE}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            secureTextEntry={show}
+            placeholderTextColor={Colors.PLACEHOLDER_COLOR}
+            {...{ ref }}
+            {...props}
+          />
 
-        {isPassword && (
-          <TouchableOpacity style={styles.lock} onPress={showPassword}>
-            <Image
-              source={Images['eye-off']}
-              resizeMode="contain"
-              style={styles.eyeIcon}
-            />
-          </TouchableOpacity>
-        )}
+          {isPassword && (
+            <TouchableOpacity
+              style={[
+                styles.lock,
+                hasError ? { bottom: hp(15) } : { bottom: hp(15) },
+              ]}
+              onPress={showPassword}>
+              <Image
+                source={Images['eye-off']}
+                resizeMode="contain"
+                style={styles.eyeIcon}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+        <View>
+          {hasError && <Text style={styles.errorText}>{hasError}</Text>}
+        </View>
       </View>
     );
   },
@@ -130,11 +142,17 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-
+  errorText: {
+    color: Colors.PEACHY_RED,
+    left: wp(10),
+    paddingTop: hp(4),
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(12),
+  },
   lock: {
     position: 'absolute',
     right: hp(20),
-    bottom: hp(15),
+    bottom: hp(30),
     height: hp(20),
     width: hp(20),
   },

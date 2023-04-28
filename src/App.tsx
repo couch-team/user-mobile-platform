@@ -8,6 +8,7 @@ import { hp } from './constants/layout';
 import { StatusBar, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { RootNavigation } from './navigation';
+import { Colors, Typography } from 'theme/config';
 
 const App = () => {
   useEffect(() => {
@@ -33,11 +34,12 @@ const App = () => {
 const styles = StyleSheet.create({
   titleStyle: {
     textAlign: 'center',
-    color: '#fff',
-    fontSize: 14,
+    color: Colors.WHITE,
+    fontSize: hp(14),
+    fontFamily: Typography.fontFamily.SoraMedium,
   },
   paddingTop: {
-    paddingTop: hp(30),
+    paddingTop: hp(10),
   },
 });
 

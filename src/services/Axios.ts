@@ -7,6 +7,8 @@ const Axios = axios.create({
   timeout: 60000,
 });
 
+console.log(Config.BASE_URL);
+
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 Axios.defaults.headers.put['Content-Type'] = 'application/json';
 Axios.defaults.headers.post.Accept = 'application/json';

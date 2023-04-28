@@ -14,15 +14,17 @@ export const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: hp(50),
+    marginVertical: hp(30),
   },
   logo: {
     width: wp(95),
     height: hp(24),
-    // bottom: hp(40),
+    alignSelf: 'center',
+    top: hp(30),
   },
   bodyContainer: {
-    height: hp(800),
+    height: deviceHeight * 0.8,
+    marginTop: hp(40),
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     paddingVertical: hp(42),
     paddingHorizontal: wp(24),

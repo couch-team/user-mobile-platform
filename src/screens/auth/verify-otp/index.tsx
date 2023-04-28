@@ -14,6 +14,7 @@ import FormTextInput from '../../../components/base/form-input';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAppRoute } from 'hooks/navigation';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'VerifyOtp'>;
 type Props = {
@@ -21,6 +22,8 @@ type Props = {
 };
 
 const VerifyOtp = ({ navigation: { navigate } }: Props) => {
+  const { params } = useAppRoute();
+  const email = params?.email;
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>
@@ -41,7 +44,7 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
                 and provide OTP to verify account.
               </Text>
               <View style={styles.emailTextContainer}>
-                <Text style={styles.emailText}>adeekoemmanuel@gmail.com</Text>
+                <Text style={styles.emailText}>{email}</Text>
               </View>
               <FormTextInput label="OTP" />
             </View>

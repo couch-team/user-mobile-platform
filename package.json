@@ -21,6 +21,7 @@
     "@rematch/persist": "2.1.0",
     "axios": "^0.23.0",
     "dayjs": "^1.11.7",
+    "formik": "^2.2.9",
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-config": "^1.5.0",
@@ -36,7 +37,8 @@
     "react-native-svg": "^13.9.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
-    "redux-persist-transform-filter": "^0.0.22"
+    "redux-persist-transform-filter": "^0.0.22",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

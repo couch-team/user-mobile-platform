@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,9 @@ import FormTextInput from '../../../components/base/form-input';
 import LongButton from '../../../components/base/long-button';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import Config from 'react-native-config';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import { showMessage } from 'react-native-flash-message';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
@@ -22,7 +24,45 @@ type Props = {
 };
 
 const Login = ({ navigation: { navigate } }: Props) => {
-  console.log(Config);
+  const {
+    Auth: { login },
+  } = useDispatch();
+
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.Auth.login,
+  );
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(true);
+
+  const isDisabled = email && password ? false : true;
+
+  const loginAccount = async () => {
+    // eslint-disable-next-line no-useless-escape
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(email) === false) {
+      return showMessage({
+        message: 'Please enter a valid email address',
+        duration: 2000,
+        type: 'danger',
+      });
+    }
+    if (!password) {
+      return showMessage({
+        message: 'Please enter a password',
+        duration: 2000,
+        type: 'danger',
+      });
+    }
+
+    const data = {
+      email,
+      password,
+    };
+    await login(data);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>
@@ -38,18 +78,30 @@ const Login = ({ navigation: { navigate } }: Props) => {
             <Text style={styles.welcomeText}>Login</Text>
             <Text style={styles.getStartedText}>Welcome Back...</Text>
             <View style={styles.formContainer}>
-              <FormTextInput label="Email address" />
+              <FormTextInput
+                label="Email address"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                onChangeText={(text: string) => setEmail(text)}
+                value={email}
+              />
               <FormTextInput
                 label="Password"
                 isPassword
+                show={showPassword}
+                onChangeText={(text: string) => setPassword(text)}
+                value={password}
+                showPassword={() => setShowPassword(!showPassword)}
                 inputIcon={Images['help-circle']}
               />
             </View>
             <LongButton
               isNotBottom
+              loading={loading}
+              onPress={() => loginAccount()}
               buttonStyle={styles.buttonStyle}
               title="Log In to Account"
-              disabled
+              disabled={isDisabled}
             />
             <View style={styles.signInLinkContainer}>
               <Text style={styles.signInText}>No account?</Text>

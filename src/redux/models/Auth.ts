@@ -1,3 +1,4 @@
+import { AuthApi } from 'services/apis';
 import { reducerActions as reducers } from './reducer';
 import { showMessage } from 'react-native-flash-message';
 
@@ -5,6 +6,7 @@ const IsState = {
   isLoggedIn: false,
   isRegistered: false,
   access_token: null,
+  userProfile: null,
 };
 
 export const Auth = {
@@ -12,14 +14,33 @@ export const Auth = {
   state: IsState,
   reducers,
   effects: (dispatch: any) => ({
-    async login() {
+    async login(data: any) {
       dispatch.Auth.setError(false);
       try {
-        dispatch.Auth.setState({
-          isLoggedIn: true,
-        });
+        const api = await AuthApi.login(data);
+        if (api) {
+          console.log(api);
+        }
+        // dispatch.Auth.setState({
+        //   isLoggedIn: true,
+        // });
       } catch (e) {
         this.handleError(e);
+      }
+    },
+    async register(data: any) {
+      dispatch.Auth.setError(false);
+      try {
+        const api: any = await AuthApi.registerAccount(data);
+        if (api) {
+          dispatch.Auth.setState({
+            access_token: api?.data?.token,
+            userProfile: api?.data?.user,
+          });
+          return true;
+        }
+      } catch (error) {
+        this.handleError(error);
       }
     },
     async logout() {

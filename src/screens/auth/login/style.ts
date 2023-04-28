@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: hp(110),
+    marginVertical: hp(80),
   },
   logo: {
     width: wp(95),
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   bodyContainer: {
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     paddingVertical: hp(42),
-    height: hp(600),
+    height: deviceWidth * 1.6,
     paddingHorizontal: wp(24),
   },
   welcomeText: {

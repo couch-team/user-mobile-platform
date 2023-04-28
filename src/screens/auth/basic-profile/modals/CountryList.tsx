@@ -46,6 +46,7 @@ const CountryList = ({
     onClose();
     // eslint-disable-next-line prettier/prettier
     return () => { };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryInfo]);
 
   const filterCountries = (text: string) => {
