@@ -3,12 +3,21 @@ import { View, Image, ImageBackground, ScrollView, Text } from 'react-native';
 import { styles } from './style';
 import XButton from 'components/base/x-button';
 import { tourInfoData } from 'constants/data';
-import { navigation } from 'navigation/utils';
 import { Images } from 'theme/config';
 import { deviceWidth } from 'constants/layout';
 import LongButton from 'components/base/long-button';
+import { DashboardParamList } from 'utils/types/navigation-types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const TakeTour = () => {
+type DashboardNavigationProps = StackNavigationProp<
+  DashboardParamList,
+  'TakeTour'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
+
+const TakeTour = ({ navigation: { goBack } }: Props) => {
   const scrollRef = useRef<ScrollView>(null);
   const [sliderState, setSliderState] = useState({ currentPage: 0 });
 
@@ -31,7 +40,7 @@ const TakeTour = () => {
       <View>
         <XButton
           xButtonStyle={styles.buttonStyle}
-          onXButtonPress={() => navigation.goBack()}
+          onXButtonPress={() => goBack()}
         />
         <ScrollView
           ref={scrollRef}
@@ -45,7 +54,6 @@ const TakeTour = () => {
           }}>
           {tourInfoData?.map((tourInfo, index) => {
             console.log(index);
-            console.log(tourInfoData?.length);
             return (
               <View key={index} style={styles.singleTourContainer}>
                 <Image
@@ -80,6 +88,13 @@ const TakeTour = () => {
                     title={
                       tourInfo.id === tourInfoData?.length ? 'End tour' : ''
                     }
+                    onPress={() => {
+                      tourInfo.id === tourInfoData?.length
+                        ? goBack()
+                        : scrollRef.current?.scrollTo({
+                            x: deviceWidth * (index + 1),
+                          });
+                    }}
                     longArrowStyle={styles.longArrowStyle}
                     titleStyle={styles.titleStyle}
                     //@ts-ignore

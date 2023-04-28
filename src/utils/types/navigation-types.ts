@@ -29,8 +29,9 @@ export type AuthParamList = {
 };
 
 export type DashboardParamList = {
-  Dashboard: BottomTabParamList;
+  DashboardHome: BottomTabParamList;
   Home: any;
+  TakeTour: any;
   UserProfile: any;
   WithdrawalMethods: any;
   ProfileType: any;

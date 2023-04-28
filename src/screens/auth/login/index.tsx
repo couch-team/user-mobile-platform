@@ -32,8 +32,8 @@ const Login = ({ navigation: { navigate } }: Props) => {
     (state: RootState) => state.loading.effects.Auth.login,
   );
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('greatchinonso7@gmail.com');
+  const [password, setPassword] = useState('Password@1');
   const [showPassword, setShowPassword] = useState(true);
 
   const isDisabled = email && password ? false : true;
