@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import DashboardNavigation from './dashboard';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
+import { Colors } from 'theme/config';
 
 const Stack = createStackNavigator<RootNavigationRoutes>();
 
@@ -18,7 +19,11 @@ const AppNavigation = () => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         initialRouteName={isLoggedIn ? 'Dashboard' : 'Auth'}
-        screenOptions={{ headerShown: false }}>
+        screenOptions={{
+          headerShown: false,
+          cardStyle: { backgroundColor: Colors.PRIMARY },
+          presentation: 'transparentModal',
+        }}>
         {isLoggedIn ? (
           <>
             <Stack.Screen component={DashboardNavigation} name="Dashboard" />

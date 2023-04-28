@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ backgroundColor: Colors.PRIMARY }}>
         <StatusBar barStyle={'light-content'} />
         <FlashMessage
           position="top"

@@ -1,0 +1,41 @@
+import { hp, wp } from 'constants/layout';
+import React from 'react';
+import { View, Text, TextStyle, StyleSheet } from 'react-native';
+import { Colors, Typography } from 'theme/config';
+
+interface HeaderTextProps {
+  text: string;
+  textStyle?: TextStyle;
+  hasSubText?: string;
+}
+
+const HeaderText = ({ text, textStyle, hasSubText }: HeaderTextProps) => {
+  return (
+    <View style={styles.headerTextContainer}>
+      <Text style={[styles.headerText, textStyle]}>{text}</Text>
+      {hasSubText && <Text style={styles.subHeaderText}>{hasSubText}</Text>}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  headerTextContainer: {
+    marginTop: hp(15),
+    marginHorizontal: wp(22),
+  },
+  headerText: {
+    color: Colors.WHITE,
+    fontFamily: Typography.fontFamily.SoraMedium,
+    fontSize: hp(20),
+    lineHeight: hp(25),
+  },
+  subHeaderText: {
+    paddingTop: hp(4),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(14),
+    lineHeight: hp(18),
+  },
+});
+
+export default HeaderText;

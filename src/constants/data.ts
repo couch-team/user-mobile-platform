@@ -301,3 +301,196 @@ export const tourInfoData = [
     icon: Images.users,
   },
 ];
+
+export const notifications = [
+  {
+    id: 1,
+    tile: 'Mood trackers',
+    notificationHistory: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: '2hrs ago',
+      },
+      {
+        id: 2,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '2hrs ago',
+      },
+      {
+        id: 3,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '6hrs ago',
+      },
+    ],
+    newNotifications: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: 'Just now',
+      },
+      {
+        id: 2,
+        title: 'Reminder! Do tell us your mood for today...',
+        icon: Images['time-circle'],
+        time: '<1min ago',
+      },
+    ],
+  },
+  {
+    id: 2,
+    tile: 'Therapy',
+    notificationHistory: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: '2hrs ago',
+      },
+      {
+        id: 2,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '2hrs ago',
+      },
+      {
+        id: 3,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '6hrs ago',
+      },
+    ],
+    newNotifications: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: 'Just now',
+      },
+      {
+        id: 2,
+        title: 'Reminder! Do tell us your mood for today...',
+        icon: Images['time-circle'],
+        time: '<1min ago',
+      },
+    ],
+  },
+  {
+    id: 3,
+    tile: 'Community',
+    notificationHistory: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: '2hrs ago',
+      },
+      {
+        id: 2,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '2hrs ago',
+      },
+      {
+        id: 3,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '6hrs ago',
+      },
+    ],
+    newNotifications: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: 'Just now',
+      },
+      {
+        id: 2,
+        title: 'Reminder! Do tell us your mood for today...',
+        icon: Images['time-circle'],
+        time: '<1min ago',
+      },
+    ],
+  },
+  {
+    id: 4,
+    tile: 'Productivity',
+    notificationHistory: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: '2hrs ago',
+      },
+      {
+        id: 2,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '2hrs ago',
+      },
+      {
+        id: 3,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '6hrs ago',
+      },
+    ],
+    newNotifications: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: 'Just now',
+      },
+      {
+        id: 2,
+        title: 'Reminder! Do tell us your mood for today...',
+        icon: Images['time-circle'],
+        time: '<1min ago',
+      },
+    ],
+  },
+  {
+    id: 5,
+    tile: 'Store',
+    notificationHistory: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: '2hrs ago',
+      },
+      {
+        id: 2,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '2hrs ago',
+      },
+      {
+        id: 3,
+        title: 'You logged a mood ( Sad ) earlier today...',
+        icon: Images.sad,
+        time: '6hrs ago',
+      },
+    ],
+    newNotifications: [
+      {
+        id: 1,
+        title: 'You logged a mood ( Happy )  earlier today...',
+        icon: Images.happy,
+        time: 'Just now',
+      },
+      {
+        id: 2,
+        title: 'Reminder! Do tell us your mood for today...',
+        icon: Images['time-circle'],
+        time: '<1min ago',
+      },
+    ],
+  },
+];

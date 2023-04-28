@@ -7,22 +7,38 @@ import { moodTracker } from 'constants/data';
 import LongButton from 'components/base/long-button';
 import XButton from 'components/base/x-button';
 import { navigation } from 'navigation/utils';
+import { DashboardParamList } from 'utils/types/navigation-types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import HeaderBar from 'components/base/header-bar';
 
-const Home = () => {
+type DashboardNavigationProps = StackNavigationProp<
+  DashboardParamList,
+  'DashboardHome'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
+
+const Home = ({ navigation: { navigate } }: Props) => {
+  const NotificationIcon = () => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigate('Notifications')}
+        activeOpacity={0.5}
+        style={styles.notificationIconContainer}>
+        <Image
+          source={Images.notification}
+          resizeMode="contain"
+          style={styles.notificationIcon}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <HeaderBar headerRight={<NotificationIcon />} />
       <View style={styles.bodyContainer}>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.notificationIconContainer}>
-            <Image
-              source={Images.notification}
-              resizeMode="contain"
-              style={styles.notificationIcon}
-            />
-          </TouchableOpacity>
-        </View>
         <View style={styles.profileUserContainer}>
           <Text style={styles.profileUserText}>Hi Daniella</Text>
           <Text style={styles.profileSubText}>
@@ -37,6 +53,7 @@ const Home = () => {
             {moodTracker.map(tracker => {
               return (
                 <TouchableOpacity
+                  key={tracker.id}
                   style={[
                     styles.singleMoodTrackerContainer,
                     { backgroundColor: tracker.bgColor },
