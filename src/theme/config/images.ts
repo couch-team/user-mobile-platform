@@ -28,6 +28,7 @@ const Images = {
   'mood-3': require('../../assets/images/icons/mood-3.png'),
   'mood-4': require('../../assets/images/icons/mood-4.png'),
   notification: require('../../assets/images/icons/notification.png'),
+  play: require('../../assets/images/icons/play.png'),
   'profile-group': require('../../assets/images/icons/profile-group.png'),
   'profile-image': require('../../assets/images/icons/profile-image.png'),
   sad: require('../../assets/images/icons/sad.png'),
@@ -37,7 +38,10 @@ const Images = {
   'time-circle': require('../../assets/images/icons/time-circle.png'),
   radio: require('../../assets/images/icons/radio.png'),
   x: require('../../assets/images/icons/x.png'),
+  videos: require('../../assets/images/icons/videos.png'),
+  'voice-note': require('../../assets/images/icons/voice-note.png'),
   users: require('../../assets/images/icons/users.png'),
+  upload: require('../../assets/images/icons/upload.png'),
 
   //bottom tabs
   activity: require('../../assets/images/bottom-tabs/activity.png'),

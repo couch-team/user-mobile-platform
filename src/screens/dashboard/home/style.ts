@@ -93,6 +93,9 @@ export const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  podcastContentContainer: {
+    paddingLeft: wp(24),
+  },
   tourBodyInfoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -116,5 +119,28 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     width: wp(223),
     marginTop: hp(30),
+  },
+  recommendedSectionContainer: {
+    marginTop: hp(32),
+    marginHorizontal: wp(23),
+  },
+  podcastSectionContainer: {
+    marginTop: hp(50),
+  },
+  podcastSectionHeaderText: {
+    paddingHorizontal: wp(23),
+    color: Colors.COUCH_BLUE_900,
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+  },
+  recommendedSectionHeaderText: {
+    color: Colors.COUCH_BLUE_900,
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+  },
+  videoImage: {
+    marginTop: hp(14),
+    width: wp(333),
+    height: hp(212),
   },
 });

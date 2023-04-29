@@ -494,3 +494,33 @@ export const notifications = [
     ],
   },
 ];
+
+export const podcasts4u = [
+  {
+    id: 1,
+    title: 'Overcoming Work-related Stress',
+    time: '3:45',
+    played: '1.5M',
+    shared: '400.56K',
+    hashTags: ['#STRESS', '#RELIEF'],
+    iconColor: Colors.LIGHT_PEACHY_RED_200,
+  },
+  {
+    id: 2,
+    title: 'Overcoming Work-related Stress',
+    time: '3:45',
+    played: '1.5M',
+    shared: '400.56K',
+    hashTags: ['#STRESS', '#RELIEF'],
+    iconColor: Colors.LIGHT_YELLOW_200,
+  },
+  {
+    id: 3,
+    title: 'Overcoming Work-related Stress',
+    time: '3:45',
+    played: '1.5M',
+    shared: '400.56K',
+    hashTags: ['#STRESS', '#RELIEF'],
+    iconColor: Colors.LIGHT_GREEN_200,
+  },
+];
