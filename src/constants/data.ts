@@ -305,7 +305,7 @@ export const tourInfoData = [
 export const notifications = [
   {
     id: 1,
-    tile: 'Mood trackers',
+    title: 'Mood trackers',
     notificationHistory: [
       {
         id: 1,
@@ -343,7 +343,7 @@ export const notifications = [
   },
   {
     id: 2,
-    tile: 'Therapy',
+    title: 'Therapy',
     notificationHistory: [
       {
         id: 1,
@@ -381,7 +381,7 @@ export const notifications = [
   },
   {
     id: 3,
-    tile: 'Community',
+    title: 'Community',
     notificationHistory: [
       {
         id: 1,
@@ -419,7 +419,7 @@ export const notifications = [
   },
   {
     id: 4,
-    tile: 'Productivity',
+    title: 'Productivity',
     notificationHistory: [
       {
         id: 1,
@@ -457,7 +457,7 @@ export const notifications = [
   },
   {
     id: 5,
-    tile: 'Store',
+    title: 'Store',
     notificationHistory: [
       {
         id: 1,
