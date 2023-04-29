@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { styles } from './style';
 import { Images } from 'theme/config';
-import { moodTracker, podcasts4u } from 'constants/data';
+import { heavyOptions, moodTracker, podcasts4u } from 'constants/data';
 import LongButton from 'components/base/long-button';
 import XButton from 'components/base/x-button';
 import { navigation } from 'navigation/utils';
@@ -17,6 +17,7 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import HeaderBar from 'components/base/header-bar';
 import PodcastItem from './components/PodcastItem';
+import { wp } from 'constants/layout';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -127,7 +128,6 @@ const Home = ({ navigation: { navigate } }: Props) => {
           </Text>
           <ScrollView
             scrollEventThrottle={16}
-            bounces={false}
             decelerationRate={'fast'}
             contentContainerStyle={styles.podcastContentContainer}
             horizontal
@@ -136,6 +136,86 @@ const Home = ({ navigation: { navigate } }: Props) => {
               return <PodcastItem key={podcast.id} item={podcast} />;
             })}
           </ScrollView>
+        </View>
+        <View style={styles.podcastSectionContainer}>
+          <Text style={styles.podcastSectionHeaderText}>
+            Feeling a bit heavy?
+          </Text>
+          <View style={styles.optionsListContainer}>
+            {heavyOptions.map(options => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  style={styles.optionsItemContainer}>
+                  <View style={styles.iconContainer}>
+                    <Image
+                      source={options.icon}
+                      resizeMode="contain"
+                      style={styles.icon}
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      style={[styles.optionMainText, { color: options.color }]}>
+                      {options.title}
+                    </Text>
+                    <Text style={styles.optionSubText}>
+                      {options.description}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+        <View style={styles.podcastSectionContainer}>
+          <Text style={styles.podcastSectionHeaderText}>
+            A little exercise for the brain
+          </Text>
+          <ScrollView
+            horizontal
+            scrollEventThrottle={16}
+            decelerationRate={'fast'}
+            snapToInterval={wp(355)}
+            contentContainerStyle={styles.podcastContentContainer}
+            showsHorizontalScrollIndicator={false}>
+            {Array.from(Array(3).keys()).map((key, index) => {
+              return (
+                <Image
+                  key={index}
+                  source={Images.cbt}
+                  resizeMode="stretch"
+                  style={[styles.videoImage, styles.imageSpacing]}
+                />
+              );
+            })}
+          </ScrollView>
+        </View>
+        <View style={styles.podcastSectionContainer}>
+          <Text style={styles.podcastSectionHeaderText}>
+            Recommended Communities to Join
+          </Text>
+          <View style={styles.optionsListContainer}>
+            {Array.from(Array(5).keys()).map((key, index) => {
+              return (
+                <View style={styles.communityBodyContainer}>
+                  <Image
+                    source={Images.ptsd}
+                    resizeMode="contain"
+                    style={styles.communityIcon}
+                  />
+                  <View>
+                    <Text style={styles.communityMainText}>
+                      Anxieties and PTSDS
+                    </Text>
+                    <Text numberOfLines={1} style={styles.communitySubText}>
+                      Anxiety shouldn’t be a thing. This is your safe...
+                    </Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

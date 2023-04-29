@@ -524,3 +524,20 @@ export const podcasts4u = [
     iconColor: Colors.LIGHT_GREEN_200,
   },
 ];
+
+export const heavyOptions = [
+  {
+    id: 1,
+    title: 'TELETHERAPY',
+    description: 'Share with a Therapist',
+    icon: Images.phone,
+    color: Colors.GREEN_100,
+  },
+  {
+    id: 2,
+    title: 'JOURNALS',
+    description: 'Write out your feelings',
+    icon: Images.journal,
+    color: Colors.COUCH_BLUE,
+  },
+];

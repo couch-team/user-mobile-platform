@@ -18,7 +18,7 @@ interface PodcastItemData {
 
 const PodcastItem = ({ item }: PodcastItemProps) => {
   return (
-    <TouchableOpacity style={styles.podcastItemContainer}>
+    <TouchableOpacity activeOpacity={0.6} style={styles.podcastItemContainer}>
       <View style={styles.podcastHeaderContainer}>
         <View style={styles.voiceIconContainer}>
           <Image
