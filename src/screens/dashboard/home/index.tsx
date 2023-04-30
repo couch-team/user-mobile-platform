@@ -198,7 +198,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
           <View style={styles.optionsListContainer}>
             {Array.from(Array(5).keys()).map((key, index) => {
               return (
-                <View style={styles.communityBodyContainer}>
+                <View key={index} style={styles.communityBodyContainer}>
                   <Image
                     source={Images.ptsd}
                     resizeMode="contain"

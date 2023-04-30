@@ -63,9 +63,9 @@ const Notifications = ({ navigation: { goBack } }: Props) => {
           style={styles.sectionListStyle}
           sections={data}
           contentContainerStyle={styles.sectionListContainer}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             // TODO: implement empty state for notifications
-            return <RenderNotificationList item={item} />;
+            return <RenderNotificationList key={index} item={item} />;
           }}
         />
       </View>
