@@ -55,7 +55,6 @@ const Notifications = ({ navigation: { goBack } }: Props) => {
     };
     //@ts-ignore
     const data = groupAccounts(getCurrentDetials());
-    console.log(data, 'data');
 
     return (
       <View>

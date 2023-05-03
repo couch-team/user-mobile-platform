@@ -3,37 +3,35 @@ import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import HeaderBar from 'components/base/header-bar';
-import NotificationIcon from '../home/components/NotificationIcon';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import HeaderText from 'components/base/header-text';
-import { exploreOptions } from 'constants/data';
+import { therapyOptions } from 'constants/data';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
-  'Explore'
+  'Therapy'
 >;
 type Props = {
   navigation: DashboardNavigationProps;
 };
 
-const Explore = ({ navigation: { navigate } }: Props) => {
+const Therapy = ({ navigation: { goBack } }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
+      <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
       <HeaderText
-        text="Explore"
-        hasSubText="What would you like to do today?..."
+        text="Therapy"
+        hasSubText="it’s a beautiful morning Today..."
       />
       <View style={styles.bodyContainer}>
         <FlatList
-          data={exploreOptions}
+          data={therapyOptions}
           numColumns={2}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => item.url && navigate(item.url)}
                 style={styles.exploreItemContainerStyle}
                 activeOpacity={0.6}
                 key={index}>
@@ -45,10 +43,19 @@ const Explore = ({ navigation: { navigate } }: Props) => {
                   />
                 </View>
                 <View style={styles.exploreInfoContainer}>
-                  <Text style={[styles.exploreMainText, { color: item.color }]}>
+                  <Text
+                    style={[
+                      styles.exploreMainText,
+                      { color: item.color || item.textColor },
+                    ]}>
                     {item.title}
                   </Text>
-                  <Text style={styles.exploreBodyText}>{item.description}</Text>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                    style={styles.exploreBodyText}>
+                    {item.description}
+                  </Text>
                 </View>
               </TouchableOpacity>
             );
@@ -59,4 +66,4 @@ const Explore = ({ navigation: { navigate } }: Props) => {
   );
 };
 
-export default Explore;
+export default Therapy;

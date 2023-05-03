@@ -33,8 +33,9 @@ export type DashboardParamList = {
   Home: any;
   TakeTour: any;
   UserProfile: any;
+  Explore: undefined;
   WithdrawalMethods: any;
-  ProfileType: any;
+  Therapy: undefined;
   AccountStatement: any;
   AccountSubProfile: any;
   Referral: any;

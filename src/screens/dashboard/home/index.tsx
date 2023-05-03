@@ -18,6 +18,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import HeaderBar from 'components/base/header-bar';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
+import NotificationIcon from './components/NotificationIcon';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -29,26 +30,10 @@ type Props = {
 
 const Home = ({ navigation: { navigate } }: Props) => {
   const [hideTour, setHideTour] = useState(true);
-
-  const NotificationIcon = () => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigate('Notifications')}
-        activeOpacity={0.5}
-        style={styles.notificationIconContainer}>
-        <Image
-          source={Images.notification}
-          resizeMode="contain"
-          style={styles.notificationIcon}
-        />
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HeaderBar headerRight={<NotificationIcon />} />
+        <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
         <View style={styles.bodyContainer}>
           <View style={styles.profileUserContainer}>
             <Text style={styles.profileUserText}>Hi Daniella</Text>
@@ -145,6 +130,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
             {heavyOptions.map(options => {
               return (
                 <TouchableOpacity
+                  key={options.id}
                   activeOpacity={0.6}
                   style={styles.optionsItemContainer}>
                   <View style={styles.iconContainer}>

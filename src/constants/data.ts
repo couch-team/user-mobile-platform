@@ -541,3 +541,67 @@ export const heavyOptions = [
     color: Colors.COUCH_BLUE,
   },
 ];
+
+export const exploreOptions = [
+  {
+    id: 1,
+    title: 'THERAPY',
+    description: 'Share problems with a Therapist',
+    icon: Images['phone-calling'],
+    color: Colors.GREEN_100,
+    url: 'Therapy',
+  },
+  {
+    id: 2,
+    title: 'STORE',
+    description: 'Get items to help your mental wellbeing.',
+    icon: Images.bag,
+    color: Colors.WARNING_AMBER,
+  },
+  {
+    id: 3,
+    title: 'COMMUNITY',
+    description: 'Join heartwarming communities ',
+    icon: Images.users,
+    color: Colors.COUCH_BLUE,
+  },
+  {
+    id: 4,
+    title: 'CBT',
+    description: 'A little brain test would not hurt you...',
+    icon: Images.activity,
+    color: Colors.PURPLE,
+  },
+];
+
+export const therapyOptions = [
+  {
+    id: 1,
+    title: 'TELETHERAPY',
+    description: 'Set & Crush goals and eat up tasks like biscuits.',
+    icon: Images['phone-calling'],
+    color: Colors.PURPLE,
+    url: 'Therapy',
+  },
+  {
+    id: 2,
+    title: 'RELAXATION HUB',
+    description: 'Join heartwarming communities ',
+    icon: Images.headphones,
+    color: Colors.GREEN_100,
+  },
+  {
+    id: 3,
+    title: 'JOURNAL',
+    description: 'Write down your thoughts and feelings.',
+    icon: Images.journal,
+    textColor: Colors.COUCH_BLUE,
+  },
+  {
+    id: 4,
+    title: 'MOOD TRACKER',
+    description: 'Track your mood and feel better in no time!',
+    icon: Images['mood-5'],
+    textColor: Colors.WARNING_AMBER,
+  },
+];
