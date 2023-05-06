@@ -16,7 +16,7 @@ type Props = {
   navigation: DashboardNavigationProps;
 };
 
-const Therapy = ({ navigation: { goBack } }: Props) => {
+const Therapy = ({ navigation: { goBack, navigate } }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -34,6 +34,7 @@ const Therapy = ({ navigation: { goBack } }: Props) => {
               <TouchableOpacity
                 style={styles.exploreItemContainerStyle}
                 activeOpacity={0.6}
+                onPress={() => item.url && navigate(item.url)}
                 key={index}>
                 <View style={styles.exploreIconContainer}>
                   <Image

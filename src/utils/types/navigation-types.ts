@@ -39,14 +39,14 @@ export type DashboardParamList = {
   AccountStatement: any;
   AccountSubProfile: any;
   Referral: any;
-  AddBankAccount: any;
+  AddMood: any;
   Transfer: any;
   ScanQR: any;
   ProfileUpdate: any;
   VerifyAccount: any;
   Settings: any;
   TransactionPin: any;
-  AddUser: any;
+  MoodTracker: any;
   ConfirmTransactionPin: any;
   ChangePassword: any;
   AccountSecurity: any;

@@ -18,7 +18,7 @@ type Props = {
   navigation: DashboardNavigationProps;
 };
 
-const groupAccounts = (data = []) => {
+export const groupAccounts = (data = []) => {
   let transGroup = [{ data: data }];
   return transGroup.reverse();
 };

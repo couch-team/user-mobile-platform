@@ -1,0 +1,74 @@
+import React from 'react';
+import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { styles } from './style';
+import { DashboardParamList } from 'utils/types/navigation-types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import HeaderBar from 'components/base/header-bar';
+import HeaderText from 'components/base/header-text';
+import { loggedMoods } from 'constants/data';
+import { Images } from 'theme/config';
+
+type DashboardNavigationProps = StackNavigationProp<
+  DashboardParamList,
+  'MoodTracker'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
+
+const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
+      <HeaderText
+        text="Mood Tracker"
+        hasSubText="A little Cognitive brain test wouldn’t hurt.."
+      />
+      <TouchableOpacity
+        onPress={() => navigate('AddMood')}
+        activeOpacity={0.8}
+        style={styles.plusIconContainer}>
+        <Image source={Images.plus} style={styles.plusIcon} />
+      </TouchableOpacity>
+      <View style={styles.bodyContainer}>
+        <SectionList
+          sections={loggedMoods}
+          contentContainerStyle={styles.contentContainerStyle}
+          renderItem={({ item, index }) => {
+            return (
+              <View style={styles.itemMoodContainer} key={index}>
+                <Image
+                  source={item.icon}
+                  style={styles.moodIcon}
+                  resizeMode="contain"
+                />
+                <View style={styles.itemMoodBodyContainer}>
+                  <Text
+                    style={[styles.itemMoodMainText, { color: item.color }]}>
+                    {item.title}
+                  </Text>
+                  <Text style={styles.itemMoodBodyText}>{item.date}</Text>
+                </View>
+              </View>
+            );
+          }}
+          renderSectionHeader={({ section: { title } }) => {
+            return (
+              <View style={styles.headerSectionContainer}>
+                <Image
+                  source={Images['header-icon']}
+                  resizeMode="contain"
+                  style={styles.headerIcon}
+                />
+                <Text style={styles.headerTitleStyle}>{title}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default MoodTracker;
