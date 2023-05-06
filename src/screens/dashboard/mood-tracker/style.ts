@@ -73,4 +73,44 @@ export const styles = StyleSheet.create({
     width: wp(44),
     height: hp(44),
   },
+  emptyMoodTrackerContainer: {
+    marginTop: hp(20),
+    height: hp(450),
+    marginHorizontal: wp(24),
+    borderRadius: hp(16),
+    backgroundColor: Colors.WHITE_TRANSPARENT,
+  },
+  emptyMoodIconContainer: {
+    width: 160,
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.COUCH_BLUE_2200,
+    alignSelf: 'center',
+    borderRadius: 100,
+    marginTop: 69,
+  },
+  emptyMoodIcon: {
+    width: 85,
+    height: 85,
+  },
+  emptyTextContainer: {
+    marginTop: hp(40),
+    paddingHorizontal: wp(28),
+  },
+  emptyMainText: {
+    color: Colors.COUCH_BLUE_1100,
+    fontFamily: Typography.fontFamily.SoraMedium,
+    textAlign: 'center',
+    fontSize: hp(14),
+    lineHeight: hp(19),
+  },
+
+  emptyBodyText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    paddingTop: hp(16),
+    textAlign: 'center',
+    color: Colors.COUCH_TEXT_COLOR,
+    fontSize: hp(13),
+  },
 });

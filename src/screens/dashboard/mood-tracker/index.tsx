@@ -31,6 +31,29 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
         style={styles.plusIconContainer}>
         <Image source={Images.plus} style={styles.plusIcon} />
       </TouchableOpacity>
+      {(() => {
+        if (loggedMoods.length === 0) {
+          return (
+            <View style={styles.emptyMoodTrackerContainer}>
+              <View style={styles.emptyMoodIconContainer}>
+                <Image
+                  source={Images['empty-mood']}
+                  resizeMode="contain"
+                  style={styles.emptyMoodIcon}
+                />
+              </View>
+              <View style={styles.emptyTextContainer}>
+                <Text style={styles.emptyMainText}>
+                  No Mood logged in here yet
+                </Text>
+                <Text style={styles.emptyBodyText}>
+                  Tap the '+' button below to log your mood on the mood tracker.
+                </Text>
+              </View>
+            </View>
+          );
+        }
+      })()}
       <View style={styles.bodyContainer}>
         <SectionList
           sections={loggedMoods}

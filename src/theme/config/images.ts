@@ -15,6 +15,7 @@ const Images = {
   'chevron-down': require('../../assets/images/icons/chevron-down.png'),
   dairy: require('../../assets/images/icons/diary.png'),
   ellipse: require('../../assets/images/icons/ellipse.png'),
+  'empty-mood': require('../../assets/images/icons/empty-mood.png'),
   excited: require('../../assets/images/icons/excited.png'),
   'eye-off': require('../../assets/images/icons/eye-off.png'),
   gradient: require('../../assets/images/icons/gradient.png'),
