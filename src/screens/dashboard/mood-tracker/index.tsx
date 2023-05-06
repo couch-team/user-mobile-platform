@@ -6,8 +6,9 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import HeaderBar from 'components/base/header-bar';
 import HeaderText from 'components/base/header-text';
-import { loggedMoods } from 'constants/data';
+import { loggedMoods, stackData } from 'constants/data';
 import { Images } from 'theme/config';
+import { BarChart } from 'react-native-gifted-charts';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -50,6 +51,12 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
                   Tap the '+' button below to log your mood on the mood tracker.
                 </Text>
               </View>
+            </View>
+          );
+        } else if (loggedMoods.length > 0) {
+          return (
+            <View>
+              <BarChart width={340} stackData={stackData} />
             </View>
           );
         }
