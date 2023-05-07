@@ -5,6 +5,7 @@ import BottomTabBar from './bottom-tab';
 import Notifications from 'screens/dashboard/home/notifications';
 import Therapy from 'screens/dashboard/therapy';
 import MoodTracker from 'screens/dashboard/mood-tracker';
+import AddMood from 'screens/dashboard/mood-tracker/add-mood';
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
@@ -22,6 +23,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={Notifications} name="Notifications" />
       <Stack.Screen component={Therapy} name="Therapy" />
       <Stack.Screen component={MoodTracker} name="MoodTracker" />
+      <Stack.Screen component={AddMood} name="AddMood" />
     </Stack.Navigator>
   );
 };

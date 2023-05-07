@@ -1,22 +1,32 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import { styles } from '../style';
 import { Images } from 'theme/config';
 
 interface NotificationIconProps {
-  navigate: any;
+  navigate?: any;
+  sharedImage?: ImageSourcePropType;
+  tintColor?: string;
+  onPressIcon?: () => void;
 }
 
-const NotificationIcon = ({ navigate }: NotificationIconProps) => {
+const NotificationIcon = ({
+  navigate,
+  sharedImage,
+  tintColor,
+  onPressIcon,
+}: NotificationIconProps) => {
   return (
     <TouchableOpacity
-      onPress={() => navigate('Notifications')}
+      onPress={() =>
+        navigate ? navigate('Notifications') : onPressIcon && onPressIcon()
+      }
       activeOpacity={0.5}
       style={styles.notificationIconContainer}>
       <Image
-        source={Images.notification}
+        source={sharedImage || Images.notification}
         resizeMode="contain"
-        style={styles.notificationIcon}
+        style={[styles.notificationIcon, { tintColor }]}
       />
     </TouchableOpacity>
   );

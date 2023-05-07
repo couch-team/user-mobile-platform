@@ -9,12 +9,14 @@ interface ProgressHeaderProps {
   firstProgress: number;
   secondProgress?: number;
   thirdProgress?: number;
+  progressWidth?: number;
 }
 
 const ProgressHeader = ({
   firstProgress,
   secondProgress,
   thirdProgress,
+  progressWidth,
 }: ProgressHeaderProps) => {
   return (
     <View style={styles.progressHeaderContainer}>
@@ -24,7 +26,7 @@ const ProgressHeader = ({
         color={Colors.COUCH_BLUE}
         borderWidth={0}
         height={hp(10)}
-        width={wp(65)}
+        width={progressWidth || wp(65)}
       />
       <Image
         source={Images.ellipse}
@@ -40,7 +42,7 @@ const ProgressHeader = ({
         unfilledColor={Colors.COUCH_BLUE_700}
         borderWidth={0}
         height={hp(10)}
-        width={wp(160)}
+        width={progressWidth || wp(160)}
       />
       <Image
         source={Images.ellipse}
@@ -56,7 +58,7 @@ const ProgressHeader = ({
         unfilledColor={Colors.COUCH_BLUE_700}
         borderWidth={0}
         height={hp(10)}
-        width={wp(65)}
+        width={progressWidth || wp(65)}
       />
     </View>
   );

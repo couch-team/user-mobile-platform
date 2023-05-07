@@ -1,17 +1,23 @@
 import { hp, wp } from 'constants/layout';
 import React from 'react';
-import { View, Text, TextStyle, StyleSheet } from 'react-native';
+import { View, Text, TextStyle, StyleSheet, ViewStyle } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
 interface HeaderTextProps {
   text: string;
   textStyle?: TextStyle;
   hasSubText?: string;
+  headerTextStyle?: ViewStyle;
 }
 
-const HeaderText = ({ text, textStyle, hasSubText }: HeaderTextProps) => {
+const HeaderText = ({
+  text,
+  textStyle,
+  hasSubText,
+  headerTextStyle,
+}: HeaderTextProps) => {
   return (
-    <View style={styles.headerTextContainer}>
+    <View style={[styles.headerTextContainer, headerTextStyle]}>
       <Text style={[styles.headerText, textStyle]}>{text}</Text>
       {hasSubText && <Text style={styles.subHeaderText}>{hasSubText}</Text>}
     </View>
