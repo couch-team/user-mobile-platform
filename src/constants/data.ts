@@ -549,7 +549,7 @@ export const exploreOptions = [
     description: 'Share problems with a Therapist',
     icon: Images['phone-calling'],
     color: Colors.GREEN_100,
-    url: 'Therapy',
+    screen: 'Therapy',
   },
   {
     id: 2,
@@ -759,5 +759,113 @@ export const stackData = [
       { value: 10, color: '#28B2B3', marginBottom: 2 },
     ],
     label: 'Mar',
+  },
+];
+
+export const todaysFeeling = [
+  {
+    id: 1,
+    title: 'Good',
+    color: Colors.GREEN,
+    feelings: [
+      {
+        id: 1,
+        title: 'Happy',
+      },
+      {
+        id: 2,
+        title: 'Excited',
+      },
+      {
+        id: 3,
+        title: 'Confident',
+      },
+      {
+        id: 4,
+        title: 'Joyful',
+      },
+      {
+        id: 5,
+        title: 'Calm',
+      },
+      {
+        id: 6,
+        title: 'Optimistic',
+      },
+      {
+        id: 7,
+        title: 'Grateful',
+      },
+      {
+        id: 8,
+        title: 'Chilled',
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: 'Average',
+    color: Colors.YELLOW_100,
+    feelings: [
+      {
+        id: 1,
+        title: 'Tired',
+      },
+      {
+        id: 2,
+        title: 'Numb',
+      },
+      {
+        id: 3,
+        title: 'Sad',
+      },
+      {
+        id: 4,
+        title: 'Annoyed',
+      },
+      {
+        id: 5,
+        title: 'Frustrated',
+      },
+      {
+        id: 6,
+        title: 'Overwhelmed',
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: 'Bad',
+    color: Colors.PEACHY_RED_200,
+    feelings: [
+      {
+        id: 1,
+        title: 'Angry',
+      },
+      {
+        id: 2,
+        title: 'Ashamed',
+      },
+      {
+        id: 3,
+        title: 'Guilty',
+      },
+      {
+        id: 4,
+        title: 'Afraid',
+      },
+      {
+        id: 5,
+        title: 'Insecure',
+      },
+      {
+        id: 6,
+        title: 'Anxious',
+      },
+      {
+        id: 7,
+        title: 'Depressed',
+      },
+    ],
   },
 ];

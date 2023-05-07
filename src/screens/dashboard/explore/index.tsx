@@ -33,7 +33,7 @@ const Explore = ({ navigation: { navigate } }: Props) => {
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => item.url && navigate(item.url)}
+                onPress={() => item.screen && navigate(item.screen)}
                 style={styles.exploreItemContainerStyle}
                 activeOpacity={0.6}
                 key={index}>
