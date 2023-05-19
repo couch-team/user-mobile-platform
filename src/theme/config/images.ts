@@ -22,6 +22,8 @@ const Images = {
   gradient: require('../../assets/images/icons/gradient.png'),
   happy: require('../../assets/images/icons/happy.png'),
   'happy-2': require('../../assets/images/icons/happy-2.png'),
+  'happy-purple': require('../../assets/images/icons/happy-purple.png'),
+  'happy-white': require('../../assets/images/icons/happy-white.png'),
   headphones: require('../../assets/images/icons/headphones.png'),
   'header-icon': require('../../assets/images/icons/header-icon.png'),
   heart: require('../../assets/images/icons/heart.png'),
@@ -56,6 +58,9 @@ const Images = {
   'voice-note': require('../../assets/images/icons/voice-note.png'),
   users: require('../../assets/images/icons/users.png'),
   upload: require('../../assets/images/icons/upload.png'),
+
+  //frames
+  'journal-frame': require('../../assets/images/journal-frame.png'),
 
   //bottom tabs
   activity: require('../../assets/images/bottom-tabs/activity.png'),

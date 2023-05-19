@@ -8,6 +8,7 @@ import MoodTracker from 'screens/dashboard/mood-tracker';
 import AddMood from 'screens/dashboard/mood-tracker/add-mood';
 import AddMood2 from 'screens/dashboard/mood-tracker/add-mood/AddMood2';
 import CompleteAddMood from 'screens/dashboard/mood-tracker/add-mood/CompleteAddMood';
+import Journal from 'screens/dashboard/journal';
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
@@ -28,6 +29,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={AddMood} name="AddMood" />
       <Stack.Screen component={AddMood2} name="AddMood2" />
       <Stack.Screen component={CompleteAddMood} name="CompleteAddMood" />
+      <Stack.Screen component={Journal} name="Journal" />
     </Stack.Navigator>
   );
 };

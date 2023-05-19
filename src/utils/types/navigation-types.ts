@@ -56,7 +56,7 @@ export type DashboardParamList = {
   ConfirmPin: any;
   Notifications: any;
   VoucherHistory: any;
-  VoucherCode: any;
+  Journal: undefined;
   CompleteAddMood: undefined;
 };
 
