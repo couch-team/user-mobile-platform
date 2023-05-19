@@ -42,4 +42,77 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     justifyContent: 'center',
   },
+  unitInputContainer: {
+    marginTop: hp(32),
+    marginHorizontal: wp(24),
+  },
+  formInputLabel: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(14),
+    lineHeight: hp(17),
+    color: Colors.WHITE,
+  },
+  textInputBoxContainer: {
+    height: hp(172),
+    marginTop: hp(12),
+    borderRadius: hp(16),
+    padding: hp(16),
+    borderWidth: 1,
+    paddingTop: hp(16),
+    fontFamily: Typography.fontFamily.SoraMedium,
+    borderColor: Colors.COUCH_BLUE_1800,
+  },
+  moodIcon: {
+    width: 172,
+    height: 172,
+    alignSelf: 'center',
+    marginTop: hp(30),
+  },
+  moodBodyContainer: {
+    marginTop: hp(50),
+  },
+  ellipseImage: {
+    width: deviceWidth,
+    height: hp(50),
+  },
+  moodDataContainer: {
+    backgroundColor: Colors.PRIMARY,
+    height: hp(400),
+  },
+  moodLogTimeContainer: {
+    backgroundColor: Colors.COUCH_GREEN_300,
+    alignSelf: 'center',
+    paddingVertical: hp(12),
+    paddingHorizontal: wp(14),
+    borderRadius: hp(256),
+  },
+  moodLogTimeText: {
+    color: Colors.GREEN_100,
+    fontFamily: Typography.fontFamily.SoraMedium,
+    fontSize: hp(12),
+    lineHeight: hp(16),
+  },
+  todaysMoodText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    fontSize: hp(20),
+    color: Colors.GREEN_100,
+    paddingTop: hp(28),
+    textAlign: 'center',
+  },
+  loggedThoughtsText: {
+    paddingTop: hp(28),
+    width: wp(327),
+    textAlign: 'center',
+    alignSelf: 'center',
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+    lineHeight: hp(20),
+    color: Colors.COUCH_BLUE_1100,
+  },
+  buttonStyle: {
+    backgroundColor: Colors.GREEN_100,
+  },
+  titleStyle: {
+    color: Colors.PRIMARY_DARKBLUE,
+  },
 });

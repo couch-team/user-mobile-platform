@@ -23,6 +23,7 @@ interface HeaderBarProps {
   rightIcon?: ImageSourcePropType;
   rightHeader?: string;
   headerRight?: ReactElement;
+  tintColor?: string;
 }
 
 const HeaderBar = ({
@@ -36,6 +37,7 @@ const HeaderBar = ({
   hasLeftButton,
   headerRight,
   headerTitle,
+  tintColor,
 }: HeaderBarProps) => {
   const renderHeaderLeft = () => {
     if (hasBackButton) {
@@ -48,7 +50,7 @@ const HeaderBar = ({
             <Image
               source={Images['arrow-left-circle']}
               resizeMode="contain"
-              style={[styles.backIcon]}
+              style={[styles.backIcon, { tintColor }]}
             />
           </TouchableOpacity>
         </>

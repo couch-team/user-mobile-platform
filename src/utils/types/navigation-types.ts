@@ -57,6 +57,7 @@ export type DashboardParamList = {
   Notifications: any;
   VoucherHistory: any;
   VoucherCode: any;
+  CompleteAddMood: undefined;
 };
 
 export type BottomTabParamList = {
