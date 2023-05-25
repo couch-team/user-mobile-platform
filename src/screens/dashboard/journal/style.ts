@@ -87,4 +87,92 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(13),
   },
+  headerSectionContainer: {
+    paddingHorizontal: wp(24),
+    flexDirection: 'row',
+    marginVertical: hp(10),
+    height: hp(30),
+    backgroundColor: Colors.PRIMARY,
+  },
+  headerTitleStyle: {
+    fontFamily: Typography.fontFamily.SoraMedium,
+    paddingLeft: wp(12),
+    fontSize: hp(14),
+    color: Colors.COUCH_BLUE_1100,
+  },
+  journalMoodIconContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.COUCH_BLUE_2400,
+    borderRadius: 100,
+  },
+  moodIcon: {
+    width: wp(26),
+    height: hp(26),
+  },
+  bodyContainer: {
+    marginTop: hp(20),
+  },
+  contentContainerStyle: {
+    paddingBottom: hp(200),
+  },
+  itemMoodContainer: {
+    backgroundColor: Colors.COUCH_GREEN_100,
+    marginHorizontal: wp(24),
+    marginBottom: hp(16),
+    padding: hp(16),
+    borderRadius: hp(16),
+  },
+  itemMoodBodyContainer: {
+    marginTop: wp(24),
+  },
+  journalHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  journalBodyHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  voiceIconLengthContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.COUCH_BLUE_800,
+    padding: hp(8),
+    borderRadius: hp(10),
+    justifyContent: 'space-between',
+  },
+  itemMoodMainText: {
+    fontFamily: Typography.fontFamily.SoraMedium,
+    fontSize: hp(14),
+    color: Colors.WHITE,
+    lineHeight: hp(18),
+  },
+  voiceIconContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 100,
+    backgroundColor: Colors.COUCH_BLUE_2500,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  voiceDurationText: {
+    paddingLeft: wp(8),
+    fontFamily: Typography.fontFamily.SoraMedium,
+    color: Colors.WHITE,
+    fontSize: hp(12),
+  },
+  itemMoodBodyText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    paddingTop: hp(8),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontSize: hp(12),
+  },
+  voiceIcon: {
+    width: 12,
+    height: 12,
+  },
 });
