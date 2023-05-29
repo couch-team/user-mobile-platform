@@ -47,7 +47,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigate('AddMood')}
+        onPress={() => navigate('AddJournal')}
         activeOpacity={0.8}
         style={styles.plusIconContainer}>
         <Image source={Images.plus} style={styles.plusIcon} />

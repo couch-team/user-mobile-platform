@@ -1038,3 +1038,33 @@ export const journalList = [
     ],
   },
 ];
+
+export const noteOptionsIcons = [
+  {
+    id: 1,
+    icon: Images['note-text'],
+    'active-icon': Images['active-note-text'],
+    value: 'text',
+  },
+  {
+    id: 2,
+    icon: Images['note-video'],
+    value: 'video',
+  },
+  {
+    id: 3,
+    icon: Images['note-image'],
+    'active-icon': Images['active-note-image'],
+    value: 'image',
+  },
+  {
+    id: 4,
+    icon: Images['note-voice'],
+    value: 'voice',
+  },
+  {
+    id: 5,
+    icon: Images['note-mood'],
+    value: 'mood',
+  },
+];

@@ -61,6 +61,15 @@ const Images = {
   users: require('../../assets/images/icons/users.png'),
   upload: require('../../assets/images/icons/upload.png'),
 
+  //note-taking icons
+  'active-note-text': require('../../assets/images/note-options/active-text.png'),
+  'active-note-image': require('../../assets/images/note-options/active-image.png'),
+  'note-image': require('../../assets/images/note-options/image.png'),
+  'note-mood': require('../../assets/images/note-options/mood.png'),
+  'note-text': require('../../assets/images/note-options/text.png'),
+  'note-video': require('../../assets/images/note-options/video.png'),
+  'note-voice': require('../../assets/images/note-options/voice.png'),
+
   //frames
   'journal-frame': require('../../assets/images/journal-frame.png'),
 

@@ -58,6 +58,7 @@ export type DashboardParamList = {
   VoucherHistory: any;
   Journal: undefined;
   CompleteAddMood: undefined;
+  AddJournal: undefined;
 };
 
 export type BottomTabParamList = {
