@@ -40,6 +40,7 @@ const Images = {
   'mood-4': require('../../assets/images/icons/mood-4.png'),
   'mood-5': require('../../assets/images/icons/mood-5.png'),
   notification: require('../../assets/images/icons/notification.png'),
+  paper: require('../../assets/images/icons/paper.png'),
   play: require('../../assets/images/icons/play.png'),
   plus: require('../../assets/images/icons/plus.png'),
   phone: require('../../assets/images/icons/phone.png'),

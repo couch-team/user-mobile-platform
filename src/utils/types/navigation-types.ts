@@ -59,6 +59,7 @@ export type DashboardParamList = {
   Journal: undefined;
   CompleteAddMood: undefined;
   AddJournal: undefined;
+  MindSpace: undefined;
 };
 
 export type BottomTabParamList = {

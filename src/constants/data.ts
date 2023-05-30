@@ -589,6 +589,7 @@ export const therapyOptions = [
     description: 'Join heartwarming communities ',
     icon: Images.headphones,
     color: Colors.GREEN_100,
+    url: 'MindSpace',
   },
   {
     id: 3,
