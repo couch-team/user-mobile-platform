@@ -1069,3 +1069,47 @@ export const noteOptionsIcons = [
     value: 'mood',
   },
 ];
+
+export const recommendedOptions = [
+  {
+    id: 1,
+    title: 'Recommended',
+  },
+  {
+    id: 2,
+    title: 'Sleep',
+  },
+];
+
+export const categories = [
+  {
+    id: 1,
+    title: 'Stress',
+    tintColor: Colors.COUCH_BLUE,
+  },
+  {
+    id: 2,
+    title: 'Productivity',
+    tintColor: Colors.GREEN_100,
+  },
+  {
+    id: 3,
+    title: 'Sleep',
+    tintColor: Colors.WHITE,
+  },
+  {
+    id: 4,
+    title: 'Mental Health',
+    tintColor: Colors.WARNING_AMBER,
+  },
+  {
+    id: 5,
+    title: 'Stress',
+    tintColor: Colors.PURPLE,
+  },
+  {
+    id: 6,
+    title: 'Productivity',
+    tintColor: Colors.COUCH_INFO_BLUE,
+  },
+];

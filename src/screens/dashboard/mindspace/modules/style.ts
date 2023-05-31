@@ -3,8 +3,13 @@ import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
 export const styles = StyleSheet.create({
-  podcastSectionContainer: {
-    marginTop: hp(30),
+  podcastSectionContainer: {},
+  recommendedSectionItemContainer: {
+    marginHorizontal: wp(24),
+    backgroundColor: Colors.PRIMARY_DARKBLUE,
+    paddingVertical: hp(20),
+    paddingHorizontal: wp(16),
+    borderRadius: hp(14),
   },
   podcastSectionHeaderText: {
     color: Colors.COUCH_BLUE_1100,
@@ -22,5 +27,46 @@ export const styles = StyleSheet.create({
     marginTop: hp(14),
     width: wp(333),
     height: hp(212),
+  },
+  categoriesHeaderText: {
+    paddingHorizontal: wp(24),
+    paddingTop: hp(31),
+    fontFamily: Typography.fontFamily.SoraSemiBold,
+    color: Colors.COUCH_BLUE_1100,
+  },
+  categoriesListContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: hp(20),
+    marginHorizontal: wp(24),
+    borderTopWidth: 0.8,
+    borderBottomWidth: 0.8,
+    paddingVertical: hp(10),
+    borderTopColor: Colors.COUCH_BLUE_400,
+    borderBottomColor: Colors.COUCH_BLUE_400,
+  },
+  categoryListItemContainer: {
+    width: wp(80),
+    marginBottom: hp(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  categoryListText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(10),
+    paddingTop: hp(12),
+    color: Colors.COUCH_BLUE_900,
+  },
+  voiceNoteIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 100,
+    backgroundColor: Colors.COUCH_BLUE_800,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  voiceNoteIcon: {
+    width: wp(24),
+    height: hp(24),
   },
 });

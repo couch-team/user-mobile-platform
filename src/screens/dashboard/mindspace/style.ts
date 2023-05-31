@@ -1,6 +1,5 @@
-import { deviceHeight, hp } from 'constants/layout';
+import { hp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
-import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 import { Colors } from 'theme/config';
 
 export const styles = StyleSheet.create({
@@ -17,10 +16,5 @@ export const styles = StyleSheet.create({
     marginTop: hp(30),
     backgroundColor: Colors.WARNING_AMBER,
   },
-  sectionListStyle: {
-    height:
-      hasDynamicIsland() || hasNotch()
-        ? deviceHeight * 0.9
-        : deviceHeight * 0.56,
-  },
+  sectionListStyle: {},
 });

@@ -12,6 +12,40 @@ export const styles = StyleSheet.create({
   scrollContainer: {
     // backgroundColor: Colors.PEACHY_RED,
   },
+  recommendedSectionItemContainer: {
+    marginHorizontal: wp(24),
+    backgroundColor: Colors.PRIMARY_DARKBLUE,
+    paddingVertical: hp(20),
+    paddingHorizontal: wp(16),
+    borderRadius: hp(14),
+  },
+  recommendedSectionHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recommendedOptionContainer: {
+    paddingHorizontal: wp(12),
+    paddingVertical: hp(8),
+    backgroundColor: Colors.OFF_WHITE_300,
+    marginRight: wp(12),
+    borderRadius: hp(64),
+  },
+  recommendedOptionText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    fontSize: hp(12),
+    color: Colors.WHITE,
+    lineHeight: hp(16),
+    textTransform: 'uppercase',
+  },
+  podcastTitleContainer: {
+    marginTop: hp(24),
+  },
+  headerTextStyle: {
+    marginHorizontal: 0,
+  },
+  textStyle: {
+    fontFamily: Typography.fontFamily.SoraBold,
+  },
   notificationButtonContainer: {
     paddingVertical: hp(10),
     paddingHorizontal: wp(16),
@@ -47,5 +81,50 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
     tintColor: Colors.COUCH_BLUE,
+  },
+  podcastItemIcon: {
+    width: wp(20),
+    height: hp(20),
+  },
+  podcastText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    paddingLeft: wp(7),
+    top: hp(2),
+    fontSize: hp(12),
+    color: Colors.COUCH_BLUE_1100,
+  },
+  podcastItemIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: hp(24),
+  },
+  podcastRateContainer: {
+    flexDirection: 'row',
+  },
+  podcastItemIconBody: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sideBorderContainer: {
+    width: wp(74),
+    justifyContent: 'flex-start',
+    borderRightWidth: 0.7,
+    marginRight: wp(20),
+    borderRightColor: Colors.WHITE,
+  },
+  voiceNoteIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.COUCH_BLUE,
+  },
+  voiceNoteIcon: {
+    width: wp(24),
+    height: hp(24),
+    tintColor: Colors.WHITE,
   },
 });
