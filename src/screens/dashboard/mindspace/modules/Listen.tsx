@@ -31,9 +31,10 @@ export const Listen = () => {
       <Text style={styles.categoriesHeaderText}>Categories</Text>
       <View
         style={[styles.categoriesListContainer, { marginHorizontal: wp(24) }]}>
-        {categories?.map(category => {
+        {categories?.map((category, index) => {
           return (
             <TouchableOpacity
+              key={index}
               activeOpacity={0.8}
               style={styles.categoryListItemContainer}>
               <View style={styles.voiceNoteIconContainer}>

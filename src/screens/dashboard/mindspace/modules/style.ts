@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     paddingLeft: wp(24),
   },
   recommendedSectionContainer: {
-    marginHorizontal: wp(23),
+    marginHorizontal: wp(24),
   },
   videoImage: {
     marginTop: hp(14),
@@ -31,8 +31,12 @@ export const styles = StyleSheet.create({
   categoriesHeaderText: {
     paddingHorizontal: wp(24),
     paddingTop: hp(31),
+    fontSize: hp(16),
     fontFamily: Typography.fontFamily.SoraSemiBold,
     color: Colors.COUCH_BLUE_1100,
+  },
+  noPaddingHorizontal: {
+    paddingHorizontal: 0,
   },
   categoriesListContainer: {
     flexDirection: 'row',
@@ -67,5 +71,47 @@ export const styles = StyleSheet.create({
   voiceNoteIcon: {
     width: wp(24),
     height: hp(24),
+  },
+  headerTextStyle: {
+    marginHorizontal: 0,
+  },
+  textStyle: {
+    fontSize: hp(16),
+  },
+  recentlyReadContainer: {
+    marginTop: hp(34),
+  },
+  recentlyReadHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  arrowIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 100,
+    backgroundColor: Colors.COUCH_BLUE_600,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arrowIcon: {
+    width: wp(23),
+    height: hp(23),
+  },
+  readItemListContainer: {
+    marginTop: hp(20),
+  },
+  singleReadItemContainer: {
+    marginBottom: hp(32),
+  },
+  readImage: {
+    height: hp(149),
+    width: wp(333),
+  },
+  readTextTitle: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+    lineHeight: hp(25),
+    color: Colors.WHITE,
   },
 });

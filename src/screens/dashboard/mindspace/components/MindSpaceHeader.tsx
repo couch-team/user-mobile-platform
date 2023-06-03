@@ -35,15 +35,14 @@ export const MindSpaceHeader = ({
       contentContainerStyle={styles.contentContainerStyle}>
       {buttons.map((button, index) => {
         return (
-          <View>
+          <View key={index}>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => setActiveIndex(index)}
               style={[
                 styles.notificationButtonContainer,
                 activeIndex === index && styles.activeButtonContainer,
-              ]}
-              key={index}>
+              ]}>
               <Image
                 source={button.icon}
                 resizeMode="contain"

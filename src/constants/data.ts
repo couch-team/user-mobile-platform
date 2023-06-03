@@ -1113,3 +1113,21 @@ export const categories = [
     tintColor: Colors.COUCH_INFO_BLUE,
   },
 ];
+
+export const recentlyRead = [
+  {
+    id: 1,
+    title: 'How To Stay Calm And Centered During Financial Storms',
+    image: Images['read-1'],
+  },
+  {
+    id: 2,
+    title: 'How To Stay Calm And Centered During Financial Storms',
+    image: Images['read-2'],
+  },
+  {
+    id: 3,
+    title: 'How To Stay Calm And Centered During Financial Storms',
+    image: Images['read-2'],
+  },
+];
