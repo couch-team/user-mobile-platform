@@ -1179,3 +1179,24 @@ export const topVideos = [
     options: ['#stress', '#relief'],
   },
 ];
+
+export const recentlyPlayed = [
+  {
+    id: 1,
+    title: 'Productivity 101',
+    tintColor: Colors.COUCH_BLUE,
+    options: ['recommended', 'sleep'],
+  },
+  {
+    id: 2,
+    title: 'Dealing with work Stress...',
+    tintColor: Colors.PURPLE_100,
+    options: ['recommended', 'sleep'],
+  },
+  {
+    id: 3,
+    title: 'Productivity 101',
+    tintColor: Colors.YELLOW_200,
+    options: ['recommended', 'sleep'],
+  },
+];

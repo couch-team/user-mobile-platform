@@ -1,10 +1,10 @@
-import { categories, podcasts4u } from 'constants/data';
+import { categories, podcasts4u, recentlyPlayed } from 'constants/data';
 import React from 'react';
 import { View, ScrollView, Image, Text, TouchableOpacity } from 'react-native';
 import PodcastItem from 'screens/dashboard/home/components/PodcastItem';
 import { styles } from './style';
 import HeaderText from 'components/base/header-text';
-import { RecommendedPodcastCard } from '../components';
+import { RecentlyPlayed, RecommendedPodcastCard } from '../components';
 import { Images } from 'theme/config';
 import { wp } from 'constants/layout';
 
@@ -51,6 +51,31 @@ export const Listen = () => {
             </TouchableOpacity>
           );
         })}
+      </View>
+      <View
+        style={[styles.recentlyReadContainer, { marginHorizontal: wp(24) }]}>
+        <View style={styles.recentlyReadHeaderContainer}>
+          <HeaderText
+            text="Recently Played"
+            textStyle={styles.textStyle}
+            headerTextStyle={styles.headerTextStyle}
+            hasSubText="Track your mood and feel better"
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.arrowIconContainer}>
+            <Image
+              source={Images['arrow-right-circle']}
+              resizeMode="contain"
+              style={styles.arrowIcon}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.recentlyReadContainer}>
+          {recentlyPlayed?.slice(0, 3).map((played, index) => {
+            return <RecentlyPlayed key={index} played={played} />;
+          })}
+        </View>
       </View>
     </View>
   );

@@ -254,4 +254,11 @@ export const styles = StyleSheet.create({
     padding: hp(8),
     borderRadius: hp(64),
   },
+  recentlyPlayedItemContainer: {
+    paddingVertical: hp(20),
+    backgroundColor: Colors.COUCH_BLUE_2100,
+    paddingHorizontal: wp(16),
+    borderRadius: hp(16),
+    marginBottom: hp(20),
+  },
 });
