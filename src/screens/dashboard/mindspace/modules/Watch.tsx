@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { Images } from 'theme/config';
 import { styles } from './style';
-import { categories } from 'constants/data';
+import { categories, recentlyWatched } from 'constants/data';
 import HeaderText from 'components/base/header-text';
+import { RecentlyWatchedVideo } from '../components';
 
 export const Watch = () => {
   return (
@@ -25,11 +26,12 @@ export const Watch = () => {
               style={styles.categoryListItemContainer}>
               <View style={styles.voiceNoteIconContainer}>
                 <Image
-                  source={Images['voice-note']}
+                  source={Images.play}
                   resizeMode="contain"
                   style={[
                     styles.voiceNoteIcon,
-                    { tintColor: category.tintColor },
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    { tintColor: category.tintColor, left: 2 },
                   ]}
                 />
               </View>
@@ -46,13 +48,20 @@ export const Watch = () => {
             headerTextStyle={styles.headerTextStyle}
             hasSubText="Track your mood and feel better"
           />
-          <TouchableOpacity style={styles.arrowIconContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.arrowIconContainer}>
             <Image
               source={Images['arrow-right-circle']}
               resizeMode="contain"
               style={styles.arrowIcon}
             />
           </TouchableOpacity>
+        </View>
+        <View style={styles.recentlyReadContainer}>
+          {recentlyWatched.map((watched, index) => {
+            return <RecentlyWatchedVideo key={index} watched={watched} />;
+          })}
         </View>
       </View>
     </View>

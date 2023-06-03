@@ -127,4 +127,84 @@ export const styles = StyleSheet.create({
     height: hp(24),
     tintColor: Colors.WHITE,
   },
+  recentlyWatchedItemContainer: {
+    marginBottom: hp(20),
+  },
+  recentlyWatchedImage: {
+    width: wp(333),
+    height: hp(214),
+    borderRadius: hp(16),
+    position: 'absolute',
+    zIndex: -100,
+  },
+  recentlyWatchItemContainer: {
+    width: wp(333),
+    borderRadius: hp(16),
+    paddingVertical: hp(20),
+    paddingHorizontal: wp(16),
+    height: hp(214),
+  },
+  recentlyWatchedHashTagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hasTagContainer: {
+    maxWidth: wp(109),
+    marginRight: wp(10),
+  },
+  hasTagBlurContainer: {
+    paddingHorizontal: wp(12),
+    paddingVertical: hp(6),
+    borderRadius: hp(12),
+  },
+  blurContainer: {
+    backgroundColor: Colors.OFF_WHITE_300,
+    borderRadius: hp(64),
+  },
+  hasTagText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    fontSize: hp(10),
+    color: Colors.WHITE,
+  },
+  recentlyPlayedTitleContainer: {
+    flexDirection: 'row',
+    marginTop: hp(20),
+    alignItems: 'center',
+  },
+  playIconContainer: {
+    width: 46,
+    height: 46,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    backgroundColor: Colors.COUCH_BLUE,
+  },
+  recentlyPlayedTextContainer: {
+    marginLeft: wp(16),
+  },
+  recentlyHeaderTextStyle: {
+    fontFamily: Typography.fontFamily.SoraSemiBold,
+    fontSize: hp(16),
+    color: Colors.WHITE,
+    lineHeight: hp(22),
+  },
+  recentlyPlayedSubHeaderTextStyle: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(14),
+    color: Colors.COUCH_BLUE_2600,
+    lineHeight: hp(20),
+  },
+  hasMarginTop: {
+    flexDirection: 'row',
+    marginTop: hp(30),
+  },
+  playIcon: {
+    width: wp(26),
+    tintColor: Colors.WHITE,
+    height: hp(26),
+    left: 2,
+  },
+  progressBarContainer: {
+    marginTop: hp(28),
+  },
 });

@@ -1131,3 +1131,27 @@ export const recentlyRead = [
     image: Images['read-2'],
   },
 ];
+
+export const recentlyWatched = [
+  {
+    id: 1,
+    title: 'Productivity 101',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#recommended', '#sleep'],
+  },
+  {
+    id: 2,
+    title: 'Productivity 101',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#recommended', '#sleep'],
+  },
+  {
+    id: 3,
+    title: 'Productivity 101',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#recommended', '#sleep'],
+  },
+];
