@@ -130,6 +130,24 @@ export const styles = StyleSheet.create({
   recentlyWatchedItemContainer: {
     marginBottom: hp(20),
   },
+  topVideoItemContainer: {
+    marginRight: wp(20),
+    marginTop: hp(20),
+  },
+  topVideoStyle: {
+    height: hp(280),
+    width: wp(235),
+    borderRadius: hp(16),
+    position: 'absolute',
+    zIndex: -100,
+  },
+  topVideoStyleGradient: {
+    height: hp(284),
+    width: wp(235),
+    paddingHorizontal: wp(12),
+    paddingVertical: hp(20),
+    borderRadius: hp(16),
+  },
   recentlyWatchedImage: {
     width: wp(333),
     height: hp(214),
@@ -149,7 +167,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hasTagContainer: {
-    maxWidth: wp(109),
+    maxWidth: wp(120),
     marginRight: wp(10),
   },
   hasTagBlurContainer: {
@@ -165,6 +183,7 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(10),
     color: Colors.WHITE,
+    textTransform: 'uppercase',
   },
   recentlyPlayedTitleContainer: {
     flexDirection: 'row',
@@ -204,7 +223,35 @@ export const styles = StyleSheet.create({
     height: hp(26),
     left: 2,
   },
+  topVideoHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  durationContainer: {
+    backgroundColor: Colors.OFF_WHITE_300,
+    paddingHorizontal: wp(12),
+    paddingVertical: hp(8),
+    borderRadius: hp(64),
+  },
+  durationText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    color: Colors.WHITE,
+  },
   progressBarContainer: {
     marginTop: hp(28),
+  },
+  topVideoTitleText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    paddingTop: hp(28),
+    fontSize: hp(16),
+    lineHeight: hp(23),
+    color: Colors.WHITE,
+  },
+  topVideoTagContainer: {
+    backgroundColor: Colors.COUCH_BLUE_1600,
+    marginTop: hp(28),
+    padding: hp(8),
+    borderRadius: hp(64),
   },
 });

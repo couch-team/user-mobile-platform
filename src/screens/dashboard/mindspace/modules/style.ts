@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     marginTop: hp(14),
     width: wp(333),
     height: hp(212),
+    marginHorizontal: wp(24),
   },
   categoriesHeaderText: {
     paddingHorizontal: wp(24),
@@ -74,6 +75,9 @@ export const styles = StyleSheet.create({
   },
   headerTextStyle: {
     marginHorizontal: 0,
+  },
+  hasSubTextStyle: {
+    fontSize: hp(12),
   },
   textStyle: {
     fontSize: hp(16),

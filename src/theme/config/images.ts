@@ -57,6 +57,7 @@ const Images = {
   smile: require('../../assets/images/icons/smile.png'),
   text: require('../../assets/images/icons/text.png'),
   'time-circle': require('../../assets/images/icons/time-circle.png'),
+  'top-video': require('../../assets/images/icons/top-video.png'),
   radio: require('../../assets/images/icons/radio.png'),
   'read-1': require('../../assets/images/icons/read-1.png'),
   'read-2': require('../../assets/images/icons/read-2.png'),

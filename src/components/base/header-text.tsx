@@ -8,6 +8,7 @@ interface HeaderTextProps {
   textStyle?: TextStyle;
   hasSubText?: string;
   headerTextStyle?: ViewStyle;
+  hasSubTextStyle?: TextStyle;
 }
 
 const HeaderText = ({
@@ -15,11 +16,16 @@ const HeaderText = ({
   textStyle,
   hasSubText,
   headerTextStyle,
+  hasSubTextStyle,
 }: HeaderTextProps) => {
   return (
     <View style={[styles.headerTextContainer, headerTextStyle]}>
       <Text style={[styles.headerText, textStyle]}>{text}</Text>
-      {hasSubText && <Text style={styles.subHeaderText}>{hasSubText}</Text>}
+      {hasSubText && (
+        <Text style={[styles.subHeaderText, hasSubTextStyle]}>
+          {hasSubText}
+        </Text>
+      )}
     </View>
   );
 };

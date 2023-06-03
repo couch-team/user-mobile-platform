@@ -1155,3 +1155,27 @@ export const recentlyWatched = [
     options: ['#recommended', '#sleep'],
   },
 ];
+
+export const topVideos = [
+  {
+    id: 1,
+    title: 'Overcoming Work-related Stress',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#stress', '#relief'],
+  },
+  {
+    id: 2,
+    title: 'Overcoming Work-related Stress',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#stress', '#relief'],
+  },
+  {
+    id: 3,
+    title: 'Overcoming Work-related Stress',
+    description: '12:48 — Playtime',
+    bg: Images['watch-recently'],
+    options: ['#stress', '#relief'],
+  },
+];
