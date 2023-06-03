@@ -4,7 +4,7 @@ import { Images } from 'theme/config';
 import { styles } from './style';
 import { categories } from 'constants/data';
 
-export const Watch = () => {
+export const Read = () => {
   return (
     <View style={styles.recommendedSectionContainer}>
       <Image
@@ -21,7 +21,7 @@ export const Watch = () => {
               style={styles.categoryListItemContainer}>
               <View style={styles.voiceNoteIconContainer}>
                 <Image
-                  source={Images['voice-note']}
+                  source={Images.paper}
                   resizeMode="contain"
                   style={[
                     styles.voiceNoteIcon,

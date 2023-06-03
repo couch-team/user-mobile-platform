@@ -7,7 +7,7 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
 import HeaderText from 'components/base/header-text';
 import { MindSpaceHeader } from './components';
-import { Listen, Watch } from './modules';
+import { Listen, Read, Watch } from './modules';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'MindSpace'>;
 
@@ -42,7 +42,7 @@ const MindSpace = ({ navigation: { navigate, goBack } }: ScreenProps) => {
             } else if (activeIndex === 2) {
               return (
                 <View>
-                  <Text>Read</Text>
+                  <Read />
                 </View>
               );
             }

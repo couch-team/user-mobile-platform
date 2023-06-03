@@ -6,6 +6,7 @@ import { styles } from './style';
 import HeaderText from 'components/base/header-text';
 import { RecommendedPodcastCard } from '../components';
 import { Images } from 'theme/config';
+import { wp } from 'constants/layout';
 
 export const Listen = () => {
   return (
@@ -28,7 +29,8 @@ export const Listen = () => {
       </ScrollView>
 
       <Text style={styles.categoriesHeaderText}>Categories</Text>
-      <View style={styles.categoriesListContainer}>
+      <View
+        style={[styles.categoriesListContainer, { marginHorizontal: wp(24) }]}>
         {categories?.map(category => {
           return (
             <TouchableOpacity

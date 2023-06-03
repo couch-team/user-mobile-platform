@@ -38,7 +38,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: hp(20),
-    marginHorizontal: wp(24),
     borderTopWidth: 0.8,
     borderBottomWidth: 0.8,
     paddingVertical: hp(10),
