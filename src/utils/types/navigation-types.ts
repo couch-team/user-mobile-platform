@@ -60,6 +60,9 @@ export type DashboardParamList = {
   CompleteAddMood: undefined;
   AddJournal: undefined;
   MindSpace: undefined;
+  RecentlyPlayedAudio: undefined;
+  RecentlyPlayedText: undefined;
+  RecentlyPlayedVideo: undefined;
 };
 
 export type BottomTabParamList = {

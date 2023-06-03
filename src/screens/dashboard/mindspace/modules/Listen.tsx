@@ -7,6 +7,7 @@ import HeaderText from 'components/base/header-text';
 import { RecentlyPlayed, RecommendedPodcastCard } from '../components';
 import { Images } from 'theme/config';
 import { wp } from 'constants/layout';
+import { navigation } from 'navigation/utils';
 
 export const Listen = () => {
   return (
@@ -63,6 +64,7 @@ export const Listen = () => {
           />
           <TouchableOpacity
             activeOpacity={0.8}
+            onPress={() => navigation.navigate('RecentlyPlayedAudio')}
             style={styles.arrowIconContainer}>
             <Image
               source={Images['arrow-right-circle']}

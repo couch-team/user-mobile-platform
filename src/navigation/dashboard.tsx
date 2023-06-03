@@ -11,6 +11,9 @@ import CompleteAddMood from 'screens/dashboard/mood-tracker/add-mood/CompleteAdd
 import Journal from 'screens/dashboard/journal';
 import AddJournal from 'screens/dashboard/journal/add-journal';
 import MindSpace from 'screens/dashboard/mindspace';
+import RecentlyPlayedAudio from 'screens/dashboard/mindspace/RecentlyPlayedAudio';
+import RecentlyPlayedVideo from 'screens/dashboard/mindspace/RecentlyPlayedVideo';
+import RecentlyPlayedText from 'screens/dashboard/mindspace/RecentlyPlayedText';
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
@@ -34,6 +37,15 @@ const DashboardNavigation = () => {
       <Stack.Screen component={Journal} name="Journal" />
       <Stack.Screen component={AddJournal} name="AddJournal" />
       <Stack.Screen component={MindSpace} name="MindSpace" />
+      <Stack.Screen
+        component={RecentlyPlayedAudio}
+        name="RecentlyPlayedAudio"
+      />
+      <Stack.Screen
+        component={RecentlyPlayedVideo}
+        name="RecentlyPlayedVideo"
+      />
+      <Stack.Screen component={RecentlyPlayedText} name="RecentlyPlayedText" />
     </Stack.Navigator>
   );
 };

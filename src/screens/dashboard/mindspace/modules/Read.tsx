@@ -1,9 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { Images } from 'theme/config';
 import { styles } from './style';
 import { categories, recentlyRead } from 'constants/data';
 import HeaderText from 'components/base/header-text';
+import { navigation } from 'navigation/utils';
 
 export const Read = () => {
   return (
@@ -11,7 +13,7 @@ export const Read = () => {
       <Image
         source={Images.text}
         resizeMode="contain"
-        style={styles.videoImage}
+        style={[styles.videoImage, { marginHorizontal: 0 }]}
       />
       <Text style={[styles.categoriesHeaderText, styles.noPaddingHorizontal]}>
         Categories
@@ -47,7 +49,8 @@ export const Read = () => {
             hasSubText="Track your mood and feel better"
           />
           <TouchableOpacity
-            activeOpacity={0.5}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate('RecentlyPlayedText')}
             style={styles.arrowIconContainer}>
             <Image
               source={Images['arrow-right-circle']}

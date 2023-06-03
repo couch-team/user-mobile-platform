@@ -6,6 +6,7 @@ import { categories, recentlyWatched, topVideos } from 'constants/data';
 import HeaderText from 'components/base/header-text';
 import { RecentlyWatchedVideo, VideoItem } from '../components';
 import { wp } from 'constants/layout';
+import { navigation } from 'navigation/utils';
 
 export const Watch = () => {
   return (
@@ -71,6 +72,7 @@ export const Watch = () => {
             />
             <TouchableOpacity
               activeOpacity={0.8}
+              onPress={() => navigation.navigate('RecentlyPlayedVideo')}
               style={styles.arrowIconContainer}>
               <Image
                 source={Images['arrow-right-circle']}

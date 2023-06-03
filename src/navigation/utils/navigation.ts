@@ -1,17 +1,17 @@
 import { createNavigationContainerRef } from '@react-navigation/native';
-import { StackParamsList } from '../../declaration/navigation';
+import { DashboardParamList } from 'utils/types/navigation-types';
 
 export const navigationRef = createNavigationContainerRef();
 
 export type Navigation = {
   goBack: () => void;
-  navigate: <RouteName extends keyof StackParamsList>(
+  navigate: <RouteName extends keyof DashboardParamList>(
     ...args: RouteName extends unknown
-      ? undefined extends StackParamsList[RouteName]
+      ? undefined extends DashboardParamList[RouteName]
         ?
             | [screen: RouteName]
-            | [screen: RouteName, params: StackParamsList[RouteName]]
-        : [screen: RouteName, params: StackParamsList[RouteName]]
+            | [screen: RouteName, params: DashboardParamList[RouteName]]
+        : [screen: RouteName, params: DashboardParamList[RouteName]]
       : never
   ) => void;
 };
