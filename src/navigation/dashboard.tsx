@@ -14,6 +14,7 @@ import MindSpace from 'screens/dashboard/mindspace';
 import RecentlyPlayedAudio from 'screens/dashboard/mindspace/RecentlyPlayedAudio';
 import RecentlyPlayedVideo from 'screens/dashboard/mindspace/RecentlyPlayedVideo';
 import RecentlyPlayedText from 'screens/dashboard/mindspace/RecentlyPlayedText';
+import Cbt from 'screens/dashboard/cbt';
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
@@ -46,6 +47,7 @@ const DashboardNavigation = () => {
         name="RecentlyPlayedVideo"
       />
       <Stack.Screen component={RecentlyPlayedText} name="RecentlyPlayedText" />
+      <Stack.Screen component={Cbt} name="Cbt" />
     </Stack.Navigator>
   );
 };

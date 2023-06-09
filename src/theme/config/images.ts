@@ -89,6 +89,12 @@ const Images = {
   'home-active': require('../../assets/images/bottom-tabs/home-active.png'),
   profile: require('../../assets/images/bottom-tabs/profile.png'),
   settings: require('../../assets/images/bottom-tabs/settings.png'),
+
+  //cbt
+  'cbt-1': require('../../assets/images/cbt/cbt-1.png'),
+  'cbt-2': require('../../assets/images/cbt/cbt-2.png'),
+  'cbt-3': require('../../assets/images/cbt/cbt-3.png'),
+  'cbt-4': require('../../assets/images/cbt/cbt-4.png'),
 };
 
 export default Images;

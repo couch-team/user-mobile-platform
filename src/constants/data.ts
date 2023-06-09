@@ -571,6 +571,7 @@ export const exploreOptions = [
     description: 'A little brain test would not hurt you...',
     icon: Images.activity,
     color: Colors.PURPLE,
+    screen: 'Cbt',
   },
 ];
 
@@ -1198,5 +1199,50 @@ export const recentlyPlayed = [
     title: 'Productivity 101',
     tintColor: Colors.YELLOW_200,
     options: ['recommended', 'sleep'],
+  },
+];
+
+export const cbtData = [
+  {
+    id: 1,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-1'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+  },
+  {
+    id: 2,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-2'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+  },
+  {
+    id: 3,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-3'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+  },
+  {
+    id: 4,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-4'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+  },
+  {
+    id: 5,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-1'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+  },
+  {
+    id: 6,
+    title: 'Overcoming Anxiety and Fear',
+    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    image: Images['cbt-2'],
+    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
   },
 ];

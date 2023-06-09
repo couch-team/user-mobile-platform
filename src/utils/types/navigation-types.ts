@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from 'react-native';
+
 export type RootNavigationRoutes = {
   Auth: AuthParamList;
   Dashboard: DashboardParamList;
@@ -63,6 +65,16 @@ export type DashboardParamList = {
   RecentlyPlayedAudio: undefined;
   RecentlyPlayedText: undefined;
   RecentlyPlayedVideo: undefined;
+  Cbt: undefined;
+  SingleCbt: {
+    item: {
+      id: number;
+      title: string;
+      description: string;
+      image: ImageSourcePropType;
+      options: any[];
+    };
+  };
 };
 
 export type BottomTabParamList = {

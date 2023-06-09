@@ -69,6 +69,7 @@ const Colors = {
   OFF_WHITE_300: '#FFFFFF1F',
   OFF_BLACK_100: '#0000000A',
   COUCH_INFO_BLUE: '#1E90FF',
+  OFF_WHITE_400: '#FFFFFFA6',
 };
 
 export const lightColors = {
