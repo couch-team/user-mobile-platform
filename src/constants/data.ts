@@ -1246,3 +1246,96 @@ export const cbtData = [
     options: ['10 Sessions', '4 Days', '~10Mins / Day'],
   },
 ];
+
+export const cbtPlayData = [
+  {
+    title: 'Day 1',
+    hasStarted: true,
+    data: [
+      {
+        id: 1,
+        title: 'Try not to believe everything you see',
+        type: 'video',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 2,
+        title: 'How to view things positively from a negative mindset',
+        type: 'text',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 3,
+        title: 'How to view things positively from a negative mindset',
+        type: 'audio',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+    ],
+  },
+  {
+    title: 'Day 2',
+    hasStarted: true,
+    data: [
+      {
+        id: 1,
+        title: 'Try not to believe everything you see',
+        type: 'video',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 2,
+        title: 'How to view things positively from a negative mindset',
+        type: 'text',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 3,
+        title: 'How to view things positively from a negative mindset',
+        type: 'test',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['6 Mins', 'Trivia'],
+      },
+    ],
+  },
+  {
+    title: 'Day 3',
+    hasStarted: false,
+    data: [
+      {
+        id: 1,
+        title: 'Try not to believe everything you see',
+        type: 'video',
+        isPlayed: true,
+        hasStarted: false,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 2,
+        title: 'How to view things positively from a negative mindset',
+        type: 'text',
+        isPlayed: true,
+        hasStarted: false,
+        options: ['4 Mins', 'Cognitive Journal'],
+      },
+      {
+        id: 3,
+        title: 'How to view things positively from a negative mindset',
+        type: 'test',
+        isPlayed: true,
+        hasStarted: true,
+        options: ['6 Mins', 'Trivia'],
+      },
+    ],
+  },
+];
