@@ -28,6 +28,7 @@ const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
   return (
     <View style={[styles.container]}>
       <SectionList
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => {
           return (
             <ImageBackground

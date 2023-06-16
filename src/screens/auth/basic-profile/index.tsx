@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  BackHandler,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from '../../../theme/config';
@@ -8,6 +15,8 @@ import { genderRoles } from '../../../constants/data';
 import CouchDatePicker from '../../../components/base/date-picker';
 import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { isAndroid } from 'constants/platform';
+import dayjs from 'dayjs';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
 type Props = {
@@ -18,6 +27,27 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState();
+  const continueProcess = async () => {
+    const data = {
+      gender: selectedGender,
+      dateOfBirth: dayjs(dateValue).format('DD-MM-YYYY'),
+    };
+    navigate('Nationality', { data });
+  };
+
+  useEffect(() => {
+    if (isAndroid) {
+      const backAction = () => {
+        return true;
+      };
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
+      return () => backHandler.remove();
+    }
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.bodyContainer}>
@@ -106,7 +136,11 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
           </View>
         </View>
       </View>
-      <LongButton title="Continue" onPress={() => navigate('Nationality')} />
+      <LongButton
+        title="Continue"
+        disabled={selectedGender && dateValue ? false : true}
+        onPress={() => continueProcess()}
+      />
     </SafeAreaView>
   );
 };

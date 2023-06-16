@@ -77,6 +77,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
                 password: '',
                 terms: false,
               }}
+              validateOnBlur={true}
               validationSchema={registerSchema}
               onSubmit={handleSubmit}>
               {({ errors, handleChange, values, isValid }) => {

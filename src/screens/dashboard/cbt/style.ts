@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
   headerContainerImage: {
     width: deviceWidth,
     height: hp(350),
+    marginBottom: hp(30),
   },
   headerContainerGradientImage: {
     width: deviceWidth,

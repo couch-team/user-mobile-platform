@@ -17,14 +17,14 @@ export const Auth = {
     async login(data: any) {
       dispatch.Auth.setError(false);
       try {
-        // const api: any = await AuthApi.login(data);
-        // if (api) {
-        // console.log(api);
-        dispatch.Auth.setState({
-          // access_token: api?.data?.token,
-          isLoggedIn: true,
-        });
-        // }
+        const api: any = await AuthApi.login(data);
+        if (api) {
+          console.log(api);
+          dispatch.Auth.setState({
+            access_token: api?.data?.token,
+            // isLoggedIn: true,
+          });
+        }
         // dispatch.Auth.setState({
         //   isLoggedIn: true,
         // });

@@ -50,7 +50,7 @@ const CouchDatePicker = ({
         open={openDateValue}
         date={new Date()}
         mode={'date'}
-        minimumDate={new Date()}
+        maximumDate={new Date(Date.now())}
         onConfirm={date => {
           onOpenPicker(!openDateValue);
           setDateValue && setDateValue(date);
