@@ -8,17 +8,19 @@ import {
   Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProgressHeader from '../../../components/base/progress-header';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { medicalConditions } from '../../../constants/data';
-import Checkbox from '../../../components/base/check-box';
-import LongButton from '../../../components/base/long-button';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { medicalConditions } from 'constants/data';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useForceUpdate } from './UserOnboarding1';
-import FormTextInput from '../../../components/base/form-input';
-import { Images } from '../../../theme/config';
+import {
+  FormTextInput,
+  LongButton,
+  Checkbox,
+  ProgressHeader,
+} from 'components';
+import { Images } from 'theme/config';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,

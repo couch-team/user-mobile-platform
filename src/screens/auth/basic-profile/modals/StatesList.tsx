@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { styles } from './style';
 import { Colors, Images } from 'theme/config';
-import BaseModal from 'components/base-modal';
+import { BaseModal } from 'components';
+import { states as useStates } from 'constants/data';
 
 interface StatesListProps {
   isVisible: boolean;
@@ -22,26 +23,25 @@ export const StatesList = ({
   onClose,
   onComplete,
 }: StatesListProps) => {
-  const countryDataArray: any[] = [];
-  const [countryInfo, setCountryInfo] = useState('');
-  const [countries, setCountries] = useState(countryDataArray);
+  const [stateInfo, setStateInfo] = useState('');
+  const [states, setStates] = useState(useStates);
 
   useEffect(() => {
-    onComplete(countryInfo);
+    onComplete(stateInfo);
     onClose();
     // eslint-disable-next-line prettier/prettier
     return () => { };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countryInfo]);
+  }, [stateInfo]);
 
-  const filterCountries = (text: string) => {
-    const newData = countryDataArray.filter(item => {
-      const itemData = `${item.name.toLowerCase()}`;
+  const filterStates = (text: string) => {
+    const newData = states.filter(item => {
+      const itemData = `${item.toLowerCase()}`;
       const textData = text.toLowerCase();
       return itemData.indexOf(textData) > -1;
     });
 
-    setCountries(newData);
+    setStates(newData);
   };
   return (
     <BaseModal visible={isVisible} onClose={() => onClose()}>
@@ -53,25 +53,26 @@ export const StatesList = ({
             style={styles.searchIcon}
           />
           <TextInput
-            onChangeText={text => filterCountries(text)}
+            onChangeText={text => filterStates(text)}
             selectionColor={Colors.COUCH_BLUE}
             style={styles.searchInput}
-            placeholder="Search country"
+            placeholder="Search state..."
             placeholderTextColor={Colors.PLACEHOLDER_COLOR}
           />
         </View>
 
         <FlatList
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.contentContainerStyle}
-          data={countries}
+          data={states}
+          // eslint-disable-next-line react-native/no-inline-styles
+          contentContainerStyle={{ marginTop: 20 }}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => setCountryInfo(item.name)}
+                onPress={() => setStateInfo(item)}
                 key={index}
                 style={styles.singleCountryContainer}>
-                <Text style={styles.countryName}>{item.name}</Text>
+                <Text style={styles.countryName}>{item}</Text>
               </TouchableOpacity>
             );
           }}

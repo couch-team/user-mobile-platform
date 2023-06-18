@@ -15,7 +15,7 @@ export type AuthParamList = {
   ForgetPassword: any;
   BasicProfile: any;
   Nationality: any;
-  UploadProfile: any;
+  UploadProfile: { data: any };
   UserOnboarding: any;
   UserOnboarding1: any;
   UserOnboarding2: any;

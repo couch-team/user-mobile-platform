@@ -3,12 +3,13 @@ import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
-import CouchDropDown from 'components/base/drop-down';
+import { CouchDropDown, LongButton } from 'components';
 import countryData from 'constants/countries.json';
-import LongButton from 'components/base/long-button';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { CountryList } from './modals';
+import { CountryList, StatesList } from './modals';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -18,9 +19,32 @@ type Props = {
 const Nationality = ({ navigation: { navigate } }: Props) => {
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
 
-  const onSelectCountry = async (selectedCountry: any) => {
-    console.log('onSelectCountry', selectedCountry);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+
+  const onSelectCountry = async (selectedUserCountry: string) => {
+    setSelectedCountry(selectedUserCountry);
+  };
+  const onSelectState = async (selectedUserState: string) => {
+    setSelectedState(selectedUserState);
+  };
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      country: selectedCountry,
+      stateOfResidence: selectedState,
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('UploadProfile', { data });
+    }
   };
 
   return (
@@ -43,11 +67,15 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
               label="Country"
               placeholder="Select your country"
               onOpenDropDown={setOpenCountryList}
+              dropDownValue={selectedCountry}
+              openDropDown={openCountryList}
             />
             <CouchDropDown
               label="State of residence"
               placeholder="Select State"
               onOpenDropDown={setOpenStateList}
+              openDropDown={openStateList}
+              dropDownValue={selectedState}
             />
           </View>
         </View>
@@ -58,11 +86,17 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
         onComplete={onSelectCountry}
         onClose={() => setOpenCountryList(false)}
       />
+      <StatesList
+        isVisible={openStateList}
+        onClose={() => setOpenStateList(false)}
+        onComplete={onSelectState}
+      />
 
       <LongButton
         hasLongArrow
         title="Continue"
-        onPress={() => navigate('UploadProfile')}
+        disabled={selectedCountry && selectedState ? false : true}
+        onPress={() => continueProcess()}
       />
     </SafeAreaView>
   );

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { styles } from './style';
 import { Colors, Images } from 'theme/config';
-import BaseModal from 'components/base-modal';
+import { BaseModal } from 'components';
 
 interface CountryListProps {
   isVisible: boolean;

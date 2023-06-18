@@ -9,10 +9,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { Images } from '../../../theme/config';
-import FormTextInput from '../../../components/base/form-input';
-import LongButton from '../../../components/base/long-button';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { Images } from 'theme/config';
+import { FormTextInput, LongButton } from 'components';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';

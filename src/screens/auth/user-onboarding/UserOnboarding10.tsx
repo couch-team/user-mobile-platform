@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProgressHeader from '../../../components/base/progress-header';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { sleepPattern } from '../../../constants/data';
-import Checkbox from '../../../components/base/check-box';
-import LongButton from '../../../components/base/long-button';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { sleepPattern } from 'constants/data';
+import { LongButton, Checkbox, ProgressHeader } from 'components';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch } from 'react-redux';
 

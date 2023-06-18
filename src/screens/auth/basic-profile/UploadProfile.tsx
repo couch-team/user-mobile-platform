@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { Images } from '../../../theme/config';
-import LongButton from '../../../components/base/long-button';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { Images } from 'theme/config';
+import { LongButton } from 'components';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;

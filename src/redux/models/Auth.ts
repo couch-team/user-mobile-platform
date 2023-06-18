@@ -8,7 +8,14 @@ const IsState = {
   isRegistered: false,
   access_token: null,
   userProfile: null,
-};
+} as unknown as Auth;
+
+interface Auth {
+  userProfile: CompleteProfile;
+  isLoggedIn: boolean;
+  isRegistered: boolean;
+  access_token: string;
+}
 
 export const Auth = {
   name: 'Auth',

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, Image, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { Images } from '../../../theme/config';
-import LongButton from 'components/base/long-button';
+import { Images } from 'theme/config';
+import { LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 

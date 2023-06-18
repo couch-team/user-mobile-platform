@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { Images } from '../../../theme/config';
+import { Images } from 'theme/config';
 import { moods } from 'constants/data';
-import LongButton from '../../../components/base/long-button';
+import { LongButton } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UserOnboarding'>;
