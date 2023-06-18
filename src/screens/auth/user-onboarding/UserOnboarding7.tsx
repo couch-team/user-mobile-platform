@@ -7,6 +7,8 @@ import { functionState } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -18,6 +20,27 @@ type Props = {
 
 const UserOnboarding7 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      mentalInfo: {
+        beenToTherapy: userProfile?.mentalInfo?.beenToTherapy,
+        previousMood: userProfile?.mentalInfo?.previousMood,
+        presenceOfDifficultFeelings:
+          userProfile?.mentalInfo?.presenceOfDifficultFeelings,
+        pastTraumaTrigger: selectedStatus,
+      },
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('UserOnboarding8');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={1} secondProgress={0.8} />
@@ -54,7 +77,7 @@ const UserOnboarding7 = ({ navigation: { navigate } }: Props) => {
           disabled={selectedStatus ? false : true}
           isNotBottom
           title="Continue"
-          onPress={() => navigate('UserOnboarding8')}
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

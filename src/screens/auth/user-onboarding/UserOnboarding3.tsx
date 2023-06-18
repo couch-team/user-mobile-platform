@@ -21,6 +21,8 @@ import {
   ProgressHeader,
 } from 'components';
 import { Images } from 'theme/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -46,6 +48,29 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
     setSelectedOptions(helperArray);
     forceUpdate();
   };
+
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      healthInfo: {
+        reasonForJoining: userProfile?.healthInfo?.reasonForJoining,
+        physicalHealth: userProfile?.healthInfo?.physicalHealth,
+        medicalConditions: {
+          hasConditions: goodCondition,
+          conditions: selectedOptions,
+        },
+      },
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('CompleteOnboarding1');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={1} />
@@ -70,9 +95,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
                   checkTitle={item.title}
                   index={index}
                   checkBoxStyle={styles.checkboxStyle}
-                  onSelectOption={selectItem}
+                  onSelectOption={() => selectItem(item.title)}
                   checkTitleStyle={styles.checkboxTextStyle}
-                  selectedCheck={selectedOptions?.includes(index)}
+                  selectedCheck={selectedOptions?.includes(item.title)}
                 />
               );
             }}
@@ -105,7 +130,7 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
           isNotBottom
           disabled={selectedOptions?.length > 0 || goodCondition ? false : true}
           title="Complete This Stage "
-          onPress={() => navigate('CompleteOnboarding1')}
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

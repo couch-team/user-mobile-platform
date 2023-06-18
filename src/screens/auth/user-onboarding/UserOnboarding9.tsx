@@ -7,6 +7,8 @@ import { healthyLevel } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -18,6 +20,23 @@ type Props = {
 
 const UserOnboarding9 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      productivityInfo: {
+        productivityLevel: selectedStatus,
+      },
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('UserOnboarding10');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader
@@ -57,7 +76,7 @@ const UserOnboarding9 = ({ navigation: { navigate } }: Props) => {
           disabled={selectedStatus ? false : true}
           isNotBottom
           title="Continue"
-          onPress={() => navigate('UserOnboarding10')}
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

@@ -8,6 +8,8 @@ import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useForceUpdate } from './UserOnboarding1';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -21,6 +23,11 @@ const UserOnboarding8 = ({ navigation: { push } }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const forceUpdate = useForceUpdate();
 
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
   const selectItem = (index: any) => {
     let helperArray = selectedOptions;
     let itemIndex = helperArray.indexOf(index);
@@ -31,6 +38,24 @@ const UserOnboarding8 = ({ navigation: { push } }: Props) => {
     }
     setSelectedOptions(helperArray);
     forceUpdate();
+  };
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      mentalInfo: {
+        beenToTherapy: userProfile?.mentalInfo?.beenToTherapy,
+        previousMood: userProfile?.mentalInfo?.previousMood,
+        presenceOfDifficultFeelings:
+          userProfile?.mentalInfo?.presenceOfDifficultFeelings,
+        pastTraumaTrigger: userProfile?.mentalInfo?.pastTraumaTrigger,
+        kindOfTrigger: selectedOptions,
+      },
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      push('CompleteOnboarding1', { url: 'UserOnboarding9' });
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -56,9 +81,9 @@ const UserOnboarding8 = ({ navigation: { push } }: Props) => {
                   checkTitle={item.title}
                   index={index}
                   checkBoxStyle={styles.checkboxStyle}
-                  onSelectOption={selectItem}
+                  onSelectOption={() => selectItem(item.title)}
                   checkTitleStyle={styles.checkboxTextStyle}
-                  selectedCheck={selectedOptions?.includes(index)}
+                  selectedCheck={selectedOptions?.includes(item.title)}
                 />
               );
             }}
@@ -70,9 +95,7 @@ const UserOnboarding8 = ({ navigation: { push } }: Props) => {
           isNotBottom
           disabled={selectedOptions?.length > 0 ? false : true}
           title="Complete This Stage "
-          onPress={() =>
-            push('CompleteOnboarding1', { url: 'UserOnboarding9' })
-          }
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

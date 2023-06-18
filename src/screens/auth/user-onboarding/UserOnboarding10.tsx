@@ -5,23 +5,29 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { sleepPattern } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
-  'UserOnboarding10'
->;
-type Props = {
-  navigation: AuthNavigationProps;
-};
-
-const UserOnboarding10 = ({ navigation }: Props) => {
+const UserOnboarding10 = () => {
   const [selectedStatus, setSelectedStatus] = useState('');
+
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
   const {
-    Auth: { login },
+    Auth: { completeProfileCreation, accessDashboard },
   } = useDispatch();
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      productivityInfo: {
+        productivityLevel: selectedStatus,
+      },
+    };
+    const res = await completeProfileCreation(data);
+    if (res) {
+      accessDashboard();
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={1} secondProgress={1} thirdProgress={1} />
@@ -57,7 +63,7 @@ const UserOnboarding10 = ({ navigation }: Props) => {
           disabled={selectedStatus ? false : true}
           isNotBottom
           title="Complete Final stage"
-          onPress={() => login()}
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

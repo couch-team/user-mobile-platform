@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import BaseModal from '../../../../components/base-modal';
-import { Colors, Images, Typography } from '../../../../theme/config';
-import { hp, wp } from '../../../../constants/layout';
-import LongButton from '../../../../components/base/long-button';
+import { Colors, Images, Typography } from 'theme/config';
+import { hp, wp } from 'constants/layout';
+import { LongButton, BaseModal } from 'components';
 
 interface PrivacyModalProps {
   isVisible: boolean;

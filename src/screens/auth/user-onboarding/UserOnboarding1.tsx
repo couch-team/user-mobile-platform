@@ -7,6 +7,8 @@ import { helpLists } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -25,6 +27,11 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const forceUpdate = useForceUpdate();
 
+  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
   const selectItem = (index: any) => {
     let helperArray = selectedOptions;
     let itemIndex = helperArray.indexOf(index);
@@ -36,6 +43,20 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
     setSelectedOptions(helperArray);
     forceUpdate();
   };
+
+  const continueProcess = async () => {
+    const data = {
+      ...userProfile,
+      healthInfo: {
+        reasonForJoining: selectedOptions,
+      },
+    };
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('UserOnboarding2');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={0.35} />
@@ -57,8 +78,8 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
                   key={helpList.id}
                   checkTitle={helpList.title}
                   index={index}
-                  onSelectOption={selectItem}
-                  selectedCheck={selectedOptions?.includes(index)}
+                  onSelectOption={() => selectItem(helpList.title)}
+                  selectedCheck={selectedOptions?.includes(helpList.title)}
                 />
               );
             })}
@@ -70,7 +91,7 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
           isNotBottom
           disabled={selectedOptions?.length > 0 ? false : true}
           title="Continue"
-          onPress={() => navigate('UserOnboarding2')}
+          onPress={() => continueProcess()}
         />
       </View>
     </SafeAreaView>

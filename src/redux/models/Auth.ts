@@ -8,6 +8,7 @@ const IsState = {
   isRegistered: false,
   access_token: null,
   userProfile: null,
+  onboardingStage: 0,
 } as unknown as Auth;
 
 interface Auth {
@@ -15,6 +16,7 @@ interface Auth {
   isLoggedIn: boolean;
   isRegistered: boolean;
   access_token: string;
+  onboardingStage: number;
 }
 
 export const Auth = {
@@ -65,6 +67,29 @@ export const Auth = {
       } catch (error) {
         this.handleError(error);
       }
+    },
+    async completeProfileStage(data: number) {
+      dispatch.Auth.setState({
+        onboardingStage: data,
+      });
+      return true;
+    },
+    async completeProfileCreation(data: CompleteProfile) {
+      dispatch.Auth.setError(false);
+      try {
+        const res = await AuthApi.completeProfile(data);
+        if (res) {
+          console.log(res);
+          return true;
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+    async accessDashboard() {
+      dispatch.Auth.setState({
+        isLoggedIn: true,
+      });
     },
     async logout() {
       dispatch({ type: 'RESET_APP' });

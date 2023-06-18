@@ -6,6 +6,7 @@ import { Images } from 'theme/config';
 import { LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;
 type Props = {
@@ -14,6 +15,17 @@ type Props = {
 
 const UploadProfile = ({ navigation: { navigate } }: Props) => {
   const [profileImage, setProfileImage] = useState('');
+
+  const {
+    Auth: { completeProfileStage },
+  } = useDispatch();
+
+  const onPressSkip = async () => {
+    const res = await completeProfileStage(1);
+    if (res) {
+      navigate('UserOnboarding');
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -57,7 +69,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
         {!profileImage && (
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => navigate('UserOnboarding')}
+            onPress={() => onPressSkip()}
             style={styles.longArrowContainer}>
             <Text style={styles.longArrowText}>No, Skip for now</Text>
             <Image

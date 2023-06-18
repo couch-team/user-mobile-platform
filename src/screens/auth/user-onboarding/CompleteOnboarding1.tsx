@@ -6,6 +6,8 @@ import { Images } from 'theme/config';
 import { LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -18,6 +20,21 @@ type Props = {
 
 const CompleteOnboarding1 = ({ navigation: { navigate }, route }: Props) => {
   const url = route.params?.url;
+  console.log(url);
+  const {
+    Auth: { completeProfileStage },
+  } = useDispatch();
+  const onboardingStage = useSelector(
+    (state: RootState) => state.Auth.onboardingStage,
+  );
+
+  const continueProcess = async () => {
+    const res = await completeProfileStage(onboardingStage + 1);
+    if (res) {
+      navigate(url || 'UserOnboarding4');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -49,11 +66,12 @@ const CompleteOnboarding1 = ({ navigation: { navigate }, route }: Props) => {
         <LongButton
           buttonStyle={styles.nextStageButtonStyle}
           title="Continue to Next Stage"
-          onPress={() => navigate(url || 'UserOnboarding4')}
+          onPress={() => continueProcess()}
         />
         <LongButton
           buttonStyle={styles.saveProgressButtonStyle}
           title="Save progress"
+          onPress={() => continueProcess()}
         />
       </ImageBackground>
     </SafeAreaView>
