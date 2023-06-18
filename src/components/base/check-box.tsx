@@ -22,7 +22,7 @@ interface CheckboxProps {
   hideCheckBox?: boolean;
 }
 
-const Checkbox = ({
+export const Checkbox = ({
   checkTitle,
   checkBoxStyle,
   selectedCheck,
@@ -60,7 +60,6 @@ const Checkbox = ({
       )}
       <View style={styles.bodyContainer}>
         <Text
-          // eslint-disable-next-line no-sparse-arrays
           style={[
             styles.checkTitle,
             checkTitleStyle,
@@ -129,5 +128,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
-
-export default Checkbox;

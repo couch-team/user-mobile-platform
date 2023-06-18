@@ -26,7 +26,7 @@ interface HeaderBarProps {
   tintColor?: string;
 }
 
-const HeaderBar = ({
+export const HeaderBar = ({
   onPressLeftIcon,
   onPressRightIcon,
   hasBackButton,
@@ -179,5 +179,3 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
   },
 });
-
-export default HeaderBar;

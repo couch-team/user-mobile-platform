@@ -11,7 +11,7 @@ interface HeaderTextProps {
   hasSubTextStyle?: TextStyle;
 }
 
-const HeaderText = ({
+export const HeaderText = ({
   text,
   textStyle,
   hasSubText,
@@ -49,5 +49,3 @@ const styles = StyleSheet.create({
     lineHeight: hp(18),
   },
 });
-
-export default HeaderText;

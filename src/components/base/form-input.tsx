@@ -26,7 +26,7 @@ interface FormTextInputProps extends RNTextInputProps {
   hasError?: string;
 }
 
-const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
+export const FormTextInput = forwardRef<RNTextInput, FormTextInputProps>(
   (
     {
       label,
@@ -168,5 +168,3 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
   },
 });
-
-export default FormTextInput;

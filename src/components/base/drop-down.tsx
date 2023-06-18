@@ -11,7 +11,7 @@ interface CouchDropDownProps {
   placeholder: string;
 }
 
-const CouchDropDown = ({
+export const CouchDropDown = ({
   label,
   dropDownValue,
   placeholder,
@@ -45,5 +45,3 @@ const CouchDropDown = ({
     </View>
   );
 };
-
-export default CouchDropDown;

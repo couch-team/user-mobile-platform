@@ -17,6 +17,8 @@ import { AuthParamList } from '../../../utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
 type Props = {
@@ -27,12 +29,23 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState();
+
+  const {
+    Auth: { pendingProfileCompletion },
+  } = useDispatch();
+
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.Auth.pendingProfileCompletion,
+  );
   const continueProcess = async () => {
     const data = {
       gender: selectedGender,
       dateOfBirth: dayjs(dateValue).format('DD-MM-YYYY'),
     };
-    navigate('Nationality', { data });
+    const res = await pendingProfileCompletion(data);
+    if (res) {
+      navigate('Nationality', { data });
+    }
   };
 
   useEffect(() => {
@@ -140,6 +153,7 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}
+        loading={loading}
       />
     </SafeAreaView>
   );

@@ -13,7 +13,7 @@ interface CouchDatePickerProps {
   onOpenPicker: (value: boolean) => void;
 }
 
-const CouchDatePicker = ({
+export const CouchDatePicker = ({
   label,
   dateValue,
   openDateValue,
@@ -106,5 +106,3 @@ export const styles = StyleSheet.create({
     lineHeight: hp(18),
   },
 });
-
-export default CouchDatePicker;

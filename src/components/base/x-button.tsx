@@ -8,7 +8,7 @@ interface XButtonProps {
   onXButtonPress?: () => void;
 }
 
-const XButton = ({ xButtonStyle, onXButtonPress }: XButtonProps) => {
+export const XButton = ({ xButtonStyle, onXButtonPress }: XButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onXButtonPress}
@@ -34,5 +34,3 @@ const styles = StyleSheet.create({
     height: hp(20),
   },
 });
-
-export default XButton;

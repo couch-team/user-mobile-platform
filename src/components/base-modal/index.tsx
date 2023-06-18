@@ -17,7 +17,7 @@ interface BaseModalProps {
   removeBackTap?: boolean;
 }
 
-const BaseModal = ({
+export const BaseModal = ({
   visible,
   children,
   onClose,
@@ -48,5 +48,3 @@ const BaseModal = ({
     </Modal>
   );
 };
-
-export default BaseModal;

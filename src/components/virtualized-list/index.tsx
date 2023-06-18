@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-const VirtualizedScrollView = (props: any) => {
+export const VirtualizedScrollView = (props: any) => {
   return (
     <FlatList
       {...props}
@@ -14,5 +14,3 @@ const VirtualizedScrollView = (props: any) => {
     />
   );
 };
-
-export default VirtualizedScrollView;

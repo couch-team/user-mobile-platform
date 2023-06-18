@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { Images } from '../../../theme/config';
-import CouchDropDown from '../../../components/base/drop-down';
-import CountryList from './modals/CountryList';
-import countryData from '../../../constants/countries.json';
-import LongButton from '../../../components/base/long-button';
-import { AuthParamList } from '../../../utils/types/navigation-types';
+import { Images } from 'theme/config';
+import CouchDropDown from 'components/base/drop-down';
+import countryData from 'constants/countries.json';
+import LongButton from 'components/base/long-button';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { CountryList } from './modals';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -19,7 +19,9 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
 
-  const onSelectCountry = async (selectedCountry: any) => { };
+  const onSelectCountry = async (selectedCountry: any) => {
+    console.log('onSelectCountry', selectedCountry);
+  };
 
   return (
     <SafeAreaView style={styles.container}>

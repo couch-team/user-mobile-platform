@@ -1,6 +1,7 @@
 import { AuthApi } from 'services/apis';
 import { reducerActions as reducers } from './reducer';
 import { showMessage } from 'react-native-flash-message';
+import { CompleteProfile } from 'redux/types';
 
 const IsState = {
   isLoggedIn: false,
@@ -43,6 +44,17 @@ export const Auth = {
           });
           return true;
         }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+    async pendingProfileCompletion(data: CompleteProfile) {
+      dispatch.Auth.setError(false);
+      try {
+        dispatch.Auth.setState({
+          userProfile: data,
+        });
+        return true;
       } catch (error) {
         this.handleError(error);
       }

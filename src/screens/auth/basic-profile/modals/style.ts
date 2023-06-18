@@ -13,9 +13,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: hp(16),
     borderTopRightRadius: hp(16),
     paddingBottom: hp(50),
-    right: wp(20),
-    height: hp(700),
-    top: hp(130),
+    height: hp(600),
   },
   searchInputContainer: {
     marginTop: hp(10),

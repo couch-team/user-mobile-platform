@@ -11,34 +11,20 @@ import { styles } from './style';
 import { Colors, Images } from 'theme/config';
 import BaseModal from 'components/base-modal';
 
-interface CountryListProps {
+interface StatesListProps {
   isVisible: boolean;
   onClose: () => void;
-  countryData: any;
   onComplete: (countryData: any) => void;
 }
 
-export const CountryList = ({
+export const StatesList = ({
   isVisible,
   onClose,
-  countryData,
   onComplete,
-}: CountryListProps) => {
+}: StatesListProps) => {
   const countryDataArray: any[] = [];
   const [countryInfo, setCountryInfo] = useState('');
   const [countries, setCountries] = useState(countryDataArray);
-  Object.entries(countryData).map((item: any) => {
-    const flag = item[1].flag;
-    const callingCode = item[1].callingCode;
-
-    if (callingCode.length !== 0) {
-      countryDataArray.push({
-        value: callingCode[0],
-        label: flag,
-        name: item[1].name.common,
-      });
-    }
-  });
 
   useEffect(() => {
     onComplete(countryInfo);

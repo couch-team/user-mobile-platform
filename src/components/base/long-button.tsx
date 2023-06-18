@@ -26,7 +26,7 @@ interface LongButtonProps {
   longArrowStyle?: ImageStyle;
 }
 
-const LongButton = ({
+export const LongButton = ({
   loading,
   title,
   titleStyle,
@@ -120,5 +120,3 @@ const styles = StyleSheet.create({
     height: hp(10),
   },
 });
-
-export default LongButton;

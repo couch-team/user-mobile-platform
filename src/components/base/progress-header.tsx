@@ -12,7 +12,7 @@ interface ProgressHeaderProps {
   progressWidth?: number;
 }
 
-const ProgressHeader = ({
+export const ProgressHeader = ({
   firstProgress,
   secondProgress,
   thirdProgress,
@@ -77,5 +77,3 @@ const styles = StyleSheet.create({
     height: 10,
   },
 });
-
-export default ProgressHeader;
