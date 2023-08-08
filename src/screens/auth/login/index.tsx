@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -24,9 +24,13 @@ type Props = {
 
 const Login = ({ navigation: { navigate } }: Props) => {
   const {
-    Auth: { login },
+    Auth: { login, getRoles },
   } = useDispatch();
 
+  useEffect(() => {
+    getRoles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const loading = useSelector(
     (state: RootState) => state.loading.effects.Auth.login,
   );

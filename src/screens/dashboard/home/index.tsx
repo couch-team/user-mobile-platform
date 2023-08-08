@@ -10,12 +10,10 @@ import {
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { heavyOptions, moodTracker, podcasts4u } from 'constants/data';
-import LongButton from 'components/base/long-button';
-import XButton from 'components/base/x-button';
+import { LongButton, HeaderBar, XButton } from 'components';
 import { navigation } from 'navigation/utils';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';

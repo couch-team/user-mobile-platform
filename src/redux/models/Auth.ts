@@ -109,6 +109,18 @@ export const Auth = {
         isLoggedIn: true,
       });
     },
+
+    async getRoles() {
+      dispatch.Auth.setError(false);
+      try {
+        const api = await AuthApi.getRoles();
+        if (api) {
+          console.log(api, 'roles');
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
     async logout() {
       dispatch({ type: 'RESET_APP' });
     },

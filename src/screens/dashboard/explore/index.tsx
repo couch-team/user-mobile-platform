@@ -2,11 +2,10 @@ import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import HeaderBar from 'components/base/header-bar';
+import { HeaderBar, HeaderText } from 'components';
 import NotificationIcon from '../home/components/NotificationIcon';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import HeaderText from 'components/base/header-text';
 import { exploreOptions } from 'constants/data';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -33,7 +32,7 @@ const Explore = ({ navigation: { navigate } }: Props) => {
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => item.screen && navigate(item.screen)}
+                onPress={() => item.screen && navigate(item.screen as any)}
                 style={styles.exploreItemContainerStyle}
                 activeOpacity={0.6}
                 key={index}>

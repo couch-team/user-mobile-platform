@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { View, Image, ImageBackground, ScrollView, Text } from 'react-native';
 import { styles } from './style';
-import XButton from 'components/base/x-button';
+import { XButton, LongButton } from 'components';
 import { tourInfoData } from 'constants/data';
 import { Images } from 'theme/config';
 import { deviceWidth } from 'constants/layout';
-import LongButton from 'components/base/long-button';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -53,7 +52,6 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
             setSliderPage(event);
           }}>
           {tourInfoData?.map((tourInfo, index) => {
-            console.log(index);
             return (
               <View key={index} style={styles.singleTourContainer}>
                 <Image
@@ -92,8 +90,8 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
                       tourInfo.id === tourInfoData?.length
                         ? goBack()
                         : scrollRef.current?.scrollTo({
-                            x: deviceWidth * (index + 1),
-                          });
+                          x: deviceWidth * (index + 1),
+                        });
                     }}
                     longArrowStyle={styles.longArrowStyle}
                     titleStyle={styles.titleStyle}
