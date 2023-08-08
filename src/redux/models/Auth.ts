@@ -9,6 +9,7 @@ const IsState = {
   access_token: null,
   userProfile: null,
   onboardingStage: 0,
+  userData: null,
 } as unknown as Auth;
 
 interface Auth {
@@ -16,6 +17,7 @@ interface Auth {
   isLoggedIn: boolean;
   isRegistered: boolean;
   access_token: string;
+  userData: any;
   onboardingStage: number;
 }
 
@@ -27,17 +29,17 @@ export const Auth = {
     async login(data: any) {
       dispatch.Auth.setError(false);
       try {
-        const api: any = await AuthApi.login(data);
-        if (api) {
-          console.log(api);
-          dispatch.Auth.setState({
-            access_token: api?.data?.token,
-            // isLoggedIn: true,
-          });
-        }
+        // const api: any = await AuthApi.login(data);
+        // if (api) {
+        // console.log(api);
         // dispatch.Auth.setState({
-        //   isLoggedIn: true,
+        // access_token: api?.data?.token,
+        // isLoggedIn: true,
         // });
+        // }
+        dispatch.Auth.setState({
+          isLoggedIn: true,
+        });
       } catch (e) {
         this.handleError(e);
       }
@@ -46,13 +48,14 @@ export const Auth = {
       dispatch.Auth.setError(false);
       try {
         const api: any = await AuthApi.registerAccount(data);
-        if (api) {
-          dispatch.Auth.setState({
-            access_token: api?.data?.token,
-            userProfile: api?.data?.user,
-          });
-          return true;
-        }
+        console.log(api, 'register');
+        // if (api) {
+        //   dispatch.Auth.setState({
+        //     access_token: api?.data?.token,
+        //     userProfile: api?.data?.user,
+        //   });
+        //   return true;
+        // }
       } catch (error) {
         this.handleError(error);
       }
@@ -80,7 +83,22 @@ export const Auth = {
         const res = await AuthApi.completeProfile(data);
         if (res) {
           console.log(res);
+          dispatch.Auth.getUserProfileData();
           return true;
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+    async getUserProfileData() {
+      dispatch.Auth.setError(false);
+      try {
+        const api = await AuthApi.getUserProfile();
+        if (api) {
+          // dispatch.Auth.setState({
+          //   userProf
+          // })
+          console.log(api);
         }
       } catch (error) {
         this.handleError(error);

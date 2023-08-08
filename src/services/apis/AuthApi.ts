@@ -8,4 +8,5 @@ export default {
     Axios.post('user/register', payload).then(({ data }) => data),
   completeProfile: (payload: CompleteProfile) =>
     Axios.post('user/onboarding', payload).then(({ data }) => data),
+  getUserProfile: () => Axios.get('user').then(({ data }) => data),
 };

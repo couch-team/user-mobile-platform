@@ -223,7 +223,7 @@ export const healthyLevel = [
 export const sleepPattern = [
   {
     id: 1,
-    title: 'Good—(7-9 Hours of sleep)',
+    title: 'Good — (7-9 Hours of sleep)',
     color: Colors.GREEN,
   },
   {

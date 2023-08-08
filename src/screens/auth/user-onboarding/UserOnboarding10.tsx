@@ -15,12 +15,15 @@ const UserOnboarding10 = () => {
   const {
     Auth: { completeProfileCreation, accessDashboard },
   } = useDispatch();
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.Auth.completeProfileCreation,
+  );
 
   const continueProcess = async () => {
     const data = {
       ...userProfile,
       productivityInfo: {
-        productivityLevel: selectedStatus,
+        productivityLevel: selectedStatus?.split('--')[0],
       },
     };
     const res = await completeProfileCreation(data);
@@ -63,6 +66,7 @@ const UserOnboarding10 = () => {
           disabled={selectedStatus ? false : true}
           isNotBottom
           title="Complete Final stage"
+          loading={loading}
           onPress={() => continueProcess()}
         />
       </View>
