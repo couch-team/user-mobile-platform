@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,9 @@ import {
 import { styles } from './style';
 import { Colors, Images } from 'theme/config';
 import { BaseModal } from 'components';
+import { countryList } from 'constants/data';
+import FuzzySearch from 'fuzzy-search';
+
 
 interface CountryListProps {
   isVisible: boolean;
@@ -26,8 +29,8 @@ export const CountryList = ({
 }: CountryListProps) => {
   const countryDataArray: any[] = [];
   const [countryInfo, setCountryInfo] = useState('');
-  const [countries, setCountries] = useState(countryDataArray);
   Object.entries(countryData).map((item: any) => {
+    console.log(item);
     const flag = item[1].flag;
     const callingCode = item[1].callingCode;
 
@@ -40,6 +43,19 @@ export const CountryList = ({
     }
   });
 
+  const formattedCountryList = useMemo(
+    () =>
+      countryList.map((item, index) => {
+        return {
+          ...item,
+          id: index + 1,
+        };
+      }),
+    [],
+  );
+
+  const [countries, setCountries] = useState(formattedCountryList);
+
   useEffect(() => {
     onComplete(countryInfo);
     onClose();
@@ -48,14 +64,13 @@ export const CountryList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryInfo]);
 
-  const filterCountries = (text: string) => {
-    const newData = countryDataArray.filter(item => {
-      const itemData = `${item.name.toLowerCase()}`;
-      const textData = text.toLowerCase();
-      return itemData.indexOf(textData) > -1;
+  const onSearch = (val: string) => {
+    const searcher = new FuzzySearch(countries, ['name'], {
+      caseSensitive: false,
     });
 
-    setCountries(newData);
+    const result = searcher.search(val);
+    setCountries(result as any);
   };
   return (
     <BaseModal visible={isVisible} onClose={() => onClose()}>
@@ -67,7 +82,7 @@ export const CountryList = ({
             style={styles.searchIcon}
           />
           <TextInput
-            onChangeText={text => filterCountries(text)}
+            onChangeText={onSearch}
             selectionColor={Colors.COUCH_BLUE}
             style={styles.searchInput}
             placeholder="Search country"

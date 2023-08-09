@@ -24,7 +24,7 @@ type Props = {
   navigation: AuthNavigationProps;
 };
 
-const BasicProfile = ({ navigation: { navigate } }: Props) => {
+const BasicProfile = ({ navigation }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState();
@@ -36,14 +36,15 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const loading = useSelector(
     (state: RootState) => state.loading.effects.Auth.pendingProfileCompletion,
   );
+  console.log(selectedGender);
   const continueProcess = async () => {
     const data = {
-      gender: selectedGender,
-      dateOfBirth: dayjs(dateValue).format('DD-MM-YYYY'),
+      gender: selectedGender === 'male' ? 'M' : 'F',
+      dateOfBirth: dayjs(dateValue).format('YYYY-MM-DD'),
     };
     const res = await pendingProfileCompletion(data);
     if (res) {
-      navigate('Nationality', { data });
+      navigation.navigate('Nationality', { data });
     }
   };
 

@@ -7,3 +7,4 @@ export * from './header-text';
 export * from './long-button';
 export * from './progress-header';
 export * from './x-button';
+export * from './loading';

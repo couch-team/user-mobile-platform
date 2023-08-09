@@ -32,7 +32,11 @@ const AuthNavigation = () => {
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={Register} name="Register" />
       <Stack.Screen component={VerifyOtp} name="VerifyOtp" />
-      <Stack.Screen component={BasicProfile} name="BasicProfile" />
+      <Stack.Screen
+        component={BasicProfile}
+        name="BasicProfile"
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen component={Nationality} name="Nationality" />
       <Stack.Screen component={UploadProfile} name="UploadProfile" />
       <Stack.Screen component={UserOnboarding} name="UserOnboarding" />

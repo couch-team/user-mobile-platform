@@ -1,7 +1,11 @@
 import { AuthApi } from 'services/apis';
 import { reducerActions as reducers } from './reducer';
 import { showMessage } from 'react-native-flash-message';
-import { CompleteProfile } from 'redux/types';
+import {
+  CompleteAccountRequest,
+  CompleteProfile,
+  ResendEmailTokenRequest,
+} from 'redux/types';
 
 const IsState = {
   isLoggedIn: false,
@@ -29,17 +33,14 @@ export const Auth = {
     async login(data: any) {
       dispatch.Auth.setError(false);
       try {
-        // const api: any = await AuthApi.login(data);
-        // if (api) {
-        // console.log(api);
-        // dispatch.Auth.setState({
-        // access_token: api?.data?.token,
-        // isLoggedIn: true,
-        // });
-        // }
-        dispatch.Auth.setState({
-          isLoggedIn: true,
-        });
+        const api: any = await AuthApi.login(data);
+        if (api) {
+          console.log(api);
+          dispatch.Auth.setState({
+            access_token: api?.data?.token,
+            isLoggedIn: true,
+          });
+        }
       } catch (e) {
         this.handleError(e);
       }
@@ -48,14 +49,33 @@ export const Auth = {
       dispatch.Auth.setError(false);
       try {
         const api: any = await AuthApi.registerAccount(data);
-        console.log(api, 'register');
-        // if (api) {
-        //   dispatch.Auth.setState({
-        //     access_token: api?.data?.token,
-        //     userProfile: api?.data?.user,
-        //   });
-        //   return true;
-        // }
+        if (api) {
+          return true;
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+    async verifyEmailAccount(data: CompleteAccountRequest) {
+      dispatch.Auth.setError(false);
+      try {
+        const api = await AuthApi.verifyAccount(data);
+        if (api) {
+          console.log(api);
+          return true;
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+    async initResendToken(data: ResendEmailTokenRequest) {
+      dispatch.Auth.setError(false);
+      try {
+        const api = await AuthApi.resendVerification(data);
+        if (api) {
+          console.log(api);
+          return true;
+        }
       } catch (error) {
         this.handleError(error);
       }

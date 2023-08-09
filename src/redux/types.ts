@@ -1,11 +1,8 @@
 export type CompleteProfile = {
   gender: string;
-  dateOfBirth: Date;
-  country: string;
+  date_of_birth: Date;
+  nationality: string;
   stateOfResidence: string;
-  healthInfo: HealthInfo;
-  mentalInfo: MentalInfo;
-  productivityInfo: ProductivityInfo;
 };
 
 type HealthInfo = {
@@ -28,4 +25,13 @@ type MentalInfo = {
 type ProductivityInfo = {
   productivityLevel: string;
   sleepRate: string;
+};
+
+export type CompleteAccountRequest = {
+  email: string;
+  otp: string;
+};
+
+export type ResendEmailTokenRequest = {
+  email: string;
 };

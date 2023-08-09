@@ -10,6 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -22,9 +23,15 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
 
+  const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
+  console.log(params);
+
   const {
-    Auth: { pendingProfileCompletion },
+    Auth: { completeProfileCreation },
   } = useDispatch();
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.Auth.completeProfileCreation,
+  );
 
   const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
 
@@ -38,10 +45,10 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const continueProcess = async () => {
     const data = {
       ...userProfile,
-      country: selectedCountry,
+      nationality: selectedCountry,
       stateOfResidence: selectedState,
     };
-    const res = await pendingProfileCompletion(data);
+    const res = await completeProfileCreation(data);
     if (res) {
       navigate('UploadProfile', { data });
     }
@@ -95,6 +102,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       <LongButton
         hasLongArrow
         title="Continue"
+        loading={loading}
         disabled={selectedCountry && selectedState ? false : true}
         onPress={() => continueProcess()}
       />

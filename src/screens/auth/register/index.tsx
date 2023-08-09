@@ -45,9 +45,10 @@ const Register = ({ navigation: { navigate } }: Props) => {
   const handleSubmit = async (values: any) => {
     const { fullName, password, email } = values;
     const data = {
-      fullName,
+      full_name: fullName,
       password,
       email,
+      role: 2,
     };
     const res = await register(data);
     if (res) {
