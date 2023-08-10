@@ -13,36 +13,18 @@ import { BaseModal } from 'components';
 import { countryList } from 'constants/data';
 import FuzzySearch from 'fuzzy-search';
 
-
 interface CountryListProps {
   isVisible: boolean;
   onClose: () => void;
-  countryData: any;
   onComplete: (countryData: any) => void;
 }
 
 export const CountryList = ({
   isVisible,
   onClose,
-  countryData,
   onComplete,
 }: CountryListProps) => {
-  const countryDataArray: any[] = [];
   const [countryInfo, setCountryInfo] = useState('');
-  Object.entries(countryData).map((item: any) => {
-    console.log(item);
-    const flag = item[1].flag;
-    const callingCode = item[1].callingCode;
-
-    if (callingCode.length !== 0) {
-      countryDataArray.push({
-        value: callingCode[0],
-        label: flag,
-        name: item[1].name.common,
-      });
-    }
-  });
-
   const formattedCountryList = useMemo(
     () =>
       countryList.map((item, index) => {

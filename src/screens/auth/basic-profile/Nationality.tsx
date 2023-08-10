@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { CouchDropDown, LongButton } from 'components';
-import countryData from 'constants/countries.json';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
@@ -88,7 +87,6 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
         </View>
       </View>
       <CountryList
-        countryData={countryData}
         isVisible={openCountryList}
         onComplete={onSelectCountry}
         onClose={() => setOpenCountryList(false)}
