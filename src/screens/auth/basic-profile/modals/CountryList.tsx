@@ -24,7 +24,7 @@ export const CountryList = ({
   onClose,
   onComplete,
 }: CountryListProps) => {
-  const [countryInfo, setCountryInfo] = useState('');
+  const [countryInfo, setCountryInfo] = useState({ code: '', name: '' });
   const formattedCountryList = useMemo(
     () =>
       countryList.map((item, index) => {
@@ -54,6 +54,7 @@ export const CountryList = ({
     const result = searcher.search(val);
     setCountries(result as any);
   };
+
   return (
     <BaseModal visible={isVisible} onClose={() => onClose()}>
       <View style={styles.container}>
@@ -79,7 +80,9 @@ export const CountryList = ({
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                onPress={() => setCountryInfo(item.name)}
+                onPress={() =>
+                  setCountryInfo({ name: item.name, code: item?.code })
+                }
                 key={index}
                 style={styles.singleCountryContainer}>
                 <Text style={styles.countryName}>{item.name}</Text>

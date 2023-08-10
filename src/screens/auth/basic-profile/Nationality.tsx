@@ -16,10 +16,15 @@ type Props = {
   navigation: AuthNavigationProps;
 };
 
+interface SelectedCountryProps {
+  name: string;
+  code: string;
+}
+
 const Nationality = ({ navigation: { navigate } }: Props) => {
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState<SelectedCountryProps>();
   const [selectedState, setSelectedState] = useState('');
 
   const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
@@ -34,7 +39,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
 
   const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
 
-  const onSelectCountry = async (selectedUserCountry: string) => {
+  const onSelectCountry = async (selectedUserCountry: SelectedCountryProps) => {
     setSelectedCountry(selectedUserCountry);
   };
   const onSelectState = async (selectedUserState: string) => {
@@ -44,7 +49,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const continueProcess = async () => {
     const data = {
       ...userProfile,
-      nationality: selectedCountry,
+      nationality: selectedCountry?.code,
       stateOfResidence: selectedState,
     };
     const res = await completeProfileCreation(data);
@@ -73,7 +78,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
               label="Country"
               placeholder="Select your country"
               onOpenDropDown={setOpenCountryList}
-              dropDownValue={selectedCountry}
+              dropDownValue={selectedCountry?.name}
               openDropDown={openCountryList}
             />
             <CouchDropDown
