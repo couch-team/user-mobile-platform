@@ -9,7 +9,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
-import { RouteProp, useRoute } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -24,11 +23,9 @@ interface SelectedCountryProps {
 const Nationality = ({ navigation: { navigate } }: Props) => {
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<SelectedCountryProps>();
+  const [selectedCountry, setSelectedCountry] =
+    useState<SelectedCountryProps>();
   const [selectedState, setSelectedState] = useState('');
-
-  const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
-  console.log(params);
 
   const {
     Auth: { completeProfileCreation },
