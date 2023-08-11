@@ -13,13 +13,13 @@ import { Images } from 'theme/config';
 import { FormTextInput, Loader, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useAppRoute } from 'hooks/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { showMessage } from 'react-native-flash-message';
 import { wp } from 'constants/layout';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'VerifyOtp'>;
 type Props = {
@@ -31,15 +31,17 @@ const registerSchema = yup.object().shape({
 });
 
 const VerifyOtp = ({ navigation: { navigate } }: Props) => {
-  const { params } = useAppRoute();
+  const { params } = useRoute<RouteProp<AuthParamList, 'VerifyOtp'>>();
   const [seconds, setSeconds] = useState(30);
   const email = params?.email;
 
   const {
-    Auth: { verifyEmailAccount, initResendToken },
+    Auth: { verifyEmailAccount, initResendToken, login },
   } = useDispatch();
   const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.verifyEmailAccount,
+    (state: RootState) =>
+      state.loading.effects.Auth.verifyEmailAccount ||
+      state.loading.effects.Auth.login,
   );
   const resendLoading = useSelector(
     (state: RootState) => state.loading.effects.Auth.initResendToken,
@@ -82,7 +84,14 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
 
     const res = await verifyEmailAccount(data);
     if (res) {
-      navigate('BasicProfile');
+      const payload = {
+        email,
+        password: params.password,
+      };
+      const loginRes = await login(payload);
+      if (loginRes) {
+        navigate('BasicProfile');
+      }
     }
   };
 

@@ -37,9 +37,10 @@ export const Auth = {
         if (api) {
           console.log(api);
           dispatch.Auth.setState({
-            access_token: api?.data?.token,
-            isLoggedIn: true,
+            access_token: api?.access,
+            refresh_token: api?.refresh,
           });
+          return true;
         }
       } catch (e) {
         this.handleError(e);

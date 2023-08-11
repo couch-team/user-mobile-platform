@@ -52,7 +52,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
     };
     const res = await register(data);
     if (res) {
-      navigate('VerifyOtp', { email });
+      navigate('VerifyOtp', { email, password });
     }
   };
 

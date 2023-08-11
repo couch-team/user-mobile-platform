@@ -17,8 +17,7 @@ Axios.interceptors.request.use(async (config: any) => {
   const models = getAllModels();
   const { access_token } = models.Auth;
 
-  const isAuthRoute = config.url.includes('/verify');
-  if (access_token && !isAuthRoute) {
+  if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
     config.headers.timestamp = new Date().getTime().toString();
   }

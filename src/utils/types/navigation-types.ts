@@ -10,7 +10,7 @@ export type AuthParamList = {
   Onboarding: any;
   CompleteOnboarding: any;
   Login: any;
-  VerifyOtp: any;
+  VerifyOtp: { email?: string; password?: string };
   Register: any;
   ForgetPassword: any;
   BasicProfile: any;
