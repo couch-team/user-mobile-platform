@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -18,8 +18,13 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
 
   const {
     Auth: { completeProfileStage },
+    User: { getUserAvatars },
   } = useDispatch();
 
+  useEffect(() => {
+    getUserAvatars();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const onPressSkip = async () => {
     const res = await completeProfileStage(1);
     if (res) {

@@ -55,7 +55,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer
       ref={navigationRef}
-      initialState={initialState}
+      initialState={__DEV__ ? initialState : undefined}
       onStateChange={state => {
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
       }}>

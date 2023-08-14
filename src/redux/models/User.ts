@@ -54,6 +54,17 @@ export const User = {
         this.handleError(error);
       }
     },
+    async getUserAvatars() {
+      dispatch.User.setError(false);
+      try {
+        const api: any = await UserApi.getAllAvatars();
+        if (api) {
+          console.log(api);
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
     async accessDashboard() {
       dispatch.User.setState({
         isLoggedIn: true,
