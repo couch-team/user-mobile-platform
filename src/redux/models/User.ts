@@ -42,6 +42,18 @@ export const User = {
         this.handleError(error);
       }
     },
+
+    async onboardUser(data: any) {
+      dispatch.User.setError(false);
+      try {
+        const api: any = await UserApi.setOnboarding(data);
+        if (api) {
+          console.log(api);
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
     async accessDashboard() {
       dispatch.User.setState({
         isLoggedIn: true,

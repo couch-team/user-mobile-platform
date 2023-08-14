@@ -104,7 +104,7 @@ export const Auth = {
         const res = await AuthApi.completeProfile(data);
         if (res) {
           console.log(res);
-          dispatch.Auth.getUserProfileData();
+          // dispatch.Auth.getUserProfileData();
           return true;
         }
       } catch (error) {
