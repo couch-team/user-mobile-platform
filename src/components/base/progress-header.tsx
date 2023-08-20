@@ -9,6 +9,7 @@ interface ProgressHeaderProps {
   firstProgress: number;
   secondProgress?: number;
   thirdProgress?: number;
+  fourthProgress?: number;
   progressWidth?: number;
 }
 
@@ -16,6 +17,7 @@ export const ProgressHeader = ({
   firstProgress,
   secondProgress,
   thirdProgress,
+  fourthProgress,
   progressWidth,
 }: ProgressHeaderProps) => {
   return (
@@ -26,7 +28,7 @@ export const ProgressHeader = ({
         color={Colors.COUCH_BLUE}
         borderWidth={0}
         height={hp(10)}
-        width={progressWidth || wp(65)}
+        width={progressWidth || wp(70)}
       />
       <Image
         source={Images.ellipse}
@@ -42,7 +44,7 @@ export const ProgressHeader = ({
         unfilledColor={Colors.COUCH_BLUE_700}
         borderWidth={0}
         height={hp(10)}
-        width={progressWidth || wp(160)}
+        width={progressWidth || wp(70)}
       />
       <Image
         source={Images.ellipse}
@@ -58,7 +60,23 @@ export const ProgressHeader = ({
         unfilledColor={Colors.COUCH_BLUE_700}
         borderWidth={0}
         height={hp(10)}
-        width={progressWidth || wp(65)}
+        width={progressWidth || wp(70)}
+      />
+      <Image
+        source={Images.ellipse}
+        resizeMode="contain"
+        style={[
+          styles.ellipseIcon,
+          thirdProgress === 1 && { tintColor: Colors.GREEN_100 },
+        ]}
+      />
+      <Progress.Bar
+        progress={fourthProgress}
+        color={Colors.COUCH_BLUE}
+        unfilledColor={Colors.COUCH_BLUE_700}
+        borderWidth={0}
+        height={hp(10)}
+        width={progressWidth || wp(70)}
       />
     </View>
   );

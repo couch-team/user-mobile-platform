@@ -7,8 +7,7 @@ import { rates } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -19,33 +18,27 @@ type Props = {
 };
 
 const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding2'>>();
   const [selectedStatus, setSelectedStatus] = useState('');
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-  const {
-    Auth: { pendingProfileCompletion },
-  } = useDispatch();
 
   const continueProcess = async () => {
     const data = {
-      ...userProfile,
-      healthInfo: {
-        reasonForJoining: userProfile?.healthInfo?.reasonForJoining,
-        physicalHealth: selectedStatus,
-      },
+      ...params?.data,
+      physical_health: selectedStatus,
     };
-    const res = await pendingProfileCompletion(data);
-    if (res) {
-      navigate('UserOnboarding3');
-    }
+
+    navigate('UserOnboarding4', { data });
   };
+
+  console.log(params?.data);
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={0.7} />
+      <ProgressHeader firstProgress={1} secondProgress={1} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Health Related Info"
           currentCount={2}
-          totalCount={3}
+          totalCount={4}
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>

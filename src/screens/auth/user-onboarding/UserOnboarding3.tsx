@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { medicalConditions } from 'constants/data';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useForceUpdate } from './UserOnboarding1';
 import {
   FormTextInput,
   LongButton,
@@ -21,6 +13,7 @@ import {
   ProgressHeader,
 } from 'components';
 import { Images } from 'theme/config';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
@@ -33,56 +26,45 @@ type Props = {
 };
 
 const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
-  const [goodCondition, setGoodCondition] = useState(false);
-  const forceUpdate = useForceUpdate();
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
 
-  const selectItem = (index: any) => {
-    let helperArray = selectedOptions;
-    let itemIndex = helperArray.indexOf(index);
-    if (helperArray?.includes(index)) {
-      helperArray?.splice(itemIndex, 1);
-    } else {
-      helperArray.push(index);
-    }
-    setSelectedOptions(helperArray);
-    forceUpdate();
-  };
+  const [selectedOptions, setSelectedOptions] = useState<any>('');
+  const [referral, setReferral] = useState('');
 
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
   const {
-    Auth: { pendingProfileCompletion },
+    User: { onboardUser },
   } = useDispatch();
+
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.User.onboardUser,
+  );
 
   const continueProcess = async () => {
     const data = {
-      ...userProfile,
-      healthInfo: {
-        reasonForJoining: userProfile?.healthInfo?.reasonForJoining,
-        physicalHealth: userProfile?.healthInfo?.physicalHealth,
-        medicalConditions: {
-          hasConditions: goodCondition,
-          conditions: selectedOptions,
-        },
-      },
+      ...params?.data,
+      referral: selectedOptions || referral,
     };
-    const res = await pendingProfileCompletion(data);
+
+    const res = await onboardUser(data);
     if (res) {
       navigate('CompleteOnboarding1');
     }
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} />
+      <ProgressHeader
+        secondProgress={1}
+        thirdProgress={1}
+        fourthProgress={1}
+        firstProgress={1}
+      />
       <OnboardingHeader
         headerTitle="Health Related Info"
-        currentCount={3}
-        totalCount={3}
+        currentCount={4}
+        totalCount={4}
       />
       <View style={styles.bodyContainer}>
-        <Text style={styles.mainBodyText}>
-          Do you have any of these chronic medical conditions?
-        </Text>
+        <Text style={styles.mainBodyText}>How did you hear about us?</Text>
 
         <View style={styles.helpListContainer}>
           <FlatList
@@ -95,7 +77,7 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
                   checkTitle={item.title}
                   index={index}
                   checkBoxStyle={styles.checkboxStyle}
-                  onSelectOption={() => selectItem(item.title)}
+                  onSelectOption={() => setSelectedOptions(item.title)}
                   checkTitleStyle={styles.checkboxTextStyle}
                   selectedCheck={selectedOptions?.includes(item.title)}
                 />
@@ -107,29 +89,19 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
           <FormTextInput
             label="Not on the list?"
             formLabelTextStyle={styles.formLabelTextStyle}
-            placeholder="Do write it here..."
+            placeholder="Please specify"
+            onChangeText={(text: string) => setReferral(text)}
             inputIcon={Images['help-circle']}
           />
         </KeyboardAvoidingView>
       </View>
-      <TouchableOpacity
-        activeOpacity={0.6}
-        onPress={() => setGoodCondition(!goodCondition)}
-        style={styles.radioIconContainerStyle}>
-        <Image
-          source={goodCondition ? Images['active-radio'] : Images.radio}
-          resizeMode="contain"
-          style={styles.radioIcon}
-        />
-        <Text style={styles.radioIconText}>
-          I Possess none of these chronic medical conditions
-        </Text>
-      </TouchableOpacity>
+
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={selectedOptions?.length > 0 || goodCondition ? false : true}
-          title="Complete This Stage "
+          disabled={selectedOptions?.length > 0 || referral ? false : true}
+          title="Complete"
+          loading={loading}
           onPress={() => continueProcess()}
         />
       </View>

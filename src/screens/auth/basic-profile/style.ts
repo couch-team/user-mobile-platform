@@ -128,8 +128,11 @@ export const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
+  selectedProfileImage: {
+    borderRadius: 100,
+  },
   instructionText: {
-    marginTop: hp(110),
+    marginTop: hp(10),
     paddingHorizontal: wp(38),
     fontFamily: Typography.fontFamily.SoraRegular,
     color: Colors.PLACEHOLDER_COLOR,
@@ -138,7 +141,15 @@ export const styles = StyleSheet.create({
     fontSize: hp(13),
   },
   buttonStyle: {
-    marginTop: hp(150),
+    marginTop: hp(100),
+  },
+  uriProfile: {
+    width: 80,
+    height: 80,
+    borderRadius: 100,
+  },
+  imageIconContainer: {
+    marginRight: wp(20),
   },
   longArrowContainer: {
     flexDirection: 'row',
@@ -157,5 +168,10 @@ export const styles = StyleSheet.create({
     height: hp(20),
     marginLeft: wp(16),
     tintColor: Colors.COUCH_BLUE,
+  },
+  imageListContainer: {
+    zIndex: 1000000,
+    alignSelf: 'center',
+    marginTop: hp(120),
   },
 });

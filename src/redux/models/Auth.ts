@@ -14,6 +14,7 @@ const IsState = {
   userProfile: null,
   onboardingStage: 0,
   userData: null,
+  refresh_token: null,
 } as unknown as Auth;
 
 interface Auth {
@@ -23,6 +24,7 @@ interface Auth {
   access_token: string;
   userData: any;
   onboardingStage: number;
+  refresh_token: string;
 }
 
 export const Auth = {

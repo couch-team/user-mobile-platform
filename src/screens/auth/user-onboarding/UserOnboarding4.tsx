@@ -7,8 +7,7 @@ import { therapistsVisits } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -18,35 +17,27 @@ type Props = {
   navigation: AuthNavigationProps;
 };
 
-const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
+const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
   const [therapistVisits, setTherapistVisits] = useState('');
 
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-  const {
-    Auth: { pendingProfileCompletion },
-  } = useDispatch();
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
 
   const continueProcess = async () => {
     const data = {
-      ...userProfile,
-      mentalInfo: {
-        beenToTherapy: therapistVisits?.includes('Yes') ? true : false,
-      },
+      ...params?.data,
+      ever_had_therapy: therapistVisits,
     };
-    const res = await pendingProfileCompletion(data);
-    if (res) {
-      navigate('UserOnboarding5');
-    }
+    navigate('UserOnboarding3', { data });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={0.2} />
+      <ProgressHeader firstProgress={1} secondProgress={1} thirdProgress={1} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Mental Related Info"
-          currentCount={1}
-          totalCount={5}
+          currentCount={3}
+          totalCount={4}
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>
@@ -81,4 +72,4 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
   );
 };
 
-export default UserOnboarding1;
+export default UserOnboarding4;

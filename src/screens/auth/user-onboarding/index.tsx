@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -8,6 +8,7 @@ import { LongButton } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthParamList } from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
+import { useDispatch } from 'react-redux';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UserOnboarding'>;
 type Props = {
@@ -16,6 +17,16 @@ type Props = {
 
 const UserOnboarding = ({ navigation: { navigate } }: Props) => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
+  const {
+    User: { getUserMoods, getUserProfileData },
+  } = useDispatch();
+
+  useEffect(() => {
+    getUserMoods();
+    getUserProfileData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const completePrivacy = async () => {
     setShowPrivacyModal(false);
@@ -60,7 +71,10 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
           buttonStyle={styles.buttonStyle}
           title="Yes, proceed"
         />
-        <TouchableOpacity activeOpacity={0.6} style={styles.longArrowContainer}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => navigate('UserOnboarding1')}
+          style={styles.longArrowContainer}>
           <Text style={styles.longArrowText}>No, Skip for now</Text>
           <Image
             source={Images['long-arrow']}

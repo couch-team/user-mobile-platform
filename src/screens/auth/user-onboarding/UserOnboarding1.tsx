@@ -7,8 +7,6 @@ import { helpLists } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -27,11 +25,6 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const forceUpdate = useForceUpdate();
 
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-  const {
-    Auth: { pendingProfileCompletion },
-  } = useDispatch();
-
   const selectItem = (index: any) => {
     let helperArray = selectedOptions;
     let itemIndex = helperArray.indexOf(index);
@@ -46,25 +39,19 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
 
   const continueProcess = async () => {
     const data = {
-      ...userProfile,
-      healthInfo: {
-        reasonForJoining: selectedOptions,
-      },
+      goals: selectedOptions?.[0],
     };
-    const res = await pendingProfileCompletion(data);
-    if (res) {
-      navigate('UserOnboarding2');
-    }
+    navigate('UserOnboarding2', { data });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={0.35} />
+      <ProgressHeader firstProgress={1} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Health Related Info"
           currentCount={1}
-          totalCount={3}
+          totalCount={4}
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>

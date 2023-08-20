@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;
 type Props = {
@@ -15,9 +16,8 @@ type Props = {
 
 const UploadProfile = ({ navigation: { navigate } }: Props) => {
   const [profileImage, setProfileImage] = useState('');
-
+  const avatars = useSelector((state: RootState) => state.User.avatars);
   const {
-    Auth: { completeProfileStage },
     User: { getUserAvatars },
   } = useDispatch();
 
@@ -26,10 +26,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onPressSkip = async () => {
-    const res = await completeProfileStage(1);
-    if (res) {
-      navigate('UserOnboarding');
-    }
+    navigate('UserOnboarding');
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -49,16 +46,41 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
           )}
         </View>
       </View>
+
       <View style={styles.profileSectionContainer}>
         <TouchableOpacity
           activeOpacity={0.5}
           style={styles.profileImageContainer}>
           <Image
-            source={Images['profile-group']}
+            source={
+              profileImage ? { uri: profileImage } : Images['profile-group']
+            }
             resizeMode="contain"
-            style={styles.profileImage}
+            style={[
+              styles.profileImage,
+              profileImage && styles.selectedProfileImage,
+            ]}
           />
         </TouchableOpacity>
+
+        <View>
+          <ScrollView horizontal style={styles.imageListContainer}>
+            {avatars?.map(avatar => {
+              return (
+                <TouchableOpacity
+                  key={avatar?.id}
+                  onPress={() => setProfileImage(avatar?.image_url)}
+                  activeOpacity={0.8}
+                  style={styles.imageIconContainer}>
+                  <Image
+                    source={{ uri: avatar.image_url }}
+                    style={styles.uriProfile}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
 
         <Text style={styles.instructionText}>
           Kindly tap the icon to select or change an image from your phone's
@@ -70,20 +92,8 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
           disabled={profileImage ? false : true}
           buttonStyle={styles.buttonStyle}
           title="Complete basic profile"
+          onPress={() => onPressSkip()}
         />
-        {!profileImage && (
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => onPressSkip()}
-            style={styles.longArrowContainer}>
-            <Text style={styles.longArrowText}>No, Skip for now</Text>
-            <Image
-              source={Images['long-arrow']}
-              resizeMode="contain"
-              style={styles.longArrow}
-            />
-          </TouchableOpacity>
-        )}
       </View>
     </SafeAreaView>
   );

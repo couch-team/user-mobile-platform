@@ -94,19 +94,19 @@ export const rates = [
 export const medicalConditions = [
   {
     id: 1,
-    title: 'Diabetes',
+    title: 'Social media ads',
   },
   {
     id: 2,
-    title: 'Asthma',
+    title: 'Referral',
   },
   {
     id: 3,
-    title: 'Back/Joint pain',
+    title: 'Online search',
   },
   {
     id: 4,
-    title: 'Heart disease',
+    title: 'Event',
   },
 ];
 

@@ -5,10 +5,12 @@ import { CompleteProfile } from 'redux/types';
 
 const IsState = {
   userProfile: null,
+  avatars: [],
 } as unknown as User;
 
 interface User {
   userProfile: CompleteProfile;
+  avatars: any[];
 }
 
 export const User = {
@@ -49,6 +51,7 @@ export const User = {
         const api: any = await UserApi.setOnboarding(data);
         if (api) {
           console.log(api);
+          return true;
         }
       } catch (error) {
         this.handleError(error);
@@ -58,6 +61,21 @@ export const User = {
       dispatch.User.setError(false);
       try {
         const api: any = await UserApi.getAllAvatars();
+        if (api) {
+          console.log(api);
+          dispatch.User.setState({
+            avatars: api,
+          });
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+
+    async getUserMoods() {
+      dispatch.User.setError(false);
+      try {
+        const api: any = await UserApi.getAllMoods();
         if (api) {
           console.log(api);
         }
