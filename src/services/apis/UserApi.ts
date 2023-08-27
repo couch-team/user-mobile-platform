@@ -14,5 +14,5 @@ export default {
   getOnboarding: () =>
     Axios.get('mobile/user_onboarding/1/').then(({ data }) => data),
   setOnboarding: (req: any) =>
-    Axios.post('mobile/user_onboarding/', req).then(({ data }) => data),
+    Axios.post('mobile/api/user_onboarding/', req).then(({ data }) => data),
 };

@@ -22,24 +22,24 @@ export function useForceUpdate() {
 }
 
 const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
-  const forceUpdate = useForceUpdate();
+  const [selectedOptions, setSelectedOptions] = useState<any>('');
+  // const forceUpdate = useForceUpdate();
 
-  const selectItem = (index: any) => {
-    let helperArray = selectedOptions;
-    let itemIndex = helperArray.indexOf(index);
-    if (helperArray?.includes(index)) {
-      helperArray?.splice(itemIndex, 1);
-    } else {
-      helperArray.push(index);
-    }
-    setSelectedOptions(helperArray);
-    forceUpdate();
-  };
+  // const selectItem = (index: any) => {
+  //   let helperArray = selectedOptions;
+  //   let itemIndex = helperArray.indexOf(index);
+  //   if (helperArray?.includes(index)) {
+  //     helperArray?.splice(itemIndex, 1);
+  //   } else {
+  //     helperArray.push(index);
+  //   }
+  //   setSelectedOptions(helperArray);
+  //   forceUpdate();
+  // };
 
   const continueProcess = async () => {
     const data = {
-      goals: selectedOptions?.[0],
+      goals: 'Recover from Traumatic events',
     };
     navigate('UserOnboarding2', { data });
   };
@@ -65,7 +65,7 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
                   key={helpList.id}
                   checkTitle={helpList.title}
                   index={index}
-                  onSelectOption={() => selectItem(helpList.title)}
+                  onSelectOption={() => setSelectedOptions(helpList.title)}
                   selectedCheck={selectedOptions?.includes(helpList.title)}
                 />
               );
