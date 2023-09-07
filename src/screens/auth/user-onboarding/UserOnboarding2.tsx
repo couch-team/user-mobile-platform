@@ -30,7 +30,6 @@ const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
     navigate('UserOnboarding4', { data });
   };
 
-  console.log(params?.data);
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={1} secondProgress={1} />

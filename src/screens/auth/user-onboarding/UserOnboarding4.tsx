@@ -25,7 +25,7 @@ const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
   const continueProcess = async () => {
     const data = {
       ...params?.data,
-      ever_had_therapy: therapistVisits?.includes('Yes') ? 'Yes' : 'No',
+      ever_had_therapy: therapistVisits,
     };
     navigate('UserOnboarding3', { data });
   };

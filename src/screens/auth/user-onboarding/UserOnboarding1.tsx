@@ -39,7 +39,7 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
 
   const continueProcess = async () => {
     const data = {
-      goals: 'Recover from Traumatic events',
+      goals: selectedOptions,
     };
     navigate('UserOnboarding2', { data });
   };

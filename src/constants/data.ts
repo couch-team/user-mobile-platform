@@ -40,31 +40,31 @@ export const moods = [
 export const helpLists = [
   {
     id: 1,
-    title: 'Depression',
+    title: 'Starting my self care journey',
   },
   {
     id: 2,
-    title: 'Anxiety',
+    title: 'Talk to a therapist',
   },
   {
     id: 3,
-    title: 'Trauma/PTSD',
+    title: 'Psychoeducation',
   },
   {
     id: 4,
-    title: 'Self Improvement',
+    title: 'Feel less anxious',
   },
   {
     id: 5,
-    title: 'Relationship Issues',
+    title: 'Recover from Traumatic events',
   },
   {
     id: 6,
-    title: 'Direction',
+    title: 'Improve self confidence',
   },
   {
     id: 7,
-    title: 'Other',
+    title: 'Relax and feel better',
   },
 ];
 
@@ -117,7 +117,7 @@ export const therapistsVisits = [
   },
   {
     id: 2,
-    title: 'None I can think of at the moment',
+    title: 'No, I haven"t',
   },
 ];
 
