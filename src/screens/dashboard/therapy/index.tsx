@@ -2,10 +2,9 @@ import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import HeaderBar from 'components/base/header-bar';
+import { HeaderBar, HeaderText } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import HeaderText from 'components/base/header-text';
 import { therapyOptions } from 'constants/data';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -34,7 +33,7 @@ const Therapy = ({ navigation: { goBack, navigate } }: Props) => {
               <TouchableOpacity
                 style={styles.exploreItemContainerStyle}
                 activeOpacity={0.6}
-                onPress={() => item.url && navigate(item.url)}
+                onPress={() => item.url && navigate(item.url as any)}
                 key={index}>
                 <View style={styles.exploreIconContainer}>
                   <Image

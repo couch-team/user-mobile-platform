@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
-import HeaderText from 'components/base/header-text';
+import { HeaderBar, HeaderText } from 'components';
 import { loggedMoods, stackData } from 'constants/data';
 import { Images } from 'theme/config';
 import { BarChart } from 'react-native-gifted-charts';
+import { useDispatch } from 'react-redux';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -19,6 +19,15 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
+  const {
+    User: { getUserMoods },
+  } = useDispatch();
+
+  useEffect(() => {
+    getUserMoods();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
