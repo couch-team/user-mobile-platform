@@ -34,6 +34,7 @@ export const Auth = {
   effects: (dispatch: any) => ({
     async login(data: any) {
       dispatch.Auth.setError(false);
+      console.log(data, 'payload');
       try {
         const api: any = await AuthApi.login(data);
         if (api) {
@@ -41,6 +42,7 @@ export const Auth = {
           dispatch.Auth.setState({
             access_token: api?.access,
             refresh_token: api?.refresh,
+            isLoggedIn: true,
           });
           return true;
         }

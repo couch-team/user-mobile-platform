@@ -55,11 +55,11 @@ const Login = ({ navigation: { navigate } }: Props) => {
       });
     }
 
-    // const data = {
-    //   email,
-    //   password,
-    // };
-    await login();
+    const data = {
+      email,
+      password,
+    };
+    await login(data);
   };
 
   return (

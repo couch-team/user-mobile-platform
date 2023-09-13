@@ -61,6 +61,7 @@ export const styles = StyleSheet.create({
     paddingTop: hp(16),
     fontFamily: Typography.fontFamily.SoraMedium,
     borderColor: Colors.COUCH_BLUE_1800,
+    color: Colors.WHITE,
   },
   moodIcon: {
     width: 172,

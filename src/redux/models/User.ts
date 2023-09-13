@@ -6,11 +6,13 @@ import { CompleteProfile } from 'redux/types';
 const IsState = {
   userProfile: null,
   avatars: [],
+  moods: [],
 } as unknown as User;
 
 interface User {
   userProfile: CompleteProfile;
   avatars: any[];
+  moods: any[];
 }
 
 export const User = {
@@ -78,6 +80,22 @@ export const User = {
         const api: any = await UserApi.getAllMoods();
         if (api) {
           console.log(api);
+          dispatch.User.setState({
+            moods: api,
+          });
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+
+    async addUserMood(data: any) {
+      dispatch.User.setError(false);
+      try {
+        const api: any = await UserApi?.setMood(data);
+        if (api) {
+          console.log(api);
+          return true;
         }
       } catch (error) {
         this.handleError(error);

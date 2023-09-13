@@ -10,7 +10,7 @@ export default {
   getSingleMood: (req: { id: string }) =>
     Axios.get(`mobile/moods/${req?.id}`).then(({ data }) => data),
   setMood: (req: { mood: string; reason?: string }) =>
-    Axios.post('mobile/user_mood/', req).then(({ data }) => data),
+    Axios.post('mobile/api/user_mood/', req).then(({ data }) => data),
   getOnboarding: () =>
     Axios.get('mobile/user_onboarding/1/').then(({ data }) => data),
   setOnboarding: (req: any) =>

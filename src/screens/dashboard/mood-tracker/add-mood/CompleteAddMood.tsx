@@ -1,12 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
 import { Colors, Images } from 'theme/config';
-import LongButton from 'components/base/long-button';
+import { LongButton, HeaderBar } from 'components';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,

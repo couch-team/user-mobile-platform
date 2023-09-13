@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
   itemMoodMainText: {
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(14),
+    color: Colors.COUCH_GREEN_200,
     lineHeight: hp(18),
   },
   itemMoodBodyText: {

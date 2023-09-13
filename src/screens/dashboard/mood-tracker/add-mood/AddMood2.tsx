@@ -1,5 +1,4 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
 import React, { useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,11 +7,11 @@ import { Colors, Images } from 'theme/config';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
 import { ScrollView } from 'react-native-gesture-handler';
-import ProgressHeader from 'components/base/progress-header';
+import { ProgressHeader, LongButton, HeaderText, HeaderBar } from 'components';
 import { wp } from 'constants/layout';
-import HeaderText from 'components/base/header-text';
 import { useAppRoute } from 'hooks/navigation';
-import LongButton from 'components/base/long-button';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -25,8 +24,24 @@ type Props = {
 const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
   const { params } = useAppRoute();
   const [thoughts, setThoughts] = useState('');
+
+  const {
+    User: { addUserMood },
+  } = useDispatch();
+
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.User.addUserMood,
+  );
+
   const continueProcess = async () => {
-    navigate('CompleteAddMood');
+    const data = {
+      mood: params.selectedMood,
+      reason: thoughts,
+    };
+    const res = await addUserMood(data);
+    if (res) {
+      navigate('CompleteAddMood');
+    }
   };
 
   return (
@@ -45,17 +60,13 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
           progressWidth={wp(98)}
           firstProgress={1}
           secondProgress={1}
-          thirdProgress={1}
         />
         <HeaderText
-          text="You are Extremely Happy"
+          text={`You are ${params?.selectedMood}`}
           hasSubText="Mind to tell us the secret"
           headerTextStyle={styles.headerTextStyle}
         />
         <View style={styles.unitInputContainer}>
-          <View>
-            <Text style={styles.formInputLabel}>What are you shipping?</Text>
-          </View>
           <TextInput
             placeholder="Write your thoughts here..."
             style={[styles.textInputBoxContainer]}
@@ -71,6 +82,8 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
         <LongButton
           isNotBottom
           title="Continue"
+          disabled={thoughts ? false : true}
+          loading={loading}
           onPress={() => continueProcess()}
         />
       </View>

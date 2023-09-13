@@ -4,11 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { HeaderBar, HeaderText } from 'components';
+import { HeaderBar, HeaderText, SVGIcon } from 'components';
 import { loggedMoods, stackData } from 'constants/data';
 import { Images } from 'theme/config';
 import { BarChart } from 'react-native-gifted-charts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import { groupTransactions } from 'utils';
+import moment from 'moment';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -28,6 +31,11 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const moods: any = useSelector((state: RootState) => state.User.moods);
+  console.log(moods);
+
+  const groupedMoods = groupTransactions(moods);
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -42,7 +50,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
         <Image source={Images.plus} style={styles.plusIcon} />
       </TouchableOpacity>
       {(() => {
-        if (loggedMoods.length === 0) {
+        if (moods.length === 0) {
           return (
             <View style={styles.emptyMoodTrackerContainer}>
               <View style={styles.emptyMoodIconContainer}>
@@ -62,37 +70,27 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
               </View>
             </View>
           );
-        } else if (loggedMoods.length > 0) {
-          return (
-            <View>
-              <BarChart width={340} stackData={stackData} />
-            </View>
-          );
         }
       })()}
       <View style={styles.bodyContainer}>
         <SectionList
-          sections={loggedMoods}
+          sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={({ item, index }) => {
             return (
               <View style={styles.itemMoodContainer} key={index}>
-                <Image
-                  source={item.icon}
-                  style={styles.moodIcon}
-                  resizeMode="contain"
-                />
+                <SVGIcon name={item?.mood?.toLowerCase()} />
                 <View style={styles.itemMoodBodyContainer}>
-                  <Text
-                    style={[styles.itemMoodMainText, { color: item.color }]}>
-                    {item.title}
+                  <Text style={[styles.itemMoodMainText]}>{item.mood}</Text>
+                  <Text style={styles.itemMoodBodyText}>
+                    {moment(item.created_at).fromNow()} -{' '}
+                    {moment(item.created_at).format('LT')}
                   </Text>
-                  <Text style={styles.itemMoodBodyText}>{item.date}</Text>
                 </View>
               </View>
             );
           }}
-          renderSectionHeader={({ section: { title } }) => {
+          renderSectionHeader={({ section: { title, isToday } }) => {
             return (
               <View style={styles.headerSectionContainer}>
                 <Image
@@ -100,7 +98,9 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
                   resizeMode="contain"
                   style={styles.headerIcon}
                 />
-                <Text style={styles.headerTitleStyle}>{title}</Text>
+                <Text style={styles.headerTitleStyle}>
+                  {isToday === 'Today' ? 'TODAY' : title}
+                </Text>
               </View>
             );
           }}
