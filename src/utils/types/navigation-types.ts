@@ -59,7 +59,7 @@ export type DashboardParamList = {
   Notifications: any;
   VoucherHistory: any;
   Journal: undefined;
-  CompleteAddMood: undefined;
+  CompleteAddMood: { res: any };
   AddJournal: undefined;
   MindSpace: undefined;
   RecentlyPlayedAudio: undefined;

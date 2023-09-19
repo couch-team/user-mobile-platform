@@ -95,7 +95,7 @@ export const User = {
         const api: any = await UserApi?.setMood(data);
         if (api) {
           console.log(api);
-          return true;
+          return api;
         }
       } catch (error) {
         this.handleError(error);

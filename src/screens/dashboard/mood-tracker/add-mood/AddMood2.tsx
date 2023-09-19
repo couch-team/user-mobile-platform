@@ -40,7 +40,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
     };
     const res = await addUserMood(data);
     if (res) {
-      navigate('CompleteAddMood');
+      navigate('CompleteAddMood', { res });
     }
   };
 
@@ -62,7 +62,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
           secondProgress={1}
         />
         <HeaderText
-          text={`You are ${params?.selectedMood}`}
+          text={`You are ${params?.selectedMood?.toLowerCase()}`}
           hasSubText="Mind to tell us the secret"
           headerTextStyle={styles.headerTextStyle}
         />
@@ -74,14 +74,17 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
             multiline={true}
             value={thoughts}
             placeholderTextColor={Colors.COUCH_BLUE_1800}
-            onChangeText={(text: string) => setThoughts(text)}
+            onChangeText={(text: string) =>
+              text.length <= 250 ? setThoughts(text) : null
+            }
           />
+          <Text style={styles.textCount}>{thoughts?.length}/250</Text>
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          title="Continue"
+          title="Add to mood log"
           disabled={thoughts ? false : true}
           loading={loading}
           onPress={() => continueProcess()}

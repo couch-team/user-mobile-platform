@@ -63,6 +63,12 @@ export const styles = StyleSheet.create({
     borderColor: Colors.COUCH_BLUE_1800,
     color: Colors.WHITE,
   },
+  textCount: {
+    color: Colors.WHITE,
+    fontFamily: Typography.fontFamily.SoraMedium,
+    paddingTop: hp(10),
+    alignSelf: 'flex-end',
+  },
   moodIcon: {
     width: 172,
     height: 172,
@@ -79,6 +85,11 @@ export const styles = StyleSheet.create({
   moodDataContainer: {
     backgroundColor: Colors.PRIMARY,
     height: hp(400),
+  },
+  moodIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 100,
   },
   moodLogTimeContainer: {
     backgroundColor: Colors.COUCH_GREEN_300,
