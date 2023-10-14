@@ -2,13 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import HeaderBar from 'components/base/header-bar';
-import HeaderText from 'components/base/header-text';
+import { HeaderText, HeaderBar, VirtualizedScrollView } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
 import { journalList } from 'constants/data';
-import VirtualizedScrollView from 'components/virtualized-list';
 import { wp } from 'constants/layout';
 
 type DashboardNavigationProps = StackNavigationProp<

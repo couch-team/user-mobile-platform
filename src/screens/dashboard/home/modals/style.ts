@@ -16,28 +16,34 @@ export const styles = StyleSheet.create({
   singleTourContainer: {
     width: deviceWidth,
   },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(20),
+  },
   buttonStyle: {
     marginTop: hp(20),
     marginRight: wp(20),
   },
   backgroundImage: {
     width: deviceWidth,
-    marginTop: hp(50),
+    marginTop: hp(40),
     height: hp(100),
   },
   bodySectionContainer: {
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     height: deviceWidth * 1.2,
     alignItems: 'center',
+    borderWidth: 1,
   },
   tourTitleStyle: {
     fontFamily: Typography.fontFamily.SoraMedium,
-    fontSize: hp(20),
+    fontSize: hp(24),
+    paddingTop: hp(10),
     color: Colors.WHITE,
-    // top:
   },
   tourSubTitleStyle: {
-    paddingTop: hp(10),
+    paddingTop: hp(28),
     fontFamily: Typography.fontFamily.SoraRegular,
     fontSize: hp(14),
     textAlign: 'center',

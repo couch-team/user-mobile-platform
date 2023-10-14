@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { View, Image, ImageBackground, ScrollView, Text } from 'react-native';
+import { View, ImageBackground, ScrollView, Text } from 'react-native';
 import { styles } from './style';
-import { XButton, LongButton } from 'components';
+import { XButton, LongButton, SVGIcon } from 'components';
 import { tourInfoData } from 'constants/data';
 import { Images } from 'theme/config';
 import { deviceWidth } from 'constants/layout';
@@ -54,11 +54,9 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
           {tourInfoData?.map((tourInfo, index) => {
             return (
               <View key={index} style={styles.singleTourContainer}>
-                <Image
-                  source={tourInfo.icon}
-                  style={styles.infoDataIcon}
-                  resizeMode="contain"
-                />
+                <View style={styles.iconContainer}>
+                  <SVGIcon name={tourInfo.icon} />
+                </View>
                 <ImageBackground
                   source={Images.bottom_semi_circle}
                   style={styles.backgroundImage}
@@ -74,9 +72,7 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
                     {tourInfo.description}
                   </Text>
                   <Text style={styles.descriptionBodyText}>
-                    Let's customize your account better you would help in
-                    answering a few questions. Would you love to answer the
-                    questions now?
+                    {tourInfo?.text}
                   </Text>
                   <LongButton
                     isNotBottom
@@ -90,8 +86,8 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
                       tourInfo.id === tourInfoData?.length
                         ? goBack()
                         : scrollRef.current?.scrollTo({
-                          x: deviceWidth * (index + 1),
-                        });
+                            x: deviceWidth * (index + 1),
+                          });
                     }}
                     longArrowStyle={styles.longArrowStyle}
                     titleStyle={styles.titleStyle}

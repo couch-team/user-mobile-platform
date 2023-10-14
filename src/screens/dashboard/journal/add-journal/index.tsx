@@ -1,12 +1,6 @@
-import HeaderBar from 'components/base/header-bar';
+import { HeaderBar } from 'components';
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, ScrollView, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { NoteOption, RightHeader } from './components';
