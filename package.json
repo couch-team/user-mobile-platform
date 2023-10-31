@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "link-assets": "react-native-asset",
-    "pods": "cd ios && pod install && cd .."
+    "pods": "cd ios && pod install && cd ..",
+    "postinstall": "npx patch-package"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",
