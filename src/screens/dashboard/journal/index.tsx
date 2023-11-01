@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { HeaderText, HeaderBar, VirtualizedScrollView } from 'components';
+import {
+  HeaderText,
+  HeaderBar,
+  VirtualizedScrollView,
+  SVGIcon,
+} from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
 import { journalList } from 'constants/data';
-import { wp } from 'constants/layout';
+import { deviceWidth, wp } from 'constants/layout';
+import { ArcIcon } from 'assets/svg/arc';
+import JournalPromptModal from './jornal-prompt';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -18,6 +25,7 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
+  const [openPromptModal, setOpenPromptModal] = useState(false);
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>
@@ -56,39 +64,20 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           onPressLeftIcon={() => goBack()}
           headerRight={<HeaderRight />}
         />
-        <HeaderText
-          text="My Journal"
-          hasSubText="Put your feelings and thoughts into writing..."
-        />
-        <Image
-          source={Images['journal-frame']}
-          resizeMode="contain"
-          style={styles.journalFrameContainer}
-        />
-        {(() => {
-          if (journalList.length === 0) {
-            return (
-              <View style={styles.emptyMoodTrackerContainer}>
-                <View style={styles.emptyMoodIconContainer}>
-                  <Image
-                    source={Images.journal}
-                    resizeMode="contain"
-                    style={styles.emptyMoodIcon}
-                  />
-                </View>
-                <View style={styles.emptyTextContainer}>
-                  <Text style={styles.emptyMainText}>
-                    Not Notes in your Journal as for now
-                  </Text>
-                  <Text style={styles.emptyBodyText}>
-                    Tap the '+' button below to log your mood on the mood
-                    tracker.
-                  </Text>
-                </View>
-              </View>
-            );
-          }
-        })()}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setOpenPromptModal(true)}
+          style={styles.header}>
+          <HeaderText
+            text="Hi Daniella"
+            hasSubText="What’s on your Mind?"
+            headerTextStyle={styles.headerTextStyle}
+          />
+          <SVGIcon name="palmTree" />
+          <View style={styles.headerArc}>
+            <ArcIcon width={deviceWidth} />
+          </View>
+        </TouchableOpacity>
         <View style={styles.bodyContainer}>
           <SectionList
             sections={journalList}
@@ -98,7 +87,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                 <View
                   style={[
                     styles.itemMoodContainer,
-                    { backgroundColor: item.bg },
+                    // { backgroundColor: item.bg },
                   ]}
                   key={index}>
                   <View style={styles.journalHeaderContainer}>
@@ -141,7 +130,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                     <Text style={styles.itemMoodBodyText}>
                       {item.description}
                     </Text>
-                    <Text style={styles.itemMoodBodyText}>{item.date}</Text>
+                    <Text style={styles.itemMoodBodyDateText}>{item.date}</Text>
                   </View>
                 </View>
               );
@@ -150,12 +139,19 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               return (
                 <View style={styles.headerSectionContainer}>
                   <Text style={styles.headerTitleStyle}>{title}</Text>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <SVGIcon name="filter" />
+                  </TouchableOpacity>
                 </View>
               );
             }}
           />
         </View>
       </VirtualizedScrollView>
+      <JournalPromptModal
+        isVisible={openPromptModal}
+        onClose={() => setOpenPromptModal(false)}
+      />
     </SafeAreaView>
   );
 };

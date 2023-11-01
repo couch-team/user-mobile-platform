@@ -1,4 +1,4 @@
-import { deviceWidth, hp, wp } from 'constants/layout';
+import { hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
@@ -6,6 +6,20 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
+  },
+  header: {
+    marginTop: hp(20),
+    marginBottom: hp(80),
+    flexDirection: 'row',
+  },
+  headerTextStyle: {
+    flex: 1,
+  },
+  headerArc: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',
   },
   headerRightContainer: {
     flexDirection: 'row',
@@ -24,12 +38,6 @@ export const styles = StyleSheet.create({
     width: wp(20),
     height: hp(20),
     tintColor: Colors.COUCH_BLUE,
-  },
-  journalFrameContainer: {
-    width: deviceWidth - wp(48),
-    height: hp(133),
-    alignSelf: 'center',
-    marginTop: hp(20),
   },
   plusIconContainer: {
     width: 88,
@@ -90,15 +98,14 @@ export const styles = StyleSheet.create({
   headerSectionContainer: {
     paddingHorizontal: wp(24),
     flexDirection: 'row',
-    marginVertical: hp(10),
-    height: hp(30),
-    backgroundColor: Colors.PRIMARY,
+    marginVertical: hp(18),
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   headerTitleStyle: {
-    fontFamily: Typography.fontFamily.SoraMedium,
-    paddingLeft: wp(12),
-    fontSize: hp(14),
+    fontSize: hp(18),
     color: Colors.COUCH_BLUE_1100,
+    fontFamily: Typography.fontFamily.SoraSemiBold,
   },
   journalMoodIconContainer: {
     width: 40,
@@ -119,7 +126,7 @@ export const styles = StyleSheet.create({
     paddingBottom: hp(200),
   },
   itemMoodContainer: {
-    backgroundColor: Colors.COUCH_GREEN_100,
+    backgroundColor: Colors.WHITE_TRANSPARENT,
     marginHorizontal: wp(24),
     marginBottom: hp(16),
     padding: hp(16),
@@ -146,10 +153,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemMoodMainText: {
-    fontFamily: Typography.fontFamily.SoraMedium,
-    fontSize: hp(14),
-    color: Colors.WHITE,
-    lineHeight: hp(18),
+    fontFamily: Typography.fontFamily.SoraRegular,
+    fontSize: hp(16),
+    color: Colors.COUCH_BLUE_1100,
   },
   voiceIconContainer: {
     width: 24,
@@ -168,6 +174,12 @@ export const styles = StyleSheet.create({
   itemMoodBodyText: {
     fontFamily: Typography.fontFamily.SoraRegular,
     paddingTop: hp(8),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontSize: hp(12),
+  },
+  itemMoodBodyDateText: {
+    fontFamily: Typography.fontFamily.SoraBold,
+    paddingTop: hp(20),
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
   },
