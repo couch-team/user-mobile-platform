@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { styles } from './style';
 
+export type NoteTakerOptionType = {
+  id: string;
+  value: string;
+  type: 'image' | 'text' | 'mood' | 'video' | 'voice';
+};
+
 interface NoteOptionProps {
-  setNoteTakerOption: any;
-  noteTakerOption: any[];
+  addNoteTaker: (item: NoteTakerOptionType) => void;
 }
 
-export const NoteOption = ({
-  setNoteTakerOption,
-  noteTakerOption,
-}: NoteOptionProps) => {
+export const NoteOption = ({ addNoteTaker }: NoteOptionProps) => {
   const [activeNoteOption, setActiveNoteOption] = useState('');
 
   return (
@@ -20,7 +22,12 @@ export const NoteOption = ({
         return (
           <TouchableOpacity
             onPress={() => {
-              setNoteTakerOption([...noteTakerOption, option.value]);
+              const newNoteTaker: NoteTakerOptionType = {
+                id: Date.now() + Math.random() + '',
+                type: option.value as any,
+                value: '',
+              };
+              addNoteTaker(newNoteTaker);
               setActiveNoteOption(option.value);
             }}
             style={[

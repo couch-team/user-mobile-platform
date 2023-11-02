@@ -1,6 +1,6 @@
 import { hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
-import { Colors } from 'theme/config';
+import { Colors, Typography } from 'theme/config';
 
 export const styles = StyleSheet.create({
   rightHeaderContainer: {
@@ -50,5 +50,11 @@ export const styles = StyleSheet.create({
   noteIcon: {
     width: wp(20),
     height: hp(20),
+  },
+  inputStyle: {
+    fontSize: hp(16),
+    lineHeight: hp(32),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontFamily: Typography.fontFamily.SoraRegular,
   },
 });
