@@ -1,4 +1,4 @@
-import { hp, wp } from 'constants/layout';
+import { deviceWidth, hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
@@ -7,19 +7,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.PRIMARY,
   },
-  header: {
+  journalFrameContainer: {
+    width: deviceWidth - wp(48),
+    height: hp(133),
+    alignSelf: 'center',
     marginTop: hp(20),
-    marginBottom: hp(80),
-    flexDirection: 'row',
-  },
-  headerTextStyle: {
-    flex: 1,
-  },
-  headerArc: {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    position: 'absolute',
   },
   headerRightContainer: {
     flexDirection: 'row',
@@ -120,7 +112,7 @@ export const styles = StyleSheet.create({
     height: hp(26),
   },
   bodyContainer: {
-    marginTop: hp(20),
+    marginTop: hp(0),
   },
   contentContainerStyle: {
     paddingBottom: hp(200),

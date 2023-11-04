@@ -69,4 +69,13 @@ export const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontFamily: Typography.fontFamily.SoraSemiBold,
   },
+  mood: {
+    width: 33,
+    height: 33,
+  },
+  moodView: {
+    padding: 7.5,
+    borderRadius: 50,
+    backgroundColor: Colors.COUCH_BLUE_2300,
+  },
 });

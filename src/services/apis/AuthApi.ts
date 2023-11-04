@@ -3,7 +3,10 @@ import Axios from 'services/Axios';
 
 export default {
   login: (payload: any) =>
-    Axios.post('api/users/login/', payload).then(({ data }) => data),
+    Axios.post('api/users/login/', payload).then(({ data }) => {
+      console.log("datadatadata", data)
+      return data;
+    }),
   registerAccount: (payload: any) =>
     Axios.post('api/users/', payload).then(({ data }) => data),
   verifyAccount: (payload: any) =>

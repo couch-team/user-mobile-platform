@@ -2,6 +2,8 @@ import { noteOptionsIcons } from 'constants/data';
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { styles } from './style';
+import { Images } from 'theme/config';
+import JournalPromptModal from './JournalPrompt';
 
 export type NoteTakerOptionType = {
   id: string;
@@ -15,9 +17,17 @@ interface NoteOptionProps {
 
 export const NoteOption = ({ addNoteTaker }: NoteOptionProps) => {
   const [activeNoteOption, setActiveNoteOption] = useState('');
+  const [openPromptModal, setOpenPromptModal] = useState(false);
 
   return (
     <View style={styles.noteOptionContainer}>
+      <TouchableOpacity onPress={() => setOpenPromptModal(true)}>
+        <Image
+          source={Images['note-text']}
+          resizeMode="contain"
+          style={styles.infoContainer}
+        />
+      </TouchableOpacity>
       {noteOptionsIcons.map(option => {
         return (
           <TouchableOpacity
@@ -48,6 +58,10 @@ export const NoteOption = ({ addNoteTaker }: NoteOptionProps) => {
           </TouchableOpacity>
         );
       })}
+      <JournalPromptModal
+        isVisible={openPromptModal}
+        onClose={() => setOpenPromptModal(false)}
+      />
     </View>
   );
 };

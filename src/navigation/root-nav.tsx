@@ -35,7 +35,7 @@ const AppNavigation = () => {
             : undefined;
 
           if (state !== undefined) {
-            setInitialState(state);
+            // setInitialState(state);
           }
         }
       } finally {
@@ -57,7 +57,7 @@ const AppNavigation = () => {
       ref={navigationRef}
       initialState={__DEV__ ? initialState : undefined}
       onStateChange={state => {
-        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
+        // AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
       }}>
       <Stack.Navigator
         initialRouteName={isLoggedIn ? 'Dashboard' : 'Auth'}

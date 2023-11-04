@@ -22,6 +22,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Colors, Images } from 'theme/config';
 import ImagePicker from 'react-native-image-crop-picker';
 import { deviceWidth } from 'constants/layout';
+import MoodModal, { MoodType } from './components/MoodModal';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -33,9 +34,17 @@ type Props = {
 
 const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [title, setTitle] = useState('');
+  const [mood, setMood] = useState<MoodType>();
   const [noteTakerOption, setNoteTakerOption] = useState<NoteTakerOptionType[]>(
-    [],
+    [
+      {
+        id: Date.now() + Math.random() + '',
+        type: 'text',
+        value: '',
+      },
+    ],
   );
+  const [openMoodModal, setOpenMoodModal] = useState(false);
 
   const selectImage = useCallback((id: string) => {
     ImagePicker.openPicker({
@@ -68,6 +77,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
   const addNoteTakerOption = useCallback(
     (item: NoteTakerOptionType) => {
+      if (item.type === 'mood') {
+        setOpenMoodModal(true);
+        return;
+      }
+
       setNoteTakerOption(state => {
         return [...state, item];
       });
@@ -91,9 +105,40 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     });
   }, []);
 
+  const renderMood = useCallback(() => {
+    let image;
+    switch (mood) {
+      case 'angry':
+        image = Images.mood_angry;
+        break;
+      case 'sad':
+        image = Images.mood_sad;
+        break;
+      case 'anxious':
+        image = Images.mood_anxious;
+        break;
+      case 'excited':
+        image = Images.mood_excited;
+        break;
+      case 'calm':
+        image = Images.mood_calm;
+        break;
+      case 'happy':
+        image = Images.mood_happy;
+        break;
+    }
+
+    return image ? (
+      <View style={styles.moodView}>
+        <Image source={image} style={styles.mood} />
+      </View>
+    ) : null;
+  }, [mood]);
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
+        headerLeft={renderMood()}
         headerRight={
           <RightHeader
             pressConfirmButton={() => goBack()}
@@ -147,6 +192,16 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         </View>
       </ScrollView>
       <NoteOption addNoteTaker={addNoteTakerOption} />
+      <MoodModal
+        selectedMood={mood}
+        isVisible={openMoodModal}
+        onClose={newMood => {
+          setOpenMoodModal(false);
+          if (newMood) {
+            setMood(newMood);
+          }
+        }}
+      />
     </SafeAreaView>
   );
 };

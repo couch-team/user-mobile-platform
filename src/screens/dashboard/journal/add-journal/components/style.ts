@@ -51,10 +51,14 @@ export const styles = StyleSheet.create({
     width: wp(20),
     height: hp(20),
   },
+  infoContainer: {
+    width: 40,
+    height: 40,
+  },
   inputStyle: {
     fontSize: hp(16),
-    lineHeight: hp(32),
+    // lineHeight: hp(32),
     color: Colors.COUCH_TEXT_COLOR,
-    fontFamily: Typography.fontFamily.SoraRegular,
+    fontFamily: Typography.fontFamily.SoraMedium,
   },
 });

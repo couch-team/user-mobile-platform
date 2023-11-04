@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import {
-  HeaderText,
-  HeaderBar,
-  VirtualizedScrollView,
-  SVGIcon,
-} from 'components';
+import { HeaderBar, VirtualizedScrollView, SVGIcon } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
 import { journalList } from 'constants/data';
-import { deviceWidth, wp } from 'constants/layout';
-import { ArcIcon } from 'assets/svg/arc';
-import JournalPromptModal from './jornal-prompt';
+import { wp } from 'constants/layout';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -25,7 +18,6 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
-  const [openPromptModal, setOpenPromptModal] = useState(false);
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>
@@ -64,21 +56,12 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           onPressLeftIcon={() => goBack()}
           headerRight={<HeaderRight />}
         />
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setOpenPromptModal(true)}
-          style={styles.header}>
-          <HeaderText
-            text="Hi Daniella"
-            hasSubText="What’s on your Mind?"
-            headerTextStyle={styles.headerTextStyle}
-          />
-          <SVGIcon name="palmTree" />
-          <View style={styles.headerArc}>
-            <ArcIcon width={deviceWidth} />
-          </View>
-        </TouchableOpacity>
         <View style={styles.bodyContainer}>
+          <Image
+            source={Images['journal-frame']}
+            resizeMode="contain"
+            style={styles.journalFrameContainer}
+          />
           <SectionList
             sections={journalList}
             contentContainerStyle={styles.contentContainerStyle}
@@ -148,10 +131,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           />
         </View>
       </VirtualizedScrollView>
-      <JournalPromptModal
-        isVisible={openPromptModal}
-        onClose={() => setOpenPromptModal(false)}
-      />
     </SafeAreaView>
   );
 };

@@ -10,7 +10,7 @@ export const AutoExpandingTextInput = (props: TextInputProps) => {
       {...props}
       multiline
       placeholder="Enter your content"
-      placeholderTextColor={Colors.COUCH_TEXT_COLOR}
+      placeholderTextColor={Colors.COUCH_GREEN_400}
       onContentSizeChange={event => {
         setHeight(event.nativeEvent.contentSize.height);
       }}
