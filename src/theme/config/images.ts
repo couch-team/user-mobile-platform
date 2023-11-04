@@ -82,6 +82,12 @@ const Images = {
   'note-text': require('../../assets/images/note-options/info.png'),
   'note-video': require('../../assets/images/note-options/video.png'),
   'note-voice': require('../../assets/images/note-options/voice.png'),
+  'note-pause': require('../../assets/images/note-options/pause.png'),
+  'note-stop': require('../../assets/images/note-options/stop.png'),
+  'note-play': require('../../assets/images/note-options/play.png'),
+  'note-retry': require('../../assets/images/note-options/retry.png'),
+  'note-check': require('../../assets/images/note-options/check.png'),
+  'note-cancel': require('../../assets/images/note-options/cancel.png'),
 
   //frames
   'journal-frame': require('../../assets/images/journal-frame.png'),

@@ -1,14 +1,8 @@
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isYesterday from 'dayjs/plugin/isYesterday';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal } from 'components';
-
-dayjs.extend(isToday);
-dayjs.extend(isYesterday);
 
 interface JournalPromptModalProps {
   isVisible: boolean;

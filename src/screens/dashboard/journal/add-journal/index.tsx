@@ -23,6 +23,7 @@ import { Colors, Images } from 'theme/config';
 import ImagePicker from 'react-native-image-crop-picker';
 import { deviceWidth } from 'constants/layout';
 import MoodModal, { MoodType } from './components/MoodModal';
+import VoiceModal from './components/VoiceModal';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -35,6 +36,8 @@ type Props = {
 const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [title, setTitle] = useState('');
   const [mood, setMood] = useState<MoodType>();
+  const [openMoodModal, setOpenMoodModal] = useState(false);
+  const [openVoiceModal, setOpenVoiceModal] = useState(false);
   const [noteTakerOption, setNoteTakerOption] = useState<NoteTakerOptionType[]>(
     [
       {
@@ -44,7 +47,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       },
     ],
   );
-  const [openMoodModal, setOpenMoodModal] = useState(false);
 
   const selectImage = useCallback((id: string) => {
     ImagePicker.openPicker({
@@ -79,6 +81,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     (item: NoteTakerOptionType) => {
       if (item.type === 'mood') {
         setOpenMoodModal(true);
+        return;
+      }
+
+      if (item.type === 'voice') {
+        setOpenVoiceModal(true);
         return;
       }
 
@@ -201,6 +208,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             setMood(newMood);
           }
         }}
+      />
+      <VoiceModal
+        isVisible={openVoiceModal}
+        onClose={() => setOpenVoiceModal(false)}
       />
     </SafeAreaView>
   );
