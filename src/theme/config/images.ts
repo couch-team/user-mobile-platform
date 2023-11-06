@@ -82,6 +82,7 @@ const Images = {
   'note-text': require('../../assets/images/note-options/info.png'),
   'note-video': require('../../assets/images/note-options/video.png'),
   'note-voice': require('../../assets/images/note-options/voice.png'),
+  'active-note-voice': require('../../assets/images/note-options/active-voice.png'),
   'note-pause': require('../../assets/images/note-options/pause.png'),
   'note-stop': require('../../assets/images/note-options/stop.png'),
   'note-play': require('../../assets/images/note-options/play.png'),

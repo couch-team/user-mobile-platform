@@ -4,13 +4,15 @@ import { Images } from 'theme/config';
 import { styles } from './style';
 
 interface RightHeaderProps {
+  activeColor: string;
   pressCloseButton: () => void;
   pressConfirmButton: () => void;
 }
 
 export const RightHeader = ({
-  pressConfirmButton,
+  activeColor,
   pressCloseButton,
+  pressConfirmButton,
 }: RightHeaderProps) => {
   return (
     <View style={styles.rightHeaderContainer}>
@@ -28,7 +30,11 @@ export const RightHeader = ({
       <TouchableOpacity
         activeOpacity={0.9}
         onPress={pressConfirmButton}
-        style={[styles.closeIconContainer, styles.checkColor]}>
+        style={[
+          styles.closeIconContainer,
+          styles.checkColor,
+          !!activeColor && { backgroundColor: activeColor },
+        ]}>
         <Image
           source={Images.check}
           resizeMode="contain"

@@ -1,5 +1,5 @@
-import { HeaderBar } from 'components';
-import React, { useCallback, useState } from 'react';
+import { HeaderBar, SVGIcon } from 'components';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   View,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -23,7 +24,11 @@ import { Colors, Images } from 'theme/config';
 import ImagePicker from 'react-native-image-crop-picker';
 import { deviceWidth } from 'constants/layout';
 import MoodModal, { MoodType } from './components/MoodModal';
-import VoiceModal from './components/VoiceModal';
+import VoiceModal, { AudioDataType } from './components/VoiceModal';
+import { AudioPathIcon } from 'assets/svg/audio-path';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import { JournalPayloadType } from 'redux/types';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -34,7 +39,14 @@ type Props = {
 };
 
 const AddJournal = ({ navigation: { goBack } }: Props) => {
+  const {
+    User: { getUserProfileData },
+    Journal: { addJournal },
+  } = useDispatch();
+  const userProfile = useSelector((state: RootState) => state.User.userProfile);
   const [title, setTitle] = useState('');
+  const [audioData, setAudioData] = useState<AudioDataType>();
+  const [imageData, setImageData] = useState('');
   const [mood, setMood] = useState<MoodType>();
   const [openMoodModal, setOpenMoodModal] = useState(false);
   const [openVoiceModal, setOpenVoiceModal] = useState(false);
@@ -48,7 +60,39 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     ],
   );
 
-  const selectImage = useCallback((id: string) => {
+  useEffect(() => {
+    getUserProfileData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const color = useMemo(() => {
+    switch (mood) {
+      case 'angry':
+        return Colors.PEACHY_RED_200;
+      case 'anxious':
+        return Colors.GREEN;
+      case 'calm':
+        return Colors.COUCH_INFO_BLUE;
+      case 'excited':
+        return Colors.COUCH_BLUE;
+      case 'happy':
+        return Colors.YELLOW_100;
+      case 'sad':
+        return Colors.COUCH_GRAY;
+      default:
+        return Colors.COUCH_BLUE;
+    }
+  }, [mood]);
+
+  const removeImage = useCallback(() => {
+    setImageData('');
+    setNoteTakerOption(state => {
+      return state.filter(item => item.type !== 'image');
+    });
+  }, []);
+
+  const hasImage = !!imageData;
+  const selectImage = useCallback(() => {
     ImagePicker.openPicker({
       width: deviceWidth,
       height: deviceWidth * 0.6,
@@ -58,24 +102,16 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     })
       .then(response => {
         const image = `data:${response.mime};base64,${response.data}`;
-        setNoteTakerOption(state => {
-          return state.map(item => {
-            if (item.id === id) {
-              return { ...item, value: image };
-            }
-
-            return item;
-          });
-        });
+        setImageData(image);
       })
-      .catch(err => console.log(err));
-  }, []);
-
-  const removeImage = useCallback((id: string) => {
-    setNoteTakerOption(state => {
-      return state.filter(item => item.id !== id);
-    });
-  }, []);
+      .catch(err => {
+        console.log(err);
+        if (hasImage) {
+          return;
+        }
+        removeImage();
+      });
+  }, [hasImage, removeImage]);
 
   const addNoteTakerOption = useCallback(
     (item: NoteTakerOptionType) => {
@@ -86,16 +122,30 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
       if (item.type === 'voice') {
         setOpenVoiceModal(true);
-        return;
+      }
+
+      if (item.type === 'image') {
+        selectImage();
       }
 
       setNoteTakerOption(state => {
-        return [...state, item];
-      });
+        let hasImageVoice = false;
+        const newState = state.map(elem => {
+          if (
+            elem.type === item.type &&
+            (item.type === 'voice' || item.type === 'image')
+          ) {
+            hasImageVoice = true;
+          }
+          return elem;
+        });
 
-      if (item.type === 'image') {
-        selectImage(item.id);
-      }
+        if (!hasImageVoice) {
+          newState.push(item);
+        }
+
+        return newState;
+      });
     },
     [selectImage],
   );
@@ -142,13 +192,41 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     ) : null;
   }, [mood]);
 
+  const handleSubmit = useCallback(async () => {
+    if (!title.length) {
+      Alert.alert('Error', 'Enter your note');
+      return;
+    }
+
+    const data: JournalPayloadType = {
+      tags: [],
+      audio_file: audioData?.data || null,
+      notes: title,
+      mood_emoji: mood as string,
+      image: imageData || null,
+      user: userProfile?.user,
+    };
+
+    await addJournal(data);
+    goBack();
+  }, [
+    audioData?.data,
+    imageData,
+    mood,
+    title,
+    userProfile?.user,
+    addJournal,
+    goBack,
+  ]);
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
         headerLeft={renderMood()}
         headerRight={
           <RightHeader
-            pressConfirmButton={() => goBack()}
+            activeColor={color}
+            pressConfirmButton={handleSubmit}
             pressCloseButton={() => goBack()}
           />
         }
@@ -164,13 +242,13 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           />
           {noteTakerOption.map(option => (
             <View key={option.id} style={styles.noteBodyItem}>
-              {option.type === 'image' && !!option.value && (
+              {option.type === 'image' && !!imageData && (
                 <ImageBackground
-                  source={{ uri: option.value }}
+                  source={{ uri: imageData }}
                   style={styles.image}>
                   <View style={styles.imageContent}>
                     <TouchableOpacity
-                      onPress={() => removeImage(option.id)}
+                      onPress={() => removeImage()}
                       activeOpacity={0.9}
                       style={styles.closeIconContainer}>
                       <Image
@@ -181,7 +259,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                       activeOpacity={0.5}
-                      onPress={() => selectImage(option.id)}
+                      onPress={selectImage}
                       style={styles.changeImageBtn}>
                       <Text style={styles.changeImageText}>Change Image</Text>
                     </TouchableOpacity>
@@ -194,11 +272,38 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                   onChangeText={text => handleTextChange(option.id, text)}
                 />
               )}
+              {option.type === 'voice' && !!audioData && (
+                <View style={styles.audioView}>
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    style={styles.smallCloseIconContainer}>
+                    <Image
+                      source={Images.x}
+                      resizeMode="contain"
+                      style={styles.smallCloseIcon}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.audioContent}>
+                    <View style={styles.voiceIconContainer}>
+                      <Image
+                        source={Images['note-voice']}
+                        resizeMode="contain"
+                        style={styles.voiceIcon}
+                      />
+                    </View>
+                    <SVGIcon name="play" />
+                    <AudioPathIcon color={color} />
+                    <Text style={styles.audioDuration}>
+                      {audioData.duration}
+                    </Text>
+                  </View>
+                </View>
+              )}
             </View>
           ))}
         </View>
       </ScrollView>
-      <NoteOption addNoteTaker={addNoteTakerOption} />
+      <NoteOption addNoteTaker={addNoteTakerOption} activeColor={color} />
       <MoodModal
         selectedMood={mood}
         isVisible={openMoodModal}
@@ -212,6 +317,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       <VoiceModal
         isVisible={openVoiceModal}
         onClose={() => setOpenVoiceModal(false)}
+        addAudio={setAudioData}
       />
     </SafeAreaView>
   );

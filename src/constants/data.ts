@@ -1067,6 +1067,7 @@ export const noteOptionsIcons = [
   {
     id: 4,
     icon: Images['note-voice'],
+    'active-icon': Images['active-note-voice'],
     value: 'voice',
   },
   {

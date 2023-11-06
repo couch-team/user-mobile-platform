@@ -12,10 +12,11 @@ export type NoteTakerOptionType = {
 };
 
 interface NoteOptionProps {
+  activeColor: string;
   addNoteTaker: (item: NoteTakerOptionType) => void;
 }
 
-export const NoteOption = ({ addNoteTaker }: NoteOptionProps) => {
+export const NoteOption = ({ activeColor, addNoteTaker }: NoteOptionProps) => {
   const [activeNoteOption, setActiveNoteOption] = useState('');
   const [openPromptModal, setOpenPromptModal] = useState(false);
 
@@ -28,36 +29,35 @@ export const NoteOption = ({ addNoteTaker }: NoteOptionProps) => {
           style={styles.infoContainer}
         />
       </TouchableOpacity>
-      {noteOptionsIcons.map(option => {
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              const newNoteTaker: NoteTakerOptionType = {
-                id: Date.now() + Math.random() + '',
-                type: option.value as any,
-                value: '',
-              };
-              addNoteTaker(newNoteTaker);
-              setActiveNoteOption(option.value);
-            }}
-            style={[
-              styles.noteIconContainer,
-              activeNoteOption === option.value &&
-                styles.activeNoteIconContainer,
-            ]}
-            key={option.id}>
-            <Image
-              source={
-                activeNoteOption === option.value
-                  ? option['active-icon']
-                  : option.icon
-              }
-              resizeMode="contain"
-              style={styles.noteIcon}
-            />
-          </TouchableOpacity>
-        );
-      })}
+      {noteOptionsIcons.map(option => (
+        <TouchableOpacity
+          onPress={() => {
+            const newNoteTaker: NoteTakerOptionType = {
+              id: Date.now() + Math.random() + '',
+              type: option.value as any,
+              value: '',
+            };
+            addNoteTaker(newNoteTaker);
+            setActiveNoteOption(option.value);
+          }}
+          style={[
+            styles.noteIconContainer,
+            activeNoteOption === option.value && {
+              backgroundColor: activeColor,
+            },
+          ]}
+          key={option.id}>
+          <Image
+            source={
+              activeNoteOption === option.value
+                ? option['active-icon']
+                : option.icon
+            }
+            resizeMode="contain"
+            style={styles.noteIcon}
+          />
+        </TouchableOpacity>
+      ))}
       <JournalPromptModal
         isVisible={openPromptModal}
         onClose={() => setOpenPromptModal(false)}

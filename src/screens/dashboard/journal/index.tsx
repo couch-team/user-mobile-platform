@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -8,6 +8,8 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
 import { journalList } from 'constants/data';
 import { wp } from 'constants/layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -18,6 +20,17 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
+  const {
+    Journal: { getJournals },
+  } = useDispatch();
+  const journals = useSelector((state: RootState) => state.Journal.journals);
+  console.log('journals', journals);
+
+  useEffect(() => {
+    getJournals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>

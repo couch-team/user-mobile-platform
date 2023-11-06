@@ -37,8 +37,9 @@ export const User = {
       try {
         const api: any = await UserApi.getUserProfile();
         if (api) {
+          const data = Array.isArray(api) ? api[0] : api;
           dispatch.User.setState({
-            userProfile: api?.data,
+            userProfile: data,
           });
           console.log(api);
         }

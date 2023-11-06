@@ -56,6 +56,22 @@ export const styles = StyleSheet.create({
     height: 24,
     tintColor: Colors.COUCH_BLUE,
   },
+  smallCloseIconContainer: {
+    top: 10,
+    right: 10,
+    width: 24,
+    height: 24,
+    borderRadius: 100,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.COUCH_BLUE_2300,
+  },
+  smallCloseIcon: {
+    width: 12,
+    height: 12,
+    tintColor: Colors.COUCH_BLUE,
+  },
   changeImageBtn: {
     borderWidth: 5,
     borderRadius: hp(50),
@@ -77,5 +93,34 @@ export const styles = StyleSheet.create({
     padding: 7.5,
     borderRadius: 50,
     backgroundColor: Colors.COUCH_BLUE_2300,
+  },
+  voiceIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+    backgroundColor: Colors.COUCH_BLUE_300,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  voiceIcon: {
+    width: wp(20),
+    height: hp(20),
+  },
+  audioDuration: {
+    fontSize: hp(16),
+    color: Colors.COUCH_BLUE_1100,
+    fontFamily: Typography.fontFamily.SoraRegular,
+  },
+  audioView: {
+    borderRadius: 12,
+    paddingTop: hp(28),
+    paddingBottom: hp(16),
+    paddingHorizontal: wp(12),
+    backgroundColor: Colors.COUCH_BLUE_1200,
+  },
+  audioContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

@@ -44,9 +44,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  activeNoteIconContainer: {
-    backgroundColor: Colors.COUCH_BLUE,
-  },
   noteIcon: {
     width: wp(20),
     height: hp(20),
