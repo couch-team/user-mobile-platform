@@ -33,11 +33,9 @@ export const Journal = {
       try {
         const api: any = await JournalApi.getJournals();
         if (api) {
-          const data = Array.isArray(api) ? api[0] : api;
           dispatch.Journal.setState({
-            journals: data,
+            journals: api,
           });
-          console.log(api);
         }
       } catch (error) {
         this.handleError(error);

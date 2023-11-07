@@ -1,15 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isYesterday from 'dayjs/plugin/isYesterday';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal, LongButton } from 'components';
-
-dayjs.extend(isToday);
-dayjs.extend(isYesterday);
 
 export type MoodType =
   | 'happy'

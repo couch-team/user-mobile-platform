@@ -52,11 +52,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [openVoiceModal, setOpenVoiceModal] = useState(false);
   const [noteTakerOption, setNoteTakerOption] = useState<NoteTakerOptionType[]>(
     [
-      {
-        id: Date.now() + Math.random() + '',
-        type: 'text',
-        value: '',
-      },
+      // {
+      //   id: Date.now() + Math.random() + '',
+      //   type: 'text',
+      //   value: '',
+      // },
     ],
   );
 
@@ -202,7 +202,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       tags: [],
       audio_file: audioData?.data || null,
       notes: title,
-      mood_emoji: mood as string,
+      mood_emoji: (mood as string) || null,
       image: imageData || null,
       user: userProfile?.user,
     };

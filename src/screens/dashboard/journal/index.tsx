@@ -1,4 +1,8 @@
-import React, { useEffect } from 'react';
+import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
+import isYesterday from 'dayjs/plugin/isYesterday';
+import { groupBy } from 'lodash';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -6,10 +10,12 @@ import { HeaderBar, VirtualizedScrollView, SVGIcon } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
-import { journalList } from 'constants/data';
-import { wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import JournalItem from './journal-item';
+
+dayjs.extend(isToday);
+dayjs.extend(isYesterday);
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -23,7 +29,36 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
   const {
     Journal: { getJournals },
   } = useDispatch();
-  const journals = useSelector((state: RootState) => state.Journal.journals);
+  const journalsState = useSelector(
+    (state: RootState) => state.Journal.journals,
+  );
+  console.log('journalsState', journalsState);
+
+  const journals = useMemo(() => {
+    if (!journalsState) {
+      return [];
+    }
+
+    const grouped = groupBy(journalsState, item => {
+      const dayObj = dayjs(item.timestamp);
+      if (dayObj.isToday()) {
+        return 'Today';
+      }
+
+      if (dayObj.isYesterday()) {
+        return 'Yesterday';
+      }
+
+      return dayObj.format('DD-MM-YYYY');
+    });
+
+    return Object.keys(grouped).map(key => {
+      return {
+        title: key,
+        data: grouped[key],
+      };
+    });
+  }, [journalsState]);
   console.log('journals', journals);
 
   useEffect(() => {
@@ -76,6 +111,23 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
             style={styles.journalFrameContainer}
           />
           <SectionList
+            sections={journals}
+            contentContainerStyle={styles.contentContainerStyle}
+            renderItem={({ item }) => {
+              return <JournalItem key={item.id} item={item} />;
+            }}
+            renderSectionHeader={({ section: { title } }) => {
+              return (
+                <View style={styles.headerSectionContainer}>
+                  <Text style={styles.headerTitleStyle}>{title}</Text>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <SVGIcon name="filter" />
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+          {/* <SectionList
             sections={journalList}
             contentContainerStyle={styles.contentContainerStyle}
             renderItem={({ item, index }) => {
@@ -141,7 +193,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                 </View>
               );
             }}
-          />
+          /> */}
         </View>
       </VirtualizedScrollView>
     </SafeAreaView>
