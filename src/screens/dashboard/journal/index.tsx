@@ -1,13 +1,21 @@
-import React from 'react';
+import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
+import isYesterday from 'dayjs/plugin/isYesterday';
+import { groupBy } from 'lodash';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Image, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { HeaderText, HeaderBar, VirtualizedScrollView } from 'components';
+import { HeaderBar, VirtualizedScrollView, SVGIcon } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Images } from 'theme/config';
-import { journalList } from 'constants/data';
-import { wp } from 'constants/layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import JournalItem from './journal-item';
+
+dayjs.extend(isToday);
+dayjs.extend(isYesterday);
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -18,6 +26,46 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
+  const {
+    Journal: { getJournals },
+  } = useDispatch();
+  const journalsState = useSelector(
+    (state: RootState) => state.Journal.journals,
+  );
+  console.log('journalsState', journalsState);
+
+  const journals = useMemo(() => {
+    if (!journalsState) {
+      return [];
+    }
+
+    const grouped = groupBy(journalsState, item => {
+      const dayObj = dayjs(item.timestamp);
+      if (dayObj.isToday()) {
+        return 'Today';
+      }
+
+      if (dayObj.isYesterday()) {
+        return 'Yesterday';
+      }
+
+      return dayObj.format('DD-MM-YYYY');
+    });
+
+    return Object.keys(grouped).map(key => {
+      return {
+        title: key,
+        data: grouped[key],
+      };
+    });
+  }, [journalsState]);
+  console.log('journals', journals);
+
+  useEffect(() => {
+    getJournals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>
@@ -56,41 +104,30 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           onPressLeftIcon={() => goBack()}
           headerRight={<HeaderRight />}
         />
-        <HeaderText
-          text="My Journal"
-          hasSubText="Put your feelings and thoughts into writing..."
-        />
-        <Image
-          source={Images['journal-frame']}
-          resizeMode="contain"
-          style={styles.journalFrameContainer}
-        />
-        {(() => {
-          if (journalList.length === 0) {
-            return (
-              <View style={styles.emptyMoodTrackerContainer}>
-                <View style={styles.emptyMoodIconContainer}>
-                  <Image
-                    source={Images.journal}
-                    resizeMode="contain"
-                    style={styles.emptyMoodIcon}
-                  />
-                </View>
-                <View style={styles.emptyTextContainer}>
-                  <Text style={styles.emptyMainText}>
-                    Not Notes in your Journal as for now
-                  </Text>
-                  <Text style={styles.emptyBodyText}>
-                    Tap the '+' button below to log your mood on the mood
-                    tracker.
-                  </Text>
-                </View>
-              </View>
-            );
-          }
-        })()}
         <View style={styles.bodyContainer}>
+          <Image
+            source={Images['journal-frame']}
+            resizeMode="contain"
+            style={styles.journalFrameContainer}
+          />
           <SectionList
+            sections={journals}
+            contentContainerStyle={styles.contentContainerStyle}
+            renderItem={({ item }) => {
+              return <JournalItem key={item.id} item={item} />;
+            }}
+            renderSectionHeader={({ section: { title } }) => {
+              return (
+                <View style={styles.headerSectionContainer}>
+                  <Text style={styles.headerTitleStyle}>{title}</Text>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <SVGIcon name="filter" />
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+          {/* <SectionList
             sections={journalList}
             contentContainerStyle={styles.contentContainerStyle}
             renderItem={({ item, index }) => {
@@ -98,7 +135,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                 <View
                   style={[
                     styles.itemMoodContainer,
-                    { backgroundColor: item.bg },
+                    // { backgroundColor: item.bg },
                   ]}
                   key={index}>
                   <View style={styles.journalHeaderContainer}>
@@ -141,7 +178,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                     <Text style={styles.itemMoodBodyText}>
                       {item.description}
                     </Text>
-                    <Text style={styles.itemMoodBodyText}>{item.date}</Text>
+                    <Text style={styles.itemMoodBodyDateText}>{item.date}</Text>
                   </View>
                 </View>
               );
@@ -150,10 +187,13 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               return (
                 <View style={styles.headerSectionContainer}>
                   <Text style={styles.headerTitleStyle}>{title}</Text>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <SVGIcon name="filter" />
+                  </TouchableOpacity>
                 </View>
               );
             }}
-          />
+          /> */}
         </View>
       </VirtualizedScrollView>
     </SafeAreaView>

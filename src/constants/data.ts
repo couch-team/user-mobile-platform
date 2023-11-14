@@ -1047,12 +1047,12 @@ export const journalList = [
 ];
 
 export const noteOptionsIcons = [
-  {
-    id: 1,
-    icon: Images['note-text'],
-    'active-icon': Images['active-note-text'],
-    value: 'text',
-  },
+  // {
+  //   id: 1,
+  //   icon: Images['note-text'],
+  //   'active-icon': Images['active-note-text'],
+  //   value: 'text',
+  // },
   {
     id: 2,
     icon: Images['note-video'],
@@ -1067,6 +1067,7 @@ export const noteOptionsIcons = [
   {
     id: 4,
     icon: Images['note-voice'],
+    'active-icon': Images['active-note-voice'],
     value: 'voice',
   },
   {

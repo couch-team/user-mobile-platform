@@ -1,8 +1,32 @@
 export type CompleteProfile = {
+  id: number;
   gender: string;
   date_of_birth: Date;
   nationality: string;
   stateOfResidence: string;
+  created_at: Date;
+  updated_at: Date;
+  user: number;
+};
+
+export type JournalType = {
+  id: number;
+  tags: string[];
+  audio_file: string | null;
+  notes: string;
+  mood_emoji: string | null;
+  image: string | null;
+  timestamp: Date;
+  user: number;
+};
+
+export type JournalPayloadType = {
+  tags: string[];
+  audio_file: string | null;
+  notes: string;
+  mood_emoji: string | null;
+  image: string | null;
+  user: number;
 };
 
 type HealthInfo = {

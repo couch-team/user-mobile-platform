@@ -79,9 +79,16 @@ const Images = {
   'active-note-image': require('../../assets/images/note-options/active-image.png'),
   'note-image': require('../../assets/images/note-options/image.png'),
   'note-mood': require('../../assets/images/note-options/mood.png'),
-  'note-text': require('../../assets/images/note-options/text.png'),
+  'note-text': require('../../assets/images/note-options/info.png'),
   'note-video': require('../../assets/images/note-options/video.png'),
   'note-voice': require('../../assets/images/note-options/voice.png'),
+  'active-note-voice': require('../../assets/images/note-options/active-voice.png'),
+  'note-pause': require('../../assets/images/note-options/pause.png'),
+  'note-stop': require('../../assets/images/note-options/stop.png'),
+  'note-play': require('../../assets/images/note-options/play.png'),
+  'note-retry': require('../../assets/images/note-options/retry.png'),
+  'note-check': require('../../assets/images/note-options/check.png'),
+  'note-cancel': require('../../assets/images/note-options/cancel.png'),
 
   //frames
   'journal-frame': require('../../assets/images/journal-frame.png'),
@@ -100,6 +107,14 @@ const Images = {
   'cbt-2': require('../../assets/images/cbt/cbt-2.png'),
   'cbt-3': require('../../assets/images/cbt/cbt-3.png'),
   'cbt-4': require('../../assets/images/cbt/cbt-4.png'),
+
+  //mood
+  mood_happy: require('../../assets/images/mood-options/mood-happy.png'),
+  mood_angry: require('../../assets/images/mood-options/mood-angry.png'),
+  mood_sad: require('../../assets/images/mood-options/mood-sad.png'),
+  mood_calm: require('../../assets/images/mood-options/mood-calm.png'),
+  mood_excited: require('../../assets/images/mood-options/mood-excited.png'),
+  mood_anxious: require('../../assets/images/mood-options/mood-anxious.png'),
 };
 
 export default Images;
