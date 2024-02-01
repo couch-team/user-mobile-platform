@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView
 } from 'react-native';
 import { styles } from './style';
 import { Images } from 'theme/config';
@@ -24,7 +25,8 @@ type Props = {
 };
 
 const registerSchema = Yup.object().shape({
-  fullName: Yup.string().required('Fullname is required'),
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
   email: Yup.string().email().required('Email is required'),
   password: Yup.string()
     .required('Password is required')
@@ -43,9 +45,10 @@ const Register = ({ navigation: { navigate } }: Props) => {
   );
 
   const handleSubmit = async (values: any) => {
-    const { fullName, password, email } = values;
+    const { firstName,lastName, password, email } = values;
     const data = {
-      full_name: fullName,
+      first_name: firstName,
+      last_name: lastName,
       password,
       email,
       role: 2,
@@ -58,6 +61,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <ImageBackground source={Images.background} style={styles.imageBg}>
         <View style={styles.logoContainer}>
           <Image
@@ -66,13 +70,14 @@ const Register = ({ navigation: { navigate } }: Props) => {
             style={styles.logo}
           />
         </View>
-        <KeyboardAvoidingView behavior="position">
+        {/* <KeyboardAvoidingView> */}
           <View style={styles.bodyContainer}>
             <Text style={styles.welcomeText}>Welcome to couch</Text>
             <Text style={styles.getStartedText}>Let's get you Started</Text>
             <Formik
               initialValues={{
-                fullName: '',
+                firstName: '',
+                lastName: '',
                 email: '',
                 password: '',
                 terms: false,
@@ -85,10 +90,16 @@ const Register = ({ navigation: { navigate } }: Props) => {
                   <>
                     <View style={styles.formContainer}>
                       <FormTextInput
-                        label="Fullname"
-                        onChangeText={handleChange('fullName')}
-                        hasError={errors.fullName}
-                        value={values.fullName}
+                        label="First Name"
+                        onChangeText={handleChange('firstName')}
+                        hasError={errors.firstName}
+                        value={values.firstName}
+                      />
+                       <FormTextInput
+                        label="Last Name"
+                        onChangeText={handleChange('lastName')}
+                        hasError={errors.lastName}
+                        value={values.lastName}
                       />
                       <FormTextInput
                         label="Email address"
@@ -152,8 +163,9 @@ const Register = ({ navigation: { navigate } }: Props) => {
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        {/* </KeyboardAvoidingView> */}
       </ImageBackground>
+      </ScrollView>
     </SafeAreaView>
   );
 };

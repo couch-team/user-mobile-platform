@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: Colors.WHITE,
     width: deviceWidth,
-    marginTop: hasDynamicIsland() || hasNotch() ? 0 : hp(15),
+    marginTop:  0 || hp(15),
   },
   dropDownArrow: {
     width: wp(20),

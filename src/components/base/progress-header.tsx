@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   progressHeaderContainer: {
     flexDirection: 'row',
     marginHorizontal: wp(20),
-    marginTop: hasDynamicIsland() && hasNotch() ? hp(20) : hp(40),
+    marginTop: hp(20) && hp(40),
     alignItems: 'center',
     justifyContent: 'space-between',
   },
