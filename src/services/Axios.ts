@@ -3,7 +3,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 
 const Axios = axios.create({
-  baseURL: Config.BASE_URL,
+  baseURL: 'http://157.245.33.44:8000/',
   timeout: 60000,
 });
 
@@ -22,7 +22,7 @@ Axios.interceptors.request.use(async (config: any) => {
     config.headers.timestamp = new Date().getTime().toString();
   }
 
-  console.log(config);
+  // console.log(config);
   return config;
 });
 
@@ -34,9 +34,9 @@ Axios.interceptors.response.use(
     const statusCode = error.response ? error.response.status : null;
     const originalRequest = error.config;
     if (statusCode === 401 && !originalRequest._retry) {
-      console.log(error.response);
+      // console.log(error.response);
     }
-    console.log(error.response);
+    console.log(error.response,'Error....');
     return Promise.reject(error.response);
   },
 );

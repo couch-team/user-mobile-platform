@@ -36,9 +36,9 @@ export const styles = StyleSheet.create({
   },
   sectionListStyle: {
     height:
-      hasDynamicIsland() || hasNotch()
-        ? deviceHeight * 0.62
-        : deviceHeight * 0.66,
+      // hasDynamicIsland() || hasNotch()
+         deviceHeight * 0.62 ||
+        deviceHeight * 0.66,
   },
   activeButtonBottomContainer: {
     borderBottomWidth: hp(5),

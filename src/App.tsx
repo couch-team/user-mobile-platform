@@ -12,7 +12,7 @@ import { Colors, Typography } from 'theme/config';
 
 const App = () => {
   useEffect(() => {
-    setTimeout(() => SplashScreen.hide(), 2000);
+    setTimeout(() => SplashScreen?.hide(), 2000);
   }, []);
 
   return (
@@ -22,7 +22,7 @@ const App = () => {
         <FlashMessage
           position="top"
           duration={3000}
-          style={[hasDynamicIsland() && styles.paddingTop]}
+          style={[styles.paddingTop]}
           titleStyle={styles.titleStyle}
         />
         <RootNavigation />
