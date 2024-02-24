@@ -31,8 +31,7 @@ local.properties
 *.iml
 *.hprof
 .cxx/
-android/
-ios/
+
 # node.js
 #
 node_modules/
@@ -67,3 +66,5 @@ buck-out/
 
 .env
 .expo
+android
+ios
