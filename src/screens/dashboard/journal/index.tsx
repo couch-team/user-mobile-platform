@@ -6,14 +6,15 @@ import {
   Image,
   SectionList,
   ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { HeaderText, HeaderBar, VirtualizedScrollView } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { Images } from 'theme/config';
-import { wp } from 'constants/layout';
+import { Colors, Images } from 'theme/config';
+import { hp, wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import moment from 'moment';
@@ -122,12 +123,28 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
         text="My Journal"
         hasSubText="Put your feelings and thought in writing"
       />
-      <HeaderText
-        iconImage={Images.info}
-        // bannerImage={Images.tree}
-        text={`Hi ${authProfileDetails?.first_name}`}
-        hasSubText="What’s on your Mind?"
-      />
+      <View
+        style={{
+          backgroundColor: Colors.COUCH_BLUE_800,
+          paddingVertical:hp(24),
+          paddingHorizontal:wp(14),
+          marginHorizontal: wp(18),
+          borderRadius: hp(10),
+        }}>
+          <View>
+            <Text style={style.headerText}>{`Hi ${authProfileDetails?.first_name}`}</Text>
+            <View style={style.iconImageContainer}>
+                <Image
+                  source={Images.info}
+                  resizeMode="contain"
+                  style={style.iconImageStyle}
+                />
+              <Text style={style.subHeaderText}>
+              What’s on your Mind?
+              </Text>
+            </View>
+          </View>
+      </View>
       {/* <Image
           source={Images['journal-frame']}
           resizeMode="contain"
@@ -140,13 +157,14 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
             );
           }
         })()} */}
-      <VirtualizedScrollView  refreshing={loading}
-            onEndReachedThreshold={0.5}
-            onRefresh={PrevJournal}
-            onEndReached={NextJournal}
-            ListFooterComponent={
-              loading ? <ActivityIndicator size="large" color="white" /> : null
-            }>
+      <VirtualizedScrollView
+        refreshing={loading}
+        onEndReachedThreshold={0.5}
+        onRefresh={PrevJournal}
+        onEndReached={NextJournal}
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" color="white" /> : null
+        }>
         <View style={styles.bodyContainer}>
           <SectionList
             sections={groupedJournals}
@@ -256,7 +274,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                 </View>
               </View>
             }
-           
           />
         </View>
       </VirtualizedScrollView>
@@ -266,3 +283,34 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
 };
 
 export default Journal;
+
+const style = StyleSheet.create({
+  headerTextContainer: {
+    marginTop: hp(15),
+    marginHorizontal: wp(22),
+  },
+  headerText: {
+    color: Colors.WHITE,
+    fontFamily: "Sora-Medium",
+    fontWeight:"400",
+    fontSize: hp(20),
+    lineHeight: hp(25),
+  },
+  subHeaderText: {
+    paddingTop: hp(4),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontFamily: "Sora-Regular",
+    fontSize: hp(14),
+    lineHeight: hp(18),
+  },
+  iconImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+
+  iconImageStyle: {
+    width: wp(20),
+    height: hp(20),
+  }
+});
