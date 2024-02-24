@@ -4,12 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { DashboardParamList, AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+DashboardParamList,
   'CompleteOnboarding1'
 >;
 type Props = {
@@ -18,12 +19,16 @@ type Props = {
 };
 
 const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
+ 
+  const authProfileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile,
+  );
   const {
     Auth: { accessDashboard },
   } = useDispatch();
 
   const continueProcess = async () => {
-    await accessDashboard();
+    navigate('Home')
   };
 
   return (
@@ -36,7 +41,7 @@ const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
         />
         <View style={styles.instructionTextContainer}>
           <Text style={styles.instructionBodyText}>
-            Daniella, thanks for sharing...
+            {authProfileDetails?.first_name}, thanks for sharing...
           </Text>
           <Text style={[styles.instructionText, styles.topPadding]}>
             Your health details has been saved and be rest assured we would give

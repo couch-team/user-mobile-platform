@@ -1,18 +1,47 @@
 import { UserApi } from 'services/apis';
 import { reducerActions as reducers } from './reducer';
 import { showMessage } from 'react-native-flash-message';
-import { CompleteProfile } from 'redux/types';
+import { CompleteProfile, CompleteOnboarding } from 'redux/types';
+import Axios from 'services/Axios';
 
 const IsState = {
   userProfile: null,
+  gender: null,
+  dataOfbirth: null,
+  userProfileDetails: null,
   avatars: [],
   moods: [],
+  userJournal: [],
+  nextJournal: [],
+  country: null,
+  state: null,
+  pageNumber: 1,
+  isFetching: true,
+  totalPages: null,
+  goalOnboarding: null,
+  physicalOnboarding: null,
+  therapyOnboarding: null,
+  journalById: null,
 } as unknown as User;
 
 interface User {
-  userProfile: CompleteProfile;
-  avatars: any[];
+  gender: CompleteProfile;
+  dataOfbirth: CompleteProfile;
+  nationality: CompleteProfile;
+  country: CompleteProfile;
+  state: CompleteProfile;
+  userProfileDetails: any;
+  avatars: any;
   moods: any[];
+  userJournal: any[];
+  nextJournal: any[];
+  totalPages: any;
+  isFetching: boolean;
+  pageNumber: number;
+  journalById: any;
+  goalOnboarding: CompleteOnboarding;
+  physicalOnboarding: CompleteOnboarding;
+  therapyOnboarding: CompleteOnboarding;
 }
 
 export const User = {
@@ -20,29 +49,145 @@ export const User = {
   state: IsState,
   reducers,
   effects: (dispatch: any) => ({
+    async pendingProfileGender(data: CompleteProfile) {
+      dispatch.User.setState({
+        gender: data,
+      });
+      return true;
+    },
+    async pendingProfileDOB(data: CompleteProfile) {
+      dispatch.User.setState({
+        dataOfbirth: data,
+      });
+      return true;
+    },
+
+    async pendingProfileCountry(data: CompleteProfile) {
+      dispatch.User.setState({
+        country: data,
+      });
+      return true;
+    },
+    async pendingProfileState(data: CompleteProfile) {
+      dispatch.User.setState({
+        state: data,
+      });
+      return true;
+    },
+
     async completeProfileCreation(data: CompleteProfile) {
       dispatch.User.setError(false);
       try {
-        const res = await UserApi.completeProfile(data);
-        if (res) {
-          dispatch.User.getUserProfileData();
-          return true;
+        const response = await UserApi.completeProfile(data);
+        if (response) {
+          console.log(response, 'complete profile');
         }
       } catch (error) {
+        console.log(error, 'complet profile error');
         this.handleError(error);
       }
     },
+
+    async createJournal(data: any) {
+      dispatch.User.setError(false);
+      try {
+        const response = await UserApi.createNewJournal(data);
+        if (response) {
+          console.log(response, 'create journal');
+        }
+      } catch (error) {
+        console.log(error, 'create journal');
+        this.handleError(error);
+      }
+    },
+
     async getUserProfileData() {
       dispatch.User.setError(false);
       try {
         const api: any = await UserApi.getUserProfile();
         if (api) {
           dispatch.User.setState({
-            userProfile: api?.data,
+            userProfileDetails: api,
           });
-          console.log(api);
         }
       } catch (error) {
+        this.handleError(error);
+      }
+    },
+
+    async getAllMoods() {
+      dispatch.User.setError(false);
+      try {
+        const api: any = await UserApi.getAllMoods();
+        if (api) {
+          dispatch.User.setState({
+            moods: api,
+          });
+        }
+        // console.log('journal-list', api)
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+
+    async getJournal(pageNumber: number) {
+      dispatch.User.setError(false);
+      // dispatch.User.setState({isFetching: true})
+      try {
+       
+        const api = await UserApi.getAllJournal({ page: pageNumber });
+        if (api) {
+          dispatch.User.setState({
+            userJournal: api.results.map((item: { id: any }) => ({
+              ...item,
+              key: item.id,
+            })),
+            totalPages: api.count,
+          });
+        }
+        // console.log(...api.results.map((item: { id: any; }) => ({ ...item, key: item.id })),'listing')
+      } catch (error) {
+        this.handleError(error);
+        // dispatch.User.setState({isFetching: false})
+      }
+    },
+
+    async getJournalById(id: any) {
+      dispatch.User.setError(false);
+      try {
+        const api = await UserApi.getJournalById({ id: id });
+        if (api) {
+          dispatch.User.setState({
+            journalById: api,
+          });
+        }
+      } catch (error) {
+        this.handleError(error);
+      }
+    },
+
+    async editJournalById({ id, formData }: { id: any; formData: FormData }) {
+      dispatch.User.setError(false);
+      try {
+        const api = await UserApi.editJournalById({ id: id});
+        console.log(api,'edit data')
+        if (api) {
+          // dispatch.User.setState({
+          //   journalById: api,
+          // });o
+        }
+      } catch (error) {
+        console.log(error,'edit error')
+        this.handleError(error);
+      }
+    },
+
+    async deleteJournalById(id: any) {
+      dispatch.User.setError(false);
+      try {
+        await UserApi.deleteJournalById({ id: id });
+      } catch (error) {
+        console.log(error);
         this.handleError(error);
       }
     },
@@ -52,10 +197,12 @@ export const User = {
       try {
         const api: any = await UserApi.setOnboarding(data);
         if (api) {
-          console.log(api);
-          return true;
+          console.log('onboarding redux', api);
+          // return true;
         }
-      } catch (error) {
+        console.log('onboarding redux', api);
+      } catch (error: any) {
+        console.log('onboard', error);
         this.handleError(error);
       }
     },
@@ -64,7 +211,7 @@ export const User = {
       try {
         const api: any = await UserApi.getAllAvatars();
         if (api) {
-          console.log(api);
+          console.log(api, 'get avatar');
           dispatch.User.setState({
             avatars: api,
           });
@@ -79,7 +226,7 @@ export const User = {
       try {
         const api: any = await UserApi.getAllMoods();
         if (api) {
-          console.log(api);
+          console.log(api, 'get mood');
           dispatch.User.setState({
             moods: api,
           });
@@ -94,7 +241,7 @@ export const User = {
       try {
         const api: any = await UserApi?.setMood(data);
         if (api) {
-          console.log(api);
+          console.log(api, 'add mood');
           return api;
         }
       } catch (error) {
@@ -105,6 +252,26 @@ export const User = {
       dispatch.User.setState({
         isLoggedIn: true,
       });
+    },
+
+    async goalOnboardingStage(data: CompleteOnboarding) {
+      dispatch.User.setState({
+        goalOnboarding: data,
+      });
+      return true;
+    },
+
+    async physicalOnboardingStage(data: CompleteOnboarding) {
+      dispatch.User.setState({
+        physicalOnboarding: data,
+      });
+      return true;
+    },
+    async therapyOnboardingStage(data: CompleteOnboarding) {
+      dispatch.User.setState({
+        therapyOnboarding: data,
+      });
+      return true;
     },
 
     async handleError(error: any) {

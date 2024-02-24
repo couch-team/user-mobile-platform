@@ -65,7 +65,14 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraMedium,
   },
   tourInfoContainer: {
-    height: hp(380),
+    height: hp(400),
+    marginTop: hp(30),
+    borderRadius: hp(18),
+    padding: hp(16),
+    backgroundColor: Colors.PRIMARY_DARKBLUE,
+  },
+  BasicInfoContainer: {
+    height: hp(300),
     marginTop: hp(30),
     borderRadius: hp(18),
     padding: hp(16),
@@ -87,11 +94,12 @@ export const styles = StyleSheet.create({
   tourBodyContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: hp(10),
+    marginTop: hp(4),
   },
   profileImage: {
     width: 100,
     height: 100,
+    borderRadius: 100
   },
   podcastContentContainer: {
     paddingLeft: wp(24),

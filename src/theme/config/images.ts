@@ -57,6 +57,7 @@ const Images = {
   sad: require('../../assets/images/icons/sad.png'),
   'sad-2': require('../../assets/images/icons/sad-2.png'),
   search: require('../../assets/images/icons/search.png'),
+  'contact-support': require('../../assets/images/icons/contact-support.png'),
   shield: require('../../assets/images/icons/shield.png'),
   smile: require('../../assets/images/icons/smile.png'),
   text: require('../../assets/images/icons/text.png'),
@@ -69,6 +70,7 @@ const Images = {
   x: require('../../assets/images/icons/x.png'),
   'video-player': require('../../assets/images/icons/video-player.png'),
   videos: require('../../assets/images/icons/videos.png'),
+  info: require('../../assets/images/icons/Info.png'),
   voice: require('../../assets/images/icons/voice.png'),
   'voice-note': require('../../assets/images/icons/voice-note.png'),
   users: require('../../assets/images/icons/users.png'),
@@ -82,9 +84,23 @@ const Images = {
   'note-text': require('../../assets/images/note-options/text.png'),
   'note-video': require('../../assets/images/note-options/video.png'),
   'note-voice': require('../../assets/images/note-options/voice.png'),
+  'note-pause': require('../../assets/images/note-options/pause.png'),
+  'note-stop': require('../../assets/images/note-options/stop.png'),
+  'note-play': require('../../assets/images/note-options/play.png'),
+  'note-retry': require('../../assets/images/note-options/retry.png'),
+  'note-check': require('../../assets/images/note-options/check.png'),
+  'note-cancel': require('../../assets/images/note-options/cancel.png'),
+  'smile-2': require('../../assets/images/mood-options/smile-2.png'),
 
-  //frames
+
+  //journal
   'journal-frame': require('../../assets/images/journal-frame.png'),
+  tree: require('../../assets/images/journal/tree.png'),
+  filter: require('../../assets/images/journal/filter.png'),
+  more: require('../../assets/images/journal/more.png'),
+  edit: require('../../assets/images/journal/edit.png'),
+  delete: require('../../assets/images/journal/deleteicon.png'),
+ 
 
   //bottom tabs
   activity: require('../../assets/images/bottom-tabs/activity.png'),
@@ -100,6 +116,14 @@ const Images = {
   'cbt-2': require('../../assets/images/cbt/cbt-2.png'),
   'cbt-3': require('../../assets/images/cbt/cbt-3.png'),
   'cbt-4': require('../../assets/images/cbt/cbt-4.png'),
+
+   //mood
+   mood_happy: require('../../assets/images/mood-options/mood-happy.png'),
+   mood_angry: require('../../assets/images/mood-options/mood-angry.png'),
+   mood_sad: require('../../assets/images/mood-options/mood-sad.png'),
+   mood_calm: require('../../assets/images/mood-options/mood-calm.png'),
+   mood_excited: require('../../assets/images/mood-options/mood-excited.png'),
+   mood_anxious: require('../../assets/images/mood-options/mood-anxious.png'),
 };
 
 export default Images;

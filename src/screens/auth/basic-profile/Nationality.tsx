@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { CouchDropDown, LongButton } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
+type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'Nationality'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -28,14 +28,9 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedState, setSelectedState] = useState('');
 
   const {
-    Auth: { completeProfileCreation },
+    User: {pendingProfileCountry ,pendingProfileState},
   } = useDispatch();
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.completeProfileCreation,
-  );
-
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-
+  
   const onSelectCountry = async (selectedUserCountry: SelectedCountryProps) => {
     setSelectedCountry(selectedUserCountry);
   };
@@ -43,17 +38,17 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     setSelectedState(selectedUserState);
   };
 
-  const continueProcess = async () => {
-    const data = {
-      ...userProfile,
-      nationality: selectedCountry?.code,
-      stateOfResidence: selectedState,
-    };
-    const res = await completeProfileCreation(data);
-    if (res) {
-      navigate('UploadProfile', { data });
-    }
+
+  const completeProfile = async () => {
+    const res = await pendingProfileCountry(selectedCountry?.code)
+    const resp = await pendingProfileState(selectedState)
+      if(resp && res ){
+        navigate('UploadProfile');
+      }
+        
   };
+
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,9 +97,9 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       <LongButton
         hasLongArrow
         title="Continue"
-        loading={loading}
+        // loading={loading}
         disabled={selectedCountry && selectedState ? false : true}
-        onPress={() => continueProcess()}
+        onPress={() => completeProfile()}
       />
     </SafeAreaView>
   );

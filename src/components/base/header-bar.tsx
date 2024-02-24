@@ -22,6 +22,7 @@ interface HeaderBarProps {
   onPressRightIcon?: () => void;
   rightIcon?: ImageSourcePropType;
   rightHeader?: string;
+  headerLeft?: React.ReactNode;
   headerRight?: ReactElement;
   tintColor?: string;
 }
@@ -35,11 +36,16 @@ export const HeaderBar = ({
   rightHeader,
   rightIcon,
   hasLeftButton,
+  headerLeft,
   headerRight,
   headerTitle,
   tintColor,
 }: HeaderBarProps) => {
   const renderHeaderLeft = () => {
+    if (headerLeft) {
+      return <View style={styles.headerLeftContainer}>{headerLeft}</View>;
+    }
+
     if (hasBackButton) {
       return (
         <>
@@ -146,6 +152,10 @@ const styles = StyleSheet.create({
     right: wp(16),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  headerLeftContainer: {
+    position: 'absolute',
+    left: wp(16),
   },
   headerContainer: {
     backgroundColor: Colors.WHITE,

@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     paddingLeft: wp(10),
   },
   buttonStyle: {
-    marginTop: hp(20),
+    marginTop: hp(40),
   },
   signInText: {
     alignSelf: 'center',
@@ -82,4 +82,30 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_BLUE,
     fontFamily: Typography.fontFamily.SoraMedium,
   },
+  forgetPassText: {
+    alignSelf: 'center',
+    fontFamily: Typography.fontFamily.SoraMedium,
+    color: Colors.WHITE,
+    fontSize: hp(14),
+  },
+  forgetPassLink: {
+    color: Colors.COUCH_BLUE,
+    fontSize: hp(14),
+    marginTop:wp(9),
+    marginHorizontal:wp(10),
+    fontFamily: Typography.fontFamily.SoraMedium,
+    fontWeight:"900"
+  },
+  forgetPassContainer: {
+    flexDirection: 'row',
+    gap: 14,
+    alignItems:"center",
+    justifyContent: 'flex-end',
+  },
+  forgetPassBtn:{
+    height: hp(40),
+    width: wp(100),
+    backgroundColor: Colors.COUCH_BLUE_1200,
+    borderRadius: wp(100)
+  }
 });

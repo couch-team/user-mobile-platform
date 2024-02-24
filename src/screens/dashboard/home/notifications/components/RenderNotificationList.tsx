@@ -7,7 +7,7 @@ interface RenderNotificationListProps {
 }
 
 const RenderNotificationList = ({ item }: RenderNotificationListProps) => {
-  console.log(item);
+  console.log(item,'notification');
   return (
     <View style={styles.notificationListBodyContainer}>
       {item?.newNotifications?.length > 0 && (

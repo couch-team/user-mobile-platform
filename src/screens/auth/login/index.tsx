@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -24,23 +24,25 @@ type Props = {
 
 const Login = ({ navigation: { navigate } }: Props) => {
   const {
-    Auth: { login },
+    Auth: { login,getAuthenticate},
   } = useDispatch();
+
+
 
   const loading = useSelector(
     (state: RootState) => state.loading.effects.Auth.login,
   );
 
-  const [email, setEmail] = useState('greatchinonso7@gmail.com');
-  const [password, setPassword] = useState('Password@1');
+  
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
 
   const isDisabled = email && password ? false : true;
 
   const loginAccount = async () => {
-    // eslint-disable-next-line no-useless-escape
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    if (reg.test(email) === false) {
+    if (!email) {
       return showMessage({
         message: 'Please enter a valid email address',
         duration: 2000,
@@ -54,14 +56,14 @@ const Login = ({ navigation: { navigate } }: Props) => {
         type: 'danger',
       });
     }
-
-    const data = {
-      email,
-      password,
-    };
-    await login(data);
+      const data = {
+        email,
+        password,
+      };
+      console.log('Logging in with email:', email && data);
+      await login(data);
   };
-
+ 
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>
@@ -79,7 +81,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
             <View style={styles.formContainer}>
               <FormTextInput
                 label="Email address"
-                autoCapitalize="none"
+                // autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
                 value={email}
@@ -93,6 +95,23 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 showPassword={() => setShowPassword(!showPassword)}
                 inputIcon={Images['help-circle']}
               />
+            </View>
+            <View style={styles.forgetPassContainer}>
+              <TouchableOpacity>
+                <Text
+                  onPress={() => navigate('ForgetPassword')}
+                  style={styles.forgetPassText}>
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.forgetPassBtn}>
+                <Text
+                  // onPress={() => navigate('Register')}
+                  style={styles.forgetPassLink}>
+                  Let’s help out
+                </Text>
+              </TouchableOpacity>
             </View>
             <LongButton
               isNotBottom
@@ -120,3 +139,5 @@ const Login = ({ navigation: { navigate } }: Props) => {
 };
 
 export default Login;
+
+

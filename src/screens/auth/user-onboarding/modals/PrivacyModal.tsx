@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { LongButton, BaseModal } from 'components';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 interface PrivacyModalProps {
   isVisible: boolean;
@@ -15,6 +17,11 @@ const PrivacyModal = ({
   onClose,
   onComplete,
 }: PrivacyModalProps) => {
+
+  const authProfileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile,
+  );
+  
   return (
     <BaseModal visible={isVisible} onClose={() => onClose()}>
       <View style={styles.container}>
@@ -26,7 +33,7 @@ const PrivacyModal = ({
               style={styles.shieldIcon}
             />
           </View>
-          <Text style={styles.profileName}>Hey Daniella,</Text>
+          <Text style={styles.profileName}>Hey {authProfileDetails?.first_name},</Text>
           <Text style={styles.headerText}>
             we care about your privacy as much as you do.
           </Text>

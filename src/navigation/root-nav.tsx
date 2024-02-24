@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { navigationRef } from './utils';
 import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import DashboardNavigation from './dashboard';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
@@ -20,6 +20,10 @@ const AppNavigation = () => {
 
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
+
+  const authProfileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile?.profile,
+  );
 
   React.useEffect(() => {
     const restoreState = async () => {
@@ -51,7 +55,6 @@ const AppNavigation = () => {
   if (!isReady) {
     return null;
   }
-
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -66,7 +69,7 @@ const AppNavigation = () => {
           cardStyle: { backgroundColor: Colors.PRIMARY },
           presentation: 'transparentModal',
         }}>
-        {isLoggedIn ? (
+        { isLoggedIn ? (
           <>
             <Stack.Screen component={DashboardNavigation} name="Dashboard" />
             <Stack.Group screenOptions={{ presentation: 'modal' }}>

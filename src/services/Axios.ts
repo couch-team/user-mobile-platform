@@ -3,15 +3,17 @@ import axios from 'axios';
 import Config from 'react-native-config';
 
 const Axios = axios.create({
-  baseURL: 'http://157.245.33.44:8000/',
+  baseURL: 'https://api.joincouch.co/',
   timeout: 60000,
 });
 
 console.log(Config.BASE_URL);
 
-Axios.defaults.headers.post['Content-Type'] = 'application/json';
-Axios.defaults.headers.put['Content-Type'] = 'application/json';
-Axios.defaults.headers.post.Accept = 'application/json';
+// Axios.defaults.headers.post['Content-Type'] = 'application/json';
+// Axios.defaults.headers.put['Content-Type'] = 'application/json';
+// Axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+// Axios.defaults.headers.post.Accept = 'application/json';     
+ 
 
 Axios.interceptors.request.use(async (config: any) => {
   const models = getAllModels();
@@ -22,12 +24,13 @@ Axios.interceptors.request.use(async (config: any) => {
     config.headers.timestamp = new Date().getTime().toString();
   }
 
-  // console.log(config);
+  console.log(config);
   return config;
 });
 
 Axios.interceptors.response.use(
   async response => {
+    // console.log(response.data, 'res');
     return response;
   },
   async error => {
@@ -36,7 +39,7 @@ Axios.interceptors.response.use(
     if (statusCode === 401 && !originalRequest._retry) {
       // console.log(error.response);
     }
-    console.log(error.response,'Error....');
+    console.log(error, 'Error....');
     return Promise.reject(error.response);
   },
 );

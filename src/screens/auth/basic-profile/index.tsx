@@ -12,41 +12,39 @@ import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton, CouchDatePicker } from 'components';
 import { genderRoles } from 'constants/data';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
+type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'BasicProfile'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
-const BasicProfile = ({ navigation }: Props) => {
+const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState();
 
   const {
-    Auth: { pendingProfileCompletion },
+    User: { pendingProfileGender,pendingProfileDOB },
   } = useDispatch();
 
   const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.pendingProfileCompletion,
+    (state: RootState) => state.loading.effects.User.pendingProfileGender,
   );
-  console.log(selectedGender);
+  
   const continueProcess = async () => {
-    const data = {
-      gender: selectedGender === 'male' ? 'M' : 'F',
-      dateOfBirth: dayjs(dateValue).format('YYYY-MM-DD'),
-    };
-    const res = await pendingProfileCompletion(data);
+    await pendingProfileGender(selectedGender === 'male' ? 'M' : 'F')
+    const res = await pendingProfileDOB(dayjs(dateValue).format('YYYY-MM-DD'));
     if (res) {
-      navigation.navigate('Nationality', { data });
+      navigate('Nationality');
     }
   };
+
 
   useEffect(() => {
     if (isAndroid) {
@@ -150,6 +148,7 @@ const BasicProfile = ({ navigation }: Props) => {
         </View>
       </View>
       <LongButton
+       hasLongArrow
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}

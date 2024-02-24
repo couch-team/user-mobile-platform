@@ -1,6 +1,13 @@
 import { hp, wp } from 'constants/layout';
 import React from 'react';
-import { View, Text, TextStyle, StyleSheet, ViewStyle } from 'react-native';
+import {
+  View,
+  Text,
+  TextStyle,
+  StyleSheet,
+  ViewStyle,
+  Image,
+} from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
 interface HeaderTextProps {
@@ -9,6 +16,8 @@ interface HeaderTextProps {
   hasSubText?: string;
   headerTextStyle?: ViewStyle;
   hasSubTextStyle?: TextStyle;
+  iconImage?: any;
+  bannerImage?: any;
 }
 
 export const HeaderText = ({
@@ -17,14 +26,36 @@ export const HeaderText = ({
   hasSubText,
   headerTextStyle,
   hasSubTextStyle,
+  iconImage,
+  bannerImage,
 }: HeaderTextProps) => {
   return (
     <View style={[styles.headerTextContainer, headerTextStyle]}>
-      <Text style={[styles.headerText, textStyle]}>{text}</Text>
       {hasSubText && (
-        <Text style={[styles.subHeaderText, hasSubTextStyle]}>
-          {hasSubText}
-        </Text>
+        <View style={styles.bannerImageContainer}>
+          <View>
+            <Text style={[styles.headerText, textStyle]}>{text}</Text>
+            <View style={styles.iconImageContainer}>
+              {iconImage ? (
+                <Image
+                  source={iconImage}
+                  resizeMode="contain"
+                  style={styles.iconImageStyle}
+                />
+              ) : (
+                ''
+              )}
+              <Text style={[styles.subHeaderText, hasSubTextStyle]}>
+                {hasSubText}
+              </Text>
+            </View>
+          </View>
+          <Image
+            source={bannerImage}
+            resizeMode="contain"
+            style={styles.bannerImageStyle}
+          />
+        </View>
       )}
     </View>
   );
@@ -37,15 +68,34 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colors.WHITE,
-    fontFamily: Typography.fontFamily.SoraMedium,
+    fontFamily: "Sora-Medium",
+    fontWeight:"400",
     fontSize: hp(20),
     lineHeight: hp(25),
   },
   subHeaderText: {
     paddingTop: hp(4),
     color: Colors.COUCH_TEXT_COLOR,
-    fontFamily: Typography.fontFamily.SoraRegular,
+    fontFamily: "Sora-Regular",
     fontSize: hp(14),
     lineHeight: hp(18),
+  },
+  iconImageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  bannerImageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconImageStyle: {
+    width: wp(20),
+    height: hp(20),
+  },
+  bannerImageStyle: {
+    width: wp(100),
+    height: hp(100),
   },
 });

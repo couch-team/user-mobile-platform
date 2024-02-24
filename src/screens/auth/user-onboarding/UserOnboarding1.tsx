@@ -3,13 +3,15 @@ import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { helpLists } from 'constants/data';
+// import { helpLists } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+  DashboardParamList,
   'UserOnboarding1'
 >;
 type Props = {
@@ -21,29 +23,48 @@ export function useForceUpdate() {
   return () => setValue(value => value + 1);
 }
 
+
 const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<any>('');
-  // const forceUpdate = useForceUpdate();
+  const [selectedOptions, setSelectedOptions] = useState<React.Key[]>([]);
 
-  // const selectItem = (index: any) => {
-  //   let helperArray = selectedOptions;
-  //   let itemIndex = helperArray.indexOf(index);
-  //   if (helperArray?.includes(index)) {
-  //     helperArray?.splice(itemIndex, 1);
-  //   } else {
-  //     helperArray.push(index);
-  //   }
-  //   setSelectedOptions(helperArray);
-  //   forceUpdate();
-  // };
+  const handleSelectOption = (id: React.Key) => {
+    if (selectedOptions.includes(id)) {
+     
+      setSelectedOptions(selectedOptions.filter(optionId => optionId !== id));
+    } else {
 
-  const continueProcess = async () => {
-    const data = {
-      goals: selectedOptions,
-    };
-    navigate('UserOnboarding2', { data });
+      setSelectedOptions([...selectedOptions, id]);
+    }
   };
+  const {
+    Auth: { getGoalLists },
+  } = useDispatch();
 
+  const {
+    User: { goalOnboardingStage },
+  } = useDispatch();
+
+ 
+  React.useEffect(function () {
+    getGoalLists();
+  }, []);
+
+  const goalists = useSelector((state: RootState) => state.Auth.goalists?.results);
+// console.log(goalists,'goallist')
+  const authProfileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile,
+  );
+
+  const continueProcess =  async () => {
+    const data = {
+      goal: selectedOptions,
+    };
+    const res = await goalOnboardingStage(data)
+    if(res){
+      navigate('UserOnboarding2');
+    }
+  };
+ 
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader firstProgress={1} />
@@ -55,21 +76,27 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
         />
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>
-            Hello Daniella, What could we help you with on Couch?
+            Hello {authProfileDetails?.first_name}, What could we help you with
+            on Couch?
           </Text>
 
           <View style={styles.helpListContainer}>
-            {helpLists.map((helpList, index) => {
-              return (
-                <Checkbox
-                  key={helpList.id}
-                  checkTitle={helpList.title}
-                  index={index}
-                  onSelectOption={() => setSelectedOptions(helpList.title)}
-                  selectedCheck={selectedOptions?.includes(helpList.title)}
-                />
-              );
-            })}
+            <>
+              {goalists?.map(
+                (
+                  data: any,
+                  index: any,
+                ) => (
+                  <Checkbox
+                    key={data?.id}
+                    checkTitle={data?.title}
+                    index={index}
+                    onSelectOption={() => handleSelectOption(data?.id)}
+                    selectedCheck={selectedOptions?.includes(data?.id)}
+                  />
+                ),
+              )}
+            </>
           </View>
         </View>
       </ScrollView>

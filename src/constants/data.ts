@@ -113,11 +113,11 @@ export const medicalConditions = [
 export const therapistsVisits = [
   {
     id: 1,
-    title: 'Yes, I have',
+    title: 'YES',
   },
   {
     id: 2,
-    title: 'No, I haven"t',
+    title: 'NO',
   },
 ];
 
@@ -890,7 +890,7 @@ export const journalList = [
         color: Colors.COUCH_GREEN_200,
         time: 'today',
         icon: Images['happy-2'],
-        bg: Colors.COUCH_BLUE,
+        bg: Colors.COUCH_BLUE_200,
       },
       {
         id: 2,
@@ -900,7 +900,7 @@ export const journalList = [
         color: Colors.COUCH_GREEN_200,
         time: 'today',
         icon: Images['happy-2'],
-        bg: Colors.COUCH_BLUE,
+        bg: Colors.COUCH_BLUE_200,
       },
       {
         id: 3,
@@ -910,7 +910,7 @@ export const journalList = [
         color: Colors.COUCH_GREEN_200,
         time: 'today',
         icon: Images['happy-2'],
-        bg: Colors.COUCH_BLUE,
+        bg: Colors.COUCH_BLUE_200,
       },
       {
         id: 4,
@@ -920,7 +920,7 @@ export const journalList = [
         description: 'Sometime today, my mum told me the news...',
         time: 'today',
         icon: Images['happy-white'],
-        bg: Colors.COUCH_BLUE,
+        bg: Colors.COUCH_BLUE_200,
       },
       {
         id: 5,
@@ -930,7 +930,7 @@ export const journalList = [
         color: Colors.COUCH_GREEN_200,
         time: 'today',
         icon: Images['happy-white'],
-        bg: Colors.COUCH_BLUE,
+        bg: Colors.COUCH_BLUE_200,
       },
     ],
   },

@@ -5,12 +5,18 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { rates } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  RootNavigationRoutes,
+  DashboardParamList
+} from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+  DashboardParamList,
   'UserOnboarding2'
 >;
 type Props = {
@@ -18,16 +24,22 @@ type Props = {
 };
 
 const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
-  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding2'>>();
+  const { params } =
+    useRoute<RouteProp<DashboardParamList, 'UserOnboarding2'>>();
   const [selectedStatus, setSelectedStatus] = useState('');
+
+  const {
+    User: { physicalOnboardingStage },
+  } = useDispatch();
 
   const continueProcess = async () => {
     const data = {
-      ...params?.data,
-      physical_health: selectedStatus,
+      physical_status: selectedStatus,
     };
-
-    navigate('UserOnboarding4', { data });
+    const res = await physicalOnboardingStage(data);
+    if (res) {
+      navigate('UserOnboarding4');
+    }
   };
 
   return (

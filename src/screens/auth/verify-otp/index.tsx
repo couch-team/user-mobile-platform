@@ -21,6 +21,7 @@ import { showMessage } from 'react-native-flash-message';
 import { wp } from 'constants/layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'VerifyOtp'>;
 type Props = {
   navigation: AuthNavigationProps;
@@ -36,8 +37,19 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
   const email = params?.email;
 
   const {
-    Auth: { verifyEmailAccount, initResendToken, login },
+    Auth: { verifyEmailAccount, initResendToken},
   } = useDispatch();
+
+  // React.useEffect(() =>{
+  //   getAuthenticate();
+  // }, []);
+
+  // const authProfileDetails = useSelector(
+  //   (state: RootState) => state.Auth.authProfile?.profile,
+  // );
+  // console.log('auth details', authProfileDetails);
+
+
   const loading = useSelector(
     (state: RootState) =>
       state.loading.effects.Auth.verifyEmailAccount ||
@@ -81,19 +93,32 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
       email,
       otp: values.otp,
     };
-
     const res = await verifyEmailAccount(data);
     if (res) {
-      const payload = {
-        email,
-        password: params.password,
-      };
-      const loginRes = await login(payload);
-      if (loginRes) {
-        navigate('BasicProfile');
-      }
+      navigate('Login');
     }
   };
+
+  // const completeVerification = async (values: any) => {
+  //   const data = {
+  //     email,
+  //     otp: values.otp,
+  //   };
+
+  //   const res = await verifyEmailAccount(data);
+  //   if (res) {
+  //     const payload = {
+  //       email,
+  //       password: params.password,
+  //     };
+  //     const loginRes = await login(payload);
+  //         console.log(loginRes)
+  //     if (loginRes) {
+  //       navigate('BasicProfile');
+  //     }
+  //   }
+  // };
+
 
   return (
     <SafeAreaView style={styles.container}>
