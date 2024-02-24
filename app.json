@@ -16,11 +16,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "",
       "buildNumber": "1"
     },
     "android": {
-      "package": "",
       "versionCode": 1,
       "permissions": [
         "android.permission.RECORD_AUDIO"
