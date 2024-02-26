@@ -10,7 +10,7 @@ import React, { useCallback, useEffect } from 'react';
 import { HeaderBar } from 'components';
 import { styles } from './style';
 import moment from 'moment';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Colors, Images } from 'theme/config';
 import SettingsModal from './components/SettingsModal';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -41,9 +41,9 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     backgroundColor: Colors.PRIMARY,
     color: '#fff',
     placeholderColor: 'gray',
-    width: '99%',
+    contentCSSText:
+      'font-size: 14px; height: 100%; line-height:26px; text-align:justify; ',
   };
-
 
   function handleSettingModal() {
     setOpenSettingModal(true);
@@ -53,40 +53,39 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     setOpenMoodViewModal(true);
   }
 
-    function handleDeleteModal() {
-      setOpenDeleteModal(true);
-    }
+  function handleDeleteModal() {
+    setOpenDeleteModal(true);
+  }
 
-  
-  const { User: { deleteJournalById, getJournal } } = useDispatch();
-  
+  const {
+    User: { deleteJournalById, getJournal },
+  } = useDispatch();
+
   useEffect(() => {
     if (!openDeleteModal) {
       getJournal(1);
     }
   }, [openDeleteModal]);
 
- 
   const handleDelete = useCallback(async () => {
-      if (selectedItem?.id) {
-        await deleteJournalById(selectedItem.id);
-        setOpenDeleteModal(false)
-        setOpenSettingModal(false)
-        getJournal(1);
-        navigate('Journal');
-      }
+    if (selectedItem?.id) {
+      await deleteJournalById(selectedItem.id);
+      setOpenDeleteModal(false);
+      setOpenSettingModal(false);
+      getJournal(1);
+      navigate('Journal');
+    }
   }, [selectedItem, deleteJournalById, getJournal, navigate]);
-  
+
   const handleText = React.useCallback(() => {
     richText.current?.insertHtml(selectedItem?.document);
   }, []);
-
 
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>
         <TouchableOpacity
-         onPress={handleMoodViewModal}
+          onPress={handleMoodViewModal}
           activeOpacity={0.6}
           style={styles.headerRightIconContainer}>
           <Image
@@ -108,8 +107,8 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
     );
   };
-
-
+  const formattedDate = moment(selectedItem?.created_at).calendar();
+  const containerWidth = formattedDate.length * 10; 
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
@@ -117,31 +116,34 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         onPressLeftIcon={() => goBack()}
         headerRight={<HeaderRight />}
       />
-      
-        <View style={styles.previewContainer}>
-          <Text style={styles.previewTitle}>{selectedItem?.title}</Text>
-          <View style={styles.previewButtonContainer}>
-            <Text style={styles.previewButtonText}>
-              Updated: {moment(selectedItem?.created_at).calendar()}
-            </Text>
-          </View>
-          <ScrollView >
-          <View style={styles.previewDocument}>
-            <RichEditor
-              ref={richText}
-              onChange={handleText}
-              initialContentHTML={selectedItem?.document}
-              editorStyle={contentStyle}
-              useContainer={false}
-              disabled
-              containerStyle={{ minHeight: height }}
-              onHeightChange={e => {
-                setHeight(e);
-              }}
-            />
-          </View>
-          </ScrollView>
+
+      <View style={styles.previewContainer}>
+        <Text style={styles.previewTitle}>{selectedItem?.title}</Text>
+        <View style={[styles.previewButtonContainer,{ width: containerWidth }]}>
+          <Text style={styles.previewButtonText}>
+            Updated: {moment(selectedItem?.created_at).calendar()}
+          </Text>
         </View>
+        <ScrollView
+         
+          showsHorizontalScrollIndicator={false}>
+          <View  style={styles.previewDocument}>
+          <RichEditor
+            ref={richText}
+            onChange={handleText}
+            initialContentHTML={selectedItem?.document}
+            editorStyle={contentStyle}
+            useContainer={false}
+            disabled
+            initialHeight={height}
+            containerStyle={{ minHeight: height }}
+            onHeightChange={e => {
+              setHeight(e);
+            }}
+          />
+          </View>
+        </ScrollView>
+      </View>
 
       <SettingsModal
         onPressEdit={() => navigate('EditJournal', { selectedItem })}
@@ -149,18 +151,19 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         isVisible={openSettingModal}
         onClose={() => setOpenSettingModal(false)}
       />
-       <DeleteModal isVisible={openDeleteModal}
-       onPressDeleteNo={() => setOpenDeleteModal(false)}
-       onPressDeleteYes={handleDelete}
+      <DeleteModal
+        isVisible={openDeleteModal}
+        onPressDeleteNo={() => setOpenDeleteModal(false)}
+        onPressDeleteYes={handleDelete}
         onClose={() => setOpenDeleteModal(false)}
-        />
+      />
 
-        <MoodViewModal
+      <MoodViewModal
         //  onPressEditMood={() => navigate('EditJournal', { selectedItem })}
         //  onPressViewMood={handleDeleteModal}
-         isVisible={openMoodViewModal}
-         onClose={() => setOpenMoodViewModal(false)}
-        />
+        isVisible={openMoodViewModal}
+        onClose={() => setOpenMoodViewModal(false)}
+      />
     </SafeAreaView>
   );
 };

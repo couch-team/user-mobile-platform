@@ -1,6 +1,7 @@
 import { getAllModels } from 'utils/index';
 import axios from 'axios';
 import Config from 'react-native-config';
+import { useDispatch } from 'react-redux';
 
 const Axios = axios.create({
   baseURL: 'https://api.joincouch.co/',
@@ -12,8 +13,8 @@ console.log(Config.BASE_URL);
 // Axios.defaults.headers.post['Content-Type'] = 'application/json';
 // Axios.defaults.headers.put['Content-Type'] = 'application/json';
 // Axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-// Axios.defaults.headers.post.Accept = 'application/json';     
- 
+// Axios.defaults.headers.post.Accept = 'application/json';
+// const dispatch = useDispatch();
 
 Axios.interceptors.request.use(async (config: any) => {
   const models = getAllModels();
@@ -28,20 +29,6 @@ Axios.interceptors.request.use(async (config: any) => {
   return config;
 });
 
-Axios.interceptors.response.use(
-  async response => {
-    // console.log(response.data, 'res');
-    return response;
-  },
-  async error => {
-    const statusCode = error.response ? error.response.status : null;
-    const originalRequest = error.config;
-    if (statusCode === 401 && !originalRequest._retry) {
-      // console.log(error.response);
-    }
-    console.log(error, 'Error....');
-    return Promise.reject(error.response);
-  },
-);
+
 
 export default Axios;

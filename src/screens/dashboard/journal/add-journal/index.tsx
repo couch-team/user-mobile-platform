@@ -8,10 +8,7 @@ import {
   Platform,
   Text,
   Image,
-  Alert,
-  Button,
-  Keyboard,
-  StyleSheet,
+  Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -208,7 +205,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 setDescription(replaceWhiteSpace);
               }}
               editorStyle={contentStyle}
-              initialHeight={400}
+              initialHeight={500}
               useContainer={false}
               containerStyle={{ minHeight: height }}
               onHeightChange={e => {

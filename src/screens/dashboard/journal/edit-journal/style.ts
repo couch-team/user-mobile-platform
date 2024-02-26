@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   noteOptionBodyContainer: {
-    marginHorizontal: wp(10),
+    // marginHorizontal: wp(10),
     // paddingVertical:hp(12)
     marginTop: hp(12),
   },
@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     lineHeight: hp(30),
     paddingVertical: hp(8),
     color: Colors.COUCH_BLUE_900,
+    marginHorizontal: wp(8),
   },
   promptTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
@@ -26,8 +27,9 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_BLUE_900,
   },
   noteBodyContainer: {
-    // marginTop: hp(32),
-    marginVertical: hp(18),
+    marginTop: hp(12),
+    // marginHorizontal: wp(4),
+    // marginVertical: hp(18),
   },
   textInput: {
     width: 200,

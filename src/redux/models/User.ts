@@ -18,6 +18,8 @@ const IsState = {
   pageNumber: 1,
   isFetching: true,
   totalPages: null,
+  nextPage:null,
+  previousPage: null,
   goalOnboarding: null,
   physicalOnboarding: null,
   therapyOnboarding: null,
@@ -36,6 +38,8 @@ interface User {
   userJournal: any[];
   nextJournal: any[];
   totalPages: any;
+  nextPage:any;
+  previousPage: any;
   isFetching: boolean;
   pageNumber: number;
   journalById: any;
@@ -134,7 +138,6 @@ export const User = {
       dispatch.User.setError(false);
       // dispatch.User.setState({isFetching: true})
       try {
-       
         const api = await UserApi.getAllJournal({ page: pageNumber });
         if (api) {
           dispatch.User.setState({
@@ -143,6 +146,8 @@ export const User = {
               key: item.id,
             })),
             totalPages: api.count,
+            nextPage: api.next,
+            previousPage: api.previous,
           });
         }
         // console.log(...api.results.map((item: { id: any; }) => ({ ...item, key: item.id })),'listing')
@@ -169,15 +174,15 @@ export const User = {
     async editJournalById({ id, formData }: { id: any; formData: FormData }) {
       dispatch.User.setError(false);
       try {
-        const api = await UserApi.editJournalById({ id: id});
-        console.log(api,'edit data')
+        const api = await UserApi.editJournalById({ id: id });
+        console.log(api, 'edit data');
         if (api) {
           // dispatch.User.setState({
           //   journalById: api,
           // });o
         }
       } catch (error) {
-        console.log(error,'edit error')
+        console.log(error, 'edit error');
         this.handleError(error);
       }
     },

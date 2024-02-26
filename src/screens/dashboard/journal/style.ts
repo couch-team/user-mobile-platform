@@ -120,11 +120,13 @@ export const styles = StyleSheet.create({
   },
   bodyContainer: {
     marginTop: hp(20),
-    flexGrow:1
+    // flexGrow:1
+    // height:"100%"
   },
   contentContainerStyle: {
     paddingBottom: hp(200),
-    flexGrow: 1
+    // flexGrow: 1,
+    // height:"100%"
   },
   itemMoodContainer: {
     backgroundColor: Colors.COUCH_GREEN_100,
@@ -215,11 +217,11 @@ export const styles = StyleSheet.create({
   },
   paginationButtonContainer: {
     backgroundColor: Colors.COUCH_BLUE_200,
-    marginLeft: wp(10),
+    marginVertical: wp(10),
     height: hp(38),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: wp(14),
+    marginHorizontal: wp(24),
     borderRadius: hp(64),
   },
   paginationButtonText: {

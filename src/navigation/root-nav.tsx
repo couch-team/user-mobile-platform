@@ -11,6 +11,7 @@ import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 import { Colors } from 'theme/config';
 import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Axios from 'services/Axios';
 
 const Stack = createStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
@@ -20,10 +21,27 @@ const AppNavigation = () => {
 
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
+  const dispatch = useDispatch();
 
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile?.profile,
-  );
+  React.useEffect(() => {
+    Axios.interceptors.response.use(
+      async response => {
+        // console.log(response.data, 'res');
+        return response;
+      },
+      async error => {
+        const statusCode = error.response ? error.response.status : null;
+        const originalRequest = error.config;
+        if (statusCode === 401 && !originalRequest._retry) {
+          // console.log(error.response);
+          dispatch({ type: 'RESET_APP' });
+        }
+        console.log(error, 'Error....');
+        return Promise.reject(error.response);
+      },
+    );
+    return () => {};
+  }, []);
 
   React.useEffect(() => {
     const restoreState = async () => {
@@ -69,7 +87,7 @@ const AppNavigation = () => {
           cardStyle: { backgroundColor: Colors.PRIMARY },
           presentation: 'transparentModal',
         }}>
-        { isLoggedIn ? (
+        {isLoggedIn ? (
           <>
             <Stack.Screen component={DashboardNavigation} name="Dashboard" />
             <Stack.Group screenOptions={{ presentation: 'modal' }}>

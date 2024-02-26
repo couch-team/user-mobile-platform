@@ -39,7 +39,8 @@ const EditJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     backgroundColor: Colors.PRIMARY,
     color: '#fff',
     placeholderColor: 'gray',
-    width: '99%',
+    contentCSSText:
+    'font-size: 14px; height: 100%; line-height:26px; text-align:justify; ',
   };
 
   const dispatch = useDispatch();

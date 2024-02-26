@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   previewContainer: {
-    marginHorizontal: wp(10),
-    marginTop: hp(30),
+    marginVertical: hp(10),
+    width:"auto"
   },
   previewTitle: {
     fontWeight: '700',
@@ -17,32 +17,31 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(24),
     lineHeight: hp(30),
-    paddingVertical: hp(18),
+    paddingVertical: hp(10),
+    marginHorizontal: wp(8),
     color: Colors.COUCH_BLUE_900,
   },
+  // previewBodyText:{
+   
+  // },
   previewDocument: {
-    fontFamily: Typography.fontFamily.SoraBold,
-    fontSize: hp(16),
-    fontWeight: '400',
-    lineHeight: hp(32),
-    paddingVertical: hp(8),
-    color: Colors.COUCH_BLUE_900,
+    paddingTop: hp(10)
   },
   previewButtonContainer: {
     backgroundColor: Colors.COUCH_BLUE_200,
-    // marginLeft: wp(10),
-    height: hp(38),
-    width:wp(220),
+    height: hp(34),
+    // width:"100%",
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: wp(14),
+    marginHorizontal: wp(12),
     borderRadius: hp(64),
   },
   previewButtonText: {
     color: Colors.COUCH_BLUE,
     fontFamily: Typography.fontFamily.SoraMedium,
-    fontSize: hp(12),
-    fontWeight:"900"
+    fontSize: hp(14),
+    fontWeight:"900",
+    width:"auto"
   },
   headerRightContainer: {
     flexDirection: 'row',

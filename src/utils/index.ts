@@ -33,7 +33,7 @@ export const groupTransactions = (data = []) => {
 };
 
 
-export const groupJournalTransactions = (data = []) => {
+export const groupJournalTransactions = (data:any) => {
   let transGroup: any[] = [];
   const sorted = sortBy(data, ['created_at']);
   const groups = groupBy(sorted, (d: any) =>

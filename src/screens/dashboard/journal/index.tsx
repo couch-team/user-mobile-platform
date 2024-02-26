@@ -44,11 +44,19 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
   const journalLists = useSelector(
     (state: RootState) => state.User?.userJournal,
   );
-  const totalPages = useSelector((state: RootState) => state.User.totalPages);
-  // const isFetching = useSelector((state: RootState) => state.User.isFetching);
+
+  const nextPage = useSelector((state: RootState) => state.User?.nextPage);
+  const previousPage = useSelector(
+    (state: RootState) => state.User?.previousPage,
+  );
   const loading = useSelector(
     (state: RootState) => state.loading.effects.User.getJournal,
   );
+
+  const extractPageNumberFromUrl = (url: string): number => {
+    const matches = url.match(/page=(\d+)$/);
+    return matches ? parseInt(matches[1], 10) : 1;
+  };
 
   React.useEffect(() => {
     getJournal(page);
@@ -58,27 +66,26 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     return () => {};
   }, [selectedId]);
 
-  const NextJournal = () => {
-    if (!loading && page <= totalPages) {
-      const newPageNumber = page + 1;
-      setPage(newPageNumber);
+  const NextJournal = useCallback(() => {
+    if (!loading && nextPage) {
+      const page = extractPageNumberFromUrl(nextPage);
+      setPage(page);
+      getJournal(page);
     }
-  };
+  }, [loading, nextPage, extractPageNumberFromUrl, setPage, getJournal]);
 
-  const PrevJournal = () => {
-    if (!loading) {
-      const newPageNumber = page - 1;
-      setPage(newPageNumber);
+  const PrevJournal = useCallback(() => {
+    if (!loading && previousPage) {
+      const page = extractPageNumberFromUrl(previousPage);
+      setPage(page);
+      getJournal(page);
     }
-  };
+  }, [loading, previousPage, extractPageNumberFromUrl, setPage, getJournal]);
 
-  const groupedJournals = groupJournalTransactions(journalLists);
-
-  // const handleScrollToTop = () => {
-  //   if (flatListRef.current) {
-  //     flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-  //   }
-  // };
+  const groupedJournals = React.useMemo(
+    () => groupJournalTransactions(journalLists),
+    [journalLists],
+  );
 
   const HeaderRight = () => {
     return (
@@ -126,158 +133,145 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       <View
         style={{
           backgroundColor: Colors.COUCH_BLUE_800,
-          paddingVertical:hp(24),
-          paddingHorizontal:wp(14),
+          paddingVertical: hp(28),
+          paddingHorizontal: wp(14),
           marginHorizontal: wp(18),
+          marginVertical: hp(14),
           borderRadius: hp(10),
         }}>
-          <View>
-            <Text style={style.headerText}>{`Hi ${authProfileDetails?.first_name}`}</Text>
-            <View style={style.iconImageContainer}>
-                <Image
-                  source={Images.info}
-                  resizeMode="contain"
-                  style={style.iconImageStyle}
-                />
-              <Text style={style.subHeaderText}>
-              What’s on your Mind?
-              </Text>
-            </View>
+        <View>
+          <Text
+            style={
+              style.headerText
+            }>{`Hi ${authProfileDetails?.first_name}`}</Text>
+          <View style={style.iconImageContainer}>
+            <Image
+              source={Images.info}
+              resizeMode="contain"
+              style={style.iconImageStyle}
+            />
+            <Text style={style.subHeaderText}>What’s on your Mind?</Text>
           </View>
+        </View>
       </View>
-      {/* <Image
-          source={Images['journal-frame']}
-          resizeMode="contain"
-          style={styles.journalFrameContainer}
-        /> */}
-      {/* {(() => {
-          if (journalLists?.length === 0) {
-            return (
-             
-            );
-          }
-        })()} */}
       <VirtualizedScrollView
+        style={styles.bodyContainer}
         refreshing={loading}
-        onEndReachedThreshold={0.5}
         onRefresh={PrevJournal}
-        onEndReached={NextJournal}
         ListFooterComponent={
-          loading ? <ActivityIndicator size="large" color="white" /> : null
+          <TouchableOpacity style={styles.paginationButtonContainer} onPress={NextJournal}>
+            <Text style={styles.paginationButtonText}>Load Next Journals</Text>
+          </TouchableOpacity>
         }>
-        <View style={styles.bodyContainer}>
-          <SectionList
-            sections={groupedJournals}
-            ref={flatListRef}
-            contentContainerStyle={styles.contentContainerStyle}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-            renderItem={({ item, index }) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedId(item.id);
-                    navigate('PreviewJournal', { selectedItem: item });
-                  }}
-                  style={
-                    item.id === selectedId
-                      ? styles.itemMoodContainerTwo
-                      : styles.itemMoodContainer
-                  }
-                  key={item?.id}>
-                  <View style={styles.journalHeaderContainer}>
-                    <View style={styles.journalBodyHeaderContainer}>
-                      <View style={styles.voiceIconLengthContainer}>
-                        <View style={styles.voiceIconContainer}>
-                          <Image
-                            source={Images.voice}
-                            resizeMode="contain"
-                            style={styles.voiceIcon}
-                          />
-                        </View>
-                        <Text style={styles.voiceDurationText}>0:35</Text>
+        <SectionList
+          sections={groupedJournals}
+          ref={flatListRef}
+          contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={item => item.id}
+          extraData={selectedId}
+          renderItem={({ item, index }) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedId(item.id);
+                  navigate('PreviewJournal', { selectedItem: item });
+                }}
+                style={
+                  item.id === selectedId
+                    ? styles.itemMoodContainerTwo
+                    : styles.itemMoodContainer
+                }
+                key={item?.id}>
+                <View style={styles.journalHeaderContainer}>
+                  <View style={styles.journalBodyHeaderContainer}>
+                    <View style={styles.voiceIconLengthContainer}>
+                      <View style={styles.voiceIconContainer}>
+                        <Image
+                          source={Images.voice}
+                          resizeMode="contain"
+                          style={styles.voiceIcon}
+                        />
                       </View>
-                      <View
-                        style={[
-                          styles.voiceIconLengthContainer,
-                          { marginLeft: wp(12) },
-                        ]}>
-                        <View style={styles.voiceIconContainer}>
-                          <Image
-                            source={Images.frame}
-                            resizeMode="contain"
-                            style={styles.voiceIcon}
-                          />
-                        </View>
-                        <Text style={styles.voiceDurationText}>4</Text>
-                      </View>
+                      <Text style={styles.voiceDurationText}>0:35</Text>
                     </View>
-                    <View style={styles.journalMoodIconContainer}>
-                      <Image
-                        source={{ uri: item?.mood?.icon_url }}
-                        style={styles.moodIcon}
-                        resizeMode="contain"
-                      />
+                    <View
+                      style={[
+                        styles.voiceIconLengthContainer,
+                        { marginLeft: wp(12) },
+                      ]}>
+                      <View style={styles.voiceIconContainer}>
+                        <Image
+                          source={Images.frame}
+                          resizeMode="contain"
+                          style={styles.voiceIcon}
+                        />
+                      </View>
+                      <Text style={styles.voiceDurationText}>4</Text>
                     </View>
                   </View>
-                  <View style={styles.itemMoodBodyContainer}>
-                    <Text style={styles.itemMoodMainText} numberOfLines={1}>
-                      {item?.title}
-                    </Text>
-                    <Text style={styles.itemMoodText} numberOfLines={1}>
-                      {item?.document}
-                    </Text>
-                    <Text style={styles.itemMoodBodyText}>
-                      {moment(item?.updated_at).calendar()}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-            renderSectionHeader={({ section: { title, isToday } }) => {
-              return (
-                <View style={styles.headerSectionContainer}>
-                  <Text style={styles.headerTitleStyle}>
-                    {isToday === 'Today' ? 'Today' : title}
-                  </Text>
-                  {isToday === 'Today' ? (
+                  <View style={styles.journalMoodIconContainer}>
                     <Image
-                      source={Images.filter}
-                      style={styles.headerTitleImage}
+                      source={{ uri: item?.mood?.icon_url }}
+                      style={styles.moodIcon}
                       resizeMode="contain"
                     />
-                  ) : (
-                    ''
-                  )}
+                  </View>
                 </View>
-              );
-            }}
-            // pagingEnabled
-
-            ListEmptyComponent={
-              <View style={styles.emptyMoodTrackerContainer}>
-                <View style={styles.emptyMoodIconContainer}>
+                <View style={styles.itemMoodBodyContainer}>
+                  <Text style={styles.itemMoodMainText} numberOfLines={1}>
+                    {item?.title}
+                  </Text>
+                  <Text style={styles.itemMoodText} numberOfLines={1}>
+                    {item?.document}
+                  </Text>
+                  <Text style={styles.itemMoodBodyText}>
+                    {moment(item?.updated_at).calendar()}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+          renderSectionHeader={({ section: { title, isToday } }) => {
+            return (
+              <View style={styles.headerSectionContainer}>
+                <Text style={styles.headerTitleStyle}>
+                  {isToday === 'Today' ? 'Today' : title}
+                </Text>
+                {isToday === 'Today' ? (
                   <Image
-                    source={Images.journal}
+                    source={Images.filter}
+                    style={styles.headerTitleImage}
                     resizeMode="contain"
-                    style={styles.emptyMoodIcon}
                   />
-                </View>
-                <View style={styles.emptyTextContainer}>
-                  <Text style={styles.emptyMainText}>
-                    Not Notes in your Journal as for now
-                  </Text>
-                  <Text style={styles.emptyBodyText}>
-                    Tap the '+' button below to log your mood on the mood
-                    tracker.
-                  </Text>
-                </View>
+                ) : (
+                  ''
+                )}
               </View>
-            }
-          />
-        </View>
+            );
+          }}
+          ListEmptyComponent={
+            <View style={styles.emptyMoodTrackerContainer}>
+              <View style={styles.emptyMoodIconContainer}>
+                <Image
+                  source={Images.journal}
+                  resizeMode="contain"
+                  style={styles.emptyMoodIcon}
+                />
+              </View>
+              <View style={styles.emptyTextContainer}>
+                <Text style={styles.emptyMainText}>
+                  Not Notes in your Journal as for now
+                </Text>
+                <Text style={styles.emptyBodyText}>
+                  Tap the '+' button below to log your mood on the mood tracker.
+                </Text>
+              </View>
+            </View>
+          }
+         
+          // onScrollToTop={PrevJournal}
+        />
       </VirtualizedScrollView>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
@@ -291,15 +285,15 @@ const style = StyleSheet.create({
   },
   headerText: {
     color: Colors.WHITE,
-    fontFamily: "Sora-Medium",
-    fontWeight:"400",
+    fontFamily: 'Sora-Medium',
+    fontWeight: '400',
     fontSize: hp(20),
     lineHeight: hp(25),
   },
   subHeaderText: {
     paddingTop: hp(4),
     color: Colors.COUCH_TEXT_COLOR,
-    fontFamily: "Sora-Regular",
+    fontFamily: 'Sora-Regular',
     fontSize: hp(14),
     lineHeight: hp(18),
   },
@@ -312,5 +306,5 @@ const style = StyleSheet.create({
   iconImageStyle: {
     width: wp(20),
     height: hp(20),
-  }
+  },
 });

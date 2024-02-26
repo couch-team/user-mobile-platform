@@ -38,9 +38,10 @@ const App = () => {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+ 
 
   return (
-    <Provider store={store}>
+    <Provider store={store} >
       <SafeAreaProvider style={{ backgroundColor: Colors.PRIMARY }} onLayout={onLayoutRootView}>
         <StatusBar barStyle={'light-content'} />
         <FlashMessage

@@ -23,20 +23,18 @@ import UserOnboarding10 from 'screens/auth/user-onboarding/UserOnboarding10';
 import ForgetPassword from 'screens/auth/forget-password';
 import VerifyEmailAccount from 'screens/auth/verify-email';
 import ResetPassword from 'screens/auth/change-password';
-import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from 'redux/store';
 
 const Stack = createStackNavigator<AuthParamList>();
 
 const AuthNavigation = () => {
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile?.profile,
-  );
+  
   return (
     <Stack.Navigator
       initialRouteName={'Login'}
       screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={Onboarding} name="Onboarding" />
+      {/* <Stack.Screen component={Onboarding} name="Onboarding" /> */}
       <Stack.Screen component={Login} name="Login" />
       <Stack.Screen component={Register} name="Register" />
       <Stack.Screen component={VerifyOtp} name="VerifyOtp" />

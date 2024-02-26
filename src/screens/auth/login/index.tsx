@@ -60,7 +60,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
         email,
         password,
       };
-      console.log('Logging in with email:', email && data);
+      // console.log('Logging in with email:', email && data);
       await login(data);
   };
  
@@ -81,6 +81,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
             <View style={styles.formContainer}>
               <FormTextInput
                 label="Email address"
+                editable
                 // autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}

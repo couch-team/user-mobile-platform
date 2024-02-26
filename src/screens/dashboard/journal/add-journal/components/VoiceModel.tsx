@@ -27,9 +27,11 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [recording, setRecording] = useState<any>();
-  const [permissionResponse, requestPermission] = Audio.usePermissions();
+  const [permissionResponse, requestPermission]:any = Audio.usePermissions();
   const [position, setPosition] = useState('00:00');
-  const [duration, setDuration] = useState(0);
+    const [hasStoppedPlaying, setHasStoppedPlaying] = useState(false);
+
+  // const [duration, setDuration] = useState(0);
 
   async function startRecording() {
     try {
@@ -92,9 +94,10 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
           );
           setAudioPath(sound);
           const status: any = await sound.getStatusAsync();
-          setDuration(status.durationMillis);
+          // setDuration(status.durationMillis);
           setPosition('00:00');
           setIsPlaying(true);
+          setHasStoppedPlaying(false);
         }
       } catch (error) {
         console.error('Error loading audio:', error);
@@ -107,6 +110,7 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
       if (audioPath) {
         setIsPlaying(false);
         setIsPaused(false);
+        setHasStoppedPlaying(true);
         audioPath.unloadAsync();
       }
     };
@@ -115,29 +119,28 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
   React.useEffect(() => {
     const updatePosition = () => {
       if (audioPath) {
-        audioPath
-          .getStatusAsync()
-          .then((currentPosition: { positionMillis: number }) => {
-            const durationSeconds = Math.floor(
-              currentPosition.positionMillis / 1000,
-            );
-            const minutes = Math.floor(durationSeconds / 60);
-            const seconds = durationSeconds % 60;
-            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(
-              seconds,
-            ).padStart(2, '0')}`;
-            setPosition(formattedTime);
-          });
+        audioPath.getStatusAsync().then((currentPosition: { positionMillis: number; }) => {
+          const durationSeconds = Math.floor(
+            currentPosition.positionMillis / 1000
+          );
+          const minutes = Math.floor(durationSeconds / 60);
+          const seconds = durationSeconds % 60;
+          const formattedTime = `${String(minutes).padStart(
+            2,
+            '0'
+          )}:${String(seconds).padStart(2, '0')}`;
+          setPosition(formattedTime);
+        });
       }
     };
 
-    const intervalId: any =
-      (isPlaying || isRecording) && setInterval(updatePosition, 1000);
+    const intervalId:any = (isPlaying || isPaused) && setInterval(updatePosition, 1000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [audioPath, isPlaying, isRecording]);
+  }, [audioPath, isPlaying, isPaused]);
+
 
   const setAudioMode = async () => {
     if (audioPath) {
@@ -159,6 +162,7 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
           await audioPath.playAsync();
           setIsPlaying(true);
           setIsPaused(false);
+          setHasStoppedPlaying(false);
         }
       } catch (error) {
         console.error('Error playing/pausing audio:', error);
@@ -173,11 +177,21 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
         setIsPlaying(false);
         setIsPaused(false);
         setRecordTime('00:00');
+        setHasStoppedPlaying(true);
+        // onClose()
       } catch (error) {
         console.error('Error stopping audio:', error);
       }
     }
   };
+
+  React.useEffect(() => {
+    // Use hasStoppedPlaying state to detect when the audio has stopped playing
+    if (hasStoppedPlaying) {
+      console.log('Audio has stopped playing');
+      // Do something when the audio stops playing
+    }
+  }, [hasStoppedPlaying]);
 
   const handlePlay = async () => {
     if (recording) {
@@ -202,11 +216,12 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
       <View style={styles.container}>
         <View>
           <View style={styles.dateBtn}>
-            {!isRecording && !isPlaying && (
+            {!isRecording && !isPlaying && !hasStoppedPlaying && (
               <Text style={styles.dateText}>{recordTime}</Text>
             )}
             {isRecording && <Text style={styles.dateText}>{recordTime}</Text>}
             {isPlaying && <Text style={styles.dateText}>{position}</Text>}
+            {hasStoppedPlaying && <Text style={styles.dateText}>{position}</Text>}
           </View>
           <TouchableOpacity activeOpacity={0.7} style={styles.record}>
             <RecordIcon
@@ -214,7 +229,7 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
               secondaryColor={recording ? Colors.COUCH_BLUE_1100 : undefined}
             />
           </TouchableOpacity>
-          {!recording && !isPlaying && (
+          {!recording && !isPlaying && !hasStoppedPlaying && (
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={startRecording}
@@ -280,7 +295,48 @@ const VoiceModal = ({ isVisible, setSound, onClose }: VoiceModalProps) => {
               </TouchableOpacity>
             </View>
           )}
-          
+          {hasStoppedPlaying && (
+            <View style={[styles.optionContainer]}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setIsRecording(false);
+                  setIsPaused(false);
+                  setAudioPath('');
+                  setRecordTime('00:00');
+                  startRecording();
+                }}>
+                <Image
+                  source={Images['note-retry']}
+                  resizeMode="contain"
+                  style={styles.optionLarge}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setIsRecording(false);
+                  setIsPaused(false);
+                  setAudioPath('');
+                  setRecordTime('00:00');
+                  onClose()
+                }}
+                style={styles.cancel}>
+                <Image
+                  source={Images['note-cancel']}
+                  resizeMode="contain"
+                  style={styles.optionLarge}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => onClose()}>
+                <Image
+                  source={Images['note-check']}
+                  resizeMode="contain"
+                  style={styles.optionLarge}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     </BaseModal>
@@ -332,12 +388,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  footerOption: {
-    backgroundColor: undefined,
-  },
+  // footerOption: {
+  //   backgroundColor: undefined,
+  // },
   optionLarge: {
-    width: 56,
-    height: 56,
+    width: 34,
+    height: 34,
   },
   stop: {
     marginLeft: wp(8),

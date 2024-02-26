@@ -16,13 +16,15 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "1"
+      "buildNumber": "1",
+      "bundleIdentifier": "com.couchapp.couchapp"
     },
     "android": {
       "versionCode": 1,
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.couchapp.couchapp"
     },
     "web": {
       "favicon": "./assets/appIcon.png"
