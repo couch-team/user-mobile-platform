@@ -16,6 +16,10 @@ import RecentlyPlayedVideo from 'screens/dashboard/mindspace/RecentlyPlayedVideo
 import RecentlyPlayedText from 'screens/dashboard/mindspace/RecentlyPlayedText';
 import Cbt from 'screens/dashboard/cbt';
 import SingleCbt from 'screens/dashboard/cbt/SingleCbt';
+import PreviewJournal from 'screens/dashboard/journal/preview-journal';
+import EditJournal from 'screens/dashboard/journal/edit-journal';
+
+
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
@@ -38,6 +42,8 @@ const DashboardNavigation = () => {
       <Stack.Screen component={CompleteAddMood} name="CompleteAddMood" />
       <Stack.Screen component={Journal} name="Journal" />
       <Stack.Screen component={AddJournal} name="AddJournal" />
+      <Stack.Screen component={PreviewJournal} name="PreviewJournal" />
+      <Stack.Screen component={EditJournal} name="EditJournal" />
       <Stack.Screen component={MindSpace} name="MindSpace" />
       <Stack.Screen
         component={RecentlyPlayedAudio}

@@ -32,8 +32,8 @@ export const styles = StyleSheet.create({
     marginTop: hp(20),
   },
   plusIconContainer: {
-    width: 88,
-    height: 88,
+    width: 70,
+    height: 70,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,31 +74,37 @@ export const styles = StyleSheet.create({
   },
   emptyMainText: {
     color: Colors.COUCH_BLUE_1100,
-    fontFamily: Typography.fontFamily.SoraMedium,
+    fontFamily: "Sora-Medium",
     textAlign: 'center',
     fontSize: hp(14),
     lineHeight: hp(19),
   },
 
   emptyBodyText: {
-    fontFamily: Typography.fontFamily.SoraRegular,
+    fontFamily: "Sora-Regular",
     paddingTop: hp(16),
     textAlign: 'center',
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(13),
   },
   headerSectionContainer: {
-    paddingHorizontal: wp(24),
+    paddingHorizontal: wp(20),
     flexDirection: 'row',
+    justifyContent: "space-between",
+    alignItems:"center",
     marginVertical: hp(10),
     height: hp(30),
     backgroundColor: Colors.PRIMARY,
   },
   headerTitleStyle: {
-    fontFamily: Typography.fontFamily.SoraMedium,
+    fontFamily: "Sora-Medium",
     paddingLeft: wp(12),
     fontSize: hp(14),
     color: Colors.COUCH_BLUE_1100,
+  },
+  headerTitleImage: {
+    width:wp(16),
+    marginRight:wp(12)
   },
   journalMoodIconContainer: {
     width: 40,
@@ -114,9 +120,13 @@ export const styles = StyleSheet.create({
   },
   bodyContainer: {
     marginTop: hp(20),
+    // flexGrow:1
+    // height:"100%"
   },
   contentContainerStyle: {
     paddingBottom: hp(200),
+    // flexGrow: 1,
+    // height:"100%"
   },
   itemMoodContainer: {
     backgroundColor: Colors.COUCH_GREEN_100,
@@ -125,8 +135,16 @@ export const styles = StyleSheet.create({
     padding: hp(16),
     borderRadius: hp(16),
   },
+  itemMoodContainerTwo: {
+    backgroundColor: Colors.COUCH_BLUE_100,
+    marginHorizontal: wp(24),
+    marginBottom: hp(16),
+    padding: hp(16),
+    borderRadius: hp(16),
+  },
   itemMoodBodyContainer: {
     marginTop: wp(24),
+    gap:wp(10)
   },
   journalHeaderContainer: {
     flexDirection: 'row',
@@ -146,10 +164,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemMoodMainText: {
-    fontFamily: Typography.fontFamily.SoraMedium,
-    fontSize: hp(14),
+    fontFamily: "Sora-Medium",
+    fontSize: hp(16),
     color: Colors.WHITE,
     lineHeight: hp(18),
+    fontWeight:"bold"
   },
   voiceIconContainer: {
     width: 24,
@@ -161,18 +180,54 @@ export const styles = StyleSheet.create({
   },
   voiceDurationText: {
     paddingLeft: wp(8),
-    fontFamily: Typography.fontFamily.SoraMedium,
+    fontFamily: "Sora-Medium",
     color: Colors.WHITE,
     fontSize: hp(12),
+  },
+  itemMoodText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    paddingTop: hp(8),
+    color: Colors.COUCH_TEXT_COLOR,
+    fontSize: hp(14),
   },
   itemMoodBodyText: {
     fontFamily: Typography.fontFamily.SoraRegular,
     paddingTop: hp(8),
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
+    fontWeight:"bold"
   },
   voiceIcon: {
     width: 12,
     height: 12,
+  },
+  ButtonContainer: {
+    backgroundColor: Colors.COUCH_BLUE_200,
+    marginLeft: wp(10),
+    height: hp(38),
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: wp(14),
+    borderRadius: hp(64),
+  },
+  ButtonText: {
+    color: Colors.COUCH_BLUE,
+    fontFamily: "Sora-Medium",
+    fontSize: hp(12),
+  },
+  paginationButtonContainer: {
+    backgroundColor: Colors.COUCH_BLUE_200,
+    marginVertical: wp(10),
+    height: hp(38),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: wp(24),
+    borderRadius: hp(64),
+  },
+  paginationButtonText: {
+    color: Colors.COUCH_BLUE,
+    fontFamily: "Sora-Medium",
+    fontSize: hp(16),
+    fontWeight:"900"
   },
 });

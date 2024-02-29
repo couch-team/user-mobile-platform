@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+AuthParamList,
   'UserOnboarding3'
 >;
 type Props = {
@@ -39,17 +39,25 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
     (state: RootState) => state.loading.effects.User.onboardUser,
   );
 
-  const continueProcess = async () => {
-    const data = {
-      ...params?.data,
-      referral: selectedOptions || referral,
-    };
+  const goal = useSelector((state: RootState) => state.User.goalOnboarding);
+  const physical = useSelector((state: RootState) => state.User.physicalOnboarding);
+  const therapy = useSelector((state: RootState) => state.User.therapyOnboarding);
 
+  const continueProcess =  async () => {
+ 
+    const data = {
+     ...goal,
+     ...physical,
+     ...therapy,
+      referral_channel: selectedOptions || referral,
+    };
+    console.log('data before onboarding',data)
     const res = await onboardUser(data);
-    if (res) {
+    
       navigate('CompleteOnboarding1');
-    }
+
   };
+  // console.log(selectedOptions)
   return (
     <SafeAreaView style={styles.container}>
       <ProgressHeader

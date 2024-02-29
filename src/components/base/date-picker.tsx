@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+// import DatePicker from 'react-native-date-picker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Colors, Images, Typography } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
 
@@ -9,9 +10,11 @@ interface CouchDatePickerProps {
   label?: string;
   dateValue?: any;
   openDateValue?: boolean;
-  setDateValue?: (date: any) => void;
+  setDateValue?: any;
   onOpenPicker: (value: boolean) => void;
 }
+
+
 
 export const CouchDatePicker = ({
   label,
@@ -20,6 +23,18 @@ export const CouchDatePicker = ({
   setDateValue,
   onOpenPicker,
 }: CouchDatePickerProps) => {
+  // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  // const showDatePicker = () => {
+  //   setDatePickerVisibility(true);
+  // };
+
+  // const hideDatePicker = () => {
+  //   setDatePickerVisibility(false);
+  // };
+
+ 
+
   return (
     <View style={styles.formContainer}>
       <Text style={styles.dateLabelText}>{label}</Text>
@@ -43,14 +58,9 @@ export const CouchDatePicker = ({
           style={styles.calenderIcon}
         />
       </TouchableOpacity>
-      <DatePicker
-        modal
-        textColor={Colors.BLACK}
-        dividerHeight={1}
-        open={openDateValue}
-        date={new Date()}
-        mode={'date'}
-        maximumDate={new Date(Date.now())}
+      <DateTimePickerModal
+        isVisible={openDateValue}
+        mode="date"
         onConfirm={date => {
           onOpenPicker(!openDateValue);
           setDateValue && setDateValue(date);

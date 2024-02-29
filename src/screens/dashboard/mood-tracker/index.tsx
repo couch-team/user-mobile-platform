@@ -30,7 +30,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   }, []);
 
   const moods: any = useSelector((state: RootState) => state.User.moods);
-  console.log(moods);
+  console.log(moods,'mood list');
 
   const groupedMoods = groupTransactions(moods);
 

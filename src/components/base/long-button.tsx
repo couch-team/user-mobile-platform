@@ -24,6 +24,7 @@ interface LongButtonProps {
   disabled?: boolean;
   hasLongArrow?: boolean;
   longArrowStyle?: ImageStyle;
+  icon?: any;
 }
 
 export const LongButton = ({
@@ -37,6 +38,7 @@ export const LongButton = ({
   hasLongArrow,
   isNotBottom,
   longArrowStyle,
+  icon,
 }: LongButtonProps) => {
   return (
     <View style={!isNotBottom && [styles.containerStyle, containerStyle]}>
@@ -68,14 +70,17 @@ export const LongButton = ({
             />
           </View>
         ) : (
-          <Text
-            style={[
-              styles.title,
-              titleStyle,
-              disabled && styles.titleDisabledStyle,
-            ]}>
-            {title}
-          </Text>
+          <View style={{ flexDirection: 'row', gap:4, alignItems: 'center' }}>
+            <View>{icon}</View>
+            <Text
+              style={[
+                styles.title,
+                titleStyle,
+                disabled && styles.titleDisabledStyle,
+              ]}>
+              {title}
+            </Text>
+          </View>
         )}
       </TouchableOpacity>
     </View>

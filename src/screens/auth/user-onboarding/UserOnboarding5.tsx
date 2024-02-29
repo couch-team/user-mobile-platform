@@ -5,7 +5,7 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { anxiousState } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { AuthParamList, RootNavigationRoutes } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';

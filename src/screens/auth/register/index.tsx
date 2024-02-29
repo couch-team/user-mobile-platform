@@ -53,6 +53,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
       email,
       role: 2,
     };
+    console.log(data,'register')
     const res = await register(data);
     if (res) {
       navigate('VerifyOtp', { email, password });
@@ -70,7 +71,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
             style={styles.logo}
           />
         </View>
-        {/* <KeyboardAvoidingView> */}
+        {/* <KeyboardAvoidingView behavior="position"> */}
           <View style={styles.bodyContainer}>
             <Text style={styles.welcomeText}>Welcome to couch</Text>
             <Text style={styles.getStartedText}>Let's get you Started</Text>

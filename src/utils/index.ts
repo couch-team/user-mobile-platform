@@ -31,3 +31,24 @@ export const groupTransactions = (data = []) => {
 
   return transGroup.reverse();
 };
+
+
+export const groupJournalTransactions = (data:any) => {
+  let transGroup: any[] = [];
+  const sorted = sortBy(data, ['created_at']);
+  const groups = groupBy(sorted, (d: any) =>
+    moment(d?.created_at).startOf('day').format(),
+  );
+  Object.keys(groups).forEach(i => {
+    transGroup.push({
+      title: moment(i).calendar(),
+      isToday:
+        moment(i).format('DD MMMM') === moment().format('DD MMMM') && 'Today',
+        isYesterday:
+        moment(i).subtract('DD MMMM') === moment().subtract('DD MMMM') && 'Yesterday',
+      data: groups[i]?.reverse(),
+    });
+  });
+
+  return transGroup.reverse();
+};

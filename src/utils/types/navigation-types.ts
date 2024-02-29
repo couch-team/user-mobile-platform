@@ -4,18 +4,21 @@ export type RootNavigationRoutes = {
   Auth: AuthParamList;
   Dashboard: DashboardParamList;
   TakeTour: any;
+  ProfileOnboarding: any;
 };
 
 export type AuthParamList = {
-  Onboarding: any;
   CompleteOnboarding: any;
   Login: any;
   VerifyOtp: { email?: string; password?: string };
   Register: any;
   ForgetPassword: any;
+  VerifyEmailAccount:any;
+  ResetPassword:any;
+  Onboarding: any;
   BasicProfile: any;
   Nationality: any;
-  UploadProfile: { data: any };
+  UploadProfile: any;
   UserOnboarding: any;
   UserOnboarding1: any;
   UserOnboarding2: any;
@@ -62,6 +65,8 @@ export type DashboardParamList = {
   CompleteAddMood: { res: any };
   AddJournal: undefined;
   MindSpace: undefined;
+  PreviewJournal: any;
+  EditJournal: any;
   RecentlyPlayedAudio: undefined;
   RecentlyPlayedText: undefined;
   RecentlyPlayedVideo: undefined;
@@ -84,3 +89,4 @@ export type BottomTabParamList = {
   Settings: any;
   Profile: any;
 };
+

@@ -28,14 +28,9 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedState, setSelectedState] = useState('');
 
   const {
-    Auth: { completeProfileCreation },
+    User: {pendingProfileCountry ,pendingProfileState},
   } = useDispatch();
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.completeProfileCreation,
-  );
-
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-
+  
   const onSelectCountry = async (selectedUserCountry: SelectedCountryProps) => {
     setSelectedCountry(selectedUserCountry);
   };
@@ -43,17 +38,17 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     setSelectedState(selectedUserState);
   };
 
-  const continueProcess = async () => {
-    const data = {
-      ...userProfile,
-      nationality: selectedCountry?.code,
-      stateOfResidence: selectedState,
-    };
-    const res = await completeProfileCreation(data);
-    if (res) {
-      navigate('UploadProfile', { data });
-    }
+
+  const completeProfile = async () => {
+    const res = await pendingProfileCountry(selectedCountry?.code)
+    const resp = await pendingProfileState(selectedState)
+      if(resp && res ){
+        navigate('UploadProfile');
+      }
+        
   };
+
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,9 +97,9 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       <LongButton
         hasLongArrow
         title="Continue"
-        loading={loading}
+        // loading={loading}
         disabled={selectedCountry && selectedState ? false : true}
-        onPress={() => continueProcess()}
+        onPress={() => completeProfile()}
       />
     </SafeAreaView>
   );

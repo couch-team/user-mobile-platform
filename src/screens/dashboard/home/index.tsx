@@ -17,6 +17,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -28,13 +30,31 @@ type Props = {
 
 const Home = ({ navigation: { navigate } }: Props) => {
   const [hideTour, setHideTour] = useState(true);
+
+  const authProfileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile?.profile,
+  );
+
+  const profileDetails = useSelector(
+    (state: RootState) => state.Auth.authProfile,
+  );
+  const {
+    Auth: { getAuthenticate },
+  } = useDispatch();
+
+  React.useEffect(() => {
+    getAuthenticate();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
         <View style={styles.bodyContainer}>
           <View style={styles.profileUserContainer}>
-            <Text style={styles.profileUserText}>Hi Daniella</Text>
+            <Text style={styles.profileUserText}>
+              Hi {profileDetails?.first_name}
+            </Text>
             <Text style={styles.profileSubText}>
               It's a beautiful morning today...
             </Text>
@@ -69,31 +89,42 @@ const Home = ({ navigation: { navigate } }: Props) => {
               })}
             </View>
           </View>
-          {hideTour && (
-            <View style={styles.tourInfoContainer}>
-              <XButton onXButtonPress={() => setHideTour(!hideTour)} />
-              <View style={styles.tourBodyContainer}>
-                <Image
-                  source={Images['profile-image']}
-                  resizeMode="contain"
-                  style={styles.profileImage}
-                />
-                <View style={styles.tourBodyInfoContainer}>
-                  <Text style={styles.tourBodyMainText}>Hi There!,</Text>
-                  <Text style={styles.tourBodySubText}>
-                    We've got some exciting features to help your mental
-                    wellbeing
-                  </Text>
-                  <LongButton
-                    isNotBottom
-                    onPress={() => navigation.navigate('TakeTour')}
-                    buttonStyle={styles.buttonStyle}
-                    title="Take a Short Tour"
-                  />
+          {
+            hideTour && (
+              <View style={styles.tourInfoContainer}>
+                <XButton onXButtonPress={() => setHideTour(!hideTour)} />
+                <View style={styles.tourBodyContainer}>
+                  {profileDetails?.profile?.avatar_url ? (
+                    <Image
+                      source={{ uri: profileDetails?.profile?.avatar_url }}
+                      resizeMode="contain"
+                      style={styles.profileImage}
+                    />
+                  ) : (
+                    <Image
+                      source={Images['profile-image']}
+                      resizeMode="contain"
+                      style={styles.profileImage}
+                    />
+                  )}
+
+                  <View style={styles.tourBodyInfoContainer}>
+                    <Text style={styles.tourBodyMainText}>Hi There!,</Text>
+                    <Text style={styles.tourBodySubText}>
+                      We've got some exciting features to help your mental
+                      wellbeing
+                    </Text>
+                    <LongButton
+                      isNotBottom
+                      onPress={() => navigation.navigate('TakeTour')}
+                      buttonStyle={styles.buttonStyle}
+                      title="Take a Short Tour"
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
+            )
+          }
         </View>
         <View style={styles.recommendedSectionContainer}>
           <Text style={styles.recommendedSectionHeaderText}>

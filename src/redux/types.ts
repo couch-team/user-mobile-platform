@@ -1,8 +1,16 @@
 export type CompleteProfile = {
   gender: string;
-  date_of_birth: Date;
-  nationality: string;
-  stateOfResidence: string;
+  dob: Date;
+  country : string;
+  state_of_residence : string;
+  avatar: any
+};
+
+export type CompleteOnboarding = {
+  physical_status: string;
+  ever_had_therapy : string;
+  referral_channel : string;
+  goal : any[];
 };
 
 type HealthInfo = {

@@ -24,29 +24,37 @@ type Props = {
   navigation: AuthNavigationProps;
 };
 
-const BasicProfile = ({ navigation }: Props) => {
+const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState();
 
   const {
-    Auth: { pendingProfileCompletion },
+    User: { pendingProfileGender,pendingProfileDOB },
   } = useDispatch();
 
   const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.pendingProfileCompletion,
+    (state: RootState) => state.loading.effects.User.pendingProfileGender,
   );
-  console.log(selectedGender);
+
+  // React.useEffect(() =>{
+  //   getAuthenticate();
+  // }, []);
+
+  // const authProfileDetails = useSelector(
+  //   (state: RootState) => state.Auth.authProfile?.profile,
+  // );
+  // console.log('auth details', authProfileDetails);
+
+  
   const continueProcess = async () => {
-    const data = {
-      gender: selectedGender === 'male' ? 'M' : 'F',
-      dateOfBirth: dayjs(dateValue).format('YYYY-MM-DD'),
-    };
-    const res = await pendingProfileCompletion(data);
+    await pendingProfileGender(selectedGender === 'male' ? 'M' : 'F')
+    const res = await pendingProfileDOB(dayjs(dateValue).format('YYYY-MM-DD'));
     if (res) {
-      navigation.navigate('Nationality', { data });
+      navigate('Nationality');
     }
   };
+
 
   useEffect(() => {
     if (isAndroid) {
@@ -150,6 +158,7 @@ const BasicProfile = ({ navigation }: Props) => {
         </View>
       </View>
       <LongButton
+       hasLongArrow
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}
