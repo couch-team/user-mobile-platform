@@ -4,31 +4,38 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import { DashboardParamList, AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthParamList, DashboardParamList, RootNavigationRoutes } from 'utils/types/navigation-types';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<
-DashboardParamList,
+AuthParamList,
   'CompleteOnboarding1'
 >;
 type Props = {
-  navigation: AuthNavigationProps;
-  route: any;
+  navigation: AuthNavigationProps & DashboardParamList;
+
 };
 
-const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
+
+const CompleteOnboarding1 = ({ navigation }: Props) => {
  
   const authProfileDetails = useSelector(
     (state: RootState) => state.Auth.authProfile,
   );
   const {
-    Auth: { accessDashboard },
+    Auth: { accessDashboard,getAuthenticate },
   } = useDispatch();
 
+  React.useEffect(() => {
+    getAuthenticate()
+  }, [])
+  
   const continueProcess = async () => {
-    navigate('Home')
+    accessDashboard();
+    navigation.navigate("DashboardHome")
   };
 
   return (

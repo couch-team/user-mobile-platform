@@ -20,6 +20,8 @@ import { Formik } from 'formik';
 import { showMessage } from 'react-native-flash-message';
 import { wp } from 'constants/layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { navigationRef } from 'navigation/utils';
+// import { NavigationContext } from 'navigation';
 
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'VerifyOtp'>;
@@ -36,10 +38,12 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
   const [seconds, setSeconds] = useState(30);
   const email = params?.email;
 
-  const {
-    Auth: { verifyEmailAccount, initResendToken},
-  } = useDispatch();
 
+
+  const {
+    Auth: { verifyEmailAccount, initResendToken,login},
+  } = useDispatch();
+  const dispatch = useDispatch();
   // React.useEffect(() =>{
   //   getAuthenticate();
   // }, []);
@@ -88,16 +92,38 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
     }
   };
 
+ 
+  // const completeVerification = async (values: any) => {
+  //   const data = {
+  //     email,
+  //     otp: values.otp,
+  //   };
+  //   const res = await verifyEmailAccount(data);
+  //   if (res) {
+  //     navigate('L');
+  //   }
+  // };
+
   const completeVerification = async (values: any) => {
     const data = {
       email,
       otp: values.otp,
     };
+  
     const res = await verifyEmailAccount(data);
     if (res) {
-      navigate('Login');
+      const payload = {
+        email,
+        password: params.password,
+      };
+      const loginRes = await login(payload);
+      if (loginRes) {
+        navigate('Login');
+      }
     }
   };
+  
+ 
 
   // const completeVerification = async (values: any) => {
   //   const data = {

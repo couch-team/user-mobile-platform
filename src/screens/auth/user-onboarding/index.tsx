@@ -6,12 +6,12 @@ import { Images } from 'theme/config';
 import { moods } from 'constants/data';
 import { LongButton } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'UserOnboarding'>;
+type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UserOnboarding'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -81,7 +81,7 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
           buttonStyle={styles.buttonStyle}
           title="Yes, proceed"
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.6}
           onPress={() => navigate('UserOnboarding1')}
           style={styles.longArrowContainer}>
@@ -91,7 +91,7 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
             resizeMode="contain"
             style={styles.longArrow}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <PrivacyModal

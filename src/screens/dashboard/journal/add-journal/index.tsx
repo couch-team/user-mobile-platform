@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
 import { RootState } from 'redux/store';
+import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -61,6 +62,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const {
     User: { createJournal, getJournal },
   } = useDispatch();
+
+  const loading = useSelector(
+    (state: RootState) => state.loading.effects.User.createJournal,
+  );
 
   const pickImageAsync = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -99,7 +104,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       }
     }
   };
-
+ 
+ 
   const createJournalFile = React.useCallback(async () => {
     const formdata = new FormData();
     formdata.append('title', title);
@@ -108,8 +114,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       formdata.append('uploads', selectedImage[i]);
     }
     formdata.append('uploads', recordingAudio);
-    formdata.append('mood_id', mood?.id);
- 
+    {mood === undefined ? null : formdata.append('mood_id', mood?.id);}
+
     await createJournal(formdata);
     getJournal(1);
     goBack();
@@ -171,6 +177,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         headerLeft={renderMood()}
         headerRight={
           <RightHeader
+           loading={loading}
             activeColor={color}
             pressConfirmButton={() => createJournalFile()}
             pressCloseButton={() => goBack()}

@@ -18,15 +18,6 @@ import Cbt from 'screens/dashboard/cbt';
 import SingleCbt from 'screens/dashboard/cbt/SingleCbt';
 import PreviewJournal from 'screens/dashboard/journal/preview-journal';
 import EditJournal from 'screens/dashboard/journal/edit-journal';
-import BasicProfile from 'screens/auth/basic-profile';
-import Nationality from 'screens/auth/basic-profile/Nationality';
-import UploadProfile from 'screens/auth/basic-profile/UploadProfile';
-import UserOnboarding from 'screens/auth/user-onboarding';
-import CompleteOnboarding1 from 'screens/auth/user-onboarding/CompleteOnboarding1';
-import UserOnboarding1 from 'screens/auth/user-onboarding/UserOnboarding1';
-import UserOnboarding2 from 'screens/auth/user-onboarding/UserOnboarding2';
-import UserOnboarding3 from 'screens/auth/user-onboarding/UserOnboarding3';
-import UserOnboarding4 from 'screens/auth/user-onboarding/UserOnboarding4';
 
 
 const Stack = createStackNavigator<DashboardParamList>();
@@ -65,24 +56,6 @@ const DashboardNavigation = () => {
       <Stack.Screen component={RecentlyPlayedText} name="RecentlyPlayedText" />
       <Stack.Screen component={Cbt} name="Cbt" />
       <Stack.Screen component={SingleCbt} name="SingleCbt" />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen
-          component={BasicProfile}
-          name="BasicProfile"
-          options={{ gestureEnabled: false }}
-        />
-        <Stack.Screen component={Nationality} name="Nationality" />
-        <Stack.Screen component={UploadProfile} name="UploadProfile" />
-        <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
-        <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
-        <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />
-        <Stack.Screen component={UserOnboarding3} name="UserOnboarding3" />
-        <Stack.Screen
-          component={CompleteOnboarding1}
-          name="CompleteOnboarding1"
-        />
-        <Stack.Screen component={UserOnboarding4} name="UserOnboarding4" />
-      </Stack.Group>
     </Stack.Navigator>
   );
 };

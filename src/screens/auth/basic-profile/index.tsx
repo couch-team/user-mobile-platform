@@ -12,14 +12,14 @@ import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton, CouchDatePicker } from 'components';
 import { genderRoles } from 'constants/data';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'BasicProfile'>;
+type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -36,6 +36,16 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const loading = useSelector(
     (state: RootState) => state.loading.effects.User.pendingProfileGender,
   );
+
+  // React.useEffect(() =>{
+  //   getAuthenticate();
+  // }, []);
+
+  // const authProfileDetails = useSelector(
+  //   (state: RootState) => state.Auth.authProfile?.profile,
+  // );
+  // console.log('auth details', authProfileDetails);
+
   
   const continueProcess = async () => {
     await pendingProfileGender(selectedGender === 'male' ? 'M' : 'F')

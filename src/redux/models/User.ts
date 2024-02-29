@@ -84,10 +84,10 @@ export const User = {
       try {
         const response = await UserApi.completeProfile(data);
         if (response) {
-          console.log(response, 'complete profile');
+          // console.log(response, 'complete profile');
         }
       } catch (error) {
-        console.log(error, 'complet profile error');
+        // console.log(error, 'complet profile error');
         this.handleError(error);
       }
     },
@@ -97,10 +97,10 @@ export const User = {
       try {
         const response = await UserApi.createNewJournal(data);
         if (response) {
-          console.log(response, 'create journal');
+          // console.log(response, 'create journal');
         }
       } catch (error) {
-        console.log(error, 'create journal');
+        // console.log(error, 'create journal');
         this.handleError(error);
       }
     },

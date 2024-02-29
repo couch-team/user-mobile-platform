@@ -89,25 +89,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
               })}
             </View>
           </View>
-          {authProfileDetails === null ? (
-            <View style={styles.BasicInfoContainer}>
-              <XButton onXButtonPress={() => setHideTour(!hideTour)} />
-              <View style={styles.tourBodyContainer}>
-                <View style={styles.tourBodyInfoContainer}>
-                  <Text style={styles.tourBodyMainText}>Hello! To get started</Text>
-                  <Text style={styles.tourBodySubText}>
-                  Kindly complete your basic profile and proceed with the onboarding process. Thank you!
-                  </Text>
-                  <LongButton
-                    isNotBottom
-                    onPress={() => navigation.navigate('BasicProfile')}
-                    buttonStyle={styles.buttonStyle}
-                    title="Complete Profile"
-                  />
-                </View>
-              </View>
-            </View>
-          ) : (
+          {
             hideTour && (
               <View style={styles.tourInfoContainer}>
                 <XButton onXButtonPress={() => setHideTour(!hideTour)} />
@@ -142,7 +124,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
                 </View>
               </View>
             )
-          )}
+          }
         </View>
         <View style={styles.recommendedSectionContainer}>
           <Text style={styles.recommendedSectionHeaderText}>

@@ -5,13 +5,13 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 // import { helpLists } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  DashboardParamList,
+  AuthParamList,
   'UserOnboarding1'
 >;
 type Props = {

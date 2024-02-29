@@ -3,20 +3,34 @@ import { ImageSourcePropType } from 'react-native';
 export type RootNavigationRoutes = {
   Auth: AuthParamList;
   Dashboard: DashboardParamList;
-  TakeTour: any;  
-  Onboard: any
+  TakeTour: any;
+  ProfileOnboarding: any;
 };
 
 export type AuthParamList = {
-  Onboarding: any;
   CompleteOnboarding: any;
   Login: any;
   VerifyOtp: { email?: string; password?: string };
   Register: any;
   ForgetPassword: any;
-  VerifyEmailAccount: any;
+  VerifyEmailAccount:any;
   ResetPassword:any;
- 
+  Onboarding: any;
+  BasicProfile: any;
+  Nationality: any;
+  UploadProfile: any;
+  UserOnboarding: any;
+  UserOnboarding1: any;
+  UserOnboarding2: any;
+  UserOnboarding3: any;
+  CompleteOnboarding1: any;
+  UserOnboarding4: any;
+  UserOnboarding5: any;
+  UserOnboarding6: any;
+  UserOnboarding7: any;
+  UserOnboarding8: any;
+  UserOnboarding9: any;
+  UserOnboarding10: any;
 };
 
 export type DashboardParamList = {
@@ -57,15 +71,6 @@ export type DashboardParamList = {
   RecentlyPlayedText: undefined;
   RecentlyPlayedVideo: undefined;
   Cbt: undefined;
-  BasicProfile: any;
-  Nationality: any;
-  UploadProfile: any;
-  UserOnboarding:any;
-  UserOnboarding1: any;
-  UserOnboarding2: any;
-  UserOnboarding3: any;
-  CompleteOnboarding1: any;
-  UserOnboarding4: any;
   SingleCbt: {
     item: {
       id: number;
@@ -84,3 +89,4 @@ export type BottomTabParamList = {
   Settings: any;
   Profile: any;
 };
+

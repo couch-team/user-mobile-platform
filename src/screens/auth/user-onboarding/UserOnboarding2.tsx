@@ -7,8 +7,6 @@ import { rates } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import {
   AuthParamList,
-  RootNavigationRoutes,
-  DashboardParamList
 } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -16,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-  DashboardParamList,
+  AuthParamList,
   'UserOnboarding2'
 >;
 type Props = {
@@ -25,7 +23,7 @@ type Props = {
 
 const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
   const { params } =
-    useRoute<RouteProp<DashboardParamList, 'UserOnboarding2'>>();
+    useRoute<RouteProp<AuthParamList, 'UserOnboarding2'>>();
   const [selectedStatus, setSelectedStatus] = useState('');
 
   const {

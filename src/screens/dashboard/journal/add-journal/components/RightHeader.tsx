@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, TouchableOpacity, View } from 'react-native';
 import { Images } from 'theme/config';
 import { styles } from './style';
 import { useDispatch } from 'react-redux';
@@ -8,12 +8,14 @@ interface RightHeaderProps {
   activeColor?: string;
   pressCloseButton: () => void;
   pressConfirmButton: () => void;
+  loading?: boolean 
 }
 
 export const RightHeader = ({
   activeColor,
   pressConfirmButton,
   pressCloseButton,
+  loading
 }: RightHeaderProps) => {
 
  
@@ -39,11 +41,11 @@ export const RightHeader = ({
           styles.checkColor,
           !!activeColor && { backgroundColor: activeColor },
         ]}>
-        <Image
+      {loading ? <ActivityIndicator size={'small'} color={'white'}/> : <Image
           source={Images.check}
           resizeMode="contain"
           style={[styles.closeIcon, styles.tintColor]}
-        />
+        /> }
       </TouchableOpacity>
     </View>
   );

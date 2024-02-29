@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { medicalConditions } from 'constants/data';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   FormTextInput,
@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
 type AuthNavigationProps = StackNavigationProp<
-DashboardParamList,
+AuthParamList,
   'UserOnboarding3'
 >;
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
 };
 
 const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
-  const { params } = useRoute<RouteProp<DashboardParamList, 'UserOnboarding4'>>();
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
 
   const [selectedOptions, setSelectedOptions] = useState<any>('');
   const [referral, setReferral] = useState('');

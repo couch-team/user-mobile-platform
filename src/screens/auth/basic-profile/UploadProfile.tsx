@@ -11,13 +11,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 import * as ImagePicker from 'expo-image-picker';
 
-type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'UploadProfile'>;
+type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;
 type Props = {
   navigation: AuthNavigationProps;
 };

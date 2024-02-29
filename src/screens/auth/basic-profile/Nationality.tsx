@@ -4,13 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { CouchDropDown, LongButton } from 'components';
-import { DashboardParamList } from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
 
-type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'Nationality'>;
+type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
