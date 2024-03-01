@@ -24,7 +24,11 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.couchapp.couchapp"
+      "package": "com.couchapp.couchapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/foreground.png",
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
       "favicon": "./assets/appIcon.png"

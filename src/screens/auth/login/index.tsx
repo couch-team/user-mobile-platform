@@ -42,7 +42,10 @@ const Login = ({ navigation: { navigate } }: Props) => {
   const isDisabled = email && password ? false : true;
 
   const loginAccount = async () => {
-    if (!email) {
+    console.log('hhh')
+    // eslint-disable-next-line no-useless-escape 
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(email) === false) {
       return showMessage({
         message: 'Please enter a valid email address',
         duration: 2000,
