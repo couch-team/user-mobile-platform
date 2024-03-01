@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
@@ -43,7 +36,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
   const gender = useSelector((state: RootState) => state.User.gender);
   const dob = useSelector((state: RootState) => state.User.dataOfbirth);
   const country = useSelector((state: RootState) => state.User.country);
-  const state = useSelector((state: RootState) => state.User.state);
+  const state = useSelector((states: RootState) => states.User.state);
 
   const [profileImage, setProfileImage] = useState({
     uri: '',
@@ -69,7 +62,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
 
         // Infer the type of the image
         const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : `image`;
+        const type = match ? `image/${match[1]}` : 'image';
 
         // const returnValue = ;
         setProfileImage({ uri: localUri, type, name: filename });
@@ -86,8 +79,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     formdata.append('avatar', profileImage);
 
     await completeProfileCreation(formdata);
-      navigate('UserOnboarding');
-    
+    navigate('UserOnboarding');
   };
 
   return (
@@ -110,7 +102,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
       </View>
 
       <View style={styles.profileSectionContainer}>
-      {/* {profileImage?.uri ? null : ( */}
+        {/* {profileImage?.uri ? null : ( */}
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={pickImage}
@@ -128,7 +120,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
             ]}
           />
         </TouchableOpacity>
- {/* )} */}
+        {/* )} */}
         <View style={styles.imageListContainer}>
           <Text style={styles.instructionText}>
             Kindly tap the icon to select or change an image from your phone's
@@ -143,19 +135,16 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
             onPress={() => completeProfile()}
           />
 
-          
-            <TouchableOpacity
-              activeOpacity={0.6}
-              
-              style={styles.longArrowContainer}>
-              <Text style={styles.longArrowText}>Choose an avatar</Text>
-              <Image
-                source={Images['long-arrow']}
-                resizeMode="contain"
-                style={styles.longArrow}
-              />
-            </TouchableOpacity>
-         
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.longArrowContainer}>
+            <Text style={styles.longArrowText}>Choose an avatar</Text>
+            <Image
+              source={Images['long-arrow']}
+              resizeMode="contain"
+              style={styles.longArrow}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

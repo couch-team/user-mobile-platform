@@ -36,7 +36,7 @@ export const Auth = {
       try {
         const api: any = await AuthApi.login(data);
         if (api) {
-          // console.log(api);
+          console.log(api);
           dispatch.Auth.setState({
             access_token: api?.access,
             refresh_token: api?.refresh,

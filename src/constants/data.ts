@@ -537,6 +537,7 @@ export const heavyOptions = [
     description: 'Share with a Therapist',
     icon: Images.phone,
     color: Colors.GREEN_100,
+    screen: 'Telegraphy',
   },
   {
     id: 2,
@@ -544,6 +545,7 @@ export const heavyOptions = [
     description: 'Write out your feelings',
     icon: Images.journal,
     color: Colors.COUCH_BLUE,
+    screen: 'Journal',
   },
 ];
 

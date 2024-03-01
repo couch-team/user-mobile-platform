@@ -50,6 +50,7 @@ const AppNavigation = () => {
       },
     );
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -105,6 +106,7 @@ const AppNavigation = () => {
         {isLoggedIn ? (
           authProfileDetails !== null && authPreference !== null ? (
             <>
+              {/* <DashboardNavigation /> */}
               <Stack.Screen component={DashboardNavigation} name="Dashboard" />
               <Stack.Group screenOptions={{ presentation: 'modal' }}>
                 <Stack.Screen
@@ -115,7 +117,10 @@ const AppNavigation = () => {
               </Stack.Group>
             </>
           ) : (
-            <Stack.Screen component={ProfileOnboardingNavigation} name="ProfileOnboarding" />
+            <Stack.Screen
+              component={ProfileOnboardingNavigation}
+              name="ProfileOnboarding"
+            />
           )
         ) : (
           <Stack.Screen component={AuthNavigation} name="Auth" />

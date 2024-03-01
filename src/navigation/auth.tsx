@@ -11,7 +11,6 @@ import ResetPassword from 'screens/auth/change-password';
 const Stack = createStackNavigator<AuthParamList>();
 
 const AuthNavigation = () => {
-
   return (
     <Stack.Navigator
       initialRouteName={'Login'}

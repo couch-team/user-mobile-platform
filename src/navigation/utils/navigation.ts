@@ -22,7 +22,7 @@ export const navigation: Navigation = {
       navigationRef.goBack();
     }
   },
-  navigate: (...args:any) => {
+  navigate: (...args: any) => {
     if (navigationRef.isReady()) {
       navigationRef.navigate(...args);
     }

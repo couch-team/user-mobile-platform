@@ -4,38 +4,41 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import { AuthParamList, DashboardParamList, RootNavigationRoutes } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  DashboardParamList,
+  // RootNavigationRoutes,
+} from 'utils/types/navigation-types';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+// import { RouteProp, useNavigation } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<
-AuthParamList,
+  AuthParamList,
   'CompleteOnboarding1'
 >;
 type Props = {
-  navigation: AuthNavigationProps & DashboardParamList;
-
+  navigation: DashboardParamList & AuthNavigationProps;
 };
 
-
-const CompleteOnboarding1 = ({ navigation }: Props) => {
- 
+const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
   const authProfileDetails = useSelector(
     (state: RootState) => state.Auth.authProfile,
   );
+  // const navigation = useNavigation();
   const {
-    Auth: { accessDashboard,getAuthenticate },
+    Auth: { accessDashboard, getAuthenticate },
   } = useDispatch();
 
   React.useEffect(() => {
-    getAuthenticate()
-  }, [])
-  
+    getAuthenticate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const continueProcess = async () => {
     accessDashboard();
-    navigation.navigate("DashboardHome")
+    navigate('UserDashboard'); // Fix: Correct the screen name to 'Dashboard'
   };
 
   return (

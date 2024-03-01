@@ -5,11 +5,9 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { therapistsVisits } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import {
-  AuthParamList,
-} from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp, useRoute } from '@react-navigation/native';
+// import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
 type AuthNavigationProps = StackNavigationProp<
@@ -23,8 +21,8 @@ type Props = {
 const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
   const [therapistVisits, setTherapistVisits] = useState('');
 
-  const { params } =
-    useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
+  // const { params } =
+  //   useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
   const {
     User: { therapyOnboardingStage },
   } = useDispatch();
