@@ -173,7 +173,6 @@ export const Auth = {
 
     async handleError(error: any) {
       dispatch.Auth.setError(true);
-      logger.info(error)
       if (error || error?.data?.errors || error?.data?.status === 'error') {
         var message =
           error?.message ||
