@@ -19,7 +19,6 @@ import SingleCbt from 'screens/dashboard/cbt/SingleCbt';
 import PreviewJournal from 'screens/dashboard/journal/preview-journal';
 import EditJournal from 'screens/dashboard/journal/edit-journal';
 
-
 const Stack = createStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {

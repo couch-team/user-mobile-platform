@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   SectionList,
-  ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -53,10 +52,10 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     (state: RootState) => state.loading.effects.User.getJournal,
   );
 
-  const extractPageNumberFromUrl = (url: string): number => {
+  const extractPageNumberFromUrl = useCallback((url: string): number => {
     const matches = url.match(/page=(\d+)$/);
     return matches ? parseInt(matches[1], 10) : 1;
-  };
+  }, []);
 
   React.useEffect(() => {
     getJournal(page);
@@ -64,21 +63,22 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       getJournalById(selectedId);
     }
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
   const NextJournal = useCallback(() => {
     if (!loading && nextPage) {
-      const page = extractPageNumberFromUrl(nextPage);
-      setPage(page);
-      getJournal(page);
+      const newPage = extractPageNumberFromUrl(nextPage);
+      setPage(newPage);
+      getJournal(newPage);
     }
   }, [loading, nextPage, extractPageNumberFromUrl, setPage, getJournal]);
 
   const PrevJournal = useCallback(() => {
     if (!loading && previousPage) {
-      const page = extractPageNumberFromUrl(previousPage);
-      setPage(page);
-      getJournal(page);
+      const newPage = extractPageNumberFromUrl(previousPage);
+      setPage(newPage);
+      getJournal(newPage);
     }
   }, [loading, previousPage, extractPageNumberFromUrl, setPage, getJournal]);
 
@@ -159,7 +159,9 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
         refreshing={loading}
         onRefresh={PrevJournal}
         ListFooterComponent={
-          <TouchableOpacity style={styles.paginationButtonContainer} onPress={NextJournal}>
+          <TouchableOpacity
+            style={styles.paginationButtonContainer}
+            onPress={NextJournal}>
             <Text style={styles.paginationButtonText}>Load Next Journals</Text>
           </TouchableOpacity>
         }>
@@ -169,7 +171,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={item => item.id}
           extraData={selectedId}
-          renderItem={({ item, index }) => {
+          renderItem={({ item }) => {
             return (
               <TouchableOpacity
                 onPress={() => {
@@ -268,7 +270,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               </View>
             </View>
           }
-         
+
           // onScrollToTop={PrevJournal}
         />
       </VirtualizedScrollView>

@@ -70,7 +70,8 @@ export const LongButton = ({
             />
           </View>
         ) : (
-          <View style={{ flexDirection: 'row', gap:4, alignItems: 'center' }}>
+          // eslint-disable-next-line react-native/no-inline-styles
+          <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
             <View>{icon}</View>
             <Text
               style={[

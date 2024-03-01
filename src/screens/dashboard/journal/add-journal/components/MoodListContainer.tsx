@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Colors, Images, Typography } from 'theme/config';
+import { Colors, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal, LongButton } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,17 +15,20 @@ export type MoodType =
   | 'Anxious'
   | 'Calm';
 
-interface MoodModalProps {
-  isVisible: boolean;
-  onSelectMood?: any;
-  onClose: () => void;
-  setSelectedMood: any;
-}
+// interface MoodModalProps {
+//   isVisible: boolean;
+//   onSelectMood?: any;
+//   onClose: () => void;
+//   setSelectedMood: any;
+// }
 
-const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
-  const moods = useSelector(
-    (state: RootState) => state.User?.moods.results || [],
-  );
+const MoodModal = ({
+  isVisible,
+  onSelectMood,
+  onClose,
+  setSelectMood,
+}: any) => {
+  const moods = useSelector((state: RootState) => state.User?.moods || []);
 
   const {
     User: { getAllMoods },
@@ -34,14 +37,14 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
   useEffect(() => {
     getAllMoods();
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [selectedMood, setSelectedMood] = useState(null);
 
-
   const handleMoodSelection = (mood: any) => {
     setSelectMood(mood);
-    setSelectedMood(mood)
+    setSelectedMood(mood);
     onSelectMood(mood.icon_url);
   };
 
@@ -61,7 +64,7 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
                   selectedMood === mood && {
                     borderStyle: 'dashed',
                     borderColor: Colors.YELLOW_100,
-                    backgroundColor: "transparent",
+                    backgroundColor: 'transparent',
                   },
                 ]}>
                 <Image source={{ uri: mood.icon_url }} style={styles.image} />
@@ -83,13 +86,12 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: wp(20),
-    paddingVertical: hp(40)
+    paddingVertical: hp(40),
   },
   title: {
     fontSize: 18,
@@ -101,14 +103,14 @@ const styles = StyleSheet.create({
   moodContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap:wp(8),
+    gap: wp(8),
     // justifyContent: 'space-around',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   imageView: {
     marginBottom: wp(10),
     paddingVertical: wp(10),
-    paddingHorizontal:wp(6),
+    paddingHorizontal: wp(6),
     borderWidth: 1,
     borderRadius: wp(40),
     borderColor: Colors.COUCH_GREEN_150,

@@ -13,8 +13,8 @@ export type AuthParamList = {
   VerifyOtp: { email?: string; password?: string };
   Register: any;
   ForgetPassword: any;
-  VerifyEmailAccount:any;
-  ResetPassword:any;
+  VerifyEmailAccount: any;
+  ResetPassword: any;
   Onboarding: any;
   BasicProfile: any;
   Nationality: any;
@@ -31,6 +31,7 @@ export type AuthParamList = {
   UserOnboarding8: any;
   UserOnboarding9: any;
   UserOnboarding10: any;
+  UserDashboard: any;
 };
 
 export type DashboardParamList = {
@@ -89,4 +90,3 @@ export type BottomTabParamList = {
   Settings: any;
   Profile: any;
 };
-

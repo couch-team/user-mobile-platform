@@ -1,34 +1,33 @@
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { RootState, store } from './redux/store';
-import { hasDynamicIsland } from 'react-native-device-info';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+// import { hasDynamicIsland } from 'react-native-device-info';
 import { hp } from './constants/layout';
 import { StatusBar, StyleSheet } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 // import SplashScreen from 'react-native-splash-screen';
 import { RootNavigation } from './navigation';
-import { Colors, Typography } from 'theme/config';
+import { Colors } from 'theme/config';
 import { useFonts } from 'expo-font';
 
-
 const App = () => {
-  useEffect(() => { 
+  useEffect(() => {
     setTimeout(() => SplashScreen.preventAutoHideAsync(), 2000);
   }, []);
 
-  const [fontsLoaded,fontError] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     'Sora-Thin': require('./assets/fonts/Sora-Thin.ttf'),
-    'Sora-Light':require('./assets/fonts/Sora-Light.ttf'),
-    'Sora-ExtraLight':require('./assets/fonts/Sora-ExtraLight.ttf'),
-    'Sora-Regular':require('./assets/fonts/Sora-Regular.ttf'),
-    'Sora-Medium':require('./assets/fonts/Sora-Medium.ttf'),
-    'Sora-SemiBold':require('./assets/fonts/Sora-SemiBold.ttf'),
-    'Sora-Bold':require('./assets/fonts/Sora-Bold.ttf'),
-    'Sora-ExtraBold':require('./assets/fonts/Sora-ExtraBold.ttf'),
+    'Sora-Light': require('./assets/fonts/Sora-Light.ttf'),
+    'Sora-ExtraLight': require('./assets/fonts/Sora-ExtraLight.ttf'),
+    'Sora-Regular': require('./assets/fonts/Sora-Regular.ttf'),
+    'Sora-Medium': require('./assets/fonts/Sora-Medium.ttf'),
+    'Sora-SemiBold': require('./assets/fonts/Sora-SemiBold.ttf'),
+    'Sora-Bold': require('./assets/fonts/Sora-Bold.ttf'),
+    'Sora-ExtraBold': require('./assets/fonts/Sora-ExtraBold.ttf'),
   });
-  
+
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
@@ -38,11 +37,12 @@ const App = () => {
   if (!fontsLoaded && !fontError) {
     return null;
   }
- 
 
   return (
-    <Provider store={store} >
-      <SafeAreaProvider style={{ backgroundColor: Colors.PRIMARY }} onLayout={onLayoutRootView}>
+    <Provider store={store}>
+      <SafeAreaProvider
+        style={{ backgroundColor: Colors.PRIMARY }}
+        onLayout={onLayoutRootView}>
         <StatusBar barStyle={'light-content'} />
         <FlashMessage
           position="top"

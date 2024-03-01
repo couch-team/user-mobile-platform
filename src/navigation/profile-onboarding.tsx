@@ -9,19 +9,17 @@ import UserOnboarding2 from '../screens/auth/user-onboarding/UserOnboarding2';
 import UserOnboarding3 from '../screens/auth/user-onboarding/UserOnboarding3';
 import UserOnboarding4 from '../screens/auth/user-onboarding/UserOnboarding4';
 import CompleteOnboarding1 from '../screens/auth/user-onboarding/CompleteOnboarding1';
+import BottomTabBar from './bottom-tab';
+import { AuthParamList } from 'utils/types/navigation-types';
 
-
-const Stack = createStackNavigator<any>();
+const Stack = createStackNavigator<AuthParamList>();
 
 const ProfileOnboardingNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName={'BasicProfile'}
       screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        component={BasicProfile}
-        name="BasicProfile"
-      />
+      <Stack.Screen component={BasicProfile} name="BasicProfile" />
       <Stack.Screen component={Nationality} name="Nationality" />
       <Stack.Screen component={UploadProfile} name="UploadProfile" />
       <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
@@ -32,6 +30,7 @@ const ProfileOnboardingNavigation = () => {
         component={CompleteOnboarding1}
         name="CompleteOnboarding1"
       />
+      <Stack.Screen component={BottomTabBar} name="UserDashboard" />
       <Stack.Screen component={UserOnboarding4} name="UserOnboarding4" />
     </Stack.Navigator>
   );

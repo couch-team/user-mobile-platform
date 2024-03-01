@@ -6,12 +6,12 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  Text,
   Image,
-  Alert
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NoteOption, RightHeader } from './components';
 
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -23,12 +23,13 @@ import {
 } from 'react-native-pell-rich-editor';
 import { Colors, Images } from 'theme/config';
 import * as ImagePicker from 'expo-image-picker';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { hp, wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
 import { RootState } from 'redux/store';
-import { showMessage } from 'react-native-flash-message';
+// import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -40,13 +41,11 @@ type Props = {
 
 const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [title, setTitle] = useState('');
-  const [prompt, setPrompt] = useState('');
   const [description, setDescription] = useState('');
   const [recordingAudio, setRecordingAudio] = useState();
   const [mood, setMood] = useState<any>();
   const richText = React.useRef<any>();
   const [selectedImage, setSelectedImage] = useState<any>([]);
-  const [openMoodModal, setOpenMoodModal] = useState(false);
   const [openVoiceModal, setOpenVoiceModal] = useState(false);
   const [height, setHeight] = useState(600);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -56,7 +55,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     backgroundColor: Colors.PRIMARY,
     color: '#fff',
     placeholderColor: 'gray',
-    contentCSSText: 'font-size: 16px; height: 100%;'
+    contentCSSText: 'font-size: 16px; height: 100%;',
   };
 
   const {
@@ -104,8 +103,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       }
     }
   };
- 
- 
   const createJournalFile = React.useCallback(async () => {
     const formdata = new FormData();
     formdata.append('title', title);
@@ -114,7 +111,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       formdata.append('uploads', selectedImage[i]);
     }
     formdata.append('uploads', recordingAudio);
-    {mood === undefined ? null : formdata.append('mood_id', mood?.id);}
+    // eslint-disable-next-line no-lone-blocks
+    {
+      mood === undefined ? null : formdata.append('mood_id', mood?.id);
+    }
 
     await createJournal(formdata);
     getJournal(1);
@@ -147,6 +147,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       default:
         return Colors.COUCH_BLUE;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMood]);
 
   const renderMood = React.useCallback(() => {
@@ -177,7 +178,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         headerLeft={renderMood()}
         headerRight={
           <RightHeader
-           loading={loading}
+            loading={loading}
             activeColor={color}
             pressConfirmButton={() => createJournalFile()}
             pressCloseButton={() => goBack()}
@@ -194,10 +195,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           onChangeText={(text: string) => setTitle(text)}
         />
 
-        <ScrollView
-          style={{ height: wp(520) }}
-        >
-          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.noteBodyContainer}>
+        <ScrollView style={{ height: wp(520) }}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.noteBodyContainer}>
             <RichEditor
               ref={richText}
               style={styles.noteBodyText}
@@ -218,13 +219,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               onHeightChange={e => {
                 setHeight(e);
               }}
-              
               placeholder={'input your content'}
             />
           </KeyboardAvoidingView>
         </ScrollView>
         <RichToolbar
-         iconSize={50}
+          iconSize={50}
           style={styles.noteOptionContainer}
           editor={richText}
           actions={[

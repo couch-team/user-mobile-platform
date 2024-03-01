@@ -2,7 +2,6 @@ import { UserApi } from 'services/apis';
 import { reducerActions as reducers } from './reducer';
 import { showMessage } from 'react-native-flash-message';
 import { CompleteProfile, CompleteOnboarding } from 'redux/types';
-import Axios from 'services/Axios';
 
 const IsState = {
   userProfile: null,
@@ -18,7 +17,7 @@ const IsState = {
   pageNumber: 1,
   isFetching: true,
   totalPages: null,
-  nextPage:null,
+  nextPage: null,
   previousPage: null,
   goalOnboarding: null,
   physicalOnboarding: null,
@@ -38,7 +37,7 @@ interface User {
   userJournal: any[];
   nextJournal: any[];
   totalPages: any;
-  nextPage:any;
+  nextPage: any;
   previousPage: any;
   isFetching: boolean;
   pageNumber: number;
@@ -171,6 +170,7 @@ export const User = {
       }
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async editJournalById({ id, formData }: { id: any; formData: FormData }) {
       dispatch.User.setError(false);
       try {
