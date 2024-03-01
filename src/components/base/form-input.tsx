@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     paddingLeft: hp(18),
     fontFamily: Typography.fontFamily.SoraRegular,
     color: Colors.WHITE,
+    backgroundColor: Colors.PRIMARY_MODAL_100,
   },
   formInputContainer: {
     marginBottom: hp(24),

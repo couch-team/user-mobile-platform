@@ -26,7 +26,7 @@ export default function ForgetPassword({ navigation: { navigate } }: Props) {
   const loading = useSelector(
     (state: RootState) => state.loading.effects.Auth.resetPasswordInputEmail,
   );
-  const [email, setEmail] = React.useState('example@email.com');
+  const [email, setEmail] = React.useState('');
 
   const isDisabled = email ? false : true;
 
@@ -75,6 +75,7 @@ export default function ForgetPassword({ navigation: { navigate } }: Props) {
               <FormTextInput
                 label="Email address"
                 autoCapitalize="none"
+                placeholder='Enter your email'
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
                 value={email}

@@ -7,7 +7,7 @@ export default {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(({ data }) => data),
+    }).then(({ data }) => { console.log(data); return data}),
   registerAccount: (payload: any) =>
     Axios.post('api/auth/register/', payload, {
       headers: {

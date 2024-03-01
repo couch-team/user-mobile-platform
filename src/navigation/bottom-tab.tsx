@@ -157,11 +157,12 @@ export const styles = StyleSheet.create({
     width: wp(25),
   },
   titleStyle: {
-    paddingTop: hp(5),
-    fontSize: hp(11),
+    paddingTop: 9,
+    fontSize: 10,
     color: Colors.COUCH_TEXT_COLOR,
     textAlign: 'center',
-    fontFamily: Typography.fontFamily.SoraRegular,
+    fontFamily: Typography.fontFamily.SoraSemiBold,
+    letterSpacing: -0.48,
   },
   tabBarContainer: {
     justifyContent: 'center',

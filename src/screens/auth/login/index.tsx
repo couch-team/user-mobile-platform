@@ -24,14 +24,12 @@ type Props = {
 
 const Login = ({ navigation: { navigate } }: Props) => {
   const {
-    Auth: { login,getAuthenticate},
+    Auth: { login },
   } = useDispatch();
 
 
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.login,
-  );
+  const loading = false
 
   
 
@@ -42,7 +40,6 @@ const Login = ({ navigation: { navigate } }: Props) => {
   const isDisabled = email && password ? false : true;
 
   const loginAccount = async () => {
-    console.log('hhh')
     // eslint-disable-next-line no-useless-escape 
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(email) === false) {
@@ -85,6 +82,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
               <FormTextInput
                 label="Email address"
                 editable
+                placeholder='Enter your email'
                 // autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
@@ -94,6 +92,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 label="Password"
                 isPassword
                 show={showPassword}
+                placeholder='Enter your password'
                 onChangeText={(text: string) => setPassword(text)}
                 value={password}
                 showPassword={() => setShowPassword(!showPassword)}
@@ -112,6 +111,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
               <TouchableOpacity style={styles.forgetPassBtn}>
                 <Text
                   // onPress={() => navigate('Register')}
+                  numberOfLines={1}
                   style={styles.forgetPassLink}>
                   Let’s help out
                 </Text>

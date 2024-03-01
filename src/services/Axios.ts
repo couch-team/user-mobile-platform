@@ -25,7 +25,6 @@ Axios.interceptors.request.use(async (config: any) => {
     config.headers.timestamp = new Date().getTime().toString();
   }
 
-  console.log(config);
   return config;
 });
 

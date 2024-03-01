@@ -105,10 +105,15 @@ export default function VerifyEmailAccount({
             <Text style={styles.verifyAccountTextColor}>Hold on Tight</Text>
             <Text style={styles.getStartedText}>Verify your Account</Text>
             <Text style={styles.verifyAccountTextColor}>
-              Hey Emmanuel, a 6-digit OTP has been sent to the mail. Kindly
+              Hi, a 6-digit OTP has been sent to the mail. Kindly
               check your mail and provide OTP to verify account.
             </Text>
-
+            <View style={styles.emailTextContainer}>
+              <Text style={styles.emailText}>{email}</Text>
+            </View>
+            <TouchableOpacity onPress={() => navigate('ForgetPassword')}>
+              <Text style={styles.changeEmail}>Change Email</Text>
+            </TouchableOpacity>
             <View style={styles.formContainer}>
               <FormTextInput
                 label="OTP"

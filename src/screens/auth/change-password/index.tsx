@@ -95,6 +95,7 @@ export default function ResetPassword({ navigation: { navigate } }: Props) {
           <Image
             source={Images.info}
             resizeMode="contain"
+            style={styles.infoIcon}
             // style={styles.in}
           />
           <Text style={styles.infoText}>Try not to forget this password.</Text>

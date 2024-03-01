@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     lineHeight: hp(24),
   },
   formContainer: {
-    marginTop: hp(10),
+    marginTop: hp(28),
   },
   buttonStyle: {
     marginTop: hp(40),
@@ -79,7 +79,8 @@ export const styles = StyleSheet.create({
     height: 32,
   },
   emailTextContainer: {
-    marginVertical: hp(20),
+    marginTop: hp(24),
+    marginBottom: hp(16),
     backgroundColor: Colors.COUCH_BLUE_100,
     paddingHorizontal: wp(15),
     height: hp(38),
@@ -91,7 +92,7 @@ export const styles = StyleSheet.create({
   emailText: {
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(13),
-    color: Colors.WHITE,
+    color: Colors.YELLOW_300,
     lineHeight: hp(17),
   },
   resendCodeContainer: {
@@ -124,9 +125,20 @@ export const styles = StyleSheet.create({
     gap:hp(2),
     alignItems: "center"
   },
+  infoIcon: {
+    height: 24,
+    width: 24,
+  },
   infoText:{
     color: "#1E90FF",
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(14)
+  },
+  changeEmail: {
+    fontFamily: Typography.fontFamily.SoraSemiBold,
+    fontSize: 14,
+    fontWeight: '600',
+    lineHeight: 18,
+    color: Colors.WHITE,
   }
 });

@@ -32,11 +32,9 @@ export const Auth = {
   effects: (dispatch: any) => ({
     async login(data: any) {
       dispatch.Auth.setError(false);
-      // console.log(data, 'payload');
       try {
         const api: any = await AuthApi.login(data);
         if (api) {
-          // console.log(api);
           dispatch.Auth.setState({
             access_token: api?.access,
             refresh_token: api?.refresh,
@@ -53,11 +51,9 @@ export const Auth = {
       try {
         const api: any = await AuthApi.registerAccount(data);
         if (api) {
-          console.log(api, 'register');
           return true;
         }
       } catch (error) {
-        console.log(error, 'register error');
         this.handleError(error);
       }
     },
@@ -66,7 +62,6 @@ export const Auth = {
       try {
         const api = await AuthApi.verifyAccount(data);
         if (api) {
-          console.log(api, 'verify email');
           return true;
         }
       } catch (error) {
@@ -78,7 +73,6 @@ export const Auth = {
       try {
         const api = await AuthApi.resendVerification(data);
         if (api) {
-          console.log(api, 'resend token');
           return true;
         }
       } catch (error) {
@@ -104,7 +98,6 @@ export const Auth = {
       try {
         const api = await AuthApi.getRoles();
         if (api) {
-          console.log(api, 'roles');
         }
       } catch (error) {
         this.handleError(error);
@@ -119,10 +112,8 @@ export const Auth = {
           dispatch.Auth.setState({
             authProfile: api,
           });
-          // console.log(api.id,'...data..');
         }
       } catch (error) {
-        console.log(error, 'auth error');
         this.handleError(error);
       }
     },
@@ -135,7 +126,7 @@ export const Auth = {
           dispatch.Auth.setState({
             goalists: api,
           });
-          // console.log(api,'...lists..');
+          // logger.info(api,'...lists..');
         }
       } catch (error) {
         this.handleError(error);
@@ -147,7 +138,6 @@ export const Auth = {
       try {
         const api = await AuthApi.resetPasswordInputEmail(data);
         if (api) {
-          console.log(api, '..email...');
           return true;
         }
       } catch (error) {
@@ -160,10 +150,8 @@ export const Auth = {
       try {
         const api = await AuthApi.resetPasswordConfirm(data);
         if (api) {
-          console.log(api, '..password...');
         }
       } catch (error) {
-        console.log(error, 'reset pass error');
         this.handleError(error);
       }
     },
@@ -173,10 +161,8 @@ export const Auth = {
       try {
         const api = await AuthApi.resetPasswordToken(data);
         if (api) {
-          console.log(api, '..otp...');
         }
       } catch (error) {
-        console.log(error, 'reset token error');
         this.handleError(error);
       }
     },
@@ -187,6 +173,7 @@ export const Auth = {
 
     async handleError(error: any) {
       dispatch.Auth.setError(true);
+      logger.info(error)
       if (error || error?.data?.errors || error?.data?.status === 'error') {
         var message =
           error?.message ||
