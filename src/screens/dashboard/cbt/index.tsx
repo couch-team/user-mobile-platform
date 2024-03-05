@@ -1,13 +1,13 @@
-import HeaderBar from 'components/base/header-bar';
+import { HeaderBar } from 'components/base/header-bar';
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import HeaderText from 'components/base/header-text';
+import { HeaderText } from 'components/base/header-text';
 import { cbtData } from 'constants/data';
-import LinearGradient from 'react-native-linear-gradient';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackScreenProps } from '@react-navigation/stack';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'Cbt'>;
 
@@ -15,17 +15,15 @@ const Cbt = ({ navigation: { navigate, goBack } }: ScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        ListHeaderComponent={() => {
-          return (
-            <>
-              <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
-              <HeaderText
-                text="CBT Exercises"
-                hasSubText="Join Individuals of like minds and share."
-              />
-            </>
-          );
-        }}
+        ListHeaderComponent={() => (
+          <>
+            <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
+            <HeaderText
+              text="CBT Exercises"
+              hasSubText="Join Individuals of like minds and share."
+            />
+          </>
+        )}
         data={cbtData}
         renderItem={({ item, index }) => {
           return (

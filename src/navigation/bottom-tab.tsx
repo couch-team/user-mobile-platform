@@ -50,7 +50,7 @@ const BottomTabBar = () => {
       screenOptions={{
         unmountOnBlur: true,
         tabBarStyle: {
-          height: hp(100),
+          height: hp(60),
           backgroundColor: Colors.PRIMARY_DARKBLUE,
         },
         tabBarActiveTintColor: Colors.PRIMARY_DARKBLUE,

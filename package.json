@@ -29,6 +29,7 @@
     "expo-av": "~13.4.1",
     "expo-file-system": "~15.4.5",
     "expo-image-picker": "~14.3.2",
+    "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
     "formik": "^2.2.9",
     "fuzzy-search": "^3.2.1",
@@ -41,7 +42,6 @@
     "react-native-flash-message": "^0.4.1",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-gifted-charts": "^1.2.42",
-    "react-native-linear-gradient": "^2.6.2",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-pell-rich-editor": "^1.9.0",
@@ -55,7 +55,8 @@
     "redux": "^4.2.1",
     "redux-persist-transform-filter": "^0.0.22",
     "yup": "^1.1.1",
-    "expo-secure-store": "~12.3.1"
+    "expo-linear-gradient": "~12.3.0",
+    "expo-font": "~11.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
