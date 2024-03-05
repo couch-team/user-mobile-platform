@@ -1,7 +1,5 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { navigationRef } from './utils';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from 'react';
 import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +10,8 @@ import { Colors } from 'theme/config';
 import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
@@ -25,7 +25,7 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer
-      ref={navigationRef}
+      // ref={navigationRef}
       initialState={__DEV__ ? initialState : undefined}
       onStateChange={state => {
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));

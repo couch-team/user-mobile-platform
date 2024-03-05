@@ -1,9 +1,9 @@
 export const fontFamily = {
-  SoraThin: 'Sora-Thin',
+  SoraThin: 'SoraThin',
   SoraLight: 'Sora-Light',
   SoraExtraLight: 'Sora-ExtraLight',
   SoraRegular: 'Sora-Regular',
-  SoraMedium: 'Sora-Medium',
+  SoraMedium: 'SoraMedium',
   SoraSemiBold: 'Sora-SemiBold',
   SoraBold: 'Sora-Bold',
   SoraExtraBold: 'Sora-ExtraBold',

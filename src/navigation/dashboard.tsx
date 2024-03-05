@@ -18,6 +18,7 @@ import Cbt from 'screens/dashboard/cbt';
 import SingleCbt from 'screens/dashboard/cbt/SingleCbt';
 import PreviewJournal from 'screens/dashboard/journal/preview-journal';
 import EditJournal from 'screens/dashboard/journal/edit-journal';
+import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 
 const Stack = createStackNavigator<DashboardParamList>();
 
@@ -39,6 +40,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={AddMood} name="AddMood" />
       <Stack.Screen component={AddMood2} name="AddMood2" />
       <Stack.Screen component={CompleteAddMood} name="CompleteAddMood" />
+      <Stack.Screen component={TakeTour} name="TakeTour" />
       <Stack.Screen component={Journal} name="Journal" />
       <Stack.Screen component={AddJournal} name="AddJournal" />
       <Stack.Screen component={PreviewJournal} name="PreviewJournal" />

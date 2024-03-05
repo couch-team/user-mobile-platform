@@ -46,7 +46,8 @@ const Home = ({ navigation: { navigate } }: Props) => {
         <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
         <View style={styles.bodyContainer}>
           <View style={styles.profileUserContainer}>
-            <Text style={styles.profileUserText}>
+            <Text
+              style={[styles.profileUserText, { fontFamily: 'SoraMedium' }]}>
               Hi {profileDetails?.first_name}
             </Text>
             <Text style={styles.profileSubText}>

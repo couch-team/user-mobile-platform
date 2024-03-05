@@ -58,6 +58,7 @@ export const styles = StyleSheet.create({
     padding: hp(8),
     borderRadius: 100,
     marginRight: wp(10),
+    gap: 5,
   },
   trackerText: {
     paddingLeft: 1,
