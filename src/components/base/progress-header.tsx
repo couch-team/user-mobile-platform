@@ -5,79 +5,39 @@ import { Colors, Images } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
 import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 
-interface ProgressHeaderProps {
-  firstProgress: number;
-  secondProgress?: number;
-  thirdProgress?: number;
-  fourthProgress?: number;
-  progressWidth?: number;
-}
-
-export const ProgressHeader = ({
-  firstProgress,
-  secondProgress,
-  thirdProgress,
-  fourthProgress,
-  progressWidth,
-}: ProgressHeaderProps) => {
+export const ProgressHeader = ({ status }: { status: number }) => {
   return (
     <View style={styles.progressHeaderContainer}>
-      <Progress.Bar
-        progress={firstProgress}
-        unfilledColor={Colors.COUCH_BLUE_700}
-        color={Colors.COUCH_BLUE}
-        borderWidth={0}
-        height={hp(10)}
-        width={progressWidth || wp(70)}
-      />
-      <Image
-        source={Images.ellipse}
-        resizeMode="contain"
+      <View
         style={[
-          styles.ellipseIcon,
-          firstProgress === 1 && { tintColor: Colors.GREEN_100 },
+          styles.progressBar,
+          status >= 1 && { backgroundColor: Colors.COUCH_BLUE },
         ]}
-      />
-      <Progress.Bar
-        progress={secondProgress}
-        color={Colors.COUCH_BLUE}
-        unfilledColor={Colors.COUCH_BLUE_700}
-        borderWidth={0}
-        height={hp(10)}
-        width={progressWidth || wp(70)}
-      />
-      <Image
-        source={Images.ellipse}
-        resizeMode="contain"
+      ></View>
+      <View 
         style={[
-          styles.ellipseIcon,
-          secondProgress === 1 && { tintColor: Colors.GREEN_100 },
+          styles.progressDot,
+          status > 1 && { backgroundColor: Colors.GREEN_100 },
         ]}
-      />
-      <Progress.Bar
-        progress={thirdProgress}
-        color={Colors.COUCH_BLUE}
-        unfilledColor={Colors.COUCH_BLUE_700}
-        borderWidth={0}
-        height={hp(10)}
-        width={progressWidth || wp(70)}
-      />
-      <Image
-        source={Images.ellipse}
-        resizeMode="contain"
+      ></View>
+      <View 
         style={[
-          styles.ellipseIcon,
-          thirdProgress === 1 && { tintColor: Colors.GREEN_100 },
+          styles.progressBar,
+          status >= 2 && { backgroundColor: Colors.COUCH_BLUE },
         ]}
-      />
-      <Progress.Bar
-        progress={fourthProgress}
-        color={Colors.COUCH_BLUE}
-        unfilledColor={Colors.COUCH_BLUE_700}
-        borderWidth={0}
-        height={hp(10)}
-        width={progressWidth || wp(70)}
-      />
+      ></View>
+      <View 
+        style={[
+          styles.progressDot,
+          status > 2 && { backgroundColor: Colors.GREEN_100 },
+        ]}
+      ></View>
+      <View         
+      style={[
+          styles.progressBar,
+          status >= 3 && { backgroundColor: Colors.COUCH_BLUE },
+        ]}
+      ></View>
     </View>
   );
 };
@@ -87,11 +47,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: wp(20),
     marginTop: hp(20) && hp(40),
+    height: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 6,
   },
-  ellipseIcon: {
+  progressBar: {
+    flex: 1,
+    height: '100%',
+    backgroundColor: '#EEEFFB14',
+    borderRadius: 64,
+  },
+  progressDot: {
     width: 10,
     height: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.COUCH_CREAME,
   },
 });

@@ -1,21 +1,14 @@
-import { store } from '../store';
 import moment from 'moment';
 import { sortBy, groupBy } from 'lodash';
-
-export const getModelKeys = (model: any) =>
-  Object.keys(model.effects({})).map(a => `${model.name}/${a}`);
-
-export const getAllModels = () => {
-  return store.getState();
-};
+import { MoodType } from 'store/slice/moodSlice';
 
 export const formatAmount = (value: string) =>
   Number(value)
     .toFixed(2)
     .replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-export const groupTransactions = (data = []) => {
-  let transGroup: any[] = [];
+export const groupTransactions = (data: MoodType[]) => {
+  let transGroup: { title: string, isToday: string | boolean, data: any[] }[] = [];
   const sorted = sortBy(data, ['created_at']);
   const groups = groupBy(sorted, (d: any) =>
     moment(d?.created_at).startOf('day').format(),

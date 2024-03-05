@@ -4,12 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { HeaderBar, HeaderText, SVGIcon } from 'components';
+import { HeaderBar, HeaderText, Loader, SVGIcon } from 'components';
 import { Images } from 'theme/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchMoods } from 'store/slice/moodSlice';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -20,16 +22,14 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
-  const {
-    User: { getUserMoods },
-  } = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getUserMoods();
+    dispatch(fetchMoods(1))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const moods: any = useSelector((state: RootState) => state.User.moods);
+  const { moods, isFetchingMoods } = useSelector((state: RootState) => state.Mood);
   console.log(moods,'mood list');
 
   const groupedMoods = groupTransactions(moods);
@@ -104,6 +104,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
+      <Loader loading={isFetchingMoods}/>
     </SafeAreaView>
   );
 };

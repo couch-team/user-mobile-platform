@@ -166,6 +166,13 @@ class ServiceApi {
 	}
 }
 
+axiosClient.interceptors.request.use(
+	async (config) => {
+	  console.log(config);
+	  return config;
+	}
+);
+
 const refreshToken = async() => {
 	try{
 		const response = await $api.post('/api/auth/refresh/', {

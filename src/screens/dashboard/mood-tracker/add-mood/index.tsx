@@ -74,7 +74,7 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
         }
       />
       <ScrollView>
-        <ProgressHeader progressWidth={wp(98)} firstProgress={1} />
+        <ProgressHeader status={1} />
         <HeaderText
           text="Hey John"
           hasSubText="How do you feel today?"

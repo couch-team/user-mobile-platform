@@ -12,6 +12,7 @@ import { wp } from 'constants/layout';
 import { useAppRoute } from 'hooks/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { $api } from 'services';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -24,23 +25,25 @@ type Props = {
 const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
   const { params } = useAppRoute();
   const [thoughts, setThoughts] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
 
-  const {
-    User: { addUserMood },
-  } = useDispatch();
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.addUserMood,
-  );
-
-  const continueProcess = async () => {
-    const data = {
-      mood: params.selectedMood,
-      reason: thoughts,
-    };
-    const res = await addUserMood(data);
-    if (res) {
-      navigate('CompleteAddMood', { res });
+  const continueProcess = async() => {
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/mood/log/', {
+        mood: params.selectedMood,
+        reason: thoughts,
+      })
+      if($api.isSuccessful(response)){
+        navigate('CompleteAddMood',  response );
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -57,9 +60,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       />
       <ScrollView>
         <ProgressHeader
-          progressWidth={wp(98)}
-          firstProgress={1}
-          secondProgress={1}
+          status={2}
         />
         <HeaderText
           text={`You are ${params?.selectedMood?.toLowerCase()}`}
@@ -86,7 +87,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
           isNotBottom
           title="Add to mood log"
           disabled={thoughts ? false : true}
-          loading={loading}
+          loading={isLoading}
           onPress={() => continueProcess()}
         />
       </View>

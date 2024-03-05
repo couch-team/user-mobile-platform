@@ -67,7 +67,7 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
  
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} />
+      <ProgressHeader status={1} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Health Related Info"

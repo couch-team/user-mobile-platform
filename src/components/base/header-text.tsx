@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: Colors.WHITE,
-    fontFamily: "Sora-Medium",
-    fontWeight:"400",
-    fontSize: hp(20),
-    lineHeight: hp(25),
+    fontFamily: "Sora-Semibold",
+    fontWeight:"600",
+    fontSize: 24,
+    lineHeight: 32,
   },
   subHeaderText: {
     paddingTop: hp(4),
