@@ -5,7 +5,9 @@ import { Colors, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal, LongButton } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchMoods } from 'store/slice/moodSlice';
 
 export type MoodType =
   | 'Happy'
@@ -28,14 +30,11 @@ const MoodModal = ({
   onClose,
   setSelectMood,
 }: any) => {
-  const moods = useSelector((state: RootState) => state.User?.moods || []);
-
-  const {
-    User: { getAllMoods },
-  } = useDispatch();
+  const { moods } = useSelector((state: RootState) => state.Mood);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getAllMoods();
+    dispatch(fetchMoods(1))
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

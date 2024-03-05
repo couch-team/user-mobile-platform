@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -18,7 +18,9 @@ import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchUserDetails } from 'store/slice/userSlice';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -30,22 +32,13 @@ type Props = {
 
 const Home = ({ navigation: { navigate } }: Props) => {
   const [hideTour, setHideTour] = useState(true);
+  const dispatch = useAppDispatch();
 
-  // const authProfileDetails = useSelector(
-  //   (state: RootState) => state.Auth.authProfile?.profile,
-  // );
+  const profileDetails = useSelector((state: RootState) => state.User);
 
-  const profileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
-  );
-  const {
-    Auth: { getAuthenticate },
-  } = useDispatch();
-
-  React.useEffect(() => {
-    getAuthenticate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => {
+    !profileDetails && dispatch(fetchUserDetails())
+  },[ profileDetails ])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,19 +87,21 @@ const Home = ({ navigation: { navigate } }: Props) => {
             <View style={styles.tourInfoContainer}>
               <XButton onXButtonPress={() => setHideTour(!hideTour)} />
               <View style={styles.tourBodyContainer}>
-                {profileDetails?.profile?.avatar_url ? (
-                  <Image
-                    source={{ uri: profileDetails?.profile?.avatar_url }}
-                    resizeMode="contain"
-                    style={styles.profileImage}
-                  />
-                ) : (
-                  <Image
-                    source={Images['profile-image']}
-                    resizeMode="contain"
-                    style={styles.profileImage}
-                  />
-                )}
+                <View style={styles.profileImageContainer}>
+                  {profileDetails?.profile?.avatar_url ? (
+                    <Image
+                      source={{ uri: profileDetails?.profile?.avatar_url }}
+                      resizeMode="cover"
+                      style={styles.profileImage}
+                    />
+                  ) : (
+                    <Image
+                      source={Images['profile-image']}
+                      resizeMode="cover"
+                      style={styles.profileImage}
+                    />
+                  )}
+                </View>
 
                 <View style={styles.tourBodyInfoContainer}>
                   <Text style={styles.tourBodyMainText}>Hi There!,</Text>

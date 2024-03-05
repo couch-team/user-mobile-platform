@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -7,47 +7,38 @@ import { CouchDropDown, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
+import { countryList } from 'constants/data';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
-interface SelectedCountryProps {
-  name: string;
-  code: string;
-}
-
 const Nationality = ({ navigation: { navigate } }: Props) => {
+  const { country, state_of_residence } = useSelector((state: RootState) => state.Onboarding)
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] =
-    useState<SelectedCountryProps>();
-  const [selectedState, setSelectedState] = useState('');
-
-  const {
-    User: {pendingProfileCountry ,pendingProfileState},
-  } = useDispatch();
+  const [selectedCountry, setSelectedCountry] = useState<string>(country || '');
+  const [selectedState, setSelectedState] = useState(state_of_residence || '');
+  const dispatch = useAppDispatch();
   
-  const onSelectCountry = async (selectedUserCountry: SelectedCountryProps) => {
-    setSelectedCountry(selectedUserCountry);
-  };
-  const onSelectState = async (selectedUserState: string) => {
-    setSelectedState(selectedUserState);
-  };
+  const completeProfile = () => {
+    dispatch(setCountry(selectedCountry))
+    dispatch(setStateOfResidence(selectedState))
 
-
-  const completeProfile = async () => {
-    const res = await pendingProfileCountry(selectedCountry?.code)
-    const resp = await pendingProfileState(selectedState)
-      if(resp && res ){
-        navigate('UploadProfile');
-      }
-        
   };
 
+  const proceed = () => {
+    navigate('UploadProfile');
+  } 
+
+  useEffect(() => {
+    country && state_of_residence && proceed()
+  },[])
  
 
   return (
@@ -70,7 +61,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
               label="Country"
               placeholder="Select your country"
               onOpenDropDown={setOpenCountryList}
-              dropDownValue={selectedCountry?.name}
+              dropDownValue={countryList.find(country => country.code === selectedCountry)?.name}
               openDropDown={openCountryList}
             />
             <CouchDropDown
@@ -85,13 +76,13 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       </View>
       <CountryList
         isVisible={openCountryList}
-        onComplete={onSelectCountry}
+        onComplete={(data) => setSelectedCountry(data?.code)}
         onClose={() => setOpenCountryList(false)}
       />
       <StatesList
         isVisible={openStateList}
         onClose={() => setOpenStateList(false)}
-        onComplete={onSelectState}
+        onComplete={(data) => setSelectedState(data)}
       />
 
       <LongButton

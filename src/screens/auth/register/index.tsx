@@ -17,7 +17,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { $api } from 'services';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Register'>;
 type Props = {
@@ -36,27 +37,29 @@ const registerSchema = Yup.object().shape({
 const Register = ({ navigation: { navigate } }: Props) => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
+  const [ is_loading, setIsLoading ] = useState(false);
 
-  const {
-    Auth: { register },
-  } = useDispatch();
-  const isLoading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.register,
-  );
 
   const handleSubmit = async (values: any) => {
     const { firstName,lastName, password, email } = values;
-    const data = {
-      first_name: firstName,
-      last_name: lastName,
-      password,
-      email,
-      role: 2,
-    };
-    console.log(data,'register')
-    const res = await register(data);
-    if (res) {
-      navigate('VerifyOtp', { email, password });
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/auth/register/', {
+        first_name: firstName,
+        last_name: lastName,
+        password,
+        email,
+        role: 2,
+      })
+      if($api.isSuccessful(response)){
+        navigate('VerifyOtp', { email, password });
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -145,7 +148,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
                       isNotBottom
                       buttonStyle={styles.buttonStyle}
                       title="Get Started"
-                      loading={isLoading}
+                      loading={is_loading}
                       disabled={isValid && acceptTerms ? false : true}
                       onPress={() => handleSubmit(values)}
                     />

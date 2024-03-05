@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { HeaderBar, HeaderText, SVGIcon } from 'components';
 import { Images } from 'theme/config';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
 

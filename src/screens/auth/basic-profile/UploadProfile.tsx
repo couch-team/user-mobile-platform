@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert, Platform, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
@@ -7,36 +7,30 @@ import { LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import * as ImagePicker from 'expo-image-picker';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchUserDetails } from 'store/slice/userSlice';
+import { $api } from 'services';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
+const redirectToSettings = () => {
+  const settingsUrl = Platform.select({
+    ios: 'app-settings:',
+    android: 'app-settings:'
+  });
+
+  Linking.openSettings();
+};
+
 const UploadProfile = ({ navigation: { navigate } }: Props) => {
-  const {
-    User: { completeProfileCreation },
-  } = useDispatch();
-
-  const {
-    Auth: { getAuthenticate },
-  } = useDispatch();
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.completeProfileCreation,
-  );
-
-  useEffect(() => {
-    getAuthenticate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const gender = useSelector((state: RootState) => state.User.gender);
-  const dob = useSelector((state: RootState) => state.User.dataOfbirth);
-  const country = useSelector((state: RootState) => state.User.country);
-  const state = useSelector((states: RootState) => states.User.state);
+  const { country, dob, gender, state_of_residence } = useSelector((state: RootState) => state.Onboarding);
+  const [ is_loading, setIsLoading ] = useState(false);
+  const dispatch = useAppDispatch();
 
   const [profileImage, setProfileImage] = useState({
     uri: '',
@@ -50,8 +44,13 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     if (status !== 'granted') {
       Alert.alert(
         'Permission Denied',
-        `Sorry, we need camera  
-             roll permission to upload images.`,
+        `Sorry, we need camera roll permission to upload images.`,
+        [
+          {
+            text: 'Try Again',
+            onPress: async() => redirectToSettings(),
+          }
+        ]
       );
     } else {
       const result = await ImagePicker.launchImageLibraryAsync();
@@ -70,17 +69,36 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     }
   };
 
-  const completeProfile = async () => {
+  const completeProfile = () => {
     const formdata = new FormData();
     formdata.append('gender', gender);
     formdata.append('dob', dob);
     formdata.append('country', country);
-    formdata.append('state_of_residence', state);
+    formdata.append('state_of_residence', state_of_residence);
     formdata.append('avatar', profileImage);
-
-    await completeProfileCreation(formdata);
-    navigate('UserOnboarding');
+    completeOnboarding(formdata);
   };
+
+  const completeOnboarding = async(data: FormData) => {
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/user/profile/', data, true)
+      if($api.isSuccessful(response)){
+        dispatch(fetchUserDetails())
+        navigate('UserOnboarding');
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => { 
+    dispatch(fetchUserDetails())
+  },[])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -113,7 +131,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
                 ? { uri: profileImage?.uri }
                 : Images['profile-group']
             }
-            resizeMode="contain"
+            resizeMode="cover"
             style={[
               styles.profileImage,
               profileImage && styles.selectedProfileImage,
@@ -128,7 +146,7 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
           </Text>
           <LongButton
             isNotBottom
-            loading={loading}
+            loading={is_loading}
             disabled={profileImage?.uri ? false : true}
             buttonStyle={styles.buttonStyle}
             title="Complete basic profile"

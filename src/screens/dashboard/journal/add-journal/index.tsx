@@ -28,7 +28,11 @@ import { hp, wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { $api } from 'services';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchJournals } from 'store/slice/journalSlice';
+import { showMessage } from 'react-native-flash-message';
 // import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -50,6 +54,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [height, setHeight] = useState(600);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const dispatch = useAppDispatch();
 
   const contentStyle = {
     backgroundColor: Colors.PRIMARY,
@@ -58,13 +64,29 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     contentCSSText: 'font-size: 16px; height: 100%;',
   };
 
-  const {
-    User: { createJournal, getJournal },
-  } = useDispatch();
+  const createJournal = async(data: FormData) => {
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/journal/log/',data, true)
+      if($api.isSuccessful(response)){
+        showMessage({
+          type: 'success',
+          duration: 3000,
+          message: 'Journal created successfully'
+        })
+        dispatch(fetchJournals(1))
+        goBack();
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
+    }
+  }
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.createJournal,
-  );
+
 
   const pickImageAsync = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -117,8 +139,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
 
     await createJournal(formdata);
-    getJournal(1);
-    goBack();
   }, [
     title,
     description,
@@ -127,7 +147,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     mood,
     createJournal,
     goBack,
-    getJournal,
   ]);
 
   const color = React.useMemo(() => {
@@ -178,10 +197,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         headerLeft={renderMood()}
         headerRight={
           <RightHeader
-            loading={loading}
+            loading={isLoading}
             activeColor={color}
             pressConfirmButton={() => createJournalFile()}
             pressCloseButton={() => goBack()}
+            disabled={!title || !description}
           />
         }
       />

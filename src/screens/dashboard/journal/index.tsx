@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -15,9 +15,12 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { Colors, Images } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import moment from 'moment';
 import { groupJournalTransactions } from 'utils';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchJournals } from 'store/slice/journalSlice';
+import { $api } from 'services';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -28,64 +31,17 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
-  const [selectedId, setSelectedId] = React.useState(null);
-  const [page, setPage] = React.useState(1);
-  const flatListRef: any = React.useRef(null);
+  const [ selectedId, setSelectedId ] = useState(null);
+  const [page, setPage] = useState(1);
+  const flatListRef: any = useRef(null);
+  const dispatch = useAppDispatch();
 
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
-  );
+  const authProfileDetails = useSelector((state: RootState) => state.User);
+  const {journals, isFetchingJournals, journals_current_page} = useSelector((state: RootState) => state.Journal);
 
-  const {
-    User: { getJournal, getJournalById },
-  } = useDispatch();
+  const nextPage = journals_current_page + 1
+  const previousPage = journals_current_page - 1
 
-  const journalLists = useSelector(
-    (state: RootState) => state.User?.userJournal,
-  );
-
-  const nextPage = useSelector((state: RootState) => state.User?.nextPage);
-  const previousPage = useSelector(
-    (state: RootState) => state.User?.previousPage,
-  );
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.getJournal,
-  );
-
-  const extractPageNumberFromUrl = useCallback((url: string): number => {
-    const matches = url.match(/page=(\d+)$/);
-    return matches ? parseInt(matches[1], 10) : 1;
-  }, []);
-
-  React.useEffect(() => {
-    getJournal(page);
-    if (selectedId !== null) {
-      getJournalById(selectedId);
-    }
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedId]);
-
-  const NextJournal = useCallback(() => {
-    if (!loading && nextPage) {
-      const newPage = extractPageNumberFromUrl(nextPage);
-      setPage(newPage);
-      getJournal(newPage);
-    }
-  }, [loading, nextPage, extractPageNumberFromUrl, setPage, getJournal]);
-
-  const PrevJournal = useCallback(() => {
-    if (!loading && previousPage) {
-      const newPage = extractPageNumberFromUrl(previousPage);
-      setPage(newPage);
-      getJournal(newPage);
-    }
-  }, [loading, previousPage, extractPageNumberFromUrl, setPage, getJournal]);
-
-  const groupedJournals = React.useMemo(
-    () => groupJournalTransactions(journalLists),
-    [journalLists],
-  );
 
   const HeaderRight = () => {
     return (
@@ -156,17 +112,17 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       </View>
       <VirtualizedScrollView
         style={styles.bodyContainer}
-        refreshing={loading}
-        onRefresh={PrevJournal}
+        refreshing={isFetchingJournals}
+        onRefresh={() => console.log('load prev')}
         ListFooterComponent={
           <TouchableOpacity
             style={styles.paginationButtonContainer}
-            onPress={NextJournal}>
+            onPress={() => console.log('load more')}>
             <Text style={styles.paginationButtonText}>Load Next Journals</Text>
           </TouchableOpacity>
         }>
         <SectionList
-          sections={groupedJournals}
+          sections={groupJournalTransactions(journals)}
           ref={flatListRef}
           contentContainerStyle={styles.contentContainerStyle}
           keyExtractor={item => item.id}
@@ -176,7 +132,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               <TouchableOpacity
                 onPress={() => {
                   setSelectedId(item.id);
-                  navigate('PreviewJournal', { selectedItem: item });
+                  navigate('PreviewJournal', { id: item?.id });
                 }}
                 style={
                   item.id === selectedId

@@ -16,8 +16,10 @@ import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import {  useSelector } from 'react-redux';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { RootState } from 'store';
+import { setDob, setGender } from 'store/slice/onboardingSlice';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
 type Props = {
@@ -25,34 +27,24 @@ type Props = {
 };
 
 const BasicProfile = ({ navigation: { navigate } }: Props) => {
-  const [selectedGender, setSelectedGender] = useState('');
+  const { gender, dob } = useSelector((state: RootState) => state.Onboarding)
+  const [selectedGender, setSelectedGender] = useState(gender || '');
   const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [dateValue, setDateValue] = useState();
+  const [dateValue, setDateValue] = useState(dob || '');
+  const dispatch = useAppDispatch();
 
-  const {
-    User: { pendingProfileGender,pendingProfileDOB },
-  } = useDispatch();
+  const proceed = () => {
+    navigate('Nationality');
+  } 
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.pendingProfileGender,
-  );
+  useEffect(() => {
+    gender && dob && proceed()
+  },[])
 
-  // React.useEffect(() =>{
-  //   getAuthenticate();
-  // }, []);
-
-  // const authProfileDetails = useSelector(
-  //   (state: RootState) => state.Auth.authProfile?.profile,
-  // );
-  // console.log('auth details', authProfileDetails);
-
-  
   const continueProcess = async () => {
-    await pendingProfileGender(selectedGender === 'male' ? 'M' : 'F')
-    const res = await pendingProfileDOB(dayjs(dateValue).format('YYYY-MM-DD'));
-    if (res) {
-      navigate('Nationality');
-    }
+    dispatch(setGender(selectedGender))
+    dispatch(setDob(dayjs(dateValue).format('YYYY-MM-DD')))
+    proceed()
   };
 
 
@@ -162,7 +154,7 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}
-        loading={loading}
+        loading={false}
       />
     </SafeAreaView>
   );

@@ -101,6 +101,11 @@ export const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
   },
+  profileImageContainer: {
+    backgroundColor: '#8A8EE333',
+    padding: 8,
+    borderRadius: 200,
+  },
   podcastContentContainer: {
     paddingLeft: wp(24),
   },

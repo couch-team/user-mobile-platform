@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormTextInput, Loader, LongButton } from 'components';
 import { Images } from 'theme/config';
 import { styles } from './style';
@@ -17,8 +17,9 @@ import ResetPasswordHeader from '../reset-password/components/ResetPasswordHeade
 import { wp } from 'constants/layout';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import { showMessage } from 'react-native-flash-message';
+import { $api } from 'services';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,
@@ -33,21 +34,51 @@ export default function VerifyEmailAccount({
   const [otpNumber, setOtpNumber] = React.useState('');
   const { params } = useRoute<RouteProp<AuthParamList, 'VerifyOtp'>>();
   const [seconds, setSeconds] = React.useState(30);
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ resendCodeLoading, setResendCodeLoading ] = useState(false);
   const email = params?.email;
 
-  const {
-    Auth: { resetPasswordToken, initResendToken },
-  } = useDispatch();
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.resetPasswordToken,
-  );
+  const resendCode = async() => {
+    try{
+      setResendCodeLoading(true)
+      const response = await $api.post('/api/auth/otp/resend', { email })
+      if($api.isSuccessful(response)){
+        setSeconds(30);
+        showMessage({
+          message: 'Resend token sent successfully',
+          duration: 3000,
+          type: 'success',
+        });
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setResendCodeLoading(false)
+    }
+  }
 
-  const resendLoading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.initResendToken,
-  );
+  const verifyToken = async() => {
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/auth/password_reset/validate_token/', {
+        token: otpNumber
+      })
+      if($api.isSuccessful(response)){
+        navigate('ResetPassword', { otpNumber });
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
+    }
+  }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const myInterval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -59,30 +90,7 @@ export default function VerifyEmailAccount({
     return () => {
       clearInterval(myInterval);
     };
-  });
-
-  const resendCode = async () => {
-    const data = {
-      email,
-    };
-    const res = await initResendToken(data);
-    if (res) {
-      setSeconds(30);
-      showMessage({
-        message: 'Resend token sent successfully',
-        duration: 3000,
-        type: 'success',
-      });
-    }
-  };
-
-  const verifyForgetPasswordEmail = async () => {
-    const data = {
-      token: otpNumber,
-    };
-    await resetPasswordToken(data);
-    navigate('ResetPassword', { otpNumber });
-  };
+  },[ seconds ]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -147,8 +155,8 @@ export default function VerifyEmailAccount({
             </View>
             <LongButton
               isNotBottom
-              loading={loading}
-              onPress={() => verifyForgetPasswordEmail()}
+              loading={isLoading}
+              onPress={() => verifyToken()}
               buttonStyle={styles.buttonStyle}
               title="Verify Account"
               disabled={otpNumber.length === 6 ? false : true}
@@ -157,7 +165,7 @@ export default function VerifyEmailAccount({
         </View>
         </KeyboardAvoidingView>
       </ImageBackground>
-      <Loader loading={resendLoading} />
+      <Loader loading={resendCodeLoading} />
     </SafeAreaView>
   );
 }

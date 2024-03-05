@@ -11,7 +11,7 @@ import { ProgressHeader, LongButton, HeaderText, HeaderBar } from 'components';
 import { wp } from 'constants/layout';
 import { useAppRoute } from 'hooks/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,

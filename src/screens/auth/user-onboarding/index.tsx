@@ -9,7 +9,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthParamList } from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchUserDetails } from 'store/slice/userSlice';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UserOnboarding'>;
 type Props = {
@@ -18,25 +20,7 @@ type Props = {
 
 const UserOnboarding = ({ navigation: { navigate } }: Props) => {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
-
-  // const {
-  //   User: { getUserMoods},
-  // } = useDispatch();
-
-  const {
-    Auth: { getAuthenticate },
-  } = useDispatch();
-
-
-  useEffect(() => {
-    // getUserMoods();
-    getAuthenticate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
-  );
+  const authProfileDetails = useSelector((state: RootState) => state.User);
 
   const completePrivacy = async () => {
     setShowPrivacyModal(false);

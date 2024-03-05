@@ -15,7 +15,7 @@ import {
 import { Images } from 'theme/config';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 
 type AuthNavigationProps = StackNavigationProp<
 AuthParamList,

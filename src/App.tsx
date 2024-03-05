@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import FlashMessage from 'react-native-flash-message';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import store, { persistor } from './store';
 // import { hasDynamicIsland } from 'react-native-device-info';
 import { hp } from './constants/layout';
 import { StatusBar, StyleSheet } from 'react-native';
@@ -11,6 +11,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { RootNavigation } from './navigation';
 import { Colors } from 'theme/config';
 import { useFonts } from 'expo-font';
+import { PersistGate } from "redux-persist/integration/react";
 
 const App = () => {
   useEffect(() => {
@@ -40,18 +41,20 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider
-        style={{ backgroundColor: Colors.PRIMARY }}
-        onLayout={onLayoutRootView}>
-        <StatusBar barStyle={'light-content'} />
-        <FlashMessage
-          position="top"
-          duration={3000}
-          style={[styles.paddingTop]}
-          titleStyle={styles.titleStyle}
-        />
-        <RootNavigation />
-      </SafeAreaProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider
+          style={{ backgroundColor: Colors.PRIMARY }}
+          onLayout={onLayoutRootView}>
+          <StatusBar barStyle={'light-content'} />
+          <FlashMessage
+            position="top"
+            duration={3000}
+            style={[styles.paddingTop]}
+            titleStyle={styles.titleStyle}
+          />
+          <RootNavigation />
+        </SafeAreaProvider>
+      </PersistGate>
     </Provider>
   );
 };

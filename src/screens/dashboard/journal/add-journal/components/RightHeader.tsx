@@ -8,6 +8,7 @@ interface RightHeaderProps {
   pressCloseButton: () => void;
   pressConfirmButton: () => void;
   loading?: boolean;
+  disabled: boolean,
 }
 
 export const RightHeader = ({
@@ -15,6 +16,7 @@ export const RightHeader = ({
   pressConfirmButton,
   pressCloseButton,
   loading,
+  disabled
 }: RightHeaderProps) => {
   return (
     <View style={styles.rightHeaderContainer}>
@@ -32,6 +34,7 @@ export const RightHeader = ({
       <TouchableOpacity
         activeOpacity={0.9}
         onPress={pressConfirmButton}
+        disabled={disabled}
         style={[
           styles.closeIconContainer,
           styles.checkColor,

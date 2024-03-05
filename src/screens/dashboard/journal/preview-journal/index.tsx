@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { HeaderBar } from 'components';
 import { styles } from './style';
 import moment from 'moment';
@@ -18,6 +18,10 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import DeleteModal from './components/DeleteModal';
 import MoodViewModal from './components/MoodEditModal';
 import { RichEditor } from 'react-native-pell-rich-editor';
+import { $api } from 'services';
+import { showMessage } from 'react-native-flash-message';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchJournals } from 'store/slice/journalSlice';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -29,13 +33,37 @@ type Props = {
 };
 
 const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
-  const { selectedItem } = route.params;
+  const { id } = route.params;
   const [openSettingModal, setOpenSettingModal] = React.useState(false);
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const [openMoodViewModal, setOpenMoodViewModal] = React.useState(false);
+  const [ isFetchingJournal, setIsFetchingJournal ] = useState(false);
+  const [ isDeletingJournal, setIsDeletingJournal ] = useState(false);
+  const dispatch = useAppDispatch();
+  const [ journal, setJournal ] = useState<any>('');
   const richText = React.useRef<any>();
 
   const [height, setHeight] = React.useState(600);
+
+  const fetchJournal = async() => {
+    try{
+      setIsFetchingJournal(true)
+      const response = await $api.fetch(`/api/journal/log/${id}`)
+      if($api.isSuccessful(response)){
+        setJournal(response?.data)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsFetchingJournal(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchJournal()
+  },[]);
 
   const contentStyle = {
     backgroundColor: Colors.PRIMARY,
@@ -45,57 +73,57 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       'font-size: 14px; height: 100%; line-height:26px; text-align:justify; ',
   };
 
-  function handleSettingModal() {
-    setOpenSettingModal(true);
-  }
-
-  function handleMoodViewModal() {
-    setOpenMoodViewModal(true);
-  }
-
-  function handleDeleteModal() {
-    setOpenDeleteModal(true);
-  }
-
-  const {
-    User: { deleteJournalById, getJournal },
-  } = useDispatch();
-
   useEffect(() => {
     if (!openDeleteModal) {
-      getJournal(1);
+      dispatch(fetchJournals(1))
     }
   }, [openDeleteModal]);
 
-  const handleDelete = useCallback(async () => {
-    if (selectedItem?.id) {
-      await deleteJournalById(selectedItem.id);
-      setOpenDeleteModal(false);
-      setOpenSettingModal(false);
-      getJournal(1);
-      navigate('Journal');
+  const deleteJournal = async() => {
+    try{
+      setIsDeletingJournal(true)
+      const response = await $api.delete(`/api/journal/log/${id}`)
+      if($api.isSuccessful(response)){
+        showMessage({
+          type: 'success',
+          duration: 3000,
+          message: 'Journal deleted successfully'
+        })
+        setOpenDeleteModal(false);
+        setOpenSettingModal(false);
+        dispatch(fetchJournals(1))
+        navigate('Journal');
+      }
     }
-  }, [selectedItem, deleteJournalById, getJournal, navigate]);
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsDeletingJournal(false)
+    }
+  }
+
+
 
   const handleText = React.useCallback(() => {
-    richText.current?.insertHtml(selectedItem?.document);
+    richText.current?.insertHtml(journal?.document);
   }, []);
 
   const HeaderRight = () => {
     return (
       <View style={styles.headerRightContainer}>
         <TouchableOpacity
-          onPress={handleMoodViewModal}
+          onPress={() =>setOpenMoodViewModal(true)}
           activeOpacity={0.6}
           style={styles.headerRightIconContainer}>
           <Image
-            source={{ uri: selectedItem?.mood?.icon_url }}
+            source={{ uri: journal?.mood?.icon_url }}
             style={styles.headerRightMood}
             resizeMode="contain"
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSettingModal}
+          onPress={() =>  setOpenSettingModal(true)}
           activeOpacity={0.6}
           style={styles.headerRightIconContainer}>
           <Image
@@ -107,7 +135,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
     );
   };
-  const formattedDate = moment(selectedItem?.created_at).calendar();
+  const formattedDate = moment(journal?.created_at).calendar();
   const containerWidth = formattedDate.length * 10; 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,10 +146,10 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       />
 
       <View style={styles.previewContainer}>
-        <Text style={styles.previewTitle}>{selectedItem?.title}</Text>
+        <Text style={styles.previewTitle}>{journal?.title}</Text>
         <View style={[styles.previewButtonContainer,{ width: containerWidth }]}>
           <Text style={styles.previewButtonText}>
-            Updated: {moment(selectedItem?.created_at).calendar()}
+            Updated: {moment(journal?.created_at).calendar()}
           </Text>
         </View>
         <ScrollView
@@ -131,7 +159,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
           <RichEditor
             ref={richText}
             onChange={handleText}
-            initialContentHTML={selectedItem?.document}
+            initialContentHTML={journal?.document}
             editorStyle={contentStyle}
             useContainer={false}
             disabled
@@ -146,15 +174,15 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
 
       <SettingsModal
-        onPressEdit={() => navigate('EditJournal', { selectedItem })}
-        onPressDelete={handleDeleteModal}
+        onPressEdit={() => navigate('EditJournal', { journal })}
+        onPressDelete={() => setOpenDeleteModal(true)}
         isVisible={openSettingModal}
         onClose={() => setOpenSettingModal(false)}
       />
       <DeleteModal
         isVisible={openDeleteModal}
         onPressDeleteNo={() => setOpenDeleteModal(false)}
-        onPressDeleteYes={handleDelete}
+        onPressDeleteYes={() => deleteJournal()}
         onClose={() => setOpenDeleteModal(false)}
       />
 

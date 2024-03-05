@@ -12,7 +12,7 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 // import { RouteProp, useNavigation } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<

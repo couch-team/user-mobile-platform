@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'react-native';
 import { styles } from './style';
@@ -10,8 +10,9 @@ import { AuthParamList } from 'utils/types/navigation-types';
 import ResetPasswordHeader from '../reset-password/components/ResetPasswordHeader';
 import { wp } from 'constants/layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import { showMessage } from 'react-native-flash-message';
+import { $api } from 'services';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'ForgetPassword'>;
 type Props = {
@@ -19,18 +20,12 @@ type Props = {
 };
 
 export default function ForgetPassword({ navigation: { navigate } }: Props) {
-  const {
-    Auth: { resetPasswordInputEmail,resetPasswordConfirm },
-  } = useDispatch();
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.resetPasswordInputEmail,
-  );
+  const [ is_loading, setIsLoading ] = useState(false);
   const [email, setEmail] = React.useState('');
 
   const isDisabled = email ? false : true;
 
-  const inputForgetPasswordEmail = async () => {
+  const submitEmail = async () => {
     if (!email) {
       return showMessage({
         message: 'Please enter a valid email address',
@@ -38,13 +33,25 @@ export default function ForgetPassword({ navigation: { navigate } }: Props) {
         type: 'danger',
       });
     }
+    sendOtp();
+  }
 
-    const data = {
-      email,
-    };
-
-    await resetPasswordInputEmail(data);
-    navigate('VerifyEmailAccount',{email});
+  const sendOtp = async() => {
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/auth/password_reset/',{
+        email
+      })
+      if($api.isSuccessful(response)){
+        navigate('VerifyEmailAccount',{email});
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
+    }
   }
 
 
@@ -84,8 +91,8 @@ export default function ForgetPassword({ navigation: { navigate } }: Props) {
             </View>
             <LongButton
               isNotBottom
-              onPress={() => inputForgetPasswordEmail()}
-              loading={loading}
+              onPress={() => submitEmail()}
+              loading={is_loading}
               buttonStyle={styles.buttonStyle}
               title="Verify Account"
               disabled={isDisabled}

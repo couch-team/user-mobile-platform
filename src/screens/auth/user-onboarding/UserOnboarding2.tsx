@@ -11,7 +11,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 
 type AuthNavigationProps = StackNavigationProp<
   AuthParamList,

@@ -14,11 +14,10 @@ import { Images } from 'theme/config';
 import { FormTextInput, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
 import { showMessage } from 'react-native-flash-message';
-import useApi from '../../../../service/useApi';
-import { LoginUser } from '../../../../service/apiservice/onboardingService';
+import { $api } from 'services';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setAccessToken, setRefreshToken, setEmail as setStoreEmail, login as loginAction } from 'store/slice/authSlice';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
@@ -26,73 +25,48 @@ type Props = {
 };
 
 const Login = ({ navigation: { navigate } }: Props) => {
-  const {
-    Auth: { login },
-  } = useDispatch();
-
-  // const loading = useSelector(
-  //   (state: RootState) => state.loading.effects.Auth.login,
-  // );
-
+  const [ loading, setLoading ] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const dispatch = useAppDispatch()
 
-  // My NEW LOGIN INTEGRATION
-
-  const { data, loading, isSuccess, isFailed, error, fetch } =
-    useApi(LoginUser);
-
-  // You can use the loading state to display a loading spinner or any other thing you want to do while the endpoint is fetching
-
-  const handleLogin = async () => {
-    try {
-      fetch({ email, password });
-    } catch (e) {
-      console.log(e);
+  const login = async() => {
+    try{
+      setLoading(true)
+      await dispatch(loginAction({ email, password }))
     }
-  };
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      // Navigate to anywhere we want to go
-      // You can also dispatch the data to the redux toolkit if you want to persist here
+    catch(err){
+      console.log(err)
     }
-  }, [isSuccess, data]);
-
-  useEffect(() => {
-    if (isFailed && error) {
-      // Maybe display an error message or perform any action you intend to perform here if the endpoint returns an error
+    finally{
+      setLoading(false)
     }
-  }, [isFailed, error]);
-
-  // END OF MY LOGIN INTEGRATION
-  // That's all, nothing else.
+  }
 
   const isDisabled = email && password ? false : true;
 
-  // const loginAccount = async () => {
-  //   if (!email) {
-  //     return showMessage({
-  //       message: 'Please enter a valid email address',
-  //       duration: 2000,
-  //       type: 'danger',
-  //     });
-  //   }
-  //   if (!password) {
-  //     return showMessage({
-  //       message: 'Please enter a password',
-  //       duration: 2000,
-  //       type: 'danger',
-  //     });
-  //   }
-  //   const data = {
-  //     email,
-  //     password,
-  //   };
-  //   // console.log('Logging in with email:', email && data);
-  //   await login(data);
-  // };
+  const loginAccount = async () => {
+    if (!email) {
+      return showMessage({
+        message: 'Please enter a valid email address',
+        duration: 2000,
+        type: 'danger',
+      });
+    }
+    if (!password) {
+      return showMessage({
+        message: 'Please enter a password',
+        duration: 2000,
+        type: 'danger',
+      });
+    }
+    const data = {
+      email,
+      password,
+    };
+    await login();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -138,9 +112,8 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.forgetPassBtn}>
+              <TouchableOpacity style={styles.forgetPassBtn} onPress={() => navigate('ForgetPassword')}>
                 <Text
-                  // onPress={() => navigate('Register')}
                   numberOfLines={1}
                   style={styles.forgetPassLink}>
                   Let’s help out
@@ -150,7 +123,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
             <LongButton
               isNotBottom
               loading={loading}
-              onPress={handleLogin}
+              onPress={loginAccount}
               buttonStyle={styles.buttonStyle}
               title="Log In to Account"
               disabled={isDisabled}

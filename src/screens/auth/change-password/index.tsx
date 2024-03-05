@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormTextInput, LongButton } from 'components';
 import { Images } from 'theme/config';
 import { styles } from '../verify-email/style';
@@ -17,7 +17,9 @@ import ResetPasswordHeader from '../reset-password/components/ResetPasswordHeade
 import { wp } from 'constants/layout';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { $api } from 'services';
+import { showMessage } from 'react-native-flash-message';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'ResetPassword'>;
 type Props = {
@@ -28,22 +30,30 @@ export default function ResetPassword({ navigation: { navigate } }: Props) {
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(true);
   const token = params?.otpNumber;
-
-  const {
-    Auth: { resetPasswordConfirm },
-  } = useDispatch();
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.resetPasswordConfirm,
-  );
+  const [ is_loading, setIsLoading ] = useState(false);
 
   const resetPassword = async () => {
-    const data = {
-      password,
-      token: token,
-    };
-    await resetPasswordConfirm(data);
-    navigate('Login');
+    try{
+      setIsLoading(true)
+      const response = await $api.post('/api/auth/password_reset/confirm/', {
+        password,
+        token,
+      })
+      if($api.isSuccessful(response)){
+        navigate('Login');
+        showMessage({
+          message: 'Password updated successfully',
+          type: 'success',
+          duration: 3000,
+        })
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsLoading(false)
+    }
   };
 
   return (
@@ -84,7 +94,7 @@ export default function ResetPassword({ navigation: { navigate } }: Props) {
             </View>
             <LongButton
               isNotBottom
-              loading={loading}
+              loading={is_loading}
               onPress={() => resetPassword()}
               buttonStyle={styles.buttonStyle}
               title="Save New Password"

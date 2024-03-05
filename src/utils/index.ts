@@ -1,4 +1,4 @@
-import { store } from '../redux/store';
+import { store } from '../store';
 import moment from 'moment';
 import { sortBy, groupBy } from 'lodash';
 

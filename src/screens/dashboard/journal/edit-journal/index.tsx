@@ -15,8 +15,11 @@ import {
   RichEditor
 } from 'react-native-pell-rich-editor';
 import { Colors } from 'theme/config';
-import { useDispatch } from 'react-redux';
-import Axios from 'services/Axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { $api } from 'services';
+import { JournalType, fetchJournals, setJournals } from 'store/slice/journalSlice';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { RootState } from 'store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -34,6 +37,7 @@ const EditJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const [description, setDescription] = useState('');
   const richText = React.useRef<any>();
   const [height, setHeight] = useState(600);
+  const { journals } = useSelector((state:RootState) => state.Journal)
 
   const contentStyle = {
     backgroundColor: Colors.PRIMARY,
@@ -43,33 +47,23 @@ const EditJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     'font-size: 14px; height: 100%; line-height:26px; text-align:justify; ',
   };
 
-  const dispatch = useDispatch();
-
-  const {
-    User: {getJournal },
-  } = useDispatch();
+  const dispatch = useAppDispatch();
 
   const editJournalFile = async () => {
-    dispatch.User.setError(false);
     try {
       const formdata = new FormData();
       formdata.append('title', title || selectedItem?.title);
       formdata.append('document', description || selectedItem?.document);
       const id = selectedItem?.id;
-      const editedJournal = await Axios.patch(
-        `api/journal/log/${id}/`,
-        formdata,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      ).then(({ data }) => data);
-      dispatch.User.setState({ journalById: editedJournal });
-      navigate('Journal');
-      getJournal(1)
+      const response = await $api.patch( `/api/journal/log/${id}/`,formdata);
+      if($api.isSuccessful(response)){
+        const { data }: { data: JournalType } = response
+        dispatch(setJournals(journals.map((journal) => journal.id === id ? data : journal )));
+        navigate('Journal');
+        dispatch(fetchJournals(1))
+      }
     } catch (error) {
-      
+      console.log(error)
     }
   };
 
