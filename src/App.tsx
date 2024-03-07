@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import FlashMessage, { showMessage } from 'react-native-flash-message';
+import FlashMessage from 'react-native-flash-message';
 import { Provider } from 'react-redux';
 import store, { persistor } from './store';
 // import { hasDynamicIsland } from 'react-native-device-info';

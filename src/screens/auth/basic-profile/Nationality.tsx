@@ -29,6 +29,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry))
     dispatch(setStateOfResidence(selectedState))
+    proceed()
 
   };
 
