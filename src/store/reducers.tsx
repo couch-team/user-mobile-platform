@@ -1,7 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import AuthReducer from "./slice/authSlice";
 import UserReducer from "./slice/userSlice";
-import { Action } from "redux";
 import OnboardingReducer from "./slice/onboardingSlice";
 import JournalReducer from "./slice/journalSlice";
 import MoodReducer from "./slice/moodSlice";

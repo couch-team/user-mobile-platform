@@ -63,6 +63,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
                 return (
                   <Pressable
                     key={tracker.id}
+                    onPress={() => navigate('MoodTracker')}
                     style={[
                       styles.singleMoodTrackerContainer,
                       { backgroundColor: tracker.bgColor },
