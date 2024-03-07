@@ -3,14 +3,14 @@ import React from 'react';
 import { deviceHeight, deviceWidth } from 'constants/layout';
 import { Colors } from 'theme/config';
 
-export function Loader(props: {
+export function Loader({ loading, color, fullPageLoaderStyle }: {
   loading: boolean;
   fullPageLoaderStyle?: ViewStyle;
+  color?: string,
 }) {
-  const { loading, fullPageLoaderStyle } = props;
   return loading ? (
     <View style={[styles.fullPageLoader, fullPageLoaderStyle]}>
-      <ActivityIndicator size={'small'} color={Colors.COUCH_BLUE} />
+      <ActivityIndicator size={'small'} color={color || Colors.COUCH_BLUE} />
     </View>
   ) : null;
 }

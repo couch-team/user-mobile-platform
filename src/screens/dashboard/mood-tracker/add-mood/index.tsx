@@ -9,6 +9,8 @@ import { Colors, Images } from 'theme/config';
 import { wp } from 'constants/layout';
 import { todaysFeeling } from 'constants/data';
 import { LongButton, HeaderText, ProgressHeader, HeaderBar } from 'components';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -27,6 +29,7 @@ interface MoodItemProps {
 const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
   const [selectedMood, setSelectedMood] = useState<string>('');
   const [selectedMoodColor, setSelectedMoodColor] = useState<string>('');
+  const { first_name } = useSelector((state: RootState) => state.User)
 
   const MoodItem = ({ item, borderColor, onPressMood }: MoodItemProps) => {
     return (
@@ -76,7 +79,7 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
       <ScrollView>
         <ProgressHeader status={1} />
         <HeaderText
-          text="Hey John"
+          text={`Hey ${ first_name }`}
           hasSubText="How do you feel today?"
           headerTextStyle={styles.headerTextStyle}
         />

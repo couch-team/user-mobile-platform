@@ -13,6 +13,7 @@ import { useAppRoute } from 'hooks/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { $api } from 'services';
+import { HELP_CIRCLE } from 'assets/svg';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -68,6 +69,10 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
           headerTextStyle={styles.headerTextStyle}
         />
         <View style={styles.unitInputContainer}>
+          <View style={styles.inputLabelContainer}>
+            <Text style={styles.inputLabel}>Feel free to express yourself (Optional)</Text>
+            <HELP_CIRCLE/>
+          </View>
           <TextInput
             placeholder="Write your thoughts here..."
             style={[styles.textInputBoxContainer]}
@@ -86,7 +91,6 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
         <LongButton
           isNotBottom
           title="Add to mood log"
-          disabled={thoughts ? false : true}
           loading={isLoading}
           onPress={() => continueProcess()}
         />

@@ -5,7 +5,7 @@ import store from '../store';
 import { logout, setAccessToken, setRefreshToken } from "store/slice/authSlice";
 import { $api } from "services";
 
-export const baseURL = 'https://api.joincouch.co';
+export const baseURL = process.env.EXPO_PUBLIC_COUCH_URL;
 
 const axiosConfig = {
 	withCredentials: false,
@@ -144,11 +144,7 @@ class ServiceApi {
 				}
             }
 			else if(authorizationErrorCodes.includes(response?.response?.status)){
-				showMessage({
-					message: 'Unauthorized',
-					duration: 3000,
-					type: 'danger',
-				})
+				//do nothing here since there is an interceptor below to handle authorization errors
 			}
             else if(response?.response?.status === 500){
 				showMessage({
@@ -173,7 +169,7 @@ axiosClient.interceptors.request.use(
 	}
 );
 
-const refreshToken = async() => {
+async function refreshToken (){
 	try{
 		const response = await $api.post('/api/auth/refresh/', {
 			refresh: store.getState().Auth.refresh_token
@@ -188,6 +184,7 @@ const refreshToken = async() => {
 		return err
 	}
 }
+
 
 axiosClient.interceptors.response.use(
 	(response) => {

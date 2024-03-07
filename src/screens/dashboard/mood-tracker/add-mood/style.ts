@@ -52,6 +52,17 @@ export const styles = StyleSheet.create({
     lineHeight: hp(17),
     color: Colors.WHITE,
   },
+  inputLabelContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  inputLabel: {
+    color: Colors.WHITE,
+    fontSize: 14,
+    lineHeight: 18,
+    letterSpacing: -0.48,
+  },
   textInputBoxContainer: {
     height: hp(172),
     marginTop: hp(12),

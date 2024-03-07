@@ -27,19 +27,13 @@ const useFonts = () => {
         //   return store.dispatch(login());
         // }
         await new Promise(resolve => setTimeout(resolve, 2000));
-        showMessage({
-          message: 'Fonts loaded successfully',
-          type: 'danger',
-          duration: 2500,
-        });
+        // showMessage({
+        //   message: 'Fonts loaded successfully',
+        //   type: 'danger',
+        //   duration: 2500,
+        // });
       } catch (e) {
         console.warn(e);
-        showMessage({
-          message: 'Loaded unsuccessfully',
-          e,
-          type: 'danger',
-          duration: 2500,
-        });
       } finally {
         await SplashScreen.hideAsync();
         setAppIsReady(true);

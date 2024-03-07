@@ -5,7 +5,7 @@ import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { HeaderBar, HeaderText, Loader, SVGIcon } from 'components';
-import { Images } from 'theme/config';
+import { Colors, Images } from 'theme/config';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { groupTransactions } from 'utils';
@@ -104,7 +104,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
-      <Loader loading={isFetchingMoods}/>
+      <Loader color={Colors.WHITE} loading={isFetchingMoods}/>
     </SafeAreaView>
   );
 };

@@ -67,18 +67,19 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(22),
   },
   headerText: {
-    color: Colors.WHITE,
+    color: Colors.COUCH_BLUE_1100,
     fontFamily: "Sora-Semibold",
     fontWeight:"600",
     fontSize: 24,
-    lineHeight: 32,
+    lineHeight: 31,
   },
   subHeaderText: {
     paddingTop: hp(4),
     color: Colors.COUCH_TEXT_COLOR,
     fontFamily: "Sora-Regular",
-    fontSize: hp(14),
-    lineHeight: hp(18),
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: -0.48,
   },
   iconImageContainer: {
     flexDirection: 'row',
