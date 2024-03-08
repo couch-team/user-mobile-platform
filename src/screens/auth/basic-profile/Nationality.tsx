@@ -12,6 +12,7 @@ import { RootState } from 'store';
 // import useAppDispatch from 'hooks/useAppDispatch';
 // import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import { countryList } from 'constants/data';
+import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -27,15 +28,22 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedCountry, setSelectedCountry] = useState<string>(country || '');
   const [selectedState, setSelectedState] = useState(state_of_residence || '');
   // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  
+  const proceed = () => {
+    navigate('UploadProfile');
+  };
+
+  const completeProfile = () => {
+    dispatch(setCountry(selectedCountry));
+    dispatch(setStateOfResidence(selectedState));
+    proceed()
 
   // const completeProfile = () => {
   //   dispatch(setCountry(selectedCountry));
   //   dispatch(setStateOfResidence(selectedState));
   // };
 
-  const proceed = () => {
-    navigate('UploadProfile');
-  };
 
   useEffect(() => {
     selectedCountry && state_of_residence && proceed();
@@ -94,7 +102,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
         title="Continue"
         // loading={loading}
         disabled={selectedCountry && selectedState ? false : true}
-        onPress={() => proceed()}
+        onPress={() => completeProfile()}
       />
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -17,9 +17,13 @@ import { showMessage } from 'react-native-flash-message';
 // import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
 import {
+  // setAccessToken,
+  // setRefreshToken,
   // setEmail as setStoreEmail,
   login as loginAction,
 } from 'store/slice/authSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
@@ -32,6 +36,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
   const dispatch = useAppDispatch();
+  const store = useSelector((state: RootState) => state);
 
   const login = async () => {
     try {
@@ -63,6 +68,11 @@ const Login = ({ navigation: { navigate } }: Props) => {
     }
     await login();
   };
+
+  useEffect(() => {
+    console.log(store);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

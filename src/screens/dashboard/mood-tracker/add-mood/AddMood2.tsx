@@ -30,10 +30,11 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
 
 
   const continueProcess = async() => {
+    console.log(params?.emotion_id)
     try{
       setIsLoading(true)
       const response = await $api.post('/api/mood/log/', {
-        mood: params.selectedMood,
+        emotion_id: params?.emotion_id,
         reason: thoughts,
       })
       if($api.isSuccessful(response)){
@@ -84,7 +85,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
               text.length <= 250 ? setThoughts(text) : null
             }
           />
-          <Text style={styles.textCount}>{thoughts?.length}/250</Text>
+          <Text style={styles.textCount}>{thoughts?.length || 0}/250</Text>
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>

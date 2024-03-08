@@ -46,7 +46,7 @@ export type DashboardParamList = {
   AccountSubProfile: any;
   Referral: any;
   AddMood: any;
-  AddMood2: { selectedMood: string; moodColor: string };
+  AddMood2: { selected_mood: string; mood_color: string, emotion_id: string };
   Transfer: any;
   ScanQR: any;
   ProfileUpdate: any;
