@@ -114,4 +114,15 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(13),
   },
+  dummyMoodEmoji: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+    backgroundColor: '#8A8EE333'
+  },
+  moodEmoji: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+  }
 });

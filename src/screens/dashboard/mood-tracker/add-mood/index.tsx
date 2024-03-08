@@ -6,8 +6,6 @@ import NotificationIcon from 'screens/dashboard/home/components/NotificationIcon
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Colors, Images } from 'theme/config';
-import { wp } from 'constants/layout';
-import { todaysFeeling } from 'constants/data';
 import { LongButton, HeaderText, ProgressHeader, HeaderBar, Loader } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -30,7 +28,7 @@ interface MoodItemProps {
 const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
   const [ selectedEmotionId, setSelectedEmotionId ] = useState('');
   const [selectedMood, setSelectedMood] = useState<string>('');
-  const [selectedMoodColor, setSelectedMoodColor] = useState<string>('');
+  const [selectedEmotion, setSelectedEmotion] = useState<string>('');
   const { first_name } = useSelector((state: RootState) => state.User);
   const [ emotions, setEmotions ] = useState<any[]>([]);
   const [ emotionsLoading, setEmotionsLoading ] = useState(false);
@@ -63,14 +61,14 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
         style={[
           styles.moodItemContainer,
           { borderColor },
-          item.title === selectedMood && {
+          item.title === selectedEmotion && {
             backgroundColor: borderColor,
           },
         ]}>
         <Text
           style={[
             styles.moodItemText,
-            item.title === selectedMood && styles.selectedMoodTextStyle,
+            item.title === selectedEmotion && styles.selectedMoodTextStyle,
           ]}>
           {item.title}
         </Text>
@@ -78,19 +76,10 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
     );
   };
 
-  const onSelectMood = async (
-    emotion_id: string,
-    mood: React.SetStateAction<string>,
-    color: React.SetStateAction<string>,
-  ) => {
-    setSelectedEmotionId(emotion_id)
-    setSelectedMood(mood);
-    setSelectedMoodColor(color);
+  const continueProcess = async () => {
+    navigate('AddMood2', { mood: selectedMood, emotion: selectedEmotion, emotion_id: selectedEmotionId });
   };
 
-  const continueProcess = async () => {
-    navigate('AddMood2', { selected_mood: selectedMood, mood_color: selectedMoodColor, emotion_id: selectedEmotionId });
-  };
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
@@ -109,23 +98,34 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
           hasSubText="How do you feel today?"
           headerTextStyle={styles.headerTextStyle}
         />
-        {  emotions?.length > 0 && emotions?.map((item, index) => {
+        {  emotions?.length > 0 && emotions?.map((items, index) => {
           return (
             <View style={styles.moodContainer} key={index}>
-              <MoodItem
-                item={item}
-                key={item?.id}
-                borderColor={item?.mood?.colour}
-                onPressMood={onSelectMood}
-              />
+              {
+                items?.emotions?.length > 0 && items?.emotions?.map((item: any) => {
+                  return(
+                    <MoodItem
+                      item={item}
+                      key={item?.id}
+                      borderColor={items?.colour}
+                      onPressMood={() => {
+                        setSelectedEmotionId(item?.id)
+                        setSelectedEmotion(item?.title);
+                        setSelectedMood(items?.title);
+                      }}
+                    />
+                  )
+                })
+              }
             </View>
           );
         })}
+        <View style={styles.emotionsPadding}></View>
       </ScrollView>
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={selectedMood ? false : true}
+          disabled={selectedEmotion ? false : true}
           title="Continue"
           onPress={() => continueProcess()}
         />

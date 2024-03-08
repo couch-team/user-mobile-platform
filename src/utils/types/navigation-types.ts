@@ -46,7 +46,7 @@ export type DashboardParamList = {
   AccountSubProfile: any;
   Referral: any;
   AddMood: any;
-  AddMood2: { selected_mood: string; mood_color: string, emotion_id: string };
+  AddMood2: { mood: string; emotion: string, emotion_id: string };
   Transfer: any;
   ScanQR: any;
   ProfileUpdate: any;
@@ -63,7 +63,7 @@ export type DashboardParamList = {
   Notifications: any;
   VoucherHistory: any;
   Journal: undefined;
-  CompleteAddMood: { res: any };
+  CompleteAddMood: any;
   AddJournal: undefined;
   MindSpace: undefined;
   PreviewJournal: any;

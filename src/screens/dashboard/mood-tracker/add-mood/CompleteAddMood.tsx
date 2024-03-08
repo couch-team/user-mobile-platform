@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -20,18 +20,30 @@ type Props = {
 const CompleteAddMood = ({ navigation: { goBack, navigate } }: Props) => {
   const { params } =
     useRoute<RouteProp<DashboardParamList, 'CompleteAddMood'>>();
-
+    useEffect(() => {
+      console.log(params)
+    },[])
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: Colors.PRIMARY_2 }]}>
       <HeaderBar
         hasBackButton
         onPressLeftIcon={() => goBack()}
-        tintColor={Colors.GREEN_100}
+        tintColor={params?.emotion?.mood?.colour || Colors.GREEN_100}
       />
 
       <View style={styles.moodIconContainer}>
-        <SVGIcon name={params?.res?.mood?.toLowerCase()} />
+        {
+          params?.emotion?.mood?.icon_url
+            ?
+            <Image 
+              style={styles.moodEmoji}
+              source={{ uri: params?.emotion?.mood?.icon_url }}
+              resizeMode='cover'
+            /> 
+            :
+            <View style={styles.dummyMoodEmoji}></View>
+        }
       </View>
 
       <View style={styles.moodBodyContainer}>
@@ -39,24 +51,24 @@ const CompleteAddMood = ({ navigation: { goBack, navigate } }: Props) => {
 
         <View style={styles.moodDataContainer}>
           <View style={styles.moodLogTimeContainer}>
-            <Text style={styles.moodLogTimeText}>
-              {moment(params?.res?.created_at).calendar()}
+            <Text style={[styles.moodLogTimeText, { color: params?.emotion?.mood?.colour}]}>
+              {moment(params?.created_at).calendar()}
             </Text>
           </View>
-          <Text style={styles.todaysMoodText}>{params?.res?.mood}</Text>
+          <Text style={[styles.todaysMoodText, { color: params?.emotion?.mood?.colour}]}>{params?.emotion?.mood?.title}</Text>
           <Text
             style={styles.loggedThoughtsText}
             numberOfLines={3}
             ellipsizeMode="tail">
-            {params?.res?.reason}
+            {params?.description || 'No Description'}
           </Text>
         </View>
       </View>
       <LongButton
-        buttonStyle={styles.buttonStyle}
+        buttonStyle={{ backgroundColor: params?.emotion?.mood?.colour || Colors.GREEN_100  }}
         title="View Journal"
         titleStyle={styles.titleStyle}
-        onPress={() => navigate('Home')}
+        onPress={() => navigate('Journal')}
       />
     </SafeAreaView>
   );

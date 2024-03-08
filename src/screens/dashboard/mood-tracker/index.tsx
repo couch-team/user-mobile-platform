@@ -75,17 +75,29 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={({ item, index }) => {
+            console.log(item?.emotion)
             return (
-              <View style={styles.itemMoodContainer} key={index}>
-                <SVGIcon name={item?.mood?.toLowerCase()} />
-                <View style={styles.itemMoodBodyContainer}>
-                  <Text style={[styles.itemMoodMainText]}>{item.mood}</Text>
-                  <Text style={styles.itemMoodBodyText}>
-                    {moment(item.created_at).fromNow()} -{' '}
-                    {moment(item.created_at).format('LT')}
-                  </Text>
+              <TouchableOpacity onPress={() => navigate("CompleteAddMood",item)}>
+                <View style={styles.itemMoodContainer} key={index}>
+                  { item?.emotion?.mood?.icon_url 
+                      ? 
+                      <Image 
+                        style={styles.moodEmoji}
+                        source={{ uri: item?.emotion?.mood?.icon_url }}
+                        resizeMode='cover'
+                      /> 
+                      : 
+                      <View style={styles.dummyMoodEmoji}></View> 
+                  }
+                  <View style={styles.itemMoodBodyContainer}>
+                    <Text style={[styles.itemMoodMainText]}>{item?.emotion?.title}</Text>
+                    <Text style={styles.itemMoodBodyText}>
+                      {moment(item.created_at).fromNow()} -{' '}
+                      {moment(item.created_at).format('LT')}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
           renderSectionHeader={({ section: { title, isToday } }) => {

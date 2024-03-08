@@ -28,7 +28,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
   const [thoughts, setThoughts] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
 
-
+  console.log(params)
   const continueProcess = async() => {
     console.log(params?.emotion_id)
     try{
@@ -38,7 +38,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
         reason: thoughts,
       })
       if($api.isSuccessful(response)){
-        navigate('CompleteAddMood',  response );
+        navigate('CompleteAddMood',  response?.data );
       }
     }
     catch(err){
@@ -48,6 +48,11 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       setIsLoading(false)
     }
   };
+
+  const isHappy = params?.mood?.toLowerCase() === "happy"
+  const isExcited = params?.mood?.toLowerCase() === "excited"
+  const isSad = params?.mood?.toLowerCase() === "sad"
+  const isAngry = params?.mood?.toLowerCase() === "angry"
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,8 +70,8 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
           status={2}
         />
         <HeaderText
-          text={`You are ${params?.selectedMood?.toLowerCase()}`}
-          hasSubText="Mind to tell us the secret"
+          text={ (isHappy || isExcited) ? `You are ${params?.emotion?.toLowerCase()}` : "Hey, you could talk to us"}
+          hasSubText={ (isHappy || isExcited) ? "Mind to tell us the secret" : `What makes you feel ${params?.emotion?.toLowerCase()} today?` }
           headerTextStyle={styles.headerTextStyle}
         />
         <View style={styles.unitInputContainer}>
