@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal, LongButton } from 'components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchMoods } from 'store/slice/moodSlice';
@@ -34,7 +34,7 @@ const MoodModal = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchMoods(1))
+    dispatch(fetchMoods(1));
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

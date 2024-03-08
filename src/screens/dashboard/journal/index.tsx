@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   View,
@@ -31,17 +32,18 @@ type Props = {
 };
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
-  const [ selectedId, setSelectedId ] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(1);
   const flatListRef: any = useRef(null);
   const dispatch = useAppDispatch();
 
   const authProfileDetails = useSelector((state: RootState) => state.User);
-  const {journals, isFetchingJournals, journals_current_page} = useSelector((state: RootState) => state.Journal);
+  const { journals, isFetchingJournals, journals_current_page } = useSelector(
+    (state: RootState) => state.Journal,
+  );
 
-  const nextPage = journals_current_page + 1
-  const previousPage = journals_current_page - 1
-
+  const nextPage = journals_current_page + 1;
+  const previousPage = journals_current_page - 1;
 
   const HeaderRight = () => {
     return (

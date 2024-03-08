@@ -1,9 +1,7 @@
 import React from 'react';
-import * as Progress from 'react-native-progress';
-import { View, Image, StyleSheet } from 'react-native';
-import { Colors, Images } from '../../theme/config';
+import { View, StyleSheet } from 'react-native';
+import { Colors } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
-import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 
 export const ProgressHeader = ({ status }: { status: number }) => {
   return (
@@ -13,31 +11,31 @@ export const ProgressHeader = ({ status }: { status: number }) => {
           styles.progressBar,
           status >= 1 && { backgroundColor: Colors.COUCH_BLUE },
         ]}
-      ></View>
-      <View 
+      />
+      <View
         style={[
           styles.progressDot,
           status > 1 && { backgroundColor: Colors.GREEN_100 },
         ]}
-      ></View>
-      <View 
+      />
+      <View
         style={[
           styles.progressBar,
           status >= 2 && { backgroundColor: Colors.COUCH_BLUE },
         ]}
-      ></View>
-      <View 
+      />
+      <View
         style={[
           styles.progressDot,
           status > 2 && { backgroundColor: Colors.GREEN_100 },
         ]}
-      ></View>
-      <View         
-      style={[
+      />
+      <View
+        style={[
           styles.progressBar,
           status >= 3 && { backgroundColor: Colors.COUCH_BLUE },
         ]}
-      ></View>
+      />
     </View>
   );
 };

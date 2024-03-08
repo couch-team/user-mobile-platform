@@ -8,7 +8,7 @@ interface RightHeaderProps {
   pressCloseButton: () => void;
   pressConfirmButton: () => void;
   loading?: boolean;
-  disabled: boolean,
+  disabled: boolean;
 }
 
 export const RightHeader = ({
@@ -16,7 +16,7 @@ export const RightHeader = ({
   pressConfirmButton,
   pressCloseButton,
   loading,
-  disabled
+  disabled,
 }: RightHeaderProps) => {
   return (
     <View style={styles.rightHeaderContainer}>

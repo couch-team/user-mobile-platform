@@ -17,7 +17,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchUserDetails } from 'store/slice/userSlice';
@@ -37,8 +37,9 @@ const Home = ({ navigation: { navigate } }: Props) => {
   const profileDetails = useSelector((state: RootState) => state.User);
 
   useEffect(() => {
-    !profileDetails && dispatch(fetchUserDetails())
-  },[ profileDetails ])
+    !profileDetails && dispatch(fetchUserDetails());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileDetails]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,8 +47,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
         <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
         <View style={styles.bodyContainer}>
           <View style={styles.profileUserContainer}>
-            <Text
-              style={[styles.profileUserText, { fontFamily: 'SoraMedium' }]}>
+            <Text style={styles.profileUserText}>
               Hi {profileDetails?.first_name}
             </Text>
             <Text style={styles.profileSubText}>

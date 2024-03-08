@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import FlashMessage, { showMessage } from 'react-native-flash-message';
+import FlashMessage from 'react-native-flash-message';
 import { Provider } from 'react-redux';
 import store, { persistor } from './store';
 // import { hasDynamicIsland } from 'react-native-device-info';
@@ -8,8 +8,8 @@ import { hp } from './constants/layout';
 import { StatusBar, StyleSheet } from 'react-native';
 import { RootNavigation } from './navigation';
 import { Colors } from 'theme/config';
-import { PersistGate } from "redux-persist/integration/react";
-import { NavigationContainer } from '@react-navigation/native';
+import { PersistGate } from 'redux-persist/integration/react';
+// import { NavigationContainer } from '@react-navigation/native';
 import useFonts from 'hooks/useFont';
 
 const App = () => {
