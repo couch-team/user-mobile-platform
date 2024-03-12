@@ -110,6 +110,8 @@ export const medicalConditions = [
   },
 ];
 
+export const referral_mediums = ["Social media ads","Referral", "Online search", "Event"]
+
 export const therapistsVisits = [
   {
     id: 1,

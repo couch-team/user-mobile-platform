@@ -1,43 +1,39 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as Progress from 'react-native-progress';
 import { View, Image, StyleSheet } from 'react-native';
 import { Colors, Images } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
 import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 
-export const ProgressHeader = ({ status }: { status: number }) => {
+export const ProgressHeader = ({ status, bars }: { status: number, bars: number }) => {
   return (
     <View style={styles.progressHeaderContainer}>
-      <View
-        style={[
-          styles.progressBar,
-          status >= 1 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      ></View>
-      <View 
-        style={[
-          styles.progressDot,
-          status > 1 && { backgroundColor: Colors.GREEN_100 },
-        ]}
-      ></View>
-      <View 
-        style={[
-          styles.progressBar,
-          status >= 2 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      ></View>
-      <View 
-        style={[
-          styles.progressDot,
-          status > 2 && { backgroundColor: Colors.GREEN_100 },
-        ]}
-      ></View>
-      <View         
-      style={[
-          styles.progressBar,
-          status >= 3 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      ></View>
+      {
+        Array.from({ length: bars }, (_, index) => index)?.map((index) => {
+          return(
+            <Fragment key={index}>
+              <View
+                style={[
+                  styles.progressBar,
+                  status >= (index + 1) && { backgroundColor: Colors.COUCH_BLUE },
+                ]}
+              >
+              </View>
+              {
+                bars !== (index + 1)  
+                  &&
+                <View 
+                  style={[
+                    styles.progressDot,
+                    status > (index + 1) && { backgroundColor: Colors.GREEN_100 },
+                  ]}
+                >
+                </View>
+              }
+            </Fragment>
+          )
+        })
+      }
     </View>
   );
 };

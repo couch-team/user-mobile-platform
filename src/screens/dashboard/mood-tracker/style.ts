@@ -124,5 +124,13 @@ export const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 56,
+  },
+  reachedEndContainer: {
+  
+  },
+  reachedEnd: {
+    color: Colors.WHITE,
+    textAlign: 'center',
+    fontFamily: Typography.fontFamily.SoraMedium,
   }
 });

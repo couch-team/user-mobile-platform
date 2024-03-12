@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { $api } from 'services';
 import { HELP_CIRCLE } from 'assets/svg';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchMoods } from 'store/actions/mood';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -27,17 +29,17 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
   const { params } = useAppRoute();
   const [thoughts, setThoughts] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
+  const dispatch = useAppDispatch()
 
-  console.log(params)
   const continueProcess = async() => {
-    console.log(params?.emotion_id)
     try{
       setIsLoading(true)
       const response = await $api.post('/api/mood/log/', {
         emotion_id: params?.emotion_id,
-        reason: thoughts,
+        description: thoughts,
       })
       if($api.isSuccessful(response)){
+        dispatch(fetchMoods(1));
         navigate('CompleteAddMood',  response?.data );
       }
     }
@@ -68,6 +70,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       <ScrollView>
         <ProgressHeader
           status={2}
+          bars={3}
         />
         <HeaderText
           text={ (isHappy || isExcited) ? `You are ${params?.emotion?.toLowerCase()}` : "Hey, you could talk to us"}

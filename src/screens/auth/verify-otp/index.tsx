@@ -23,7 +23,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { navigationRef } from 'navigation/utils';
 import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { login as loginAction } from 'store/slice/authSlice';
+import { login as loginAction } from 'store/actions/login';
 // import { NavigationContext } from 'navigation';
 
 

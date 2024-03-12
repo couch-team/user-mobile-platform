@@ -92,7 +92,7 @@ const AddMood = ({ navigation: { navigate, goBack } }: Props) => {
         }
       />
       <ScrollView>
-        <ProgressHeader status={1} />
+        <ProgressHeader status={1} bars={3}/>
         <HeaderText
           text={`Hey ${ first_name }`}
           hasSubText="How do you feel today?"

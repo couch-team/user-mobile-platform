@@ -17,10 +17,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchUserDetails } from 'store/slice/userSlice';
+import { fetchUserDetails } from 'store/actions/userDetails';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -39,6 +39,10 @@ const Home = ({ navigation: { navigate } }: Props) => {
   useEffect(() => {
     !profileDetails && dispatch(fetchUserDetails())
   },[ profileDetails ])
+
+  useEffect(() => {
+    !profileDetails?.preference && navigate("UserOnboarding")
+  },[])
 
   return (
     <SafeAreaView style={styles.container}>

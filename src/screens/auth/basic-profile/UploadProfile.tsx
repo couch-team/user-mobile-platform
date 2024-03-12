@@ -4,16 +4,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import * as ImagePicker from 'expo-image-picker';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchUserDetails } from 'store/slice/userSlice';
 import { $api } from 'services';
+import { fetchUserDetails } from 'store/actions/userDetails';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UploadProfile'>;
+type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'UserOnboarding'>;
 type Props = {
   navigation: AuthNavigationProps;
 };

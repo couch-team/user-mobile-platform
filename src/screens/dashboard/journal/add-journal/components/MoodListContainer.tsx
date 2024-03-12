@@ -7,7 +7,7 @@ import { BaseModal, LongButton } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/slice/moodSlice';
+import { fetchMoods } from 'store/actions/mood';
 
 export type MoodType =
   | 'Happy'

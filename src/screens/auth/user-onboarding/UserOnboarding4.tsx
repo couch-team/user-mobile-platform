@@ -5,13 +5,16 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { therapistsVisits } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 // import { RouteProp, useRoute } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setEverHadTherapy } from 'store/slice/preferenceSlice';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+  DashboardParamList,
   'UserOnboarding4'
 >;
 type Props = {
@@ -19,27 +22,16 @@ type Props = {
 };
 
 const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
-  const [therapistVisits, setTherapistVisits] = useState('');
-
-  // const { params } =
-  //   useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
-  const {
-    User: { therapyOnboardingStage },
-  } = useDispatch();
+  const { ever_had_therapy } = useSelector((state: RootState) => state.Preference)
+  const dispatch = useAppDispatch();
 
   const continueProcess = async () => {
-    const data = {
-      ever_had_therapy: therapistVisits,
-    };
-    const res = await therapyOnboardingStage(data);
-    if (res) {
-      navigate('UserOnboarding3');
-    }
+    navigate('UserOnboarding3');
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={1} thirdProgress={1} />
+    <SafeAreaView style={styles.onboardingContainer}>
+      <ProgressHeader status={3} bars={4} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Mental Related Info"
@@ -55,9 +47,9 @@ const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
             {therapistsVisits.map(visits => {
               return (
                 <Checkbox
-                  selectedCheckType={therapistVisits}
+                  selectedCheckType={ever_had_therapy}
                   hideCheckBox
-                  onSelectOption={setTherapistVisits}
+                  onSelectOption={(value) => dispatch(setEverHadTherapy(value))}
                   key={visits.id}
                   index={visits}
                   checkTitle={visits.title}
@@ -70,7 +62,7 @@ const UserOnboarding4 = ({ navigation: { navigate } }: Props) => {
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={therapistVisits ? false : true}
+          disabled={ever_had_therapy == ''}
           title="Continue"
           onPress={() => continueProcess()}
         />

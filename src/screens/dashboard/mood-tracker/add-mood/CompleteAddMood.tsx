@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -20,15 +20,12 @@ type Props = {
 const CompleteAddMood = ({ navigation: { goBack, navigate } }: Props) => {
   const { params } =
     useRoute<RouteProp<DashboardParamList, 'CompleteAddMood'>>();
-    useEffect(() => {
-      console.log(params)
-    },[])
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: Colors.PRIMARY_2 }]}>
       <HeaderBar
         hasBackButton
-        onPressLeftIcon={() => goBack()}
+        onPressLeftIcon={() => navigate('MoodTracker')}
         tintColor={params?.emotion?.mood?.colour || Colors.GREEN_100}
       />
 
@@ -55,7 +52,7 @@ const CompleteAddMood = ({ navigation: { goBack, navigate } }: Props) => {
               {moment(params?.created_at).calendar()}
             </Text>
           </View>
-          <Text style={[styles.todaysMoodText, { color: params?.emotion?.mood?.colour}]}>{params?.emotion?.mood?.title}</Text>
+          <Text style={[styles.todaysMoodText, { color: params?.emotion?.mood?.colour}]}>{params?.emotion?.title}</Text>
           <Text
             style={styles.loggedThoughtsText}
             numberOfLines={3}
