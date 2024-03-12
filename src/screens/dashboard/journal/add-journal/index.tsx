@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { HeaderBar } from 'components';
 import React, { useState } from 'react';
 import {
@@ -25,10 +26,8 @@ import { Colors, Images } from 'theme/config';
 import * as ImagePicker from 'expo-image-picker';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { hp, wp } from 'constants/layout';
-import { useDispatch, useSelector } from 'react-redux';
 import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
-import { RootState } from 'store';
 import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { showMessage } from 'react-native-flash-message';
@@ -54,7 +53,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [height, setHeight] = useState(600);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
-  const [ isLoading, setIsLoading ] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const contentStyle = {
@@ -64,29 +63,25 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     contentCSSText: 'font-size: 16px; height: 100%;',
   };
 
-  const createJournal = async(data: FormData) => {
-    try{
-      setIsLoading(true)
-      const response = await $api.post('/api/journal/log/',data, true)
-      if($api.isSuccessful(response)){
+  const createJournal = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      const response = await $api.post('/api/journal/log/', data, true);
+      if ($api.isSuccessful(response)) {
         showMessage({
           type: 'success',
           duration: 3000,
-          message: 'Journal created successfully'
-        })
-        dispatch(fetchJournals(1))
+          message: 'Journal created successfully',
+        });
+        dispatch(fetchJournals(1));
         goBack();
       }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setIsLoading(false)
-    }
-  }
-
-
+  };
 
   const pickImageAsync = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -146,7 +141,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     recordingAudio,
     mood,
     createJournal,
-    goBack,
+    // goBack,
   ]);
 
   const color = React.useMemo(() => {
@@ -166,7 +161,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       default:
         return Colors.COUCH_BLUE;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMood]);
 
   const renderMood = React.useCallback(() => {

@@ -17,9 +17,11 @@ const Stack = createStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 
 const AppNavigation = () => {
-  const { access_token, is_loading } = useSelector((state: RootState) => state.Auth);
-  const user_data = useSelector((state: RootState) => state.User)
-  const isLoggedIn = !!access_token
+  const { access_token, is_loading } = useSelector(
+    (state: RootState) => state.Auth,
+  );
+  const user_data = useSelector((state: RootState) => state.User);
+  const isLoggedIn = !!access_token;
 
   const [initialState, setInitialState] = React.useState();
 
@@ -33,7 +35,7 @@ const AppNavigation = () => {
       <Stack.Navigator
         initialRouteName={
           isLoggedIn
-            ? (user_data?.profile !== null)
+            ? user_data?.profile !== null
               ? 'Dashboard'
               : 'ProfileOnboarding'
             : 'Auth'
@@ -44,7 +46,7 @@ const AppNavigation = () => {
           presentation: 'transparentModal',
         }}>
         {isLoggedIn ? (
-          (user_data?.profile !== null || is_loading) ? (
+          user_data?.profile !== null || is_loading ? (
             <>
               <Stack.Screen component={DashboardNavigation} name="Dashboard" />
               <Stack.Group screenOptions={{ presentation: 'modal' }}>

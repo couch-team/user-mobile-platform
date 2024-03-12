@@ -9,9 +9,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import useAppDispatch from 'hooks/useAppDispatch';
-import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
+// import useAppDispatch from 'hooks/useAppDispatch';
+// import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import { countryList } from 'constants/data';
+import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -19,28 +20,35 @@ type Props = {
 };
 
 const Nationality = ({ navigation: { navigate } }: Props) => {
-  const { country, state_of_residence } = useSelector((state: RootState) => state.Onboarding)
+  const { country, state_of_residence } = useSelector(
+    (state: RootState) => state.Onboarding,
+  );
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<string>(country || '');
   const [selectedState, setSelectedState] = useState(state_of_residence || '');
+  // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
   
-  const completeProfile = () => {
-    dispatch(setCountry(selectedCountry))
-    dispatch(setStateOfResidence(selectedState))
-    proceed()
-
-  };
-
   const proceed = () => {
     navigate('UploadProfile');
-  } 
+  };
+
+  const completeProfile = () => {
+    dispatch(setCountry(selectedCountry));
+    dispatch(setStateOfResidence(selectedState));
+    proceed()
+
+  // const completeProfile = () => {
+  //   dispatch(setCountry(selectedCountry));
+  //   dispatch(setStateOfResidence(selectedState));
+  // };
+
 
   useEffect(() => {
-    country && state_of_residence && proceed()
-  },[])
- 
+    selectedCountry && state_of_residence && proceed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCountry, state_of_residence]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,7 +70,10 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
               label="Country"
               placeholder="Select your country"
               onOpenDropDown={setOpenCountryList}
-              dropDownValue={countryList.find(country => country.code === selectedCountry)?.name}
+              dropDownValue={
+                countryList.find(countrys => countrys.code === selectedCountry)
+                  ?.name
+              }
               openDropDown={openCountryList}
             />
             <CouchDropDown
@@ -77,13 +88,13 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       </View>
       <CountryList
         isVisible={openCountryList}
-        onComplete={(data) => setSelectedCountry(data?.code)}
+        onComplete={data => setSelectedCountry(data?.code)}
         onClose={() => setOpenCountryList(false)}
       />
       <StatesList
         isVisible={openStateList}
         onClose={() => setOpenStateList(false)}
-        onComplete={(data) => setSelectedState(data)}
+        onComplete={data => setSelectedState(data)}
       />
 
       <LongButton

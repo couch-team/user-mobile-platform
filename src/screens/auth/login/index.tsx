@@ -14,7 +14,7 @@ import { FormTextInput, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { showMessage } from 'react-native-flash-message';
-import { $api } from 'services';
+// import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { setAccessToken, setRefreshToken, setEmail as setStoreEmail } from 'store/slice/authSlice';
 import { useSelector } from 'react-redux';
@@ -27,25 +27,23 @@ type Props = {
 };
 
 const Login = ({ navigation: { navigate } }: Props) => {
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
   const dispatch = useAppDispatch();
-  const store = useSelector((state:RootState) => state)
+  const store = useSelector((state: RootState) => state);
 
-  const login = async() => {
-    try{
-      setLoading(true)
-      await dispatch(loginAction({ email, password }))
+  const login = async () => {
+    try {
+      setLoading(true);
+      await dispatch(loginAction({ email, password }));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setLoading(false)
-    }
-  }
+  };
 
   const isDisabled = email && password ? false : true;
 
@@ -64,10 +62,6 @@ const Login = ({ navigation: { navigate } }: Props) => {
         type: 'danger',
       });
     }
-    const data = {
-      email,
-      password,
-    };
     await login();
   };
   
@@ -89,7 +83,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
               <FormTextInput
                 label="Email address"
                 editable
-                placeholder='Enter your email'
+                placeholder="Enter your email"
                 // autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
@@ -99,7 +93,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 label="Password"
                 isPassword
                 show={showPassword}
-                placeholder='Enter your password'
+                placeholder="Enter your password"
                 onChangeText={(text: string) => setPassword(text)}
                 value={password}
                 showPassword={() => setShowPassword(!showPassword)}
@@ -115,10 +109,10 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.forgetPassBtn} onPress={() => navigate('ForgetPassword')}>
-                <Text
-                  numberOfLines={1}
-                  style={styles.forgetPassLink}>
+              <TouchableOpacity
+                style={styles.forgetPassBtn}
+                onPress={() => navigate('ForgetPassword')}>
+                <Text numberOfLines={1} style={styles.forgetPassLink}>
                   Let’s help out
                 </Text>
               </TouchableOpacity>

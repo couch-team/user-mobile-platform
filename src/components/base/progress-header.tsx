@@ -3,7 +3,6 @@ import * as Progress from 'react-native-progress';
 import { View, Image, StyleSheet } from 'react-native';
 import { Colors, Images } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
-import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 
 export const ProgressHeader = ({ status, bars }: { status: number, bars: number }) => {
   return (

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Alert, Platform, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
 import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import * as ImagePicker from 'expo-image-picker';
 import useAppDispatch from 'hooks/useAppDispatch';
@@ -19,17 +26,19 @@ type Props = {
 };
 
 const redirectToSettings = () => {
-  const settingsUrl = Platform.select({
-    ios: 'app-settings:',
-    android: 'app-settings:'
-  });
+  // const settingsUrl = Platform.select({
+  //   ios: 'app-settings:',
+  //   android: 'app-settings:',
+  // });
 
   Linking.openSettings();
 };
 
 const UploadProfile = ({ navigation: { navigate } }: Props) => {
-  const { country, dob, gender, state_of_residence } = useSelector((state: RootState) => state.Onboarding);
-  const [ is_loading, setIsLoading ] = useState(false);
+  const { country, dob, gender, state_of_residence } = useSelector(
+    (state: RootState) => state.Onboarding,
+  );
+  const [is_loading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const [profileImage, setProfileImage] = useState({
@@ -44,13 +53,13 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     if (status !== 'granted') {
       Alert.alert(
         'Permission Denied',
-        `Sorry, we need camera roll permission to upload images.`,
+        'Sorry, we need camera roll permission to upload images.',
         [
           {
             text: 'Try Again',
-            onPress: async() => redirectToSettings(),
-          }
-        ]
+            onPress: async () => redirectToSettings(),
+          },
+        ],
       );
     } else {
       const result = await ImagePicker.launchImageLibraryAsync();
@@ -79,26 +88,25 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     completeOnboarding(formdata);
   };
 
-  const completeOnboarding = async(data: FormData) => {
-    try{
-      setIsLoading(true)
-      const response = await $api.post('/api/user/profile/', data, true)
-      if($api.isSuccessful(response)){
-        dispatch(fetchUserDetails())
+  const completeOnboarding = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      const response = await $api.post('/api/user/profile/', data, true);
+      if ($api.isSuccessful(response)) {
+        dispatch(fetchUserDetails());
         navigate('UserOnboarding');
       }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setIsLoading(false)
-    }
-  }
+  };
 
-  useEffect(() => { 
-    dispatch(fetchUserDetails())
-  },[])
+  useEffect(() => {
+    dispatch(fetchUserDetails());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -150,7 +158,8 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
             disabled={profileImage?.uri ? false : true}
             buttonStyle={styles.buttonStyle}
             title="Complete basic profile"
-            onPress={() => completeProfile()}
+            // onPress={() => completeProfile()}
+            onPress={() => console.log('Clicked')}
           />
 
           <TouchableOpacity

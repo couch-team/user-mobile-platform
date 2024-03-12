@@ -37,8 +37,9 @@ const Home = ({ navigation: { navigate } }: Props) => {
   const profileDetails = useSelector((state: RootState) => state.User);
 
   useEffect(() => {
-    !profileDetails && dispatch(fetchUserDetails())
-  },[ profileDetails ])
+    !profileDetails && dispatch(fetchUserDetails());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileDetails]);
 
   useEffect(() => {
     !profileDetails?.preference && navigate("UserOnboarding")
@@ -50,8 +51,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
         <HeaderBar headerRight={<NotificationIcon navigate={navigate} />} />
         <View style={styles.bodyContainer}>
           <View style={styles.profileUserContainer}>
-            <Text
-              style={[styles.profileUserText, { fontFamily: 'SoraMedium' }]}>
+            <Text style={styles.profileUserText}>
               Hi {profileDetails?.first_name}
             </Text>
             <Text style={styles.profileSubText}>
