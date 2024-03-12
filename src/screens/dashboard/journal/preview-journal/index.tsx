@@ -21,7 +21,7 @@ import MoodViewModal from './components/MoodEditModal';
 import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
+import { fetchJournals } from 'store/actions/journal';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,

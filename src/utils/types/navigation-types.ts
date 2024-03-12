@@ -19,12 +19,6 @@ export type AuthParamList = {
   BasicProfile: any;
   Nationality: any;
   UploadProfile: any;
-  UserOnboarding: any;
-  UserOnboarding1: any;
-  UserOnboarding2: any;
-  UserOnboarding3: any;
-  CompleteOnboarding1: any;
-  UserOnboarding4: any;
   UserOnboarding5: any;
   UserOnboarding6: any;
   UserOnboarding7: any;
@@ -35,7 +29,7 @@ export type AuthParamList = {
 };
 
 export type DashboardParamList = {
-  DashboardHome: BottomTabParamList;
+  DashboardHome: any;
   Home: any;
   TakeTour: any;
   UserProfile: any;
@@ -63,7 +57,7 @@ export type DashboardParamList = {
   Notifications: any;
   VoucherHistory: any;
   Journal: undefined;
-  CompleteAddMood: { res: any };
+  CompleteAddMood: any;
   AddJournal: undefined;
   MindSpace: undefined;
   PreviewJournal: any;

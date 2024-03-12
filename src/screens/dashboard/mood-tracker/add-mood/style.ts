@@ -132,10 +132,21 @@ export const styles = StyleSheet.create({
     lineHeight: hp(20),
     color: Colors.COUCH_BLUE_1100,
   },
-  buttonStyle: {
-    backgroundColor: Colors.GREEN_100,
-  },
   titleStyle: {
     color: Colors.PRIMARY_DARKBLUE,
+  },
+  emotionsPadding: {
+    height: hp(100)
+  },
+  moodEmoji: {
+    width: 180,
+    height: 180,
+    borderRadius: 180,
+  },
+  dummyMoodEmoji: {
+    width: 180,
+    height: 180,
+    borderRadius: 180,
+    backgroundColor: '#8A8EE333'
   },
 });

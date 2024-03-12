@@ -30,10 +30,10 @@ import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
 import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
 import { showMessage } from 'react-native-flash-message';
 import { MoodColors } from 'theme/config/colors';
 import { debounce } from 'lodash';
+import { fetchJournals } from 'store/actions/journal';
 // import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<

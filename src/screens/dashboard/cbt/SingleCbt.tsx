@@ -11,13 +11,13 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
-import HeaderBar from 'components/base/header-bar';
 import { Colors, Images } from 'theme/config';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import { cbtPlayData } from 'constants/data';
 import { Image } from 'react-native';
 import { wp } from 'constants/layout';
+import { HeaderBar } from 'components';
+import LinearGradient from 'react-native-linear-gradient';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'SingleCbt'>;
 

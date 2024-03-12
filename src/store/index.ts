@@ -7,14 +7,23 @@ import persistStore from "redux-persist/es/persistStore";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 
 const persistConfig = {
-    key: 'root',
+    key: 'couch_root',
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2,
+    blacklist: ['Mood'],
 };
 
+const rootReducer = (state: any, action: any) => {
+    if (action.type === 'LOGOUT') {
+        console.log('logout action received')
+      return CombinedReducers(undefined, action)
+    }
+  
+    return CombinedReducers(state, action)
+}
 const persistedReducer = persistReducer<ICombinedReducer, Action<any>>(
     persistConfig,
-    CombinedReducers
+    rootReducer
   );
 
 const store = configureStore({
