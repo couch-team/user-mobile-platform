@@ -27,7 +27,7 @@ export const RightHeader = ({
         <Image
           source={Images.x}
           resizeMode="contain"
-          style={styles.closeIcon}
+          style={[styles.closeIcon, { tintColor: activeColor }]}
         />
       </TouchableOpacity>
 

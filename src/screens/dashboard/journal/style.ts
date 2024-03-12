@@ -32,8 +32,7 @@ export const styles = StyleSheet.create({
     marginTop: hp(20),
   },
   plusIconContainer: {
-    width: 70,
-    height: 70,
+    padding: 10,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,14 +73,14 @@ export const styles = StyleSheet.create({
   },
   emptyMainText: {
     color: Colors.COUCH_BLUE_1100,
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     textAlign: 'center',
     fontSize: hp(14),
     lineHeight: hp(19),
   },
 
   emptyBodyText: {
-    fontFamily: "Sora-Regular",
+    fontFamily: 'Sora-Regular',
     paddingTop: hp(16),
     textAlign: 'center',
     color: Colors.COUCH_TEXT_COLOR,
@@ -90,21 +89,21 @@ export const styles = StyleSheet.create({
   headerSectionContainer: {
     paddingHorizontal: wp(20),
     flexDirection: 'row',
-    justifyContent: "space-between",
-    alignItems:"center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginVertical: hp(10),
     height: hp(30),
     backgroundColor: Colors.PRIMARY,
   },
   headerTitleStyle: {
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     paddingLeft: wp(12),
     fontSize: hp(14),
     color: Colors.COUCH_BLUE_1100,
   },
   headerTitleImage: {
-    width:wp(16),
-    marginRight:wp(12)
+    width: wp(16),
+    marginRight: wp(12),
   },
   journalMoodIconContainer: {
     width: 40,
@@ -144,7 +143,7 @@ export const styles = StyleSheet.create({
   },
   itemMoodBodyContainer: {
     marginTop: wp(24),
-    gap:wp(10)
+    gap: wp(10),
   },
   journalHeaderContainer: {
     flexDirection: 'row',
@@ -164,11 +163,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemMoodMainText: {
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     fontSize: hp(16),
     color: Colors.WHITE,
     lineHeight: hp(18),
-    fontWeight:"bold"
+    fontWeight: 'bold',
   },
   voiceIconContainer: {
     width: 24,
@@ -180,7 +179,7 @@ export const styles = StyleSheet.create({
   },
   voiceDurationText: {
     paddingLeft: wp(8),
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     color: Colors.WHITE,
     fontSize: hp(12),
   },
@@ -195,7 +194,7 @@ export const styles = StyleSheet.create({
     paddingTop: hp(8),
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
-    fontWeight:"bold"
+    fontWeight: 'bold',
   },
   voiceIcon: {
     width: 12,
@@ -212,7 +211,7 @@ export const styles = StyleSheet.create({
   },
   ButtonText: {
     color: Colors.COUCH_BLUE,
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     fontSize: hp(12),
   },
   paginationButtonContainer: {
@@ -226,8 +225,8 @@ export const styles = StyleSheet.create({
   },
   paginationButtonText: {
     color: Colors.COUCH_BLUE,
-    fontFamily: "Sora-Medium",
+    fontFamily: 'Sora-Medium',
     fontSize: hp(16),
-    fontWeight:"900"
+    fontWeight: '900',
   },
 });

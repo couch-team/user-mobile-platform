@@ -13,6 +13,7 @@ import { RootState } from 'store';
 // import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
+import useAppDispatch from 'hooks/useAppDispatch';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -29,7 +30,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedState, setSelectedState] = useState(state_of_residence || '');
   // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
-  
+
   const proceed = () => {
     navigate('UploadProfile');
   };
@@ -37,13 +38,8 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry));
     dispatch(setStateOfResidence(selectedState));
-    proceed()
-
-  // const completeProfile = () => {
-  //   dispatch(setCountry(selectedCountry));
-  //   dispatch(setStateOfResidence(selectedState));
-  // };
-
+    proceed();
+  };
 
   useEffect(() => {
     selectedCountry && state_of_residence && proceed();

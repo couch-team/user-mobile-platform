@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import React from 'react';
-import { Colors, Images } from 'theme/config';
+import { Images } from 'theme/config';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { FormTextInput } from 'components';
@@ -18,22 +18,21 @@ export default function SearchJournal() {
           onChangeText={(text: string) => setSearchPhrase(text)}
           value={searchPhrase}
         />
-        
       </View>
       <View style={styles.emptyMoodTrackerContainer}>
-          <View style={styles.emptyMoodIconContainer}>
-            <Image
-              source={Images.journal}
-              resizeMode="contain"
-              style={styles.emptyMoodIcon}
-            />
-          </View>
-          <View style={styles.emptyTextContainer}>
-            <Text style={styles.emptyMainText}>
-              Not Notes in your Journal as for now
-            </Text>
-          </View>
+        <View style={styles.emptyMoodIconContainer}>
+          <Image
+            source={Images.journal}
+            resizeMode="contain"
+            style={styles.emptyMoodIcon}
+          />
         </View>
+        <View style={styles.emptyTextContainer}>
+          <Text style={styles.emptyMainText}>
+            Not Notes in your Journal as for now
+          </Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }

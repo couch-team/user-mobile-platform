@@ -158,8 +158,8 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
             disabled={profileImage?.uri ? false : true}
             buttonStyle={styles.buttonStyle}
             title="Complete basic profile"
-            // onPress={() => completeProfile()}
-            onPress={() => console.log('Clicked')}
+            onPress={() => completeProfile()}
+            // onPress={() => console.log('Clicked')}
           />
 
           <TouchableOpacity

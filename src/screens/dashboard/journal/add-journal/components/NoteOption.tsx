@@ -1,6 +1,6 @@
 import { noteOptionsIcons } from 'constants/data';
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, Image, Pressable } from 'react-native';
 import { styles } from './style';
 
 interface NoteOptionProps {
@@ -18,7 +18,7 @@ export const NoteOption = ({
     <View style={styles.noteOptionContainer}>
       {noteOptionsIcons.map(option => {
         return (
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
               setNoteTakerOption([...noteTakerOption, option.value]);
               setActiveNoteOption(option.value);
@@ -38,7 +38,7 @@ export const NoteOption = ({
               resizeMode="contain"
               style={styles.noteIcon}
             />
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>
