@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -13,10 +13,12 @@ import {
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchUserDetails } from 'store/actions/userDetails';
 // import { RouteProp, useNavigation } from '@react-navigation/native';
 
 type AuthNavigationProps = StackNavigationProp<
-  AuthParamList,
+  DashboardParamList,
   'CompleteOnboarding1'
 >;
 type Props = {
@@ -25,20 +27,17 @@ type Props = {
 
 const CompleteOnboarding1 = ({ navigation: { navigate } }: Props) => {
   const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
+    (state: RootState) => state.User,
   );
-  // const navigation = useNavigation();
-  const {
-    Auth: { accessDashboard, getAuthenticate },
-  } = useDispatch();
+  const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
-    getAuthenticate();
+  useEffect(() => {
+    dispatch(fetchUserDetails())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const continueProcess = async () => {
-    accessDashboard();
-    navigate('UserDashboard'); // Fix: Correct the screen name to 'Dashboard'
+    navigate('DashboardHome'); // Fix: Correct the screen name to 'Dashboard'
   };
 
   return (

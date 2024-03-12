@@ -20,9 +20,11 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: Typography.fontFamily.SoraMedium,
-    fontSize: hp(12),
+    fontSize: 12,
+    fontWeight: '600',
     lineHeight: hp(15),
     textTransform: 'uppercase',
+    letterSpacing: 1.92,
     color: Colors.COUCH_BLUE,
   },
   headerCountContainer: {

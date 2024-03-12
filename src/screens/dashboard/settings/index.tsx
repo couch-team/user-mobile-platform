@@ -3,8 +3,7 @@ import useAppDispatch from 'hooks/useAppDispatch';
 import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
-import { logout } from 'store/slice/authSlice';
+import { logout } from 'store/actions/logout';
 
 const Settings = () => {
   const dispatch = useAppDispatch();

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -11,7 +11,10 @@ import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/slice/moodSlice';
+import { clearMoodReducer  } from 'store/slice/moodSlice';
+import { showMessage } from 'react-native-flash-message';
+import { fetchMoods } from 'store/actions/mood';
+import MoodChart from 'components/charts/moodChart';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -23,15 +26,17 @@ type Props = {
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   const dispatch = useAppDispatch();
+  const [ currentPage, setCurrentPage ] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchMoods(1))
+    dispatch(fetchMoods(currentPage))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // return(() => {
+    //   dispatch(clearMoodReducer())
+    // })
+  }, [ currentPage ]);
 
-  const { moods, isFetchingMoods } = useSelector((state: RootState) => state.Mood);
-  console.log(moods,'mood list');
-
+  const { moods, isFetchingMoods, hasFetchedMoods, reached_end } = useSelector((state: RootState) => state.Mood);
   const groupedMoods = groupTransactions(moods);
 
   return (
@@ -48,7 +53,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
         <Image source={Images.plus} style={styles.plusIcon} />
       </TouchableOpacity>
       {(() => {
-        if (moods.length === 0) {
+        if (moods.length === 0 && !isFetchingMoods) {
           return (
             <View style={styles.emptyMoodTrackerContainer}>
               <View style={styles.emptyMoodIconContainer}>
@@ -72,20 +77,54 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
       })()}
       <View style={styles.bodyContainer}>
         <SectionList
+          onEndReached={() => !reached_end && !isFetchingMoods && setCurrentPage(currentPage + 1)}
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
+          ListHeaderComponent={
+            <View style={{ width: '100%', paddingHorizontal: 24, }}>
+              <MoodChart/>
+            </View>
+          }
+          ListFooterComponent={
+            reached_end 
+              ?  
+              moods?.length > 0
+                ?           
+                <View style={styles.reachedEndContainer}>
+                  <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
+                </View>
+                :
+                <View></View>
+              :
+              (hasFetchedMoods && isFetchingMoods)
+                ?
+                <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+                :
+                <View></View>
+          }
           renderItem={({ item, index }) => {
             return (
-              <View style={styles.itemMoodContainer} key={index}>
-                <SVGIcon name={item?.mood?.toLowerCase()} />
-                <View style={styles.itemMoodBodyContainer}>
-                  <Text style={[styles.itemMoodMainText]}>{item.mood}</Text>
-                  <Text style={styles.itemMoodBodyText}>
-                    {moment(item.created_at).fromNow()} -{' '}
-                    {moment(item.created_at).format('LT')}
-                  </Text>
+              <TouchableOpacity onPress={() => navigate("CompleteAddMood",item)}>
+                <View style={styles.itemMoodContainer} key={index}>
+                  { item?.emotion?.mood?.icon_url 
+                      ? 
+                      <Image 
+                        style={styles.moodEmoji}
+                        source={{ uri: item?.emotion?.mood?.icon_url }}
+                        resizeMode='cover'
+                      /> 
+                      : 
+                      <View style={styles.dummyMoodEmoji}></View> 
+                  }
+                  <View style={styles.itemMoodBodyContainer}>
+                    <Text style={[styles.itemMoodMainText]}>{item?.emotion?.title}</Text>
+                    <Text style={styles.itemMoodBodyText}>
+                      {moment(item.created_at).fromNow()} -{' '}
+                      {moment(item.created_at).format('LT')}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
           renderSectionHeader={({ section: { title, isToday } }) => {
@@ -104,7 +143,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
-      <Loader color={Colors.WHITE} loading={isFetchingMoods}/>
+      <Loader color={Colors.WHITE} loading={!hasFetchedMoods && isFetchingMoods}/>
     </SafeAreaView>
   );
 };

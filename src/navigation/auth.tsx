@@ -33,15 +33,6 @@ const AuthNavigation = () => {
       <Stack.Screen component={BasicProfile} name="BasicProfile" />
       <Stack.Screen component={Nationality} name="Nationality" />
       <Stack.Screen component={UploadProfile} name="UploadProfile" />
-      <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
-      <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
-      <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />
-      <Stack.Screen component={UserOnboarding3} name="UserOnboarding3" />
-      <Stack.Screen component={UserOnboarding4} name="UserOnboarding4" />
-      <Stack.Screen
-        component={CompleteOnboarding1}
-        name="CompleteOnboarding1"
-      />
     </Stack.Navigator>
   );
 };

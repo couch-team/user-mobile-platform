@@ -3,8 +3,8 @@ import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-import { medicalConditions } from 'constants/data';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { medicalConditions, referral_mediums } from 'constants/data';
+import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   FormTextInput,
@@ -16,9 +16,15 @@ import { Images } from 'theme/config';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { $api } from 'services';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setGoal, setReferralChannel } from 'store/slice/preferenceSlice';
+import { setPreference } from 'store/slice/userSlice';
+import { showMessage } from 'react-native-flash-message';
+import { fetchUserDetails } from 'store/actions/userDetails';
 
 type AuthNavigationProps = StackNavigationProp<
-AuthParamList,
+DashboardParamList,
   'UserOnboarding3'
 >;
 type Props = {
@@ -26,45 +32,50 @@ type Props = {
 };
 
 const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
-  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding4'>>();
+  const { params } = useRoute<RouteProp<DashboardParamList, 'UserOnboarding4'>>();
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
+  const { goal, ever_had_therapy, physical_status, referral_channel } = useSelector((state: RootState) => state.Preference);
+  const dispatch = useAppDispatch();
 
-  const [selectedOptions, setSelectedOptions] = useState<any>('');
-  const [referral, setReferral] = useState('');
-
-  const {
-    User: { onboardUser },
-  } = useDispatch();
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.onboardUser,
-  );
-
-  const goal = useSelector((state: RootState) => state.User.goalOnboarding);
-  const physical = useSelector((state: RootState) => state.User.physicalOnboarding);
-  const therapy = useSelector((state: RootState) => state.User.therapyOnboarding);
 
   const continueProcess =  async () => {
- 
-    const data = {
-     ...goal,
-     ...physical,
-     ...therapy,
-      referral_channel: selectedOptions || referral,
-    };
-    console.log('data before onboarding',data)
-    const res = await onboardUser(data);
-    
-      navigate('CompleteOnboarding1');
-
+    try{
+      setIsSubmitting(true)
+      const response = await $api.post('/api/user/preference/', {
+        goal,
+        ever_had_therapy,
+        physical_status,
+        referral_channel
+      })
+      if($api.isSuccessful(response)){
+        dispatch(setPreference(response?.data))
+        navigate('CompleteOnboarding1');
+      }
+      else{
+        if(response?.response?.status === 400){
+          dispatch(fetchUserDetails())
+          showMessage({
+            type: 'info',
+            message: "Preference already exists",
+            duration: 3000,
+          })
+          navigate('DashboardHome')
+        }
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsSubmitting(false)
+    }
   };
-  // console.log(selectedOptions)
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.onboardingContainer}>
       <ProgressHeader
-        secondProgress={1}
-        thirdProgress={1}
-        fourthProgress={1}
-        firstProgress={1}
+        status={4}
+        bars={4}
       />
       <OnboardingHeader
         headerTitle="Health Related Info"
@@ -85,9 +96,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
                   checkTitle={item.title}
                   index={index}
                   checkBoxStyle={styles.checkboxStyle}
-                  onSelectOption={() => setSelectedOptions(item.title)}
+                  onSelectOption={() => dispatch(setReferralChannel(item.title))}
                   checkTitleStyle={styles.checkboxTextStyle}
-                  selectedCheck={selectedOptions?.includes(item.title)}
+                  selectedCheck={referral_channel == item.title}
                 />
               );
             }}
@@ -98,8 +109,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
             label="Not on the list?"
             formLabelTextStyle={styles.formLabelTextStyle}
             placeholder="Please specify"
-            onChangeText={(text: string) => setReferral(text)}
+            onChangeText={(text: string) => dispatch(setReferralChannel(text))}
             inputIcon={Images['help-circle']}
+            value={referral_mediums.includes(referral_channel) ? "" :referral_channel}
           />
         </KeyboardAvoidingView>
       </View>
@@ -107,9 +119,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={selectedOptions?.length > 0 || referral ? false : true}
+          disabled={!referral_channel}
           title="Complete"
-          loading={loading}
+          loading={isSubmitting}
           onPress={() => continueProcess()}
         />
       </View>

@@ -6,14 +6,13 @@ import { Images } from 'theme/config';
 import { moods } from 'constants/data';
 import { LongButton } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchUserDetails } from 'store/slice/userSlice';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'UserOnboarding'>;
+type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'UserOnboarding'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -24,9 +23,7 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
 
   const completePrivacy = async () => {
     setShowPrivacyModal(false);
-    setTimeout(() => {
-      navigate('UserOnboarding1');
-    }, 500);
+    navigate('UserOnboarding1');
   };
 
   return (
@@ -34,13 +31,22 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
       <View style={styles.logoContainer}>
         <Image source={Images.logo} resizeMode="contain" style={styles.logo} />
         <View style={styles.profileImageContainer}>
-          <Image
-            source={{uri: `${authProfileDetails?.profile?.avatar_url}`}}
-            resizeMode="contain"
-            style={styles.profileImage}
-          />
-          <Text style={styles.profileName}>Hi {authProfileDetails?.first_name},</Text>
+          {authProfileDetails?.profile?.avatar_url ? (
+            <Image
+              source={{ uri: authProfileDetails?.profile?.avatar_url }}
+              resizeMode="cover"
+              style={styles.profileImage}
+            />
+          ) : (
+            <Image
+              source={Images['profile-image']}
+              resizeMode="cover"
+              style={styles.profileImage}
+            />
+          )}
         </View>
+        <Text style={styles.profileName}>Hi {authProfileDetails?.first_name},</Text>
+        <Text style={styles.instructionHeaderText}>Help us understand you better...</Text>
         <Text style={styles.instructionText}>
           Let's customize your account better you would help in answering a few
           questions. Would you love to answer the questions now?

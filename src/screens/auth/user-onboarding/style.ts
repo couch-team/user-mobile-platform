@@ -5,6 +5,13 @@ import { deviceWidth, hp, wp } from '../../../constants/layout';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    backgroundColor: Colors.PRIMARY,
+    paddingHorizontal: 24,
+  },
+  onboardingContainer: {
+    flex: 1,
+    width: '100%',
     backgroundColor: Colors.PRIMARY,
   },
   logoContainer: {
@@ -18,7 +25,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bodyContainer: {
-    marginTop: hp(20),
+    marginTop: 28,
     marginHorizontal: wp(24),
   },
   instructionBodyText: {
@@ -30,7 +37,9 @@ export const styles = StyleSheet.create({
   },
   mainBodyText: {
     fontFamily: Typography.fontFamily.SoraRegular,
-    fontSize: hp(18),
+    fontSize: 18,
+    lineHeight: 28.8,
+    letterSpacing: -0.64,
     color: Colors.WHITE,
   },
   helpListContainer: {
@@ -39,6 +48,7 @@ export const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     paddingBottom: hp(100),
+    width: '100%',
   },
   formLabelTextStyle: {
     color: Colors.WHITE,
@@ -78,9 +88,7 @@ export const styles = StyleSheet.create({
     height: hp(20),
   },
   profileImageContainer: {
-    marginTop: hp(40),
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 72,
   },
   profileImage: {
     width: 100,
@@ -89,33 +97,43 @@ export const styles = StyleSheet.create({
   },
   profileName: {
     fontFamily: Typography.fontFamily.SoraBold,
-    fontSize: hp(26),
-    lineHeight: hp(40),
-    paddingTop: hp(18),
+    fontWeight: '800',
+    fontSize: 26,
+    lineHeight: 36,
+    marginTop: 24,
     color: Colors.COUCH_BLUE,
   },
-  instructionText: {
-    paddingTop: hp(50),
-    color: Colors.COUCH_BLUE_500,
-    lineHeight: hp(25),
-    fontSize: hp(13),
-    paddingHorizontal: wp(20),
+  instructionHeaderText: {
+    marginTop: 28,
+    color: Colors.COUCH_BLUE_1100,
+    lineHeight: 28,
+    fontSize: 20,
     textAlign: 'center',
     fontFamily: Typography.fontFamily.SoraRegular,
+  },
+  instructionText: {
+    marginTop: 20,
+    color: Colors.COUCH_BLUE_500,
+    lineHeight: 25,
+    fontSize: 14,
+    textAlign: 'center',
+    fontFamily: Typography.fontFamily.SoraRegular,
+    letterSpacing: -0.48,
   },
   topPadding: {
     paddingTop: hp(20),
   },
   moodIconContainer: {
     flexDirection: 'row',
-    marginTop: hp(48),
-    width: wp(336),
+    marginTop: 48,
     alignItems: 'center',
+    gap: 10,
     justifyContent: 'space-between',
   },
   moodContainer: {
-    width: 72,
+    flex:1,
     height: 72,
+    width: 72,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -126,7 +144,7 @@ export const styles = StyleSheet.create({
     height: hp(40),
   },
   buttonStyle: {
-    marginTop: hp(80),
+    marginTop: 98,
   },
   longArrowContainer: {
     flexDirection: 'row',

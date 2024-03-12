@@ -30,8 +30,8 @@ import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
 import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
 import { showMessage } from 'react-native-flash-message';
+import { fetchJournals } from 'store/actions/journal';
 // import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -182,9 +182,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setOpenVoiceModal(true);
   }, []);
 
-  // console.log(mood, 'Mood');
-  // console.log(selectedMood, 'selectedMood');
-
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
@@ -217,7 +214,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               ref={richText}
               style={styles.noteBodyText}
               onChange={descriptionText => {
-                // console.log(descriptionText)
                 const replaceHTML = descriptionText
                   .replace(/<(.|\n)*?>/g, '')
                   .trim();

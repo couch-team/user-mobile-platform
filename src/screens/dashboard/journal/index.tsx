@@ -20,8 +20,6 @@ import { RootState } from 'store';
 import moment from 'moment';
 import { groupJournalTransactions } from 'utils';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
-import { $api } from 'services';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,

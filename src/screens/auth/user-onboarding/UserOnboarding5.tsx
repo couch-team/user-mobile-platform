@@ -20,27 +20,25 @@ type Props = {
 
 const UserOnboarding5 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-  const {
-    Auth: { pendingProfileCompletion },
-  } = useDispatch();
+  const userProfile = useSelector((state: RootState) => state.User);
+  const { ever_had_therapy } = useSelector((state: RootState) => state.Preference)
 
   const continueProcess = async () => {
     const data = {
       ...userProfile,
       mentalInfo: {
-        beenToTherapy: userProfile?.mentalInfo?.beenToTherapy,
+        beenToTherapy: ever_had_therapy,
         previousMood: selectedStatus,
       },
     };
-    const res = await pendingProfileCompletion(data);
-    if (res) {
+    // const res = await pendingProfileCompletion(data);
+    // if (res) {
       navigate('UserOnboarding6');
-    }
+    // }
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={0.4} />
+      <ProgressHeader status={1} bars={4} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Mental Related Info"

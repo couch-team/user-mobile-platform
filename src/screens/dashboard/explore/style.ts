@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
   contentContainerStyle: {
     marginTop: hp(32),
     marginLeft: wp(24),
+    paddingBottom: 100,
   },
   exploreItemContainerStyle: {
     marginBottom: hp(24),
