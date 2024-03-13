@@ -6,11 +6,13 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
+    position: 'relative',
   },
   noteOptionBodyContainer: {
     // marginHorizontal: wp(10),
     // paddingVertical:hp(12)
     marginTop: hp(12),
+    flex: 1,
   },
   titleTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
@@ -46,7 +48,7 @@ export const styles = StyleSheet.create({
     // alignSelf: 'center',
     borderRadius: hp(64),
     height: hp(68),
-    marginVertical:10,
+    marginVertical: 10,
     backgroundColor: Colors.PRIMARY_DARKBLUE,
   },
   noteIconContainer: {

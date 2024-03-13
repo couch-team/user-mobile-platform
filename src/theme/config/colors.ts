@@ -80,6 +80,24 @@ const Colors = {
   DATE_COLOR: '#A2A5E9',
 };
 
+export const MoodColors = {
+  CALM: 'rgba(208, 210, 255, 1)',
+  ANXIOUS: 'rgba(207, 241, 193, 1)',
+  EXCITED: 'rgba(211, 176, 245, 1)',
+  HAPPY: 'rgba(255, 234, 151, 1)',
+  SAD: 'rgba(214, 214, 214, 1)',
+  ANGRY: 'rgba(248, 155, 155, 1)',
+};
+
+export const MoodColorsBackground = {
+  CALM: 'rgba(115, 120, 222, 0.38)',
+  ANXIOUS: 'rgba(50, 64, 69, 1)',
+  EXCITED: 'rgba(55, 44, 91, 1)',
+  HAPPY: 'rgba(69, 52, 33, 1)',
+  SAD: 'rgba(243, 243, 252, 0.08)',
+  ANGRY: 'rgba(67, 40, 64, 1)',
+};
+
 export const lightColors = {
   ...Colors,
 };

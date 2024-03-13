@@ -1,4 +1,4 @@
-import { deviceWidth, hp, wp } from 'constants/layout';
+import { hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   previewContainer: {
     marginVertical: hp(10),
-    width:"auto"
+    paddingHorizontal: 20,
   },
   previewTitle: {
     fontWeight: '700',
@@ -22,10 +22,11 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_BLUE_900,
   },
   // previewBodyText:{
-   
+
   // },
   previewDocument: {
-    paddingTop: hp(10)
+    paddingTop: hp(10),
+    paddingHorizontal: 10,
   },
   previewButtonContainer: {
     backgroundColor: Colors.COUCH_BLUE_200,
@@ -40,14 +41,14 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_BLUE,
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(14),
-    fontWeight:"900",
-    width:"auto"
+    fontWeight: '900',
+    width: 'auto',
   },
   headerRightContainer: {
     flexDirection: 'row',
     width: 115,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerRightIconContainer: {
     width: 48,

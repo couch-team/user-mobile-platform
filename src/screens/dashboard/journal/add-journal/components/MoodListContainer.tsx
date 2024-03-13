@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
@@ -7,44 +7,42 @@ import { BaseModal, LongButton } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { useFocusEffect } from '@react-navigation/native';
 import { fetchMoods } from 'store/actions/mood';
 
 export type MoodType =
+  | 'Calm'
+  | 'Anxious'
+  | 'Excited'
   | 'Happy'
   | 'Sad'
-  | 'Angry'
-  | 'Excited'
-  | 'Anxious'
-  | 'Calm';
+  | 'Angry';
 
-// interface MoodModalProps {
-//   isVisible: boolean;
-//   onSelectMood?: any;
-//   onClose: () => void;
-//   setSelectedMood: any;
-// }
-
-const MoodModal = ({
-  isVisible,
-  onSelectMood,
-  onClose,
-  setSelectMood,
-}: any) => {
+const MoodModal = ({ isVisible, onSelectMood, onClose, setMoodType }: any) => {
   const { moods } = useSelector((state: RootState) => state.Mood);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchMoods(1));
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchMoods(1));
+  //   return () => {};
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchMoods(1));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
+
+  // console.log(moods);
 
   const [selectedMood, setSelectedMood] = useState(null);
 
   const handleMoodSelection = (mood: any) => {
-    setSelectMood(mood);
     setSelectedMood(mood);
-    onSelectMood(mood.icon_url);
+    onSelectMood(mood.icon_url, mood.title, mood.id);
+    setMoodType(mood.title);
   };
 
   return (
@@ -102,22 +100,22 @@ const styles = StyleSheet.create({
   moodContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: wp(8),
-    // justifyContent: 'space-around',
+    gap: wp(5),
+    // justifyContent: 'flex-start',
     alignItems: 'center',
   },
   imageView: {
-    marginBottom: wp(10),
-    paddingVertical: wp(10),
-    paddingHorizontal: wp(6),
+    margin: wp(3),
+    // paddingVertical: wp(10),
+    // paddingHorizontal: wp(6),
     borderWidth: 1,
     borderRadius: wp(40),
     borderColor: Colors.COUCH_GREEN_150,
-    // backgroundColor: Colors.COUCH_GREEN_150,
+    backgroundColor: Colors.COUCH_GREEN_150,
   },
   image: {
-    width: wp(60),
-    height: hp(60),
+    width: wp(70),
+    height: hp(70),
     resizeMode: 'contain',
   },
   mood: {

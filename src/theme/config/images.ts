@@ -75,23 +75,46 @@ const Images = {
   'voice-note': require('../../assets/images/icons/voice-note.png'),
   users: require('../../assets/images/icons/users.png'),
   upload: require('../../assets/images/icons/upload.png'),
+  'calender-left-arrow': require('../../assets/images/icons/calender-left-arrow.png'),
+  'calender-right-arrow': require('../../assets/images/icons/calender-right-arrow.png'),
 
   //note-taking icons
-  'active-note-text': require('../../assets/images/note-options/active-text.png'),
+  'active-note-text': require('../../assets/images/icons/add-text-active.png'),
   'active-note-image': require('../../assets/images/note-options/active-image.png'),
-  'note-image': require('../../assets/images/note-options/image.png'),
+  'note-image': require('../../assets/images/icons/add-image-icon.png'),
   'note-mood': require('../../assets/images/note-options/mood.png'),
-  'note-text': require('../../assets/images/note-options/text.png'),
-  'note-video': require('../../assets/images/note-options/video.png'),
+  'note-text': require('../../assets/images/icons/add-text-icon.png'),
+  'note-video': require('../../assets/images/icons/add-record-icon.png'),
   'note-voice': require('../../assets/images/note-options/voice.png'),
-  'note-pause': require('../../assets/images/note-options/pause.png'),
-  'note-stop': require('../../assets/images/note-options/stop.png'),
-  'note-play': require('../../assets/images/note-options/play.png'),
-  'note-retry': require('../../assets/images/note-options/retry.png'),
-  'note-check': require('../../assets/images/note-options/check.png'),
-  'note-cancel': require('../../assets/images/note-options/cancel.png'),
+  'note-pause': require('../../assets/images/icons/pause-icon.png'),
+  'note-stop': require('../../assets/images/icons/stop-icon.png'),
+  'note-play': require('../../assets/images/icons/play.png'),
+  'note-retry': require('../../assets/images/icons/restart-icon.png'),
+  'note-check': require('../../assets/images/icons/accept-audio.png'),
+  'note-cancel': require('../../assets/images/icons/cancel-record.png'),
   'smile-2': require('../../assets/images/mood-options/smile-2.png'),
+  'play-audio': require('../../assets/images/icons/play.png'),
+  'pause-audio': require('../../assets/images/icons/pause-icon.png'),
+  'cancel-audio': require('../../assets/images/icons/cancel-audio-smaill.png'),
+  'record-icon-big': require('../../assets/images/icons/record-icon.png'),
+  'record-icon-inactive': require('../../assets/images/icons/record-icon-inactive.png'),
+  'record-tracks-active': require('../../assets/images/icons/recording-tracks-active.png'),
+  'record-tracks-inactive': require('../../assets/images/icons/recording-track-inactive.png'),
+  'cancel-image': require('../../assets/images/icons/cancel-image-icon.png'),
+  'tree-icon': require('../../assets/images/icons/tree-icon.png'),
+  'eclipse-image': require('../../assets/images/icons/eclipse.png'),
 
+  // Mood icons
+  'record-mood-blue': require('../../assets/images/icons/record-mood-blue.png'),
+  'record-mood-yellow': require('../../assets/images/icons/record-mood-yellow.png'),
+  'record-mood-red': require('../../assets/images/icons/record-mood-red.png'),
+  'record-mood-green': require('../../assets/images/icons/record-mood-green.png'),
+  'record-mood-gray': require('../../assets/images/icons/record-mood-gray.png'),
+  'play-mood-blue': require('../../assets/images/icons/play-mood-blue.png'),
+  'play-mood-yellow': require('../../assets/images/icons/play-mood-yellow.png'),
+  'play-mood-red': require('../../assets/images/icons/play-mood-red.png'),
+  'play-mood-green': require('../../assets/images/icons/play-mood-green.png'),
+  'play-mood-gray': require('../../assets/images/icons/play-mood-gray.png'),
 
   //journal
   'journal-frame': require('../../assets/images/journal-frame.png'),
@@ -100,7 +123,6 @@ const Images = {
   more: require('../../assets/images/journal/more.png'),
   edit: require('../../assets/images/journal/edit.png'),
   delete: require('../../assets/images/journal/deleteicon.png'),
- 
 
   //bottom tabs
   activity: require('../../assets/images/bottom-tabs/activity.png'),
@@ -117,13 +139,13 @@ const Images = {
   'cbt-3': require('../../assets/images/cbt/cbt-3.png'),
   'cbt-4': require('../../assets/images/cbt/cbt-4.png'),
 
-   //mood
-   mood_happy: require('../../assets/images/mood-options/mood-happy.png'),
-   mood_angry: require('../../assets/images/mood-options/mood-angry.png'),
-   mood_sad: require('../../assets/images/mood-options/mood-sad.png'),
-   mood_calm: require('../../assets/images/mood-options/mood-calm.png'),
-   mood_excited: require('../../assets/images/mood-options/mood-excited.png'),
-   mood_anxious: require('../../assets/images/mood-options/mood-anxious.png'),
+  //mood
+  mood_happy: require('../../assets/images/mood-options/mood-happy.png'),
+  mood_angry: require('../../assets/images/mood-options/mood-angry.png'),
+  mood_sad: require('../../assets/images/mood-options/mood-sad.png'),
+  mood_calm: require('../../assets/images/mood-options/mood-calm.png'),
+  mood_excited: require('../../assets/images/mood-options/mood-excited.png'),
+  mood_anxious: require('../../assets/images/mood-options/mood-anxious.png'),
 };
 
 export default Images;

@@ -6,11 +6,14 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
+    position: 'relative',
   },
   noteOptionBodyContainer: {
     // marginHorizontal: wp(10),
     // paddingVertical:hp(12)
     marginTop: hp(12),
+    position: 'relative',
+    flex: 1,
   },
   titleTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
@@ -29,11 +32,11 @@ export const styles = StyleSheet.create({
   noteBodyContainer: {
     // marginTop: hp(32),
     paddingTop: hp(18),
-    flexGrow: 1
+    flexGrow: 1,
   },
-  noteBodyText:{
+  noteBodyText: {
     fontSize: 16,
-    height: '100%'
+    height: '100%',
   },
   textInput: {
     width: 200,
@@ -42,14 +45,14 @@ export const styles = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
   },
-  
+
   noteOptionContainer: {
     // width: '100%',
-    paddingVertical:10,
-    marginHorizontal:wp(40),
+    paddingVertical: 10,
+    marginHorizontal: wp(40),
     borderRadius: hp(64),
     height: hp(68),
-    marginVertical:10,
+    marginVertical: 10,
     backgroundColor: Colors.PRIMARY_DARKBLUE,
   },
   noteIconContainer: {
@@ -75,10 +78,9 @@ export const styles = StyleSheet.create({
   voiceIcon: {
     width: wp(24),
     height: hp(24),
-   
   },
   activeColor: {
-    backgroundColor:"red"
+    backgroundColor: 'red',
   },
   voiceIconContainer: {
     width: 40,
