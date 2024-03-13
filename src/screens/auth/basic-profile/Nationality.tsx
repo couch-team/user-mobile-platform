@@ -28,7 +28,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedState, setSelectedState] = useState(state_of_residence || '');
   // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
-
+  
   const proceed = () => {
     navigate('UploadProfile');
   };
@@ -36,8 +36,13 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry));
     dispatch(setStateOfResidence(selectedState));
-    proceed();
-  };
+    proceed()
+
+  // const completeProfile = () => {
+  //   dispatch(setCountry(selectedCountry));
+  //   dispatch(setStateOfResidence(selectedState));
+  // };
+
 
   useEffect(() => {
     selectedCountry && state_of_residence && proceed();

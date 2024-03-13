@@ -11,8 +11,6 @@ import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { clearMoodReducer  } from 'store/slice/moodSlice';
-import { showMessage } from 'react-native-flash-message';
 import { fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
 import { $api } from 'services';
