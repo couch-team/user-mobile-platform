@@ -12,7 +12,9 @@
     },
     "production": {
       "autoIncrement": true,
-      "buildType": "apk",
+      "android": {
+        "buildType": "apk"  
+      },
       "env": {
         "EXPO_PUBLIC_COUCH_URL": "https://api.joincouch.co"
       }

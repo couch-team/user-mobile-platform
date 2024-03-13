@@ -7,8 +7,8 @@ import { BaseModal, LongButton } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/slice/moodSlice';
 import { useFocusEffect } from '@react-navigation/native';
+import { fetchMoods } from 'store/actions/mood';
 
 export type MoodType =
   | 'Calm'

@@ -24,11 +24,11 @@ import { RootState } from 'store';
 import moment from 'moment';
 import { groupJournalTransactions } from 'utils';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
 import { $api } from 'services';
 import { useFocusEffect } from '@react-navigation/native';
 import { MoodColors, MoodColorsBackground } from 'theme/config/colors';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { fetchJournals } from 'store/actions/journal';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
