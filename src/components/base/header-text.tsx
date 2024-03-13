@@ -50,11 +50,15 @@ export const HeaderText = ({
               </Text>
             </View>
           </View>
-          <Image
-            source={bannerImage}
-            resizeMode="contain"
-            style={styles.bannerImageStyle}
-          />
+          {
+            bannerImage
+              &&
+            <Image
+              source={bannerImage}
+              resizeMode="contain"
+              style={styles.bannerImageStyle}
+            />
+          }
         </View>
       )}
     </View>

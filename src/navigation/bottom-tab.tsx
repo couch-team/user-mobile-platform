@@ -12,6 +12,7 @@ import {
 import Activities from 'screens/dashboard/activities';
 import Explore from 'screens/dashboard/explore';
 import Home from 'screens/dashboard/home';
+import Planner from 'screens/dashboard/planner';
 import Profile from 'screens/dashboard/profile';
 import Settings from 'screens/dashboard/settings';
 import { Colors, Images, Typography } from 'theme/config';
@@ -85,7 +86,7 @@ const BottomTabBar = () => {
 
       <DashboardBottomTabs.Screen
         name="Activities"
-        component={Activities}
+        component={Planner}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (

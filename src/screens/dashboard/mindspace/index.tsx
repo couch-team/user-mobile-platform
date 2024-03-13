@@ -1,13 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
-import HeaderText from 'components/base/header-text';
 import { MindSpaceHeader } from './components';
 import { Listen, Read, Watch } from './modules';
+import { HeaderBar, HeaderText } from 'components';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'MindSpace'>;
 

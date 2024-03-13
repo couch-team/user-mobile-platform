@@ -7,6 +7,7 @@ import { Images } from 'theme/config';
 import { deviceWidth } from 'constants/layout';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -35,7 +36,7 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
   const { currentPage: pageIndex } = sliderState;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <XButton
           xButtonStyle={styles.buttonStyle}
@@ -118,7 +119,7 @@ const TakeTour = ({ navigation: { goBack } }: Props) => {
           })}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

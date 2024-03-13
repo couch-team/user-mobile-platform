@@ -94,13 +94,13 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
                   <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
                 </View>
                 :
-                <View></View>
+                <View style={styles.reachedEndContainer}></View>
               :
               (hasFetchedMoods && isFetchingMoods)
                 ?
                 <ActivityIndicator size={'small'} color={Colors.WHITE}/>
                 :
-                <View></View>
+                <View style={styles.reachedEndContainer}></View>
           }
           renderItem={({ item, index }) => {
             return (

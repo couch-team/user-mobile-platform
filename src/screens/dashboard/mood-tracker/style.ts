@@ -7,6 +7,22 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.PRIMARY,
   },
+  plusIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: hp(20),
+    right: wp(20),
+    zIndex: 100000,
+    backgroundColor: Colors.COUCH_BLUE,
+  },
+  plusIcon: {
+    width: wp(44),
+    height: hp(44),
+  },
   bodyContainer: {
     marginTop: hp(20),
   },
@@ -57,22 +73,6 @@ export const styles = StyleSheet.create({
     paddingTop: hp(8),
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
-  },
-  plusIconContainer: {
-    width: 88,
-    height: 88,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: hp(20),
-    right: wp(20),
-    zIndex: 100000,
-    backgroundColor: Colors.COUCH_BLUE,
-  },
-  plusIcon: {
-    width: wp(44),
-    height: hp(44),
   },
   emptyMoodTrackerContainer: {
     marginTop: hp(20),
@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     borderRadius: 56,
   },
   reachedEndContainer: {
-  
+    paddingBottom: 100,
   },
   reachedEnd: {
     color: Colors.WHITE,

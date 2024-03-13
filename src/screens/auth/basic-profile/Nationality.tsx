@@ -9,10 +9,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-// import useAppDispatch from 'hooks/useAppDispatch';
-// import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
+import useAppDispatch from 'hooks/useAppDispatch';
 
 type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
 type Props = {
@@ -107,5 +106,5 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     </SafeAreaView>
   );
 };
-
+}
 export default Nationality;
