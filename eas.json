@@ -11,7 +11,11 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "buildType": "apk",
+      "env": {
+        "EXPO_PUBLIC_COUCH_URL": "https://api.joincouch.co"
+      }
     }
   },
   "submit": {
