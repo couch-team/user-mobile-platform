@@ -29,6 +29,7 @@ const Explore = ({ navigation: { navigate } }: Props) => {
           data={exploreOptions}
           numColumns={2}
           contentContainerStyle={styles.contentContainerStyle}
+          ListFooterComponent={<View style={{ paddingBottom: 120 }}></View>}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity

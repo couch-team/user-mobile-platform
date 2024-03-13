@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     marginTop: hp(20),
   },
   buttonStyle: {
-    marginTop: hp(20),
+    marginTop: hp(0),
     marginRight: wp(20),
   },
   backgroundImage: {

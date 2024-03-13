@@ -15,6 +15,7 @@ import { clearMoodReducer  } from 'store/slice/moodSlice';
 import { showMessage } from 'react-native-flash-message';
 import { fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
+import { $api } from 'services';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -25,8 +26,30 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
+  const [ chart_loading, setChartLoading ] = useState(false);
+  const [ chartData, setChartData ] = useState<{ date: string, count: number }[]>([])
   const dispatch = useAppDispatch();
   const [ currentPage, setCurrentPage ] = useState(1);
+
+  const fetchChartData = async() => {
+    try{
+        setChartLoading(true)
+        const response = await $api.fetch('/api/mood/dates')
+        if($api.isSuccessful(response)){
+            setChartData(response?.data)
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+    finally{
+        setChartLoading(false)
+    }
+  }
+
+  useEffect(() => {
+      fetchChartData()
+  },[])
 
   useEffect(() => {
     dispatch(fetchMoods(currentPage))
@@ -82,7 +105,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           contentContainerStyle={styles.contentContainerStyle}
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24, }}>
-              <MoodChart/>
+              <MoodChart data={chartData} is_loading={chart_loading}/>
             </View>
           }
           ListFooterComponent={
@@ -94,13 +117,13 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
                   <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
                 </View>
                 :
-                <View></View>
+                <View style={styles.reachedEndContainer}></View>
               :
               (hasFetchedMoods && isFetchingMoods)
                 ?
                 <ActivityIndicator size={'small'} color={Colors.WHITE}/>
                 :
-                <View></View>
+                <View style={styles.reachedEndContainer}></View>
           }
           renderItem={({ item, index }) => {
             return (
