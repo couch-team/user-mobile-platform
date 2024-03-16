@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance } from 'axios';
 import { showMessage } from 'react-native-flash-message';
-import store from '../store';
-import { logout, setAccessToken, setRefreshToken } from 'store/slice/authSlice';
-import { $api } from 'services';
+import store, { AppDispatch } from '../store';
+import { setAccessToken, setRefreshToken } from 'store/slice/authSlice';
+import { logout } from 'store/actions/logout';
+import useAppDispatch from 'hooks/useAppDispatch';
 
 export const baseURL = process.env.EXPO_PUBLIC_COUCH_URL;
 
@@ -23,7 +25,6 @@ class ServiceApi {
   }
 
   setupHeaders() {
-    // console.log(store.getState().Auth.access_token);
     return {
       headers: {
         'Content-Type': 'application/json',
@@ -80,12 +81,12 @@ class ServiceApi {
     }
   }
 
-  async update(url: string, data: any, form_data?: boolean) {
+  async update(url: string, data: any) {
     try {
       const response = await axiosClient.put(
         this.appendToURL(url),
         data,
-        form_data ? this.setupImageHeaders() : this.setupHeaders(),
+        this.setupHeaders(),
       );
       return response;
     } catch (err: any) {
@@ -95,7 +96,7 @@ class ServiceApi {
 
   async patch(url: string, data: any, form_data?: boolean) {
     try {
-      const response = await axiosClient.put(
+      const response = await axiosClient.patch(
         this.appendToURL(url),
         data,
         form_data ? this.setupImageHeaders() : this.setupHeaders(),
@@ -107,10 +108,8 @@ class ServiceApi {
   }
 
   isSuccessful(response: any): boolean {
-    // console.log(JSON.stringify(response));
     const codes = [200, 201, 202, 204];
     const validationErrorCodes = [422, 400, 403];
-    const authorizationErrorCodes = [401];
     if (
       !codes.includes(
         response?.response?.status ||
@@ -119,43 +118,18 @@ class ServiceApi {
       )
     ) {
       if (validationErrorCodes.includes(response?.response?.status)) {
-        const keys = response?.response?.data?.error
-          ? Object.keys(response?.response?.data?.error?.message)
-          : Object.keys(response?.response?.data?.errors);
-        if (Array.isArray(response?.response?.data?.error?.message[keys[0]])) {
-          showMessage({
-            message: response?.response?.data?.error?.message[keys[0]][0],
-            duration: 3000,
-            type: 'danger',
-          });
-        } else if (!Array.isArray(response?.response?.data?.error?.message)) {
-          showMessage({
-            message: response?.response?.data?.error?.message,
-            duration: 3000,
-            type: 'danger',
-          });
-        } else if (response?.response?.data?.errors[keys[0]][0]) {
-          showMessage({
-            message: response?.response?.data?.errors[keys[0]],
-            duration: 3000,
-            type: 'danger',
-          });
-        } else {
-          showMessage({
-            message: response?.response?.data?.message,
-            duration: 3000,
-            type: 'success',
-          });
-        }
-      } else if (authorizationErrorCodes.includes(response?.response?.status)) {
-        //do nothing here since there is an interceptor below to handle authorization errors
-      } else if (response?.response?.status === 500) {
         showMessage({
-          message: 'server Error',
+          message: response?.response?.data?.message,
           duration: 3000,
           type: 'danger',
         });
       }
+    } else if (response?.response?.status === 500) {
+      showMessage({
+        message: 'server Error',
+        duration: 3000,
+        type: 'danger',
+      });
     }
     return !response?.data?.errors &&
       codes.includes(response?.status || response?.statusCode || response?.code)
@@ -164,10 +138,8 @@ class ServiceApi {
   }
 }
 
-axiosClient.interceptors.request.use(async config => {
-  //   console.log(config);
-  return config;
-});
+export default new ServiceApi();
+const $api = new ServiceApi();
 
 async function refreshToken() {
   try {
@@ -184,37 +156,50 @@ async function refreshToken() {
   }
 }
 
+axiosClient.interceptors.request.use(
+  config => {
+    // console.log('request below')
+    // console.log(config)
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+  },
+);
+
 axiosClient.interceptors.response.use(
-  response => {
-    return response;
+  responseConfig => {
+    // console.log('Response below')
+    // console.log(responseConfig)
+    return responseConfig;
   },
   async error => {
+    const dispatch: AppDispatch = store.dispatch;
     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest.retry
-    ) {
+    if (error.response.status === 401 && !originalRequest.retry) {
       originalRequest.retry = true;
-
       try {
-        const token = await refreshToken();
-        if ($api.isSuccessful(token)) {
+        const newTokenResponse = await refreshToken();
+        originalRequest.headers[
+          'Authorization'
+        ] = `Bearer ${newTokenResponse?.data?.access}`;
+        if ($api.isSuccessful(newTokenResponse)) {
           return axiosClient(originalRequest);
+        } else {
+          dispatch(logout());
+          showMessage({
+            message: 'Session expired',
+            duration: 3000,
+            type: 'danger',
+          });
+          return error;
         }
       } catch (refreshError) {
-        showMessage({
-          message: 'Session expired',
-          duration: 3000,
-          type: 'danger',
-        });
-        store.dispatch(logout());
+        return error;
       }
     }
 
     return Promise.reject(error);
   },
 );
-
-export default new ServiceApi();

@@ -1,41 +1,36 @@
-import React from 'react';
+/* eslint-disable react/self-closing-comp */
+import React, { Fragment } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
 
-export const ProgressHeader = ({ status }: { status: number }) => {
+export const ProgressHeader = ({
+  status,
+  bars,
+}: {
+  status: number;
+  bars: number;
+}) => {
   return (
     <View style={styles.progressHeaderContainer}>
-      <View
-        style={[
-          styles.progressBar,
-          status >= 1 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      />
-      <View
-        style={[
-          styles.progressDot,
-          status > 1 && { backgroundColor: Colors.GREEN_100 },
-        ]}
-      />
-      <View
-        style={[
-          styles.progressBar,
-          status >= 2 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      />
-      <View
-        style={[
-          styles.progressDot,
-          status > 2 && { backgroundColor: Colors.GREEN_100 },
-        ]}
-      />
-      <View
-        style={[
-          styles.progressBar,
-          status >= 3 && { backgroundColor: Colors.COUCH_BLUE },
-        ]}
-      />
+      {Array.from({ length: bars }, (_, index) => index)?.map(index => {
+        return (
+          <Fragment key={index}>
+            <View
+              style={[
+                styles.progressBar,
+                status >= index + 1 && { backgroundColor: Colors.COUCH_BLUE },
+              ]}></View>
+            {bars !== index + 1 && (
+              <View
+                style={[
+                  styles.progressDot,
+                  status > index + 1 && { backgroundColor: Colors.GREEN_100 },
+                ]}></View>
+            )}
+          </Fragment>
+        );
+      })}
     </View>
   );
 };

@@ -30,10 +30,10 @@ import MoodModal from './components/MoodListContainer';
 import VoiceModal from './components/VoiceModel';
 import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournals } from 'store/slice/journalSlice';
 import { showMessage } from 'react-native-flash-message';
 import { MoodColors } from 'theme/config/colors';
 import JournalPromptModal from './components/JournalPrompt';
+import { fetchJournals } from 'store/actions/journal';
 // import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -338,9 +338,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+        allowsEditing: false,
+        // aspect: [4, 3],
+        quality: 0.2,
       });
       if (!result.canceled) {
         setJournalEntries([
@@ -367,7 +367,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
   const handleChangeImage = async (item: any, index: number) => {
     try {
-      const result: any = await ImagePicker.launchImageLibraryAsync();
+      const result: any = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        // aspect: [4, 3],
+        quality: 0.2,
+      });
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];

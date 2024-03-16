@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ACTIVITY, EXPLORE, HOME, PROFILE, SETTINGS } from 'assets/svg';
 import { hp, wp } from 'constants/layout';
 import React from 'react';
 import {
@@ -11,13 +12,14 @@ import {
 import Activities from 'screens/dashboard/activities';
 import Explore from 'screens/dashboard/explore';
 import Home from 'screens/dashboard/home';
+import Planner from 'screens/dashboard/planner';
 import Profile from 'screens/dashboard/profile';
 import Settings from 'screens/dashboard/settings';
 import { Colors, Images, Typography } from 'theme/config';
 import { BottomTabParamList } from 'utils/types/navigation-types';
 
 interface TabBarIconProps {
-  image: ImageSourcePropType;
+  icon: JSX.Element;
   focused: boolean;
   label: string;
 }
@@ -25,18 +27,10 @@ interface TabBarIconProps {
 const DashboardBottomTabs = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabBar = () => {
-  function TabBarIcon({ image, label, focused }: TabBarIconProps) {
+  function TabBarIcon({ icon, label, focused }: TabBarIconProps) {
     return (
-      <View style={styles.tabBarContainer}>
-        <Image
-          source={image}
-          resizeMode="contain"
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{
-            height: 28,
-            width: 28,
-          }}
-        />
+      <View style={[styles.tabBarContainer, focused && { borderTopColor: Colors.COUCH_BLUE, }]}>
+        {icon}
         <Text style={[styles.titleStyle, focused && { color: Colors.WHITE }]}>
           {label}
         </Text>
@@ -50,8 +44,9 @@ const BottomTabBar = () => {
       screenOptions={{
         unmountOnBlur: true,
         tabBarStyle: {
-          height: hp(60),
-          backgroundColor: Colors.PRIMARY_DARKBLUE,
+          height: 100,
+          backgroundColor: '#0F152C',
+          borderTopWidth: 0,
         },
         tabBarActiveTintColor: Colors.PRIMARY_DARKBLUE,
         tabBarLabelStyle: {
@@ -67,7 +62,7 @@ const BottomTabBar = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              image={focused ? Images['home-active'] : Images.home}
+              icon={<HOME color={focused ? Colors.COUCH_BLUE : undefined}/>}
               label="Home"
               focused={focused}
             />
@@ -81,7 +76,7 @@ const BottomTabBar = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              image={focused ? Images['category-active'] : Images.category}
+              icon={<EXPLORE color={focused ? Colors.COUCH_BLUE : undefined}/>}
               label="Explore"
               focused={focused}
             />
@@ -91,12 +86,12 @@ const BottomTabBar = () => {
 
       <DashboardBottomTabs.Screen
         name="Activities"
-        component={Activities}
+        component={Planner}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              image={Images.activity}
+              icon={<ACTIVITY color={focused ? Colors.COUCH_BLUE : undefined}/>}
               label="Activities"
               focused={focused}
             />
@@ -111,7 +106,7 @@ const BottomTabBar = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              image={Images.profile}
+              icon={<PROFILE color={focused ? Colors.COUCH_BLUE : undefined}/>}
               label="My Profile"
               focused={focused}
             />
@@ -126,7 +121,7 @@ const BottomTabBar = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
-              image={Images.settings}
+              icon={<SETTINGS color={focused ? Colors.COUCH_BLUE : undefined}/>}
               label="Settings"
               focused={focused}
             />
@@ -142,32 +137,22 @@ export const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  payContainer: {
-    width: 48,
-    height: 48,
-    borderWidth: 4,
-    backgroundColor: Colors.BLACK,
-    borderColor: '#EAEBEC',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-  },
-  icon: {
-    height: hp(25),
-    width: wp(25),
-  },
   titleStyle: {
-    paddingTop: 9,
+    marginTop: 9,
     fontSize: 10,
+    lineHeight: 12.6,
     color: Colors.COUCH_TEXT_COLOR,
     textAlign: 'center',
     fontFamily: Typography.fontFamily.SoraSemiBold,
     letterSpacing: -0.48,
   },
   tabBarContainer: {
-    justifyContent: 'center',
     alignItems: 'center',
-    top: hp(5),
+    height: '100%',
+    width: '100%',
+    paddingTop: 14,
+    borderTopWidth: 6,
+    borderTopColor: '#0F152C'
   },
 });
 

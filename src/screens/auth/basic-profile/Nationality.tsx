@@ -9,8 +9,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-// import useAppDispatch from 'hooks/useAppDispatch';
-// import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import useAppDispatch from 'hooks/useAppDispatch';
@@ -30,7 +28,7 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const [selectedState, setSelectedState] = useState(state_of_residence || '');
   // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
-
+  
   const proceed = () => {
     navigate('UploadProfile');
   };
@@ -38,8 +36,13 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry));
     dispatch(setStateOfResidence(selectedState));
-    proceed();
-  };
+    proceed()
+
+  // const completeProfile = () => {
+  //   dispatch(setCountry(selectedCountry));
+  //   dispatch(setStateOfResidence(selectedState));
+  // };
+
 
   useEffect(() => {
     selectedCountry && state_of_residence && proceed();
@@ -103,5 +106,5 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     </SafeAreaView>
   );
 };
-
+}
 export default Nationality;

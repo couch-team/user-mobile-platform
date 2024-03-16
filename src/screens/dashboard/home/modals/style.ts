@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     marginTop: hp(20),
   },
   buttonStyle: {
-    marginTop: hp(20),
+    marginTop: hp(0),
     marginRight: wp(20),
   },
   backgroundImage: {
@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     height: deviceWidth * 1.2,
     alignItems: 'center',
-    borderWidth: 1,
   },
   tourTitleStyle: {
     fontFamily: Typography.fontFamily.SoraMedium,

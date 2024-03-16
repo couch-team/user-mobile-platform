@@ -16,7 +16,7 @@ interface CheckboxProps {
   checkBoxStyle?: ViewStyle;
   selectedCheck?: boolean;
   selectedCheckType?: string;
-  onSelectOption: (index: any) => void;
+  onSelectOption: (string: any) => void;
   index: any;
   checkTitleStyle?: TextStyle;
   hideCheckBox?: boolean;
@@ -35,7 +35,7 @@ export const Checkbox = ({
   return (
     <TouchableOpacity
       activeOpacity={hideCheckBox ? 0.6 : 1}
-      onPress={() => (hideCheckBox ? onSelectOption(index.title) : null)}
+      onPress={() => onSelectOption(index.title)}
       style={[
         styles.checkBoxContainer,
         selectedCheck && !hideCheckBox && styles.selectedBoxStyle,

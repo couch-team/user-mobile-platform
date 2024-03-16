@@ -20,7 +20,7 @@ import NotificationIcon from './components/NotificationIcon';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchUserDetails } from 'store/slice/userSlice';
+import { fetchUserDetails } from 'store/actions/userDetails';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -40,6 +40,11 @@ const Home = ({ navigation: { navigate } }: Props) => {
     !profileDetails && dispatch(fetchUserDetails());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileDetails]);
+
+  useEffect(() => {
+    !profileDetails?.preference && navigate('UserOnboarding');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

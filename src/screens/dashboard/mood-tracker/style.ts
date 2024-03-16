@@ -7,6 +7,22 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.PRIMARY,
   },
+  plusIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: hp(20),
+    right: wp(20),
+    zIndex: 100000,
+    backgroundColor: Colors.COUCH_BLUE,
+  },
+  plusIcon: {
+    width: wp(44),
+    height: hp(44),
+  },
   bodyContainer: {
     marginTop: hp(20),
   },
@@ -58,22 +74,6 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
   },
-  plusIconContainer: {
-    width: 88,
-    height: 88,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: hp(20),
-    right: wp(20),
-    zIndex: 100000,
-    backgroundColor: Colors.COUCH_BLUE,
-  },
-  plusIcon: {
-    width: wp(44),
-    height: hp(44),
-  },
   emptyMoodTrackerContainer: {
     marginTop: hp(20),
     height: hp(450),
@@ -114,4 +114,23 @@ export const styles = StyleSheet.create({
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(13),
   },
+  dummyMoodEmoji: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+    backgroundColor: '#8A8EE333'
+  },
+  moodEmoji: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+  },
+  reachedEndContainer: {
+    paddingBottom: 100,
+  },
+  reachedEnd: {
+    color: Colors.WHITE,
+    textAlign: 'center',
+    fontFamily: Typography.fontFamily.SoraMedium,
+  }
 });

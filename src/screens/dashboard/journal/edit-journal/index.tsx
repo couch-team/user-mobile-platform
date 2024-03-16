@@ -28,17 +28,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Colors, Images, Typography } from 'theme/config';
 import { useSelector } from 'react-redux';
 import { $api } from 'services';
-import {
-  JournalType,
-  fetchJournals,
-  setJournals,
-} from 'store/slice/journalSlice';
+import { JournalType, setJournals } from 'store/slice/journalSlice';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { RootState } from 'store';
 import { MoodColors } from 'theme/config/colors';
 import MoodModal from '../add-journal/components/MoodListContainer';
 import VoiceModal from '../add-journal/components/VoiceModel';
 import { showMessage } from 'react-native-flash-message';
+import { fetchJournals } from 'store/actions/journal';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -148,6 +145,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         type: 'mood',
         icon_url: journal.mood.icon_url,
         title: journal.mood.title,
+        id: journal.mood.id,
         // You can include other mood-related fields if needed
       });
 
@@ -173,6 +171,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       setJournalEntries(entries);
       setTitle(journal.title);
       setSelectedMood(journal.mood.icon_url);
+      setMoodId(journal.mood.id);
     }
   }, [journal]);
 
@@ -197,6 +196,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
 
   const editJournalFile = async () => {
     try {
+      setIsLoading(true);
       const formdata = new FormData();
       formdata.append('title', title || journal?.title);
       // formdata.append('document', description || journal?.document);
@@ -237,13 +237,15 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         });
 
       for (let i = 0; i < uploadsEntries.length; i++) {
-        console.log(uploadsEntries[i]);
         formdata.append('uploads', uploadsEntries[i]);
       }
+
+      if (moodId) {
+        formdata.append('mood_id', moodId);
+      }
       const id = journal?.id;
-      console.log(formdata, 'FormData');
-      setIsLoading(true);
-      const response = await $api.update(
+
+      const response = await $api.patch(
         `/api/journal/log/${id}/`,
         formdata,
         true,
@@ -267,7 +269,6 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       console.log(error);
     }
     setIsLoading(false);
-    console.log('reached');
   };
 
   const addTextEntry = () => {
@@ -288,9 +289,9 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+        allowsEditing: false,
+        // aspect: [4, 3],
+        quality: 0.2,
       });
       if (!result.canceled) {
         setJournalEntries([
@@ -447,7 +448,6 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
   };
 
   const handleRemoveAudio = (index: number) => {
-    console.log(index, 'remove audio');
     const updatedEntries: any = [...journalEntries];
     updatedEntries.splice(index, 1);
     setJournalEntries(updatedEntries);
@@ -459,7 +459,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.2,
       });
       if (!result.canceled) {
         // User selected a new image
@@ -819,7 +819,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               borderRadius: 100,
             }}>
             <Image
-              source={Images['note-video']}
+              source={Images['note-text']}
               style={{
                 width: 20,
                 height: 20,

@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { $api } from 'services';
 import { HELP_CIRCLE } from 'assets/svg';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchMoods } from 'store/actions/mood';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -27,18 +29,18 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
   const { params } = useAppRoute();
   const [thoughts, setThoughts] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
-
+  const dispatch = useAppDispatch()
 
   const continueProcess = async() => {
-    console.log(params?.emotion_id)
     try{
       setIsLoading(true)
       const response = await $api.post('/api/mood/log/', {
         emotion_id: params?.emotion_id,
-        reason: thoughts,
+        description: thoughts,
       })
       if($api.isSuccessful(response)){
-        navigate('CompleteAddMood',  response );
+        dispatch(fetchMoods(1));
+        navigate('CompleteAddMood',  response?.data );
       }
     }
     catch(err){
@@ -48,6 +50,11 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       setIsLoading(false)
     }
   };
+
+  const isHappy = params?.mood?.toLowerCase() === "happy"
+  const isExcited = params?.mood?.toLowerCase() === "excited"
+  const isSad = params?.mood?.toLowerCase() === "sad"
+  const isAngry = params?.mood?.toLowerCase() === "angry"
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,10 +70,11 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       <ScrollView>
         <ProgressHeader
           status={2}
+          bars={3}
         />
         <HeaderText
-          text={`You are ${params?.selectedMood?.toLowerCase()}`}
-          hasSubText="Mind to tell us the secret"
+          text={ (isHappy || isExcited) ? `You are ${params?.emotion?.toLowerCase()}` : "Hey, you could talk to us"}
+          hasSubText={ (isHappy || isExcited) ? "Mind to tell us the secret" : `What makes you feel ${params?.emotion?.toLowerCase()} today?` }
           headerTextStyle={styles.headerTextStyle}
         />
         <View style={styles.unitInputContainer}>
