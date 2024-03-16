@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { DashboardParamList } from '../utils/types/navigation-types';
 import BottomTabBar from './bottom-tab';
 import Notifications from 'screens/dashboard/home/notifications';
@@ -20,7 +20,7 @@ import PreviewJournal from 'screens/dashboard/journal/preview-journal';
 import EditJournal from 'screens/dashboard/journal/edit-journal';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 
-const Stack = createStackNavigator<DashboardParamList>();
+const Stack = createNativeStackNavigator<DashboardParamList>();
 
 const DashboardNavigation = () => {
   return (
@@ -28,10 +28,10 @@ const DashboardNavigation = () => {
       initialRouteName={'DashboardHome'}
       screenOptions={{
         headerShown: false,
-        transitionSpec: {
-          open: TransitionSpecs.TransitionIOSSpec,
-          close: TransitionSpecs.TransitionIOSSpec,
-        },
+        // transitionSpec: {
+        //   open: TransitionSpecs.TransitionIOSSpec,
+        //   close: TransitionSpecs.TransitionIOSSpec,
+        // },
       }}>
       <Stack.Screen component={BottomTabBar} name="DashboardHome" />
       <Stack.Screen component={Notifications} name="Notifications" />

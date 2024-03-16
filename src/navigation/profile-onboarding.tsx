@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BasicProfile from '../screens/auth/basic-profile';
 import Nationality from '../screens/auth/basic-profile/Nationality';
 import UploadProfile from '../screens/auth/basic-profile/UploadProfile';
@@ -12,7 +12,7 @@ import CompleteOnboarding1 from '../screens/auth/user-onboarding/CompleteOnboard
 import BottomTabBar from './bottom-tab';
 import { AuthParamList } from 'utils/types/navigation-types';
 
-const Stack = createStackNavigator<AuthParamList>();
+const Stack = createNativeStackNavigator<AuthParamList>();
 
 const ProfileOnboardingNavigation = () => {
   return (

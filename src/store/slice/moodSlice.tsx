@@ -65,11 +65,10 @@ export const {
   setIsFetchingMoods,
 } = MoodSlice.actions;
 
-const debounceFetchMoods = debounce(async (current_page, dispatch) => {
+const debounceFetchJournalMoods = debounce(async (current_page, dispatch) => {
   try {
     const response = await $api.fetch('/api/mood/mood/');
     if ($api.isSuccessful(response)) {
-      console.log(response?.data, 'Mood Response');
       dispatch(setMoods(response?.data));
       dispatch(setMoodsLastPage(response?.data?.count / 10));
     }
@@ -80,11 +79,11 @@ const debounceFetchMoods = debounce(async (current_page, dispatch) => {
   }
 }, 1000);
 
-export const fetchMoods =
+export const fetchJournalMoods =
   (current_page: number, isSilent?: boolean): AppThunk =>
   async dispatch => {
     dispatch(setMoodsCurrentPage(current_page));
     dispatch(setHasFetchedMoods(true));
     !isSilent && dispatch(setIsFetchingMoods(true));
-    debounceFetchMoods(current_page, dispatch);
+    debounceFetchJournalMoods(current_page, dispatch);
   };

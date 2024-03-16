@@ -6,12 +6,12 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
-    position: 'relative',
+    // position: 'relative',
   },
   noteOptionBodyContainer: {
     // marginHorizontal: wp(10),
     // paddingVertical:hp(12)
-    marginTop: hp(12),
+    // marginTop: hp(5),
     position: 'relative',
     flex: 1,
   },
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     lineHeight: hp(30),
     paddingVertical: hp(8),
     color: Colors.COUCH_BLUE_900,
-    marginHorizontal: wp(9),
+    marginHorizontal: wp(20),
   },
   promptTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
