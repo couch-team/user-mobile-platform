@@ -96,7 +96,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   headerTitleStyle: {
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     paddingLeft: wp(12),
     fontSize: hp(14),
     color: Colors.COUCH_BLUE_1100,
@@ -179,7 +179,7 @@ export const styles = StyleSheet.create({
   },
   voiceDurationText: {
     paddingLeft: wp(8),
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     color: Colors.WHITE,
     fontSize: hp(12),
   },

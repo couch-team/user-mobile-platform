@@ -17,7 +17,7 @@ import { styles } from './style';
 import { HeaderBar, VirtualizedScrollView } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { Colors, Images } from 'theme/config';
+import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -353,7 +353,10 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                   monthTextColor: 'rgba(234, 235, 250, 1)',
                   textMonthFontSize: 18,
                   textDayFontSize: 14,
-                  textDayStyle: { fontSize: 12 },
+                  textDayStyle: {
+                    fontSize: 12,
+                    fontFamily: Typography.fontFamily.SoraMedium,
+                  },
                 }}
                 renderArrow={(direction: Direction, onPress: any) => (
                   <CustomArrow direction={direction} onPress={onPress} />
@@ -402,6 +405,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               width: '90%',
               color: 'white',
               fontSize: 16,
+              fontFamily: Typography.fontFamily.SoraRegular,
             }}
           />
         </View>
@@ -622,7 +626,7 @@ const style = StyleSheet.create({
   },
   headerText: {
     color: Colors.WHITE,
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     fontWeight: '400',
     fontSize: hp(20),
     lineHeight: hp(25),
