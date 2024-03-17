@@ -10,10 +10,10 @@ import { Colors } from 'theme/config';
 import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-const Stack = createStackNavigator<RootNavigationRoutes>();
+const Stack = createNativeStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 
 const AppNavigation = () => {
@@ -42,8 +42,7 @@ const AppNavigation = () => {
         }
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: Colors.PRIMARY },
-          presentation: 'transparentModal',
+          // presentation: 'transparentModal',
         }}>
         {isLoggedIn ? (
           user_data?.profile !== null || is_loading ? (

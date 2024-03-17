@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
   previewContainer: {
     marginVertical: hp(10),
     paddingHorizontal: 20,
+    flex: 1,
   },
   previewTitle: {
     fontWeight: '700',
@@ -21,12 +22,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: wp(8),
     color: Colors.COUCH_BLUE_900,
   },
-  // previewBodyText:{
-
-  // },
   previewDocument: {
     paddingTop: hp(10),
     paddingHorizontal: 10,
+    flex: 1,
   },
   previewButtonContainer: {
     backgroundColor: Colors.COUCH_BLUE_200,
@@ -43,6 +42,15 @@ export const styles = StyleSheet.create({
     fontSize: hp(14),
     fontWeight: '900',
     width: 'auto',
+  },
+  mood: {
+    width: 33,
+    height: 33,
+  },
+  moodView: {
+    padding: 7.5,
+    borderRadius: 50,
+    backgroundColor: Colors.COUCH_BLUE_2300,
   },
   headerRightContainer: {
     flexDirection: 'row',

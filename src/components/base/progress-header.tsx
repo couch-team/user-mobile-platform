@@ -1,38 +1,36 @@
+/* eslint-disable react/self-closing-comp */
 import React, { Fragment } from 'react';
-import * as Progress from 'react-native-progress';
-import { View, Image, StyleSheet } from 'react-native';
-import { Colors, Images } from '../../theme/config';
+import { View, StyleSheet } from 'react-native';
+import { Colors } from '../../theme/config';
 import { hp, wp } from '../../constants/layout';
 
-export const ProgressHeader = ({ status, bars }: { status: number, bars: number }) => {
+export const ProgressHeader = ({
+  status,
+  bars,
+}: {
+  status: number;
+  bars: number;
+}) => {
   return (
     <View style={styles.progressHeaderContainer}>
-      {
-        Array.from({ length: bars }, (_, index) => index)?.map((index) => {
-          return(
-            <Fragment key={index}>
+      {Array.from({ length: bars }, (_, index) => index)?.map(index => {
+        return (
+          <Fragment key={index}>
+            <View
+              style={[
+                styles.progressBar,
+                status >= index + 1 && { backgroundColor: Colors.COUCH_BLUE },
+              ]}></View>
+            {bars !== index + 1 && (
               <View
                 style={[
-                  styles.progressBar,
-                  status >= (index + 1) && { backgroundColor: Colors.COUCH_BLUE },
-                ]}
-              >
-              </View>
-              {
-                bars !== (index + 1)  
-                  &&
-                <View 
-                  style={[
-                    styles.progressDot,
-                    status > (index + 1) && { backgroundColor: Colors.GREEN_100 },
-                  ]}
-                >
-                </View>
-              }
-            </Fragment>
-          )
-        })
-      }
+                  styles.progressDot,
+                  status > index + 1 && { backgroundColor: Colors.GREEN_100 },
+                ]}></View>
+            )}
+          </Fragment>
+        );
+      })}
     </View>
   );
 };

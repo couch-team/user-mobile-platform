@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -14,20 +14,20 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { HeaderText, HeaderBar, VirtualizedScrollView } from 'components';
+import { HeaderBar, VirtualizedScrollView } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Colors, Images } from 'theme/config';
 import { hp, wp } from 'constants/layout';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import moment from 'moment';
 import { groupJournalTransactions } from 'utils';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { $api } from 'services';
 import { useFocusEffect } from '@react-navigation/native';
 import { MoodColors, MoodColorsBackground } from 'theme/config/colors';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { $api } from 'services';
 import { fetchJournals } from 'store/actions/journal';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -292,6 +292,21 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     );
   };
 
+  const countUploads = (uploads: any) => {
+    let audioCount = 0;
+    let imageCount = 0;
+
+    uploads.forEach((upload: any) => {
+      if (upload.type.startsWith('audio/')) {
+        audioCount++;
+      } else if (upload.type.startsWith('image/')) {
+        imageCount++;
+      }
+    });
+
+    return { audioCount, imageCount };
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal
@@ -470,6 +485,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
             const { color, images, audioImages, bgcolor } = RenderBasedOnMood(
               item?.mood,
             );
+            const { audioCount, imageCount } = countUploads(item.uploads);
             return (
               <Pressable
                 onPress={() => {
@@ -478,6 +494,8 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                   navigate('PreviewJournal', {
                     id: item?.id,
                     color: color,
+                    mood_url: item?.mood?.icon_url,
+                    mood_title: item?.mood?.title,
                   });
                 }}
                 style={
@@ -502,7 +520,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                       </View>
                       <Text
                         style={[styles.voiceDurationText, { color: color }]}>
-                        0:35
+                        {audioCount}
                       </Text>
                     </View>
                     <View
@@ -519,7 +537,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                       </View>
                       <Text
                         style={[styles.voiceDurationText, { color: color }]}>
-                        4
+                        {imageCount}
                       </Text>
                     </View>
                   </View>
@@ -545,13 +563,18 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               </Pressable>
             );
           }}
-          renderSectionHeader={({ section: { title, isToday } }) => {
+          renderSectionHeader={({ section: { title, isToday, index } }) => {
+            const maxIndex = Math.max(
+              ...groupJournalTransactions(filteredJournals).map(
+                section => section.index,
+              ),
+            );
             return (
               <View style={styles.headerSectionContainer}>
                 <Text style={styles.headerTitleStyle}>
                   {isToday === 'Today' ? 'Today' : title}
                 </Text>
-                {isToday === 'Today' ? (
+                {index === maxIndex && ( // Check if it's the first section
                   <Pressable onPress={() => setShowCalender(true)}>
                     <Image
                       source={Images.filter}
@@ -559,8 +582,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                       resizeMode="contain"
                     />
                   </Pressable>
-                ) : (
-                  ''
                 )}
               </View>
             );

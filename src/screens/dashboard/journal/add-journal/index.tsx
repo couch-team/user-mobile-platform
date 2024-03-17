@@ -7,13 +7,13 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Image,
-  FlatList,
   Keyboard,
   Text,
   Pressable,
   StyleSheet,
   Platform,
-  Alert,
+  ScrollView,
+  Modal,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
@@ -32,7 +32,7 @@ import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { showMessage } from 'react-native-flash-message';
 import { MoodColors } from 'theme/config/colors';
-import { debounce } from 'lodash';
+import JournalPromptModal from './components/JournalPrompt';
 import { fetchJournals } from 'store/actions/journal';
 // import { showMessage } from 'react-native-flash-message';
 
@@ -62,14 +62,16 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [durations, setDurations] = useState([]);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [openJournalPrompt, setOpenJournalPrompt] = useState(false);
+  const [bottomMargin, setBottomMargin] = useState(0);
+  const [showPreviewImage, setShowPreviesImage] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const audioRef = useRef<any>([]);
-  const flatListRef = useRef<any>();
 
   const createJournal = async (data: FormData) => {
     try {
       setIsLoading(true);
-      console.log(data, 'Form Data');
       const response = await $api.post('/api/journal/log/', data, true);
       if ($api.isSuccessful(response)) {
         showMessage({
@@ -224,14 +226,15 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        flatListRef.current.scrollToEnd({ animated: true });
+        setIsKeyboardVisible(true);
+        setBottomMargin(50);
       },
     );
 
     return () => {
       keyboardDidShowListener.remove();
     };
-  }, [flatListRef.current]);
+  }, [journalEntries]);
 
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener(
@@ -317,30 +320,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
-  // const totalTextCharacters = journalEntries
-  //   .filter((entry: any) => entry.type === 'text')
-  //   .reduce((total: any, entry: any) => total + entry.content.length, 0);
-
-  // // Check if adding a new text entry would exceed the limit
-  // if (totalTextCharacters + newEntry.content.length <= 200) {
-  //   // Find the index of the last text entry
-  //   const lastTextEntryIndex = journalEntries
-  //     .slice()
-  //     .reverse()
-  //     .findIndex((entry: any) => entry.type === 'text');
-
-  //   // Calculate the correct index for the new text entry
-  //   const newIndex =
-  //     lastTextEntryIndex >= 0
-  //       ? journalEntries.length - lastTextEntryIndex
-  //       : 0;
-
-  //   // Add the new text entry at the calculated index
-  //   setJournalEntries((prevEntries: any) => [
-  //     ...prevEntries.slice(0, newIndex),
-  //     newEntry,
-  //     ...prevEntries.slice(newIndex),
-  //   ]);
   const addTextEntry = () => {
     const newEntry = {
       type: 'text',
@@ -351,10 +330,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
     setJournalEntries([...journalEntries, newEntry]);
 
-    if (!isKeyboardVisible) {
-      flatListRef.current.scrollToEnd({ animated: true });
-    }
-
     setIsKeyboardVisible(true);
     setIsFocused(true);
   };
@@ -363,9 +338,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+        allowsEditing: false,
+        // aspect: [4, 3],
+        quality: 0.2,
       });
       if (!result.canceled) {
         setJournalEntries([
@@ -373,7 +348,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           { type: 'image', content: result.assets[0].uri },
         ]);
       }
-      flatListRef.current.scrollToEnd({ animated: true });
     } catch (error) {
       console.error('Error picking image:', error);
     }
@@ -393,7 +367,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
   const handleChangeImage = async (item: any, index: number) => {
     try {
-      const result: any = await ImagePicker.launchImageLibraryAsync();
+      const result: any = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        // aspect: [4, 3],
+        quality: 0.2,
+      });
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];
@@ -436,12 +415,24 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
-  const renderItem = ({ item, index }: any) => {
+  const renderItem = (item: any, index: number) => {
     if (item.type === 'text' && item.isEditing) {
       return (
-        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={60}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={10}
+          key={index}>
           <TextInput
-            style={{ padding: 8, marginBottom: 20, color: 'white' }}
+            style={[
+              {
+                paddingHorizontal: 5,
+                marginVertical: 10,
+                color: 'rgba(159, 152, 178, 1)',
+                fontSize: 16,
+                fontFamily: Typography.fontFamily.SoraRegular,
+              },
+              isKeyboardVisible && { marginBottom: bottomMargin },
+            ]}
             placeholder="Enter a new paragraph"
             placeholderTextColor={'white'}
             multiline
@@ -468,10 +459,14 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         </KeyboardAvoidingView>
       );
     } else if (item.type === 'text') {
-      return <Text style={{ marginBottom: 10 }}>{item.content}</Text>;
+      return (
+        <Text style={{ marginBottom: 10 }} key={index}>
+          {item.content}
+        </Text>
+      );
     } else if (item.type === 'image') {
       return (
-        <View style={{ position: 'relative' }}>
+        <View style={{ position: 'relative' }} key={index}>
           <Image
             source={{ uri: item.content }}
             style={{
@@ -535,8 +530,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             backgroundColor: 'rgba(238, 239, 251, 0.08)',
             borderRadius: 10,
             padding: 10,
-            marginBottom: 10,
-          }}>
+            marginVertical: 10,
+          }}
+          key={index}>
           <Pressable
             style={{
               padding: 5,
@@ -636,11 +632,53 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     return null;
   };
 
+  const handleScroll = () => {
+    setIsScrolling(true);
+  };
+
+  const handleScrollEnd = () => {
+    setIsScrolling(false);
+  };
+
   return (
-    <View
-      // behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-      // keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
       style={styles.container}>
+      <JournalPromptModal
+        isVisible={openJournalPrompt}
+        onClose={() => setOpenJournalPrompt(false)}
+      />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showPreviewImage}
+        onRequestClose={() => setShowPreviesImage(false)}>
+        <Pressable
+          onPress={() => setShowPreviesImage(false)}
+          style={[
+            {
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            },
+          ]}>
+          <Pressable
+            onPress={() => {}}
+            style={{
+              width: '90%',
+              height: 40,
+              position: 'relative',
+              borderRadius: 8,
+              // flex: 1,
+            }}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <Text>HI</Text>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
       <HeaderBar
         headerLeft={renderMood()}
         headerRight={
@@ -655,7 +693,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       />
 
       <TextInput
-        placeholder="Title you note..."
+        placeholder="Title your note..."
         value={title}
         placeholderTextColor={Colors.COUCH_GREEN_400}
         style={styles.titleTextStyle}
@@ -664,39 +702,35 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
 
       <View style={styles.noteOptionBodyContainer}>
         <View
-          // behavior={undefined}
-          // keyboardVerticalOffset={100}
           style={{
             flex: 1,
             paddingTop: 20,
             paddingHorizontal: 20,
           }}>
-          <FlatList
-            ref={flatListRef}
-            data={journalEntries}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            onContentSizeChange={() => {
-              // console.log(w, h);
-              if (isKeyboardVisible) {
-                flatListRef.current.scrollToEnd({ animated: true });
-              }
+          <ScrollView
+            onScrollBeginDrag={handleScroll}
+            onScrollEndDrag={handleScrollEnd}
+            ref={scrollView => {
+              this.scrollView = scrollView;
             }}
-            showsVerticalScrollIndicator={true}
-            getItemLayout={(data, index) => ({
-              length: 20,
-              offset: 20 * index,
-              index,
-            })}
-            // style={{ padding: 20, paddingBottom: isKeyboardVisible ? 10 : 0 }}
-          />
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            onContentSizeChange={() => {
+              this.scrollView.scrollToEnd({ animated: true });
+            }}>
+            <View style={{ paddingBottom: isFocused ? 0 : 100, flex: 1 }}>
+              {journalEntries?.map((journal: any, index: number) =>
+                renderItem(journal, index),
+              )}
+            </View>
+          </ScrollView>
         </View>
         {!isFocused && (
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-around',
-              // position: 'absolute',
+              position: 'absolute',
               bottom: 0,
               gap: 10,
               left: 0,
@@ -714,7 +748,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 10,
                 borderRadius: 100,
               }}
-              onPress={addTextEntry}>
+              // onPress={addTextEntry}
+              onPress={() => setOpenJournalPrompt(true)}>
               <Image
                 source={Images['active-note-text']}
                 style={{
@@ -725,15 +760,15 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 }}
               />
             </Pressable>
-            {/* <Button title="Add Text" onPress={addTextEntry} /> */}
             <Pressable
               style={{
                 backgroundColor: 'rgba(234, 235, 250, 0.12)',
                 padding: 10,
                 borderRadius: 100,
-              }}>
+              }}
+              onPress={addTextEntry}>
               <Image
-                source={Images['note-video']}
+                source={Images['note-text']}
                 style={{
                   width: 20,
                   height: 20,
@@ -811,7 +846,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         loadAudio={loadAudio}
         journalEntries={journalEntries}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
