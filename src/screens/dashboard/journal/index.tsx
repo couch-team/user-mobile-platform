@@ -142,6 +142,9 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               fontSize: 14,
               color: isToday ? 'rgba(15, 17, 65, 1)' : 'white',
               textAlign: 'center',
+              fontFamily: isToday
+                ? Typography.fontFamily.SoraMedium
+                : Typography.fontFamily.SoraRegular,
             }}>
             {day.day}
           </Text>
