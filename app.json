@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
@@ -21,9 +19,7 @@
     },
     "android": {
       "versionCode": 7,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.couchapp.couchapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/foreground.png",
@@ -43,6 +39,12 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow couch_mobile to access your microphone."
         }
       ]
     ],
