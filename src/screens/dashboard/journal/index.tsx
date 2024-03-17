@@ -100,7 +100,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
 
   const fetchJournalEntries = async () => {
     const journalData = journals.reduce((acc: any, journal: any) => {
-      const createdDate = moment(journal.created_at).format('YYYY-MM-DD');
+      const createdDate = moment(journal.updated_at).format('YYYY-MM-DD');
 
       acc[createdDate] = {
         marked: true,
