@@ -48,7 +48,7 @@ type Props = {
 };
 
 const EditJournal = ({ route, navigation: { navigate } }: Props) => {
-  const { journal, color } = route.params;
+  const { journal } = route.params;
   const [title, setTitle] = useState('');
   const { journals } = useSelector((state: RootState) => state.Journal);
   const [journalEntries, setJournalEntries] = useState<any>([]);
@@ -173,6 +173,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       setTitle(journal.title);
       setSelectedMood(journal.mood.icon_url);
       setMoodId(journal.mood.id);
+      setMoodType(journal.mood.title);
     }
   }, [journal]);
 
@@ -304,6 +305,25 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       console.error('Error picking image:', error);
     }
   };
+
+  const color = React.useMemo(() => {
+    switch (moodType) {
+      case 'Calm':
+        return MoodColors.CALM;
+      case 'Anxious':
+        return MoodColors.ANXIOUS;
+      case 'Excited':
+        return MoodColors.EXCITED;
+      case 'Happy':
+        return MoodColors.HAPPY;
+      case 'Sad':
+        return MoodColors.SAD;
+      case 'Angry':
+        return MoodColors.ANGRY;
+      default:
+        return MoodColors.CALM;
+    }
+  }, [moodType]);
 
   const audioImages = React.useMemo(() => {
     switch (moodType) {
