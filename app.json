@@ -11,15 +11,19 @@
       "resizeMode": "contain",
       "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
       "bundleIdentifier": "com.couchapp.couchapp"
     },
     "android": {
-      "versionCode": 7,
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "versionCode": 8,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.couchapp.couchapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/foreground.png",

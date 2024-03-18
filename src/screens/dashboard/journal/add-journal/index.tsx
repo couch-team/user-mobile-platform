@@ -227,7 +227,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       'keyboardDidShow',
       () => {
         setIsKeyboardVisible(true);
-        setBottomMargin(50);
+        setBottomMargin(30);
       },
     );
 
@@ -420,7 +420,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       return (
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={10}
+          keyboardVerticalOffset={0}
           key={index}>
           <TextInput
             style={[
@@ -431,7 +431,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
               },
-              isKeyboardVisible && { marginBottom: bottomMargin },
+              // isKeyboardVisible && { paddingBottom: bottomMargin },
             ]}
             placeholder="Enter a new paragraph"
             placeholderTextColor={'white'}
@@ -545,7 +545,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             onPress={() => handleRemoveAudio(index)}>
             <Image
               source={Images['cancel-audio']}
-              style={{ width: 12, height: 12, resizeMode: 'contain' }}
+              style={{
+                width: 12,
+                height: 12,
+                resizeMode: 'contain',
+                tintColor: color,
+              }}
             />
           </Pressable>
           <View
@@ -644,7 +649,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
-      style={styles.container}>
+      style={[styles.container, isKeyboardVisible && { paddingBottom: 40 }]}>
       <JournalPromptModal
         isVisible={openJournalPrompt}
         onClose={() => setOpenJournalPrompt(false)}

@@ -36,6 +36,7 @@ import MoodModal from '../add-journal/components/MoodListContainer';
 import VoiceModal from '../add-journal/components/VoiceModel';
 import { showMessage } from 'react-native-flash-message';
 import { fetchJournals } from 'store/actions/journal';
+import JournalPromptModal from '../add-journal/components/JournalPrompt';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -47,7 +48,7 @@ type Props = {
 };
 
 const EditJournal = ({ route, navigation: { navigate } }: Props) => {
-  const { journal } = route.params;
+  const { journal, color } = route.params;
   const [title, setTitle] = useState('');
   const { journals } = useSelector((state: RootState) => state.Journal);
   const [journalEntries, setJournalEntries] = useState<any>([]);
@@ -67,16 +68,16 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
   const [longPressTimeout, setLongPressTimeout] = useState<number | null | any>(
     null,
   );
-  const flatListRef = useRef<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [bottomMargin, setBottomMargin] = useState(0);
   const [contentLoading, setContentLoading] = useState(false);
+  const [openJournalPrompt, setOpenJournalPrompt] = useState(false);
 
   const handlePressIn = () => {
     const timeoutId = setTimeout(() => {
       // Your function to execute after 3 seconds
       setShowToolBar(true);
-    }, 2000);
+    }, 1500);
 
     setLongPressTimeout(timeoutId);
   };
@@ -304,25 +305,6 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     }
   };
 
-  const color = React.useMemo(() => {
-    switch (moodType) {
-      case 'Calm':
-        return MoodColors.CALM;
-      case 'Anxious':
-        return MoodColors.ANXIOUS;
-      case 'Excited':
-        return MoodColors.EXCITED;
-      case 'Happy':
-        return MoodColors.HAPPY;
-      case 'Sad':
-        return MoodColors.SAD;
-      case 'Angry':
-        return MoodColors.ANGRY;
-      default:
-        return Colors.COUCH_BLUE;
-    }
-  }, [selectedMood]);
-
   const audioImages = React.useMemo(() => {
     switch (moodType) {
       case 'Calm':
@@ -519,7 +501,6 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
               },
-              isKeyboardVisible && { marginBottom: bottomMargin },
             ]}
             placeholder="Enter a new paragraph"
             placeholderTextColor={'white'}
@@ -636,7 +617,12 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             disabled={!showToolBar}>
             <Image
               source={Images['cancel-audio']}
-              style={{ width: 12, height: 12, resizeMode: 'contain' }}
+              style={{
+                width: 12,
+                height: 12,
+                resizeMode: 'contain',
+                tintColor: color,
+              }}
             />
           </Pressable>
           <View
@@ -729,7 +715,11 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
-      style={styles.container}>
+      style={[styles.container, isKeyboardVisible && { paddingBottom: 40 }]}>
+      <JournalPromptModal
+        isVisible={openJournalPrompt}
+        onClose={() => setOpenJournalPrompt(false)}
+      />
       <HeaderBar
         headerLeft={renderMood()}
         headerRight={
@@ -801,7 +791,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               padding: 10,
               borderRadius: 100,
             }}
-            onPress={addTextEntry}>
+            onPress={() => setOpenJournalPrompt(true)}>
             <Image
               source={Images['active-note-text']}
               style={{
@@ -817,7 +807,8 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               backgroundColor: 'rgba(234, 235, 250, 0.12)',
               padding: 10,
               borderRadius: 100,
-            }}>
+            }}
+            onPress={addTextEntry}>
             <Image
               source={Images['note-text']}
               style={{
