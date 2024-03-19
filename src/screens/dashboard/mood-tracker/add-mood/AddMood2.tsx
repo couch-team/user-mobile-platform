@@ -1,12 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import NotificationIcon from 'screens/dashboard/home/components/NotificationIcon';
 import { Colors, Images } from 'theme/config';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
-import { ScrollView } from 'react-native-gesture-handler';
 import { ProgressHeader, LongButton, HeaderText, HeaderBar } from 'components';
 import { wp } from 'constants/layout';
 import { useAppRoute } from 'hooks/navigation';

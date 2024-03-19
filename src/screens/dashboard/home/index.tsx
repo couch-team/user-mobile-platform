@@ -42,8 +42,9 @@ const Home = ({ navigation: { navigate } }: Props) => {
   }, [profileDetails]);
 
   useEffect(() => {
-    !profileDetails?.preference && navigate("UserOnboarding")
-  },[])
+    !profileDetails?.preference && navigate('UserOnboarding');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

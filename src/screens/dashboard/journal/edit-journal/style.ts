@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     lineHeight: hp(30),
     paddingVertical: hp(8),
     color: Colors.COUCH_BLUE_900,
-    marginHorizontal: wp(8),
+    marginHorizontal: wp(20),
   },
   promptTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,

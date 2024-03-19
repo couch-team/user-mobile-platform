@@ -1,4 +1,5 @@
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthParamList } from '../utils/types/navigation-types';
 import Login from '../screens/auth/login';
 import Register from '../screens/auth/register';
@@ -9,13 +10,12 @@ import ResetPassword from 'screens/auth/change-password';
 import BasicProfile from 'screens/auth/basic-profile';
 import Nationality from 'screens/auth/basic-profile/Nationality';
 import UploadProfile from 'screens/auth/basic-profile/UploadProfile';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<AuthParamList>();
 
 const AuthNavigation = () => {
   return (
-    <Stack.Navigator
+    <Stack.Navigator 
       initialRouteName={'Login'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen component={Login} name="Login" />

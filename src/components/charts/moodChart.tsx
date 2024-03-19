@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { ActivityIndicator, Dimensions, FlatList, Text, View } from "react-native";
 import { BarChart, LineChart } from "react-native-gifted-charts";
 import { $api } from "services";
 import { Colors, Typography } from "theme/config";

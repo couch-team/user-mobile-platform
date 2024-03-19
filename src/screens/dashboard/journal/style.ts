@@ -96,7 +96,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   headerTitleStyle: {
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     paddingLeft: wp(12),
     fontSize: hp(14),
     color: Colors.COUCH_BLUE_1100,
@@ -163,11 +163,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemMoodMainText: {
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     fontSize: hp(16),
     color: Colors.WHITE,
     lineHeight: hp(18),
-    fontWeight: 'bold',
   },
   voiceIconContainer: {
     width: 24,
@@ -179,7 +178,7 @@ export const styles = StyleSheet.create({
   },
   voiceDurationText: {
     paddingLeft: wp(8),
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     color: Colors.WHITE,
     fontSize: hp(12),
   },
@@ -190,11 +189,10 @@ export const styles = StyleSheet.create({
     fontSize: hp(14),
   },
   itemMoodBodyText: {
-    fontFamily: Typography.fontFamily.SoraRegular,
+    fontFamily: Typography.fontFamily.SoraSemiBold,
     paddingTop: hp(8),
     color: Colors.COUCH_TEXT_COLOR,
     fontSize: hp(12),
-    fontWeight: 'bold',
   },
   voiceIcon: {
     width: 12,

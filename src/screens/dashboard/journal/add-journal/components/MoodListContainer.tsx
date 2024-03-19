@@ -7,8 +7,8 @@ import { BaseModal, LongButton } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchJournalMoods } from 'store/slice/moodSlice';
 import { useFocusEffect } from '@react-navigation/native';
-import { fetchMoods } from 'store/actions/mood';
 
 export type MoodType =
   | 'Calm'
@@ -30,7 +30,7 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setMoodType }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(fetchMoods(1));
+      dispatch(fetchJournalMoods(1));
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );

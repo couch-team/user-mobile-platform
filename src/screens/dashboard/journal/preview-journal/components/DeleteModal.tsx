@@ -1,4 +1,5 @@
-import {  StyleSheet, Text, View } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { BaseModal, LongButton } from 'components';
 import { wp, hp } from 'constants/layout';
@@ -8,6 +9,7 @@ interface SettingsModalProps {
   onClose: () => void;
   onPressDeleteNo?: () => any;
   onPressDeleteYes?: () => any;
+  loading: boolean;
 }
 
 export default function DeleteModal({
@@ -15,6 +17,7 @@ export default function DeleteModal({
   onClose,
   onPressDeleteNo,
   onPressDeleteYes,
+  loading,
 }: SettingsModalProps) {
   return (
     <BaseModal visible={isVisible} onClose={() => onClose()}>
@@ -23,7 +26,13 @@ export default function DeleteModal({
           Are you sure to delete this note? this action cannot be reverted.
         </Text>
 
-        <Text style={{ color: '#9F98B2', fontSize: wp(14), marginTop: wp(10), lineHeight: wp(20) }}>
+        <Text
+          style={{
+            color: '#9F98B2',
+            fontSize: wp(14),
+            marginTop: wp(10),
+            lineHeight: wp(20),
+          }}>
           This would terminate the video session and any minutes left in the
           therapy session would not be available anymore
         </Text>
@@ -35,17 +44,22 @@ export default function DeleteModal({
             titleStyle={{
               fontWeight: '900',
               fontSize: wp(14),
-              color: "#F78282"
+              color: '#F78282',
             }}
             title="Yes, Delete Note"
             buttonStyle={styles.buttonStyleYes}
+            loading={loading}
           />
         </View>
         <View>
           <LongButton
             onPress={onPressDeleteNo}
             title="No, This was a Mistake"
-            titleStyle={{ color: '#8A8EE3', fontWeight: '900', fontSize: wp(14) }}
+            titleStyle={{
+              color: '#8A8EE3',
+              fontWeight: '900',
+              fontSize: wp(14),
+            }}
             buttonStyle={styles.buttonStyleNo}
           />
         </View>
@@ -64,7 +78,7 @@ const styles = StyleSheet.create({
   },
   buttonStyleYes: {
     marginBottom: hp(100),
-    backgroundColor: "#E5000029",
+    backgroundColor: '#E5000029',
   },
   buttonStyleNo: {
     backgroundColor: '#E6E7F914',

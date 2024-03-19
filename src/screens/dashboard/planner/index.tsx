@@ -1,7 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import styles from "./styles";
-import { View, Image, Text, ActivityIndicator, SectionList } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Image, Text, ActivityIndicator, SectionList, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"
 import { BottomTabParamList, DashboardParamList } from "utils/types/navigation-types";
 import { HeaderBar, HeaderText } from "components";

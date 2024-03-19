@@ -9,13 +9,8 @@ import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 import { Colors } from 'theme/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
-import { NavigationContainer } from '@react-navigation/native';
-
-import { Animated } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const av = new Animated.Value(0);
-av.addListener(() => {return});
+import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
@@ -46,8 +41,7 @@ const AppNavigation = () => {
         }
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: Colors.PRIMARY },
-          presentation: 'transparentModal',
+          // presentation: 'transparentModal',
         }}>
         {isLoggedIn ? (
           user_data?.profile !== null || is_loading ? (

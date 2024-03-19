@@ -3,7 +3,6 @@ import styles from "./styles"
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Colors } from 'theme/config';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { CALENDAR, HELP_CIRCLE, TIME } from 'assets/svg';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dayjs from 'dayjs';
@@ -14,6 +13,7 @@ import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchPlans } from 'store/actions/planner';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 const AddPlannerModal = ({ isActive, setIsActive } : { 
     isActive: boolean,

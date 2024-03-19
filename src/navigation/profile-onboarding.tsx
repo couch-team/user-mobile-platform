@@ -1,10 +1,10 @@
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BasicProfile from '../screens/auth/basic-profile';
 import Nationality from '../screens/auth/basic-profile/Nationality';
 import UploadProfile from '../screens/auth/basic-profile/UploadProfile';
 import BottomTabBar from './bottom-tab';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<AuthParamList>();
 
