@@ -7,7 +7,7 @@ import { BaseModal, LongButton } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchJournalMoods } from 'store/slice/moodSlice';
+import { fetchJournalMoods } from 'store/slice/journalMoodSlice';
 import { useFocusEffect } from '@react-navigation/native';
 
 export type MoodType =
@@ -19,14 +19,8 @@ export type MoodType =
   | 'Angry';
 
 const MoodModal = ({ isVisible, onSelectMood, onClose, setMoodType }: any) => {
-  const { moods } = useSelector((state: RootState) => state.Mood);
+  const { moods } = useSelector((state: RootState) => state.JournalMood);
   const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchMoods(1));
-  //   return () => {};
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -34,8 +28,6 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setMoodType }: any) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
-
-  // console.log(moods);
 
   const [selectedMood, setSelectedMood] = useState(null);
 
