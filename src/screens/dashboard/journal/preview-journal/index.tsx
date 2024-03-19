@@ -56,6 +56,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const [contentLoading, setContentLoading] = useState(false);
   const [isSeeking, setIsSeeking] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioLoading, setAudioLoading] = useState(false);
 
   const fetchJournal = async () => {
     try {
@@ -278,25 +279,12 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
             placeholderTextColor={'white'}
             multiline
             value={item.content}
-            // autoFocus={isFocused}
             returnKeyType="done"
             onChangeText={text => {
               const updatedEntries = [...journalEntries];
               updatedEntries[index].content = text;
               setJournalEntries(updatedEntries);
             }}
-            // onFocus={() => setIsFocused(true)}
-            // onBlur={() => {
-            //   setIsKeyboardVisible(false);
-            //   setIsFocused(false);
-            //   if (!item.content.trim()) {
-            //     // Remove the entry if it's empty
-            //     const updatedEntries = [...journalEntries];
-            //     updatedEntries.splice(index, 1);
-            //     setJournalEntries(updatedEntries);
-            //   }
-            // }}
-            // editable={showToolBar}
           />
         </KeyboardAvoidingView>
       );
@@ -332,10 +320,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 backgroundColor: 'rgba(255, 255, 255, 0.24)',
                 padding: 16,
                 borderRadius: 64,
-              }}
-              // onPress={() => handleChangeImage(item, index)}
-              // disabled={!showToolBar}
-            >
+              }}>
               <Text
                 style={{
                   color: 'white',
@@ -355,10 +340,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 position: 'absolute',
                 right: 10,
                 top: 10,
-              }}
-              // onPress={() => handleRemoveImage(index)}
-              // disabled={!showToolBar}
-            >
+              }}>
               <Image
                 source={Images['cancel-image']}
                 style={{ width: 22, height: 22, resizeMode: 'contain' }}
@@ -389,7 +371,12 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
             }}>
             <Image
               source={Images['cancel-audio']}
-              style={{ width: 12, height: 12, resizeMode: 'contain' }}
+              style={{
+                width: 12,
+                height: 12,
+                resizeMode: 'contain',
+                tintColor: color,
+              }}
             />
           </Pressable>
           <View
@@ -428,17 +415,21 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 }}
                 disabled={contentLoading}
                 onPress={() => playPauseAsync(item.index)}>
-                <Image
-                  source={
-                    isPlaying ? Images['pause-audio'] : Images['play-audio']
-                  }
-                  style={{
-                    width: 19,
-                    height: 24,
-                    resizeMode: 'contain',
-                    tintColor: color,
-                  }}
-                />
+                {contentLoading ? (
+                  <ActivityIndicator size={'small'} color={color} />
+                ) : (
+                  <Image
+                    source={
+                      isPlaying ? Images['pause-audio'] : Images['play-audio']
+                    }
+                    style={{
+                      width: 19,
+                      height: 24,
+                      resizeMode: 'contain',
+                      tintColor: color,
+                    }}
+                  />
+                )}
               </Pressable>
             </View>
             <Slider
@@ -515,7 +506,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         <Text style={styles.previewTitle}>{journal?.title}</Text>
         <View
           style={[styles.previewButtonContainer, { width: containerWidth }]}>
-          <Text style={styles.previewButtonText}>
+          <Text style={[styles.previewButtonText, { color: color }]}>
             Updated: {moment(journal?.updated_at).calendar()}
           </Text>
         </View>
@@ -546,7 +537,9 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
 
       <SettingsModal
-        onPressEdit={() => navigate('EditJournal', { journal: journal })}
+        onPressEdit={() =>
+          navigate('EditJournal', { journal: journal, color: color })
+        }
         onPressDelete={() => setOpenDeleteModal(true)}
         isVisible={openSettingModal}
         onClose={() => setOpenSettingModal(false)}

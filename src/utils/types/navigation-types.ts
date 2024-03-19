@@ -81,6 +81,7 @@ export type DashboardParamList = {
   UserOnboarding2: any;
   UserOnboarding3: any;
   CompleteOnboarding1: any;
+  Planner: any;
 };
 
 export type BottomTabParamList = {

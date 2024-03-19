@@ -32,8 +32,9 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   const fetchChartData = async() => {
     try{
         setChartLoading(true)
-        const response = await $api.fetch('/api/mood/dates')
+        const response = await $api.fetch('/api/mood/stats')
         if($api.isSuccessful(response)){
+          console.log(response?.data)
             setChartData(response?.data)
         }
     }
@@ -51,10 +52,6 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
 
   useEffect(() => {
     dispatch(fetchMoods(currentPage))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // return(() => {
-    //   dispatch(clearMoodReducer())
-    // })
   }, [ currentPage ]);
 
   const { moods, isFetchingMoods, hasFetchedMoods, reached_end } = useSelector((state: RootState) => state.Mood);
@@ -73,29 +70,6 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
         style={styles.plusIconContainer}>
         <Image source={Images.plus} style={styles.plusIcon} />
       </TouchableOpacity>
-      {(() => {
-        if (moods.length === 0 && !isFetchingMoods) {
-          return (
-            <View style={styles.emptyMoodTrackerContainer}>
-              <View style={styles.emptyMoodIconContainer}>
-                <Image
-                  source={Images['empty-mood']}
-                  resizeMode="contain"
-                  style={styles.emptyMoodIcon}
-                />
-              </View>
-              <View style={styles.emptyTextContainer}>
-                <Text style={styles.emptyMainText}>
-                  No Mood logged in here yet
-                </Text>
-                <Text style={styles.emptyBodyText}>
-                  Tap the '+' button below to log your mood on the mood tracker.
-                </Text>
-              </View>
-            </View>
-          );
-        }
-      })()}
       <View style={styles.bodyContainer}>
         <SectionList
           onEndReached={() => !reached_end && !isFetchingMoods && setCurrentPage(currentPage + 1)}
@@ -119,7 +93,9 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
               :
               (hasFetchedMoods && isFetchingMoods)
                 ?
-                <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+                <View style={styles.reachedEndContainer}>
+                  <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+                </View>
                 :
                 <View style={styles.reachedEndContainer}></View>
           }
@@ -164,6 +140,27 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
+      {
+        moods.length === 0 && !isFetchingMoods 
+          &&
+          <View style={styles.emptyMoodTrackerContainer}>
+            <View style={styles.emptyMoodIconContainer}>
+              <Image
+                source={Images['empty-mood']}
+                resizeMode="contain"
+                style={styles.emptyMoodIcon}
+              />
+            </View>
+            <View style={styles.emptyTextContainer}>
+              <Text style={styles.emptyMainText}>
+                No Mood logged in here yet
+              </Text>
+              <Text style={styles.emptyBodyText}>
+                Tap the '+' button below to log your mood on the mood tracker.
+              </Text>
+            </View>
+          </View>
+      }
       <Loader color={Colors.WHITE} loading={!hasFetchedMoods && isFetchingMoods}/>
     </SafeAreaView>
   );

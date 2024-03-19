@@ -72,28 +72,6 @@ const MoodSlice = createSlice({
 const MoodReducer = MoodSlice.reducer;
 export default MoodReducer;
 
-const debounceFetchJournalMoods = debounce(async (current_page, dispatch) => {
-  try {
-    const response = await $api.fetch('/api/mood/mood/');
-    if ($api.isSuccessful(response)) {
-      dispatch(setMoods(response?.data));
-      dispatch(setMoodsLastPage(response?.data?.count / 10));
-    }
-  } catch (err) {
-    console.log(err);
-  } finally {
-    dispatch(setIsFetchingMoods(false));
-  }
-}, 1000);
-
-export const fetchJournalMoods =
-  (current_page: number, isSilent?: boolean): AppThunk =>
-  async dispatch => {
-    dispatch(setMoodsCurrentPage(current_page));
-    dispatch(setHasFetchedMoods(true));
-    !isSilent && dispatch(setIsFetchingMoods(true));
-    debounceFetchJournalMoods(current_page, dispatch);
-  };
 export const {
   setMoods,
   setMoodsCurrentPage,

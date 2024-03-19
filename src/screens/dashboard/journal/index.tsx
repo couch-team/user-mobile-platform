@@ -17,7 +17,7 @@ import { styles } from './style';
 import { HeaderBar, VirtualizedScrollView } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { Colors, Images } from 'theme/config';
+import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -27,7 +27,6 @@ import useAppDispatch from 'hooks/useAppDispatch';
 import { useFocusEffect } from '@react-navigation/native';
 import { MoodColors, MoodColorsBackground } from 'theme/config/colors';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import { $api } from 'services';
 import { fetchJournals } from 'store/actions/journal';
 
 type DashboardNavigationProps = StackNavigationProp<
@@ -100,7 +99,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
 
   const fetchJournalEntries = async () => {
     const journalData = journals.reduce((acc: any, journal: any) => {
-      const createdDate = moment(journal.created_at).format('YYYY-MM-DD');
+      const createdDate = moment(journal.updated_at).format('YYYY-MM-DD');
 
       acc[createdDate] = {
         marked: true,
@@ -114,7 +113,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     setMarkedDates(journalData);
   };
 
-  const renderDay = (day: any, item: any) => {
+  const renderDay = (day: any, item: any, isCurrentMonth: boolean) => {
     const isToday = moment().isSame(day.dateString, 'day');
     return (
       <View
@@ -123,6 +122,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           justifyContent: 'center',
           alignItems: 'center',
           marginVertical: 18,
+          display: isCurrentMonth ? 'flex' : 'none',
         }}>
         <View
           style={{
@@ -132,7 +132,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               ? 'rgba(133, 138, 240, 1)'
               : 'transparent',
             borderRadius: 100,
-            // padding: 7,
             height: 40,
             width: 40,
             justifyContent: 'center',
@@ -142,6 +141,9 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               fontSize: 14,
               color: isToday ? 'rgba(15, 17, 65, 1)' : 'white',
               textAlign: 'center',
+              fontFamily: isToday
+                ? Typography.fontFamily.SoraMedium
+                : Typography.fontFamily.SoraRegular,
             }}>
             {day.day}
           </Text>
@@ -267,8 +269,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     }, [moodType]);
 
     return { images, color, audioImages, bgcolor };
-
-    // Use the color, audioImages, and images in your component as needed
   };
 
   const filteredJournals = journals.filter(journal =>
@@ -307,6 +307,12 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     return { audioCount, imageCount };
   };
 
+  const [selectedDate, setSelectedDate] = useState(moment()); // Assume initial state
+
+  const onMonthChange = (month: any) => {
+    setSelectedDate(month.dateString); // Update displayed month
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal
@@ -321,7 +327,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
             },
           ]}>
           <Pressable
@@ -331,15 +337,17 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               height: 40,
               position: 'relative',
               borderRadius: 8,
-              // flex: 1,
             }}>
             <View style={{ flex: 1, justifyContent: 'center' }}>
               <Calendar
-                onMonthChange={month => {
-                  console.log(month);
-                }}
+                onMonthChange={onMonthChange}
                 markedDates={markedDates}
-                style={{ height: 400, borderRadius: 12 }}
+                style={{
+                  height: 400,
+                  borderRadius: 12,
+                  borderColor: 'rgba(227, 228, 248, 1)',
+                  borderWidth: 2,
+                }}
                 theme={{
                   backgroundColor: '#ffffff',
                   calendarBackground: 'rgba(10, 11, 43, 1)',
@@ -348,19 +356,29 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
                   selectedDayTextColor: '#ffffff',
                   todayTextColor: 'rgba(15, 17, 65, 1)',
                   dayTextColor: '#fff',
-                  textDisabledColor: 'transparent',
+                  textDisabledColor: 'red',
                   todayBackgroundColor: 'rgba(234, 235, 250, 1)',
                   monthTextColor: 'rgba(234, 235, 250, 1)',
                   textMonthFontSize: 18,
+                  textMonthFontFamily: Typography.fontFamily.SoraRegular,
                   textDayFontSize: 14,
-                  textDayStyle: { fontSize: 12 },
+                  textDayHeaderFontFamily: Typography.fontFamily.SoraMedium,
+                  textDayHeaderFontSize: 12,
+                  textDayStyle: {
+                    fontSize: 12,
+                    fontFamily: Typography.fontFamily.SoraMedium,
+                  },
                 }}
                 renderArrow={(direction: Direction, onPress: any) => (
                   <CustomArrow direction={direction} onPress={onPress} />
                 )}
                 dayComponent={({ date, state }: any) => {
+                  const isCurrentMonth = moment(date.dateString).isSame(
+                    selectedDate,
+                    'month',
+                  );
                   const item = markedDates[date.dateString];
-                  return renderDay(date, item);
+                  return renderDay(date, item, isCurrentMonth);
                 }}
               />
             </View>
@@ -401,7 +419,8 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               borderRadius: 16,
               width: '90%',
               color: 'white',
-              fontSize: 16,
+              fontSize: 14,
+              fontFamily: Typography.fontFamily.SoraRegular,
             }}
           />
         </View>
@@ -622,7 +641,7 @@ const style = StyleSheet.create({
   },
   headerText: {
     color: Colors.WHITE,
-    fontFamily: 'Sora-Medium',
+    fontFamily: 'SoraMedium',
     fontWeight: '400',
     fontSize: hp(20),
     lineHeight: hp(25),

@@ -41,6 +41,7 @@ const VoiceModal = ({
   // const [permissionResponse, requestPermission]: any = Audio.usePermissions();
   const [hasStoppedPlaying, setHasStoppedPlaying] = useState(false);
   const [recordIntervalId, setRecordIntervalId] = useState<any>('');
+  const [audioPermission, setAudioPermission] = useState(false);
 
   // const [duration, setDuration] = useState(0);
 
@@ -50,6 +51,13 @@ const VoiceModal = ({
 
   const startRecording = async () => {
     try {
+      getPermission();
+      if (audioPermission) {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+        });
+      }
       setIsRecording(true);
       const recordingOptions = {
         isMeteringEnabled: true,
@@ -104,6 +112,16 @@ const VoiceModal = ({
       console.error('Error starting recording:', error);
     }
   };
+
+  async function getPermission() {
+    await Audio.requestPermissionsAsync()
+      .then(permission => {
+        setAudioPermission(permission.granted);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   const addRecording = async () => {
     try {
