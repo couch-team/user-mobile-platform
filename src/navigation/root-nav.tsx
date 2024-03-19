@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import DashboardNavigation from './dashboard';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 import { Colors } from 'theme/config';
-import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-const Stack = createStackNavigator<RootNavigationRoutes>();
+import { Animated } from "react-native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const av = new Animated.Value(0);
+av.addListener(() => {return});
+
+const Stack = createNativeStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 
 const AppNavigation = () => {

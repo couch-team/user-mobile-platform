@@ -5,6 +5,7 @@ import OnboardingReducer from "./slice/onboardingSlice";
 import JournalReducer from "./slice/journalSlice";
 import MoodReducer from "./slice/moodSlice";
 import PreferenceReducer from "./slice/preferenceSlice";
+import PlannerReducer from "./slice/plannerSlice";
 
 const CombinedReducers = combineReducers({
 	Auth: AuthReducer,
@@ -13,6 +14,7 @@ const CombinedReducers = combineReducers({
     Journal: JournalReducer,
     Mood: MoodReducer,
     Preference: PreferenceReducer,
+    Planner: PlannerReducer
 });
 export default CombinedReducers;
 export type ICombinedReducer = ReturnType<typeof CombinedReducers>

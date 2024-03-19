@@ -111,11 +111,25 @@ class ServiceApi {
 		const validationErrorCodes = [ 422, 400, 403 ];
 		if(!codes.includes(response?.response?.status || response?.response?.statusCode || response?.response?.code )){
 			if (validationErrorCodes.includes(response?.response?.status)){
-				showMessage({
-					message: response?.response?.data?.message,
-					duration: 3000,
-					type: 'danger',
-				});
+				const keys = Object.keys(response?.response?.data?.errors)
+				if(response?.response?.data?.errors[keys[0]][0]){
+					keys.forEach((key) => {
+						response?.response?.data?.errors[key].forEach((errorMessage: string) => {
+							showMessage({
+								message: errorMessage,
+								duration: 3000,
+								type: 'danger',
+							});
+						});
+					});
+				}
+				else{
+					showMessage({
+						message: response?.response?.data?.message,
+						duration: 3000,
+						type: 'danger',
+					});
+				}
 			}
         }
 		else if(response?.response?.status === 500){
