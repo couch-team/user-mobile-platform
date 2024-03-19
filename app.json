@@ -20,7 +20,7 @@
       "bundleIdentifier": "com.couchapp.couchapp"
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],

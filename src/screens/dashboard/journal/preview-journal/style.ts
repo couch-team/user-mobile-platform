@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   previewContainer: {
-    marginVertical: hp(10),
+    // marginVertical: hp(10),
     paddingHorizontal: 20,
     flex: 1,
   },
@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
     fontSize: hp(24),
     lineHeight: hp(30),
     paddingVertical: hp(10),
-    marginHorizontal: wp(8),
+    // marginHorizontal: wp(8),
     color: Colors.COUCH_BLUE_900,
   },
   previewDocument: {
     paddingTop: hp(10),
-    paddingHorizontal: 10,
+    // paddingHorizontal: 5,
     flex: 1,
   },
   previewButtonContainer: {
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     // width:"100%",
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: wp(12),
+    // marginHorizontal: wp(12),
     borderRadius: hp(64),
   },
   previewButtonText: {
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(14),
     fontWeight: '900',
-    width: 'auto',
+    // width: 'auto',
   },
   mood: {
     width: 33,

@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
@@ -252,6 +253,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         formdata,
         true,
       );
+      console.log(formdata);
       if ($api.isSuccessful(response)) {
         const { data }: { data: JournalType } = response;
         dispatch(
@@ -293,7 +295,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
         // aspect: [4, 3],
-        quality: 0.2,
+        quality: 0.4,
       });
       if (!result.canceled) {
         setJournalEntries([
@@ -459,9 +461,9 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     try {
       const result: any = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [4, 3],
-        quality: 0.2,
+        quality: 0.4,
       });
       if (!result.canceled) {
         // User selected a new image
@@ -515,8 +517,8 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
           <TextInput
             style={[
               {
-                paddingHorizontal: 5,
-                marginVertical: 10,
+                // paddingHorizontal: 5,
+                marginVertical: 5,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
@@ -562,7 +564,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             style={{
               width: '100%',
               height: 227,
-              resizeMode: 'contain',
+              resizeMode: 'cover',
               borderRadius: 12,
               overflow: 'hidden',
             }}
@@ -681,21 +683,21 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
                 }}
                 disabled={contentLoading}
                 onPress={() => playPauseAsync(item.index)}>
-                <Image
-                  source={
-                    audioImages
-                      ? audioImages
-                      : isPlaying
-                      ? Images['pause-audio']
-                      : Images['play-audio']
-                  }
-                  style={{
-                    width: 19,
-                    height: 24,
-                    resizeMode: 'contain',
-                    tintColor: color,
-                  }}
-                />
+                {contentLoading ? (
+                  <ActivityIndicator size={'small'} color={color} />
+                ) : (
+                  <Image
+                    source={
+                      isPlaying ? Images['pause-audio'] : Images['play-audio']
+                    }
+                    style={{
+                      width: 19,
+                      height: 24,
+                      resizeMode: 'contain',
+                      tintColor: color,
+                    }}
+                  />
+                )}
               </Pressable>
             </View>
             <Slider

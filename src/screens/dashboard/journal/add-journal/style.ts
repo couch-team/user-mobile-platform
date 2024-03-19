@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(24),
     lineHeight: hp(30),
-    paddingVertical: hp(8),
+    paddingVertical: hp(5),
     color: Colors.COUCH_BLUE_900,
     marginHorizontal: wp(20),
   },
