@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     borderRadius: 56,
   },
   reachedEndContainer: {
-    paddingBottom: 100,
+    height: 100,
   },
   reachedEnd: {
     color: Colors.WHITE,

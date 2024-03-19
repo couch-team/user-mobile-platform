@@ -146,6 +146,9 @@ const Images = {
   mood_calm: require('../../assets/images/mood-options/mood-calm.png'),
   mood_excited: require('../../assets/images/mood-options/mood-excited.png'),
   mood_anxious: require('../../assets/images/mood-options/mood-anxious.png'),
+
+  curve: require('../../assets/images/icons/curve.png'),
+  affirmation: require('../../assets/images/affirmation.png'),
 };
 
 export default Images;

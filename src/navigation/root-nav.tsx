@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import DashboardNavigation from './dashboard';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 import { Colors } from 'theme/config';
-import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

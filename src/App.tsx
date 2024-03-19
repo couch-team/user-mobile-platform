@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store, { persistor } from './store';
 // import { hasDynamicIsland } from 'react-native-device-info';
 import { hp } from './constants/layout';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { RootNavigation } from './navigation';
 import { Colors } from 'theme/config';
 import { PersistGate } from 'redux-persist/integration/react';

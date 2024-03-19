@@ -41,6 +41,7 @@ export const BaseModal = ({
           behavior={Platform.OS === 'ios' ? 'height' : undefined}
           enabled
           style={styles.generalContainer}
+          keyboardVerticalOffset={ Platform.OS === 'ios' ? -110 : undefined}
           pointerEvents="box-none">
           <View style={[styles.dialogContainer]}>{children}</View>
         </KeyboardAvoidingView>

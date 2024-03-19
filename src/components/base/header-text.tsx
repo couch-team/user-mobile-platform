@@ -1,5 +1,5 @@
 import { hp, wp } from 'constants/layout';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ interface HeaderTextProps {
   headerTextStyle?: ViewStyle;
   hasSubTextStyle?: TextStyle;
   iconImage?: any;
-  bannerImage?: any;
+  bannerImage?: ReactNode | any;
+  bannerIcon?: any;
 }
 
 export const HeaderText = ({
@@ -28,6 +29,7 @@ export const HeaderText = ({
   hasSubTextStyle,
   iconImage,
   bannerImage,
+  bannerIcon
 }: HeaderTextProps) => {
   return (
     <View style={[styles.headerTextContainer, headerTextStyle]}>
@@ -58,6 +60,11 @@ export const HeaderText = ({
               resizeMode="contain"
               style={styles.bannerImageStyle}
             />
+          }
+          {
+            bannerIcon
+              &&
+              <View style={styles.bannerIcon}>{bannerIcon}</View>
           }
         </View>
       )}
@@ -103,4 +110,8 @@ const styles = StyleSheet.create({
     width: wp(100),
     height: hp(100),
   },
+  bannerIcon: {
+    position: 'absolute',
+    right: -20,
+  }
 });

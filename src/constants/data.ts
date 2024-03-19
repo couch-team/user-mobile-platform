@@ -587,11 +587,11 @@ export const exploreOptions = [
 export const therapyOptions = [
   {
     id: 1,
-    title: 'TELETHERAPY',
-    description: 'Set & Crush goals and eat up tasks like biscuits.',
+    title: 'Planner',
+    description: 'Set daily tasks and reminders',
     icon: Images['phone-calling'],
     color: Colors.PURPLE,
-    url: 'Therapy',
+    url: 'Planner',
   },
   {
     id: 2,

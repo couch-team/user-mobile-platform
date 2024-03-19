@@ -25,6 +25,7 @@ import UserOnboarding2 from 'screens/auth/user-onboarding/UserOnboarding2';
 import UserOnboarding3 from 'screens/auth/user-onboarding/UserOnboarding3';
 import UserOnboarding4 from 'screens/auth/user-onboarding/UserOnboarding4';
 import CompleteOnboarding1 from 'screens/auth/user-onboarding/CompleteOnboarding1';
+import Planner from 'screens/dashboard/planner';
 
 const Stack = createNativeStackNavigator<DashboardParamList>();
 
@@ -34,10 +35,6 @@ const DashboardNavigation = () => {
       initialRouteName={'DashboardHome'}
       screenOptions={{
         headerShown: false,
-        // transitionSpec: {
-        //   open: TransitionSpecs.TransitionIOSSpec,
-        //   close: TransitionSpecs.TransitionIOSSpec,
-        // },
       }}>
       <Stack.Screen component={BottomTabBar} name="DashboardHome" />
       <Stack.Screen component={Notifications} name="Notifications" />
@@ -52,6 +49,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={PreviewJournal} name="PreviewJournal" />
       <Stack.Screen component={EditJournal} name="EditJournal" />
       <Stack.Screen component={MindSpace} name="MindSpace" />
+      <Stack.Screen component={Planner} name="Planner" />
       <Stack.Screen
         component={RecentlyPlayedAudio}
         name="RecentlyPlayedAudio"
