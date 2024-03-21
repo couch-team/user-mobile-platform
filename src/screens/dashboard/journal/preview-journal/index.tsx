@@ -268,7 +268,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
           <TextInput
             style={[
               {
-                paddingHorizontal: 5,
+                // paddingHorizontal: 5,
                 marginVertical: 10,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
@@ -302,7 +302,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
             style={{
               width: '100%',
               height: 227,
-              resizeMode: 'contain',
+              resizeMode: 'cover',
               borderRadius: 12,
               overflow: 'hidden',
             }}
@@ -492,7 +492,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     );
   };
   const formattedDate = moment(journal?.updated_at).calendar();
-  const containerWidth = formattedDate.length * 10;
+  const containerWidth = formattedDate.length * 8;
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar

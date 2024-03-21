@@ -425,7 +425,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           <TextInput
             style={[
               {
-                paddingHorizontal: 5,
+                // paddingHorizontal: 5,
                 marginVertical: 10,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
