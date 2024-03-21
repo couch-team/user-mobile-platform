@@ -75,6 +75,25 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           onEndReached={() => !reached_end && !isFetchingMoods && setCurrentPage(currentPage + 1)}
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
+          ListEmptyComponent={
+            <View style={styles.emptyMoodTrackerContainer}>
+            <View style={styles.emptyMoodIconContainer}>
+              <Image
+                source={Images['empty-mood']}
+                resizeMode="contain"
+                style={styles.emptyMoodIcon}
+              />
+            </View>
+            <View style={styles.emptyTextContainer}>
+              <Text style={styles.emptyMainText}>
+                No Mood logged in here yet
+              </Text>
+              <Text style={styles.emptyBodyText}>
+                Tap the '+' button below to log your mood on the mood tracker.
+              </Text>
+            </View>
+          </View>
+          }
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24, }}>
               <MoodChart data={chartData} is_loading={chart_loading}/>
@@ -140,27 +159,6 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
-      {
-        moods.length === 0 && !isFetchingMoods 
-          &&
-          <View style={styles.emptyMoodTrackerContainer}>
-            <View style={styles.emptyMoodIconContainer}>
-              <Image
-                source={Images['empty-mood']}
-                resizeMode="contain"
-                style={styles.emptyMoodIcon}
-              />
-            </View>
-            <View style={styles.emptyTextContainer}>
-              <Text style={styles.emptyMainText}>
-                No Mood logged in here yet
-              </Text>
-              <Text style={styles.emptyBodyText}>
-                Tap the '+' button below to log your mood on the mood tracker.
-              </Text>
-            </View>
-          </View>
-      }
       <Loader color={Colors.WHITE} loading={!hasFetchedMoods && isFetchingMoods}/>
     </SafeAreaView>
   );
