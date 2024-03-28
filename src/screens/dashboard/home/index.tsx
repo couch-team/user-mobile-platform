@@ -13,7 +13,6 @@ import { heavyOptions, moodTracker, podcasts4u } from 'constants/data';
 import { LongButton, HeaderBar, XButton } from 'components';
 // import { navigation } from 'navigation/utils';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
@@ -21,8 +20,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchUserDetails } from 'store/actions/userDetails';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'DashboardHome'
 >;

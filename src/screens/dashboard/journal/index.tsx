@@ -28,8 +28,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { MoodColors, MoodColorsBackground } from 'theme/config/colors';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { fetchJournals } from 'store/actions/journal';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'Journal'
 >;

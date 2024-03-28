@@ -1,7 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { debounce } from 'lodash';
-import { $api } from 'services';
-import { AppThunk } from 'store';
 
 export interface MoodType {
   id: string;

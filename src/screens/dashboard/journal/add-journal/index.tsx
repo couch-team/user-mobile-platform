@@ -14,6 +14,7 @@ import {
   Platform,
   ScrollView,
   Modal,
+  Dimensions,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
@@ -21,9 +22,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { styles } from './style';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { NoteOption, RightHeader } from './components';
+import Swiper from 'react-native-swiper';
 
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Colors, Images, Typography } from 'theme/config';
 import MoodModal from './components/MoodListContainer';
@@ -34,9 +35,10 @@ import { showMessage } from 'react-native-flash-message';
 import { MoodColors } from 'theme/config/colors';
 import JournalPromptModal from './components/JournalPrompt';
 import { fetchJournals } from 'store/actions/journal';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // import { showMessage } from 'react-native-flash-message';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'AddJournal'
 >;
@@ -63,9 +65,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [openJournalPrompt, setOpenJournalPrompt] = useState(false);
-  const [bottomMargin, setBottomMargin] = useState(0);
   const [showPreviewImage, setShowPreviesImage] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const audioRef = useRef<any>([]);
 
@@ -227,7 +229,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       'keyboardDidShow',
       () => {
         setIsKeyboardVisible(true);
-        setBottomMargin(30);
       },
     );
 
@@ -347,16 +348,26 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           ...journalEntries,
           { type: 'image', content: result.assets[0].uri },
         ]);
+        setPreviewImages([...previewImages, result.assets[0].uri]);
       }
     } catch (error) {
       console.error('Error picking image:', error);
     }
   };
 
+  const handleImagePress = (index: number) => {
+    setCurrentIndex(index);
+    setShowPreviesImage(true);
+  };
+
   const handleRemoveImage = (index: number) => {
     const updatedEntries: any = [...journalEntries];
     updatedEntries.splice(index, 1);
     setJournalEntries(updatedEntries);
+
+    const updatedPreviewImages = [...previewImages];
+    updatedPreviewImages.splice(index, 1);
+    setPreviewImages(updatedPreviewImages);
   };
 
   const handleRemoveAudio = (index: number) => {
@@ -421,7 +432,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={0}
-          key={index}>
+          key={index}
+          style={{ marginVertical: 7 }}>
           <TextInput
             style={[
               {
@@ -466,7 +478,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       );
     } else if (item.type === 'image') {
       return (
-        <View style={{ position: 'relative' }} key={index}>
+        <View style={{ position: 'relative', marginVertical: 7 }} key={index}>
           <Image
             source={{ uri: item.content }}
             style={{
@@ -510,13 +522,37 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 7,
                 borderRadius: 64,
                 position: 'absolute',
+                left: 10,
+                top: 10,
+              }}
+              onPress={() => handleImagePress(index)}>
+              <Image
+                source={Images['zoom-in']}
+                style={{
+                  width: 22,
+                  height: 22,
+                  resizeMode: 'contain',
+                  tintColor: '#E3E4F8',
+                }}
+              />
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: 'rgba(227, 228, 248, 0.16)',
+                padding: 7,
+                borderRadius: 64,
+                position: 'absolute',
                 right: 10,
                 top: 10,
               }}
               onPress={() => handleRemoveImage(index)}>
               <Image
                 source={Images['cancel-image']}
-                style={{ width: 22, height: 22, resizeMode: 'contain' }}
+                style={{
+                  width: 22,
+                  height: 22,
+                  resizeMode: 'contain',
+                }}
               />
             </Pressable>
           </View>
@@ -530,7 +566,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             backgroundColor: 'rgba(238, 239, 251, 0.08)',
             borderRadius: 10,
             padding: 10,
-            marginVertical: 10,
+            marginVertical: 7,
           }}
           key={index}>
           <Pressable
@@ -637,14 +673,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     return null;
   };
 
-  const handleScroll = () => {
-    setIsScrolling(true);
-  };
-
-  const handleScrollEnd = () => {
-    setIsScrolling(false);
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -664,23 +692,63 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           style={[
             {
               flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
+              // justifyContent: 'center',
+              // alignItems: 'center',
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
             },
           ]}>
           <Pressable
-            onPress={() => {}}
             style={{
-              width: '90%',
-              height: 40,
-              position: 'relative',
-              borderRadius: 8,
-              // flex: 1,
-            }}>
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Text>HI</Text>
-            </View>
+              backgroundColor: 'rgba(227, 228, 248, 0.4)',
+              padding: 7,
+              borderRadius: 64,
+              position: 'absolute',
+              right: 10,
+              top: 10,
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Image
+              source={Images['cancel-image']}
+              style={{ width: 22, height: 22, resizeMode: 'contain' }}
+            />
+          </Pressable>
+          <Pressable
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Swiper
+              loop={false}
+              showsButtons={false}
+              scrollEnabled={true}
+              index={currentIndex}
+              showsPagination={false}>
+              {previewImages.map((image, index) => (
+                <Pressable
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => setShowPreviesImage(false)}>
+                  <Pressable>
+                    <Image
+                      source={{ uri: image }}
+                      key={index}
+                      style={{
+                        width: Dimensions.get('window').width,
+                        height: 400,
+                        borderRadius: 8,
+                        resizeMode: 'cover',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </Pressable>
+                </Pressable>
+              ))}
+            </Swiper>
           </Pressable>
         </Pressable>
       </Modal>
@@ -713,8 +781,6 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             paddingHorizontal: 20,
           }}>
           <ScrollView
-            onScrollBeginDrag={handleScroll}
-            onScrollEndDrag={handleScrollEnd}
             ref={scrollView => {
               this.scrollView = scrollView;
             }}

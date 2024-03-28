@@ -38,8 +38,9 @@ import VoiceModal from '../add-journal/components/VoiceModel';
 import { showMessage } from 'react-native-flash-message';
 import { fetchJournals } from 'store/actions/journal';
 import JournalPromptModal from '../add-journal/components/JournalPrompt';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'EditJournal'
 >;

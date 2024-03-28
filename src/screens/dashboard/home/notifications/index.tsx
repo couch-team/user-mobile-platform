@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { HeaderText, HeaderBar } from 'components';
 import NotificationHeader from './components/NotificationHeader';
 import { notifications } from 'constants/data';
 import RenderNotificationList from './components/RenderNotificationList';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'Notifications'
 >;

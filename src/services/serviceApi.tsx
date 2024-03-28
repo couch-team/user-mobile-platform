@@ -24,31 +24,37 @@ class ServiceApi {
     return `${this.url}${url}`;
   }
 
-  setupHeaders() {
+  setupHeaders(token?: string) {
     return {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: store.getState().Auth.access_token
+        Authorization: token
+          ? `Bearer ${token}`
+          : store.getState().Auth.access_token
           ? `Bearer ${store.getState().Auth.access_token}`
           : '',
       },
     };
   }
 
-  setupImageHeaders() {
+  setupImageHeaders(token?: string) {
     return {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${store.getState().Auth.access_token}`,
+        Authorization: token
+          ? `Bearer ${token}`
+          : store.getState().Auth.access_token
+          ? `Bearer ${store.getState().Auth.access_token}`
+          : '',
       },
     };
   }
 
-  async fetch(url: string) {
+  async fetch(url: string, token?: string) {
     try {
       const response = await axiosClient.get(
         this.appendToURL(url),
-        this.setupHeaders(),
+        this.setupHeaders(token),
       );
       return response;
     } catch (err: any) {
@@ -68,12 +74,12 @@ class ServiceApi {
     }
   }
 
-  async post(url: string, data: any, form_data?: boolean) {
+  async post(url: string, data: any, form_data?: boolean, token?: string) {
     try {
       const response = await axiosClient.post(
         this.appendToURL(url),
         data,
-        form_data ? this.setupImageHeaders() : this.setupHeaders(),
+        form_data ? this.setupImageHeaders(token) : this.setupHeaders(token),
       );
       return response;
     } catch (err: any) {
@@ -106,46 +112,51 @@ class ServiceApi {
       return err;
     }
   }
-	
-	isSuccessful(response: any): boolean {
-		const codes = [200, 201, 202, 204];
-		const validationErrorCodes = [ 422, 400, 403 ];
-		if(!codes.includes(response?.response?.status || response?.response?.statusCode || response?.response?.code )){
-			if (validationErrorCodes.includes(response?.response?.status)){
-				const keys = Object.keys(response?.response?.data?.errors)
-				if(response?.response?.data?.errors[keys[0]][0]){
-					keys.forEach((key) => {
-						response?.response?.data?.errors[key].forEach((errorMessage: string) => {
-							showMessage({
-								message: errorMessage,
-								duration: 3000,
-								type: 'danger',
-							});
-						});
-					});
-				}
-				else{
-					showMessage({
-						message: response?.response?.data?.message,
-						duration: 3000,
-						type: 'danger',
-					});
-				}
-			}
+
+  isSuccessful(response: any): boolean {
+    const codes = [200, 201, 202, 204];
+    const validationErrorCodes = [422, 400, 403];
+    if (
+      !codes.includes(
+        response?.response?.status ||
+          response?.response?.statusCode ||
+          response?.response?.code,
+      )
+    ) {
+      if (validationErrorCodes.includes(response?.response?.status)) {
+        const keys = Object.keys(response?.response?.data?.errors);
+        if (response?.response?.data?.errors[keys[0]][0]) {
+          keys.forEach(key => {
+            response?.response?.data?.errors[key].forEach(
+              (errorMessage: string) => {
+                showMessage({
+                  message: errorMessage,
+                  duration: 3000,
+                  type: 'danger',
+                });
+              },
+            );
+          });
+        } else {
+          showMessage({
+            message: response?.response?.data?.message,
+            duration: 3000,
+            type: 'danger',
+          });
         }
-		else if(response?.response?.status === 500){
-			showMessage({
-				message: 'server Error',
-				duration: 3000,
-				type: 'danger',
-			})
-		}
-		return !response?.data?.errors && codes.includes(
-		  response?.status || response?.statusCode || response?.code 
-		)
-		  ? true
-		  : false;
-	}
+      }
+    } else if (response?.response?.status === 500) {
+      showMessage({
+        message: 'server Error',
+        duration: 3000,
+        type: 'danger',
+      });
+    }
+    return !response?.data?.errors &&
+      codes.includes(response?.status || response?.statusCode || response?.code)
+      ? true
+      : false;
+  }
 }
 
 export default new ServiceApi();
