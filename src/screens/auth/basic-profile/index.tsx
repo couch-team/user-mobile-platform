@@ -13,12 +13,9 @@ import { Images } from 'theme/config';
 import { LongButton, CouchDatePicker } from 'components';
 import { genderRoles } from 'constants/data';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { RootState } from 'store';
 import { setDob, setGender } from 'store/slice/onboardingSlice';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -33,7 +30,6 @@ type Props = {
 
 const BasicProfile = ({ navigation: { navigate } }: Props) => {
   const { params } = useRoute<RouteProp<AuthParamList, 'BasicProfile'>>();
-  const { gender, dob } = useSelector((state: RootState) => state.Onboarding);
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState('');
@@ -47,17 +43,11 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
     });
   };
 
-  // useEffect(() => {
-  //   gender && dob && proceed();
-  // }, []);
-
   const continueProcess = async () => {
     dispatch(setGender(selectedGender));
     dispatch(setDob(dayjs(dateValue).format('YYYY-MM-DD')));
     proceed();
   };
-
-  console.log(selectedGender, dayjs(dateValue).format('YYYY-MM-DD'));
 
   useEffect(() => {
     if (isAndroid) {

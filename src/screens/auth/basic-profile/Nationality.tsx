@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { CouchDropDown, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import useAppDispatch from 'hooks/useAppDispatch';
@@ -25,20 +22,11 @@ type Props = {
 
 const Nationality = ({ navigation: { navigate } }: Props) => {
   const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
-  const { country, state_of_residence, gender, dob } = useSelector(
-    (state: RootState) => state.Onboarding,
-  );
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedState, setSelectedState] = useState('');
-  // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
-
-  console.log('Gender', gender);
-  console.log('DOB', dob);
-  console.log('COuntry', selectedCountry);
-  console.log('State', selectedState);
 
   const proceed = () => {
     navigate('UploadProfile', {

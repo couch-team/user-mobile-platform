@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,10 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { LongButton } from 'components';
-import {
-  AuthParamList,
-  DashboardParamList,
-} from 'utils/types/navigation-types';
+import { AuthParamList } from 'utils/types/navigation-types';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import * as ImagePicker from 'expo-image-picker';
@@ -48,11 +45,6 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
   );
   const [is_loading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-
-  console.log('Gender', gender);
-  console.log('DOB', dob);
-  console.log('COuntry', country);
-  console.log('State', state_of_residence);
 
   const [profileImage, setProfileImage] = useState({
     uri: '',
@@ -98,7 +90,6 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
     formdata.append('country', country);
     formdata.append('state_of_residence', state_of_residence);
     formdata.append('avatar', profileImage);
-    console.log(formdata);
     completeOnboarding(formdata);
   };
 
@@ -111,7 +102,6 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
         true,
         params.token,
       );
-      console.log(response);
       const tokens = params.token;
       if ($api.isSuccessful(response)) {
         dispatch(fetchUserDetails(tokens));
@@ -127,11 +117,6 @@ const UploadProfile = ({ navigation: { navigate } }: Props) => {
       setIsLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchUserDetails());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
