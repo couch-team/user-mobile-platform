@@ -12,42 +12,47 @@ import { RootState } from 'store';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'Nationality'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const Nationality = ({ navigation: { navigate } }: Props) => {
-  const { country, state_of_residence } = useSelector(
+  const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
+  const { country, state_of_residence, gender, dob } = useSelector(
     (state: RootState) => state.Onboarding,
   );
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<string>(country || '');
-  const [selectedState, setSelectedState] = useState(state_of_residence || '');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedState, setSelectedState] = useState('');
   // const dispatch = useAppDispatch();
   const dispatch = useAppDispatch();
-  
+
+  console.log('Gender', gender);
+  console.log('DOB', dob);
+  console.log('COuntry', selectedCountry);
+  console.log('State', selectedState);
+
   const proceed = () => {
-    navigate('UploadProfile');
+    navigate('UploadProfile', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry));
     dispatch(setStateOfResidence(selectedState));
-    proceed()
-
-  // const completeProfile = () => {
-  //   dispatch(setCountry(selectedCountry));
-  //   dispatch(setStateOfResidence(selectedState));
-  // };
-
-
-  useEffect(() => {
-    selectedCountry && state_of_residence && proceed();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountry, state_of_residence]);
+    proceed();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,5 +111,5 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     </SafeAreaView>
   );
 };
-}
+// };
 export default Nationality;

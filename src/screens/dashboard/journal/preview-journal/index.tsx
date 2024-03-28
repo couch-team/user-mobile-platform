@@ -22,7 +22,6 @@ import { styles } from './style';
 import moment from 'moment';
 import { Colors, Images, Typography } from 'theme/config';
 import SettingsModal from './components/SettingsModal';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import DeleteModal from './components/DeleteModal';
 import MoodViewModal from './components/MoodEditModal';
@@ -30,8 +29,9 @@ import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchJournals } from 'store/actions/journal';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'PreviewJournal'
 >;

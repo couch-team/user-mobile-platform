@@ -6,24 +6,37 @@ import { Images } from 'theme/config';
 import { moods } from 'constants/data';
 import { LongButton } from 'components';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  DashboardParamList,
+} from 'utils/types/navigation-types';
 import PrivacyModal from './modals/PrivacyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<DashboardParamList, 'UserOnboarding'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'UserOnboarding'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const UserOnboarding = ({ navigation: { navigate } }: Props) => {
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding'>>();
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const authProfileDetails = useSelector((state: RootState) => state.User);
 
   const completePrivacy = async () => {
     setShowPrivacyModal(false);
-    navigate('UserOnboarding1');
+    navigate('UserOnboarding1', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
   return (
@@ -45,8 +58,12 @@ const UserOnboarding = ({ navigation: { navigate } }: Props) => {
             />
           )}
         </View>
-        <Text style={styles.profileName}>Hi {authProfileDetails?.first_name},</Text>
-        <Text style={styles.instructionHeaderText}>Help us understand you better...</Text>
+        <Text style={styles.profileName}>
+          Hi {authProfileDetails?.first_name},
+        </Text>
+        <Text style={styles.instructionHeaderText}>
+          Help us understand you better...
+        </Text>
         <Text style={styles.instructionText}>
           Let's customize your account better you would help in answering a few
           questions. Would you love to answer the questions now?

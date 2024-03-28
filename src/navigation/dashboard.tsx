@@ -26,6 +26,11 @@ import UserOnboarding3 from 'screens/auth/user-onboarding/UserOnboarding3';
 import UserOnboarding4 from 'screens/auth/user-onboarding/UserOnboarding4';
 import CompleteOnboarding1 from 'screens/auth/user-onboarding/CompleteOnboarding1';
 import Planner from 'screens/dashboard/planner';
+import EditProfile from 'screens/dashboard/profile/menus/EditProfile';
+import Account from 'screens/dashboard/profile/menus/Account';
+import More from 'screens/dashboard/profile/menus/More';
+import NotificationPref from 'screens/dashboard/profile/menus/NotificationPref';
+import Subscription from 'screens/dashboard/profile/menus/Subscription';
 
 const Stack = createNativeStackNavigator<DashboardParamList>();
 
@@ -70,6 +75,14 @@ const DashboardNavigation = () => {
         component={CompleteOnboarding1}
         name="CompleteOnboarding1"
       />
+      <Stack.Screen component={EditProfile} name="EditProfile" />
+      <Stack.Screen component={Account} name="Account" />
+      <Stack.Screen component={More} name="More" />
+      <Stack.Screen
+        component={NotificationPref}
+        name="NotificationPreference"
+      />
+      <Stack.Screen component={Subscription} name="Subscription" />
     </Stack.Navigator>
   );
 };

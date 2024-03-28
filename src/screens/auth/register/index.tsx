@@ -3,24 +3,21 @@ import {
   View,
   Text,
   Image,
-  KeyboardAvoidingView,
   ImageBackground,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { FormTextInput, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { $api } from 'services';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Register'>;
+type AuthNavigationProps = NativeStackNavigationProp<AuthParamList, 'Register'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -37,44 +34,43 @@ const registerSchema = Yup.object().shape({
 const Register = ({ navigation: { navigate } }: Props) => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
-  const [ is_loading, setIsLoading ] = useState(false);
-
+  const [is_loading, setIsLoading] = useState(false);
 
   const handleSubmit = async (values: any) => {
-    const { firstName,lastName, password, email } = values;
-    try{
-      setIsLoading(true)
+    const { firstName, lastName, password, email } = values;
+    try {
+      setIsLoading(true);
       const response = await $api.post('/api/auth/register/', {
         first_name: firstName,
         last_name: lastName,
         password,
         email,
         role: 2,
-      })
-      if($api.isSuccessful(response)){
-        navigate('VerifyOtp', { email, password });
+      });
+      if ($api.isSuccessful(response)) {
+        console.log(response.data?.tokens?.access);
+        const token = response.data?.tokens?.access;
+        navigate('VerifyOtp', { email, password, token });
       }
-    }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setIsLoading(false)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-      <ImageBackground source={Images.background} style={styles.imageBg}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={Images.logo}
-            resizeMode="contain"
-            style={styles.logo}
-          />
-        </View>
-        {/* <KeyboardAvoidingView behavior="position"> */}
+        <ImageBackground source={Images.background} style={styles.imageBg}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={Images.logo}
+              resizeMode="contain"
+              style={styles.logo}
+            />
+          </View>
+          {/* <KeyboardAvoidingView behavior="position"> */}
           <View style={styles.bodyContainer}>
             <Text style={styles.welcomeText}>Welcome to couch</Text>
             <Text style={styles.getStartedText}>Let's get you Started</Text>
@@ -99,7 +95,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
                         hasError={errors.firstName}
                         value={values.firstName}
                       />
-                       <FormTextInput
+                      <FormTextInput
                         label="Last Name"
                         onChangeText={handleChange('lastName')}
                         hasError={errors.lastName}
@@ -167,8 +163,8 @@ const Register = ({ navigation: { navigate } }: Props) => {
               </TouchableOpacity>
             </View>
           </View>
-        {/* </KeyboardAvoidingView> */}
-      </ImageBackground>
+          {/* </KeyboardAvoidingView> */}
+        </ImageBackground>
       </ScrollView>
     </SafeAreaView>
   );

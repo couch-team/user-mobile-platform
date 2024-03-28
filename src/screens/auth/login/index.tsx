@@ -16,12 +16,17 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { showMessage } from 'react-native-flash-message';
 // import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { setAccessToken, setRefreshToken, setEmail as setStoreEmail } from 'store/slice/authSlice';
+import {
+  setAccessToken,
+  setRefreshToken,
+  setEmail as setStoreEmail,
+} from 'store/slice/authSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { login as loginAction } from 'store/actions/login';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
+type AuthNavigationProps = NativeStackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -64,7 +69,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
     }
     await login();
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>

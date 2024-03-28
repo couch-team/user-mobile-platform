@@ -10,22 +10,29 @@ export type RootNavigationRoutes = {
 export type AuthParamList = {
   CompleteOnboarding: any;
   Login: any;
-  VerifyOtp: { email?: string; password?: string };
+  VerifyOtp: { email?: string; password?: string; token: string };
   Register: any;
   ForgetPassword: any;
   VerifyEmailAccount: any;
   ResetPassword: any;
   Onboarding: any;
-  BasicProfile: any;
-  Nationality: any;
-  UploadProfile: any;
-  UserOnboarding5: any;
+  BasicProfile: { token: string; email?: string; password?: string };
+  Nationality: { token: string; email?: string; password?: string };
+  UploadProfile: { token: string; email?: string; password?: string };
+  UserOnboarding: { token: string; email?: string; password?: string };
+  UserOnboarding4: { token: string; email?: string; password?: string };
+  UserOnboarding1: { token: string; email?: string; password?: string };
+  UserOnboarding2: { token: string; email?: string; password?: string };
+  UserOnboarding3: { token: string; email?: string; password?: string };
+  UserOnboarding5: { token: string; email?: string; password?: string };
+  CompleteOnboarding1: { email?: string; password?: string; token: string };
   UserOnboarding6: any;
   UserOnboarding7: any;
   UserOnboarding8: any;
   UserOnboarding9: any;
   UserOnboarding10: any;
   UserDashboard: any;
+  DashboardHome: any;
 };
 
 export type DashboardParamList = {
@@ -40,7 +47,7 @@ export type DashboardParamList = {
   AccountSubProfile: any;
   Referral: any;
   AddMood: any;
-  AddMood2: { mood: string; emotion: string, emotion_id: string };
+  AddMood2: { mood: string; emotion: string; emotion_id: string };
   Transfer: any;
   ScanQR: any;
   ProfileUpdate: any;
@@ -82,6 +89,11 @@ export type DashboardParamList = {
   UserOnboarding3: any;
   CompleteOnboarding1: any;
   Planner: any;
+  EditProfile: { id: string };
+  NotificationPreference: any;
+  Account: any;
+  Subscription: any;
+  More: any;
 };
 
 export type BottomTabParamList = {
