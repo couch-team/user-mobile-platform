@@ -7,13 +7,17 @@ import { rates } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import {
   AuthParamList,
+  DashboardParamList,
 } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setPhysicalStatus } from 'store/slice/preferenceSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'UserOnboarding2'
 >;
@@ -22,27 +26,26 @@ type Props = {
 };
 
 const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
-  const { params } =
-    useRoute<RouteProp<AuthParamList, 'UserOnboarding2'>>();
-  const [selectedStatus, setSelectedStatus] = useState('');
-
-  const {
-    User: { physicalOnboardingStage },
-  } = useDispatch();
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding2'>>();
+  const { physical_status } = useSelector(
+    (state: RootState) => state.Preference,
+  );
+  const dispatch = useAppDispatch();
 
   const continueProcess = async () => {
-    const data = {
-      physical_status: selectedStatus,
-    };
-    const res = await physicalOnboardingStage(data);
-    if (res) {
-      navigate('UserOnboarding4');
-    }
+    // const data = {
+    //   physical_status: selectedStatus,
+    // };
+    navigate('UserOnboarding4', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={1} />
+    <SafeAreaView style={styles.onboardingContainer}>
+      <ProgressHeader status={2} bars={4} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Health Related Info"
@@ -58,9 +61,9 @@ const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
             {rates.map(rate => {
               return (
                 <Checkbox
-                  selectedCheckType={selectedStatus}
+                  selectedCheckType={physical_status}
                   hideCheckBox
-                  onSelectOption={setSelectedStatus}
+                  onSelectOption={value => dispatch(setPhysicalStatus(value))}
                   key={rate.id}
                   index={rate}
                   checkTitle={rate.title}
@@ -72,7 +75,7 @@ const UserOnboarding2 = ({ navigation: { navigate } }: Props) => {
       </ScrollView>
       <View style={styles.buttonContainer}>
         <LongButton
-          disabled={selectedStatus ? false : true}
+          disabled={physical_status ? false : true}
           isNotBottom
           title="Continue"
           onPress={() => continueProcess()}

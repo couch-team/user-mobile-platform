@@ -6,30 +6,26 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
+    position: 'relative',
   },
   noteOptionBodyContainer: {
-    // marginHorizontal: wp(10),
-    // paddingVertical:hp(12)
-    marginTop: hp(12),
+    flex: 1,
   },
   titleTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(24),
-    lineHeight: hp(30),
-    paddingVertical: hp(8),
+    // lineHeight: hp(30),
+    paddingVertical: hp(5),
     color: Colors.COUCH_BLUE_900,
-    marginHorizontal: wp(8),
+    marginHorizontal: wp(20),
   },
   promptTextStyle: {
     fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(14),
-    // lineHeight: hp(10),
     color: Colors.COUCH_BLUE_900,
   },
   noteBodyContainer: {
     marginTop: hp(12),
-    // marginHorizontal: wp(4),
-    // marginVertical: hp(18),
   },
   textInput: {
     width: 200,
@@ -39,14 +35,10 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   noteOptionContainer: {
-    // flexDirection: 'row',
     width: wp(350),
-    // justifyContent: 'space-around',
-    // alignItems: 'center',
-    // alignSelf: 'center',
     borderRadius: hp(64),
     height: hp(68),
-    marginVertical:10,
+    marginVertical: 10,
     backgroundColor: Colors.PRIMARY_DARKBLUE,
   },
   noteIconContainer: {

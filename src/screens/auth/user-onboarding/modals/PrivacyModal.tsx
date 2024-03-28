@@ -4,7 +4,7 @@ import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { LongButton, BaseModal } from 'components';
 import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 
 interface PrivacyModalProps {
   isVisible: boolean;

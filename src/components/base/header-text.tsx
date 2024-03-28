@@ -1,5 +1,5 @@
 import { hp, wp } from 'constants/layout';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ interface HeaderTextProps {
   headerTextStyle?: ViewStyle;
   hasSubTextStyle?: TextStyle;
   iconImage?: any;
-  bannerImage?: any;
+  bannerImage?: ReactNode | any;
+  bannerIcon?: any;
 }
 
 export const HeaderText = ({
@@ -28,6 +29,7 @@ export const HeaderText = ({
   hasSubTextStyle,
   iconImage,
   bannerImage,
+  bannerIcon
 }: HeaderTextProps) => {
   return (
     <View style={[styles.headerTextContainer, headerTextStyle]}>
@@ -50,11 +52,20 @@ export const HeaderText = ({
               </Text>
             </View>
           </View>
-          <Image
-            source={bannerImage}
-            resizeMode="contain"
-            style={styles.bannerImageStyle}
-          />
+          {
+            bannerImage
+              &&
+            <Image
+              source={bannerImage}
+              resizeMode="contain"
+              style={styles.bannerImageStyle}
+            />
+          }
+          {
+            bannerIcon
+              &&
+              <View style={styles.bannerIcon}>{bannerIcon}</View>
+          }
         </View>
       )}
     </View>
@@ -67,18 +78,19 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(22),
   },
   headerText: {
-    color: Colors.WHITE,
-    fontFamily: "Sora-Medium",
-    fontWeight:"400",
-    fontSize: hp(20),
-    lineHeight: hp(25),
+    color: Colors.COUCH_BLUE_1100,
+    fontFamily: "Sora-Semibold",
+    fontWeight:"600",
+    fontSize: 24,
+    lineHeight: 31,
   },
   subHeaderText: {
     paddingTop: hp(4),
     color: Colors.COUCH_TEXT_COLOR,
     fontFamily: "Sora-Regular",
-    fontSize: hp(14),
-    lineHeight: hp(18),
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: -0.48,
   },
   iconImageContainer: {
     flexDirection: 'row',
@@ -98,4 +110,8 @@ const styles = StyleSheet.create({
     width: wp(100),
     height: hp(100),
   },
+  bannerIcon: {
+    position: 'absolute',
+    right: -20,
+  }
 });

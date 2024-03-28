@@ -1,48 +1,40 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Colors, Images, Typography } from 'theme/config';
+import { Colors, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { BaseModal, LongButton } from 'components';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchJournalMoods } from 'store/slice/journalMoodSlice';
+import { useFocusEffect } from '@react-navigation/native';
 
 export type MoodType =
+  | 'Calm'
+  | 'Anxious'
+  | 'Excited'
   | 'Happy'
   | 'Sad'
-  | 'Angry'
-  | 'Excited'
-  | 'Anxious'
-  | 'Calm';
+  | 'Angry';
 
-interface MoodModalProps {
-  isVisible: boolean;
-  onSelectMood?: any;
-  onClose: () => void;
-  setSelectedMood: any;
-}
+const MoodModal = ({ isVisible, onSelectMood, onClose, setMoodType }: any) => {
+  const { moods } = useSelector((state: RootState) => state.JournalMood);
+  const dispatch = useAppDispatch();
 
-const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
-  const moods = useSelector(
-    (state: RootState) => state.User?.moods.results || [],
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchJournalMoods(1));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
   );
-
-  const {
-    User: { getAllMoods },
-  } = useDispatch();
-
-  useEffect(() => {
-    getAllMoods();
-    return () => {};
-  }, []);
 
   const [selectedMood, setSelectedMood] = useState(null);
 
-
   const handleMoodSelection = (mood: any) => {
-    setSelectMood(mood);
-    setSelectedMood(mood)
-    onSelectMood(mood.icon_url);
+    setSelectedMood(mood);
+    onSelectMood(mood.icon_url, mood.title, mood.id);
+    setMoodType(mood.title);
   };
 
   return (
@@ -61,7 +53,7 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
                   selectedMood === mood && {
                     borderStyle: 'dashed',
                     borderColor: Colors.YELLOW_100,
-                    backgroundColor: "transparent",
+                    backgroundColor: 'transparent',
                   },
                 ]}>
                 <Image source={{ uri: mood.icon_url }} style={styles.image} />
@@ -83,13 +75,12 @@ const MoodModal = ({ isVisible, onSelectMood, onClose, setSelectMood}: any) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: wp(20),
-    paddingVertical: hp(40)
+    paddingVertical: hp(40),
   },
   title: {
     fontSize: 18,
@@ -101,22 +92,22 @@ const styles = StyleSheet.create({
   moodContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap:wp(8),
-    // justifyContent: 'space-around',
-    alignItems: 'center', 
+    gap: wp(5),
+    // justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   imageView: {
-    marginBottom: wp(10),
-    paddingVertical: wp(10),
-    paddingHorizontal:wp(6),
+    margin: wp(3),
+    // paddingVertical: wp(10),
+    // paddingHorizontal: wp(6),
     borderWidth: 1,
     borderRadius: wp(40),
     borderColor: Colors.COUCH_GREEN_150,
-    // backgroundColor: Colors.COUCH_GREEN_150,
+    backgroundColor: Colors.COUCH_GREEN_150,
   },
   image: {
-    width: wp(60),
-    height: hp(60),
+    width: wp(70),
+    height: hp(70),
     resizeMode: 'contain',
   },
   mood: {

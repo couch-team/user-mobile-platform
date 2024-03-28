@@ -12,19 +12,21 @@ import { styles } from './style';
 import { Images } from 'theme/config';
 import { FormTextInput, Loader, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { showMessage } from 'react-native-flash-message';
 import { wp } from 'constants/layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { navigationRef } from 'navigation/utils';
+import { $api } from 'services';
+// import useAppDispatch from 'hooks/useAppDispatch';
+import { login as loginAction } from 'store/actions/login';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // import { NavigationContext } from 'navigation';
 
-
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'VerifyOtp'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'VerifyOtp'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
@@ -37,31 +39,9 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
   const { params } = useRoute<RouteProp<AuthParamList, 'VerifyOtp'>>();
   const [seconds, setSeconds] = useState(30);
   const email = params?.email;
-
-
-
-  const {
-    Auth: { verifyEmailAccount, initResendToken,login},
-  } = useDispatch();
-  const dispatch = useDispatch();
-  // React.useEffect(() =>{
-  //   getAuthenticate();
-  // }, []);
-
-  // const authProfileDetails = useSelector(
-  //   (state: RootState) => state.Auth.authProfile?.profile,
-  // );
-  // console.log('auth details', authProfileDetails);
-
-
-  const loading = useSelector(
-    (state: RootState) =>
-      state.loading.effects.Auth.verifyEmailAccount ||
-      state.loading.effects.Auth.login,
-  );
-  const resendLoading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.initResendToken,
-  );
+  const [resendCodeLoading, setResendCodeLoading] = useState(false);
+  const [is_loading, setIsLoading] = useState(false);
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     const myInterval = setInterval(() => {
@@ -78,21 +58,26 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
   });
 
   const resendCode = async () => {
-    const data = {
-      email,
-    };
-    const res = await initResendToken(data);
-    if (res) {
-      setSeconds(30);
-      showMessage({
-        message: 'Resend token sent successfully',
-        duration: 3000,
-        type: 'success',
+    try {
+      setResendCodeLoading(true);
+      const response = await $api.post('/api/auth/otp/resend/', {
+        email,
       });
+      if ($api.isSuccessful(response)) {
+        setSeconds(30);
+        showMessage({
+          message: 'Resend token sent successfully',
+          duration: 3000,
+          type: 'success',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setResendCodeLoading(false);
     }
   };
 
- 
   // const completeVerification = async (values: any) => {
   //   const data = {
   //     email,
@@ -104,47 +89,39 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
   //   }
   // };
 
-  const completeVerification = async (values: any) => {
-    const data = {
-      email,
-      otp: values.otp,
-    };
-  
-    const res = await verifyEmailAccount(data);
-    if (res) {
-      const payload = {
+  const verifyToken = async (values: any) => {
+    try {
+      setIsLoading(true);
+      const response = await $api.post('/api/auth/otp/verify/', {
         email,
         password: params.password,
-      };
-      const loginRes = await login(payload);
-      if (loginRes) {
-        navigate('Login');
+        otp: values?.otp,
+      });
+      if ($api.isSuccessful(response)) {
+        // login();
+        navigate('BasicProfile', {
+          token: params.token,
+          email: email,
+          password: params.password,
+        });
       }
+    } catch (err) {
+      console.log(err);
     }
   };
-  
- 
 
-  // const completeVerification = async (values: any) => {
-  //   const data = {
-  //     email,
-  //     otp: values.otp,
-  //   };
-
-  //   const res = await verifyEmailAccount(data);
-  //   if (res) {
-  //     const payload = {
-  //       email,
-  //       password: params.password,
-  //     };
-  //     const loginRes = await login(payload);
-  //         console.log(loginRes)
-  //     if (loginRes) {
-  //       navigate('BasicProfile');
-  //     }
-  //   }
-  // };
-
+  const login = async () => {
+    try {
+      setIsLoading(true);
+      await dispatch(
+        loginAction({ email: email || '', password: params?.password || '' }),
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,7 +140,7 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
             }}
             validateOnBlur={true}
             validationSchema={registerSchema}
-            onSubmit={completeVerification}>
+            onSubmit={verifyToken}>
             {({ errors, handleChange, values }) => {
               return (
                 <>
@@ -215,11 +192,11 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
                     </View>
                   </View>
                   <LongButton
-                    onPress={() => completeVerification(values)}
+                    onPress={() => verifyToken(values)}
                     buttonStyle={styles.buttonStyle}
                     title="Verify Email Address"
                     disabled={values.otp.length === 6 ? false : true}
-                    loading={loading}
+                    loading={is_loading}
                   />
                 </>
               );
@@ -227,7 +204,7 @@ const VerifyOtp = ({ navigation: { navigate } }: Props) => {
           </Formik>
         </KeyboardAvoidingView>
       </ImageBackground>
-      <Loader loading={resendLoading} />
+      <Loader loading={resendCodeLoading} />
     </SafeAreaView>
   );
 };

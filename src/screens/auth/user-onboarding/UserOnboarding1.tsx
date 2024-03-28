@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
-// import { helpLists } from 'constants/data';
-import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList } from 'utils/types/navigation-types';
+import { LongButton, Checkbox, ProgressHeader, Loader } from 'components';
+import {
+  AuthParamList,
+  DashboardParamList,
+} from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { $api } from 'services';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { setGoal as setSelectedGoals } from 'store/slice/preferenceSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'UserOnboarding1'
 >;
@@ -23,51 +30,49 @@ export function useForceUpdate() {
   return () => setValue(value => value + 1);
 }
 
-
 const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<React.Key[]>([]);
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding'>>();
+  const { goal: selectedGoals } = useSelector(
+    (state: RootState) => state.Preference,
+  );
+  const [goals, setGoals] = useState<any[]>([]);
+  const [isFetchingGoals, setIsFetchingGoals] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const handleSelectOption = (id: React.Key) => {
-    if (selectedOptions.includes(id)) {
-     
-      setSelectedOptions(selectedOptions.filter(optionId => optionId !== id));
+  const handleSelectOption = (id: string) => {
+    if (selectedGoals.includes(id)) {
+      dispatch(
+        setSelectedGoals(selectedGoals.filter(optionId => optionId !== id)),
+      );
     } else {
-
-      setSelectedOptions([...selectedOptions, id]);
+      dispatch(setSelectedGoals([...selectedGoals, id]));
     }
   };
-  const {
-    Auth: { getGoalLists },
-  } = useDispatch();
 
-  const {
-    User: { goalOnboardingStage },
-  } = useDispatch();
+  const fetchGoals = async () => {
+    try {
+      setIsFetchingGoals(true);
+      const tokens = params.token;
+      const response = await $api.fetch('/api/auth/onboarding/goal/', tokens);
+      if ($api.isSuccessful(response)) {
+        setGoals(response?.data?.results);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsFetchingGoals(false);
+    }
+  };
 
- 
-  React.useEffect(function () {
-    getGoalLists();
+  useEffect(() => {
+    fetchGoals();
   }, []);
 
-  const goalists = useSelector((state: RootState) => state.Auth.goalists?.results);
-// console.log(goalists,'goallist')
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
-  );
+  const authProfileDetails = useSelector((state: RootState) => state.User);
 
-  const continueProcess =  async () => {
-    const data = {
-      goal: selectedOptions,
-    };
-    const res = await goalOnboardingStage(data)
-    if(res){
-      navigate('UserOnboarding2');
-    }
-  };
- 
   return (
-    <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} />
+    <SafeAreaView style={styles.onboardingContainer}>
+      <ProgressHeader status={1} bars={4} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Health Related Info"
@@ -77,25 +82,21 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
         <View style={styles.bodyContainer}>
           <Text style={styles.mainBodyText}>
             Hello {authProfileDetails?.first_name}, What could we help you with
+            {'\n'}
             on Couch?
           </Text>
 
           <View style={styles.helpListContainer}>
             <>
-              {goalists?.map(
-                (
-                  data: any,
-                  index: any,
-                ) => (
-                  <Checkbox
-                    key={data?.id}
-                    checkTitle={data?.title}
-                    index={index}
-                    onSelectOption={() => handleSelectOption(data?.id)}
-                    selectedCheck={selectedOptions?.includes(data?.id)}
-                  />
-                ),
-              )}
+              {goals?.map((data: any, index: any) => (
+                <Checkbox
+                  key={data?.id}
+                  checkTitle={data?.title}
+                  index={index}
+                  onSelectOption={() => handleSelectOption(data?.id)}
+                  selectedCheck={selectedGoals?.includes(data?.id)}
+                />
+              ))}
             </>
           </View>
         </View>
@@ -103,11 +104,18 @@ const UserOnboarding1 = ({ navigation: { navigate } }: Props) => {
       <View style={styles.buttonContainer}>
         <LongButton
           isNotBottom
-          disabled={selectedOptions?.length > 0 ? false : true}
+          disabled={selectedGoals?.length > 0 ? false : true}
           title="Continue"
-          onPress={() => continueProcess()}
+          onPress={() =>
+            navigate('UserOnboarding2', {
+              token: params.token,
+              email: params.email,
+              password: params.password,
+            })
+          }
         />
       </View>
+      <Loader loading={isFetchingGoals} color="#fff" />
     </SafeAreaView>
   );
 };

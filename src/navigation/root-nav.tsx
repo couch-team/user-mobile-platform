@@ -1,111 +1,65 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { navigationRef } from './utils';
 import AuthNavigation from './auth';
 import { RootNavigationRoutes } from '../utils/types/navigation-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import DashboardNavigation from './dashboard';
 import TakeTour from 'screens/dashboard/home/modals/TakeTour';
 import { Colors } from 'theme/config';
-import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Axios from 'services/Axios';
 import ProfileOnboardingNavigation from './profile-onboarding';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
-const Stack = createStackNavigator<RootNavigationRoutes>();
+const Stack = createNativeStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 
 const AppNavigation = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.Auth.isLoggedIn);
+  const { access_token, is_loading } = useSelector(
+    (state: RootState) => state.Auth,
+  );
+  const user_data = useSelector((state: RootState) => state.User);
+  const isLoggedIn = !!access_token;
 
-  const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
-  const dispatch = useDispatch();
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#060C23',
+      primary: '#060C23',
+    },
+  };
 
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile?.profile,
-  );
-
-  const authPreference = useSelector(
-    (state: RootState) => state.Auth.authProfile?.preference,
-  );
-
-  React.useEffect(() => {
-    Axios.interceptors.response.use(
-      async response => {
-        // console.log(response.data, 'res');
-        return response;
-      },
-      async error => {
-        const statusCode = error.response ? error.response.status : null;
-        const originalRequest = error.config;
-        if (statusCode === 401 && !originalRequest._retry) {
-          // console.log(error.response);
-          dispatch({ type: 'RESET_APP' });
-        }
-        console.log(error, 'Error....');
-        return Promise.reject(error.response);
-      },
-    );
-    return () => {};
-  }, []);
-
-  React.useEffect(() => {
-    const restoreState = async () => {
-      try {
-        const initialUrl = await Linking.getInitialURL();
-        // console.log(initialUrl, 'initialUrl');
-
-        if (Platform.OS !== 'web' && initialUrl == null) {
-          // Only restore state if there's no deep link and we're not on web
-          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-          const state = savedStateString
-            ? JSON.parse(savedStateString)
-            : undefined;
-
-          if (state !== undefined) {
-            setInitialState(state);
-          }
-        }
-      } finally {
-        setIsReady(true);
-      }
-    };
-
-    if (!isReady) {
-      restoreState();
-    }
-  }, [isReady]);
-
-  if (!isReady) {
-    return null;
-  }
   return (
     <NavigationContainer
-      ref={navigationRef}
+      // ref={navigationRef}
       initialState={__DEV__ ? initialState : undefined}
       onStateChange={state => {
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
-      }}>
+      }}
+      theme={MyTheme}>
       <Stack.Navigator
         initialRouteName={
           isLoggedIn
-            ? authProfileDetails !== null && authPreference !== null
+            ? user_data?.profile !== null
               ? 'Dashboard'
               : 'ProfileOnboarding'
             : 'Auth'
         }
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: Colors.PRIMARY },
-          presentation: 'transparentModal',
+          presentation: 'modal',
         }}>
         {isLoggedIn ? (
-          authProfileDetails !== null && authPreference !== null ? (
+          user_data?.profile !== null || is_loading ? (
             <>
-              <Stack.Screen component={DashboardNavigation} name="Dashboard" />
+              <Stack.Screen
+                options={{ presentation: 'modal' }}
+                component={DashboardNavigation}
+                name="Dashboard"
+              />
               <Stack.Group screenOptions={{ presentation: 'modal' }}>
                 <Stack.Screen
                   name="TakeTour"
@@ -115,7 +69,10 @@ const AppNavigation = () => {
               </Stack.Group>
             </>
           ) : (
-            <Stack.Screen component={ProfileOnboardingNavigation} name="ProfileOnboarding" />
+            <Stack.Screen
+              component={ProfileOnboardingNavigation}
+              name="ProfileOnboarding"
+            />
           )
         ) : (
           <Stack.Screen component={AuthNavigation} name="Auth" />

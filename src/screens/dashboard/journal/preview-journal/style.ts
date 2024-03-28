@@ -1,4 +1,4 @@
-import { deviceWidth, hp, wp } from 'constants/layout';
+import { hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
@@ -8,8 +8,9 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
   },
   previewContainer: {
-    marginVertical: hp(10),
-    width:"auto"
+    // marginVertical: hp(10),
+    paddingHorizontal: 20,
+    flex: 1,
   },
   previewTitle: {
     fontWeight: '700',
@@ -18,14 +19,13 @@ export const styles = StyleSheet.create({
     fontSize: hp(24),
     lineHeight: hp(30),
     paddingVertical: hp(10),
-    marginHorizontal: wp(8),
+    // marginHorizontal: wp(8),
     color: Colors.COUCH_BLUE_900,
   },
-  // previewBodyText:{
-   
-  // },
   previewDocument: {
-    paddingTop: hp(10)
+    paddingTop: hp(10),
+    // paddingHorizontal: 5,
+    flex: 1,
   },
   previewButtonContainer: {
     backgroundColor: Colors.COUCH_BLUE_200,
@@ -33,21 +33,30 @@ export const styles = StyleSheet.create({
     // width:"100%",
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: wp(12),
+    // marginHorizontal: wp(12),
     borderRadius: hp(64),
   },
   previewButtonText: {
     color: Colors.COUCH_BLUE,
     fontFamily: Typography.fontFamily.SoraMedium,
     fontSize: hp(14),
-    fontWeight:"900",
-    width:"auto"
+    fontWeight: '900',
+    // width: 'auto',
+  },
+  mood: {
+    width: 33,
+    height: 33,
+  },
+  moodView: {
+    padding: 7.5,
+    borderRadius: 50,
+    backgroundColor: Colors.COUCH_BLUE_2300,
   },
   headerRightContainer: {
     flexDirection: 'row',
     width: 115,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerRightIconContainer: {
     width: 48,

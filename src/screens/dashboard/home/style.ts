@@ -58,6 +58,7 @@ export const styles = StyleSheet.create({
     padding: hp(8),
     borderRadius: 100,
     marginRight: wp(10),
+    gap: 5,
   },
   trackerText: {
     paddingLeft: 1,
@@ -99,7 +100,12 @@ export const styles = StyleSheet.create({
   profileImage: {
     width: 100,
     height: 100,
-    borderRadius: 100
+    borderRadius: 100,
+  },
+  profileImageContainer: {
+    backgroundColor: '#8A8EE333',
+    padding: 8,
+    borderRadius: 200,
   },
   podcastContentContainer: {
     paddingLeft: wp(24),

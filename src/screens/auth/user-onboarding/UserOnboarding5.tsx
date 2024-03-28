@@ -5,12 +5,16 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { anxiousState } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList, RootNavigationRoutes } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  RootNavigationRoutes,
+} from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'UserOnboarding5'
 >;
@@ -20,27 +24,27 @@ type Props = {
 
 const UserOnboarding5 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
-  const userProfile = useSelector((state: RootState) => state.Auth.userProfile);
-  const {
-    Auth: { pendingProfileCompletion },
-  } = useDispatch();
+  const userProfile = useSelector((state: RootState) => state.User);
+  const { ever_had_therapy } = useSelector(
+    (state: RootState) => state.Preference,
+  );
 
   const continueProcess = async () => {
     const data = {
       ...userProfile,
       mentalInfo: {
-        beenToTherapy: userProfile?.mentalInfo?.beenToTherapy,
+        beenToTherapy: ever_had_therapy,
         previousMood: selectedStatus,
       },
     };
-    const res = await pendingProfileCompletion(data);
-    if (res) {
-      navigate('UserOnboarding6');
-    }
+    // const res = await pendingProfileCompletion(data);
+    // if (res) {
+    navigate('UserOnboarding6');
+    // }
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ProgressHeader firstProgress={1} secondProgress={0.4} />
+      <ProgressHeader status={1} bars={4} />
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
         <OnboardingHeader
           headerTitle="Mental Related Info"

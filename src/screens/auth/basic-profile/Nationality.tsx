@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
@@ -7,48 +7,52 @@ import { CouchDropDown, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { countryList } from 'constants/data';
+import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'Nationality'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
-interface SelectedCountryProps {
-  name: string;
-  code: string;
-}
-
 const Nationality = ({ navigation: { navigate } }: Props) => {
+  const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
+  const { country, state_of_residence, gender, dob } = useSelector(
+    (state: RootState) => state.Onboarding,
+  );
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] =
-    useState<SelectedCountryProps>();
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedState, setSelectedState] = useState('');
+  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  const {
-    User: {pendingProfileCountry ,pendingProfileState},
-  } = useDispatch();
-  
-  const onSelectCountry = async (selectedUserCountry: SelectedCountryProps) => {
-    setSelectedCountry(selectedUserCountry);
-  };
-  const onSelectState = async (selectedUserState: string) => {
-    setSelectedState(selectedUserState);
-  };
+  console.log('Gender', gender);
+  console.log('DOB', dob);
+  console.log('COuntry', selectedCountry);
+  console.log('State', selectedState);
 
-
-  const completeProfile = async () => {
-    const res = await pendingProfileCountry(selectedCountry?.code)
-    const resp = await pendingProfileState(selectedState)
-      if(resp && res ){
-        navigate('UploadProfile');
-      }
-        
+  const proceed = () => {
+    navigate('UploadProfile', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
- 
+  const completeProfile = () => {
+    dispatch(setCountry(selectedCountry));
+    dispatch(setStateOfResidence(selectedState));
+    proceed();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,7 +74,10 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
               label="Country"
               placeholder="Select your country"
               onOpenDropDown={setOpenCountryList}
-              dropDownValue={selectedCountry?.name}
+              dropDownValue={
+                countryList.find(countrys => countrys.code === selectedCountry)
+                  ?.name
+              }
               openDropDown={openCountryList}
             />
             <CouchDropDown
@@ -85,13 +92,13 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
       </View>
       <CountryList
         isVisible={openCountryList}
-        onComplete={onSelectCountry}
+        onComplete={data => setSelectedCountry(data?.code)}
         onClose={() => setOpenCountryList(false)}
       />
       <StatesList
         isVisible={openStateList}
         onClose={() => setOpenStateList(false)}
-        onComplete={onSelectState}
+        onComplete={data => setSelectedState(data)}
       />
 
       <LongButton
@@ -104,5 +111,5 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     </SafeAreaView>
   );
 };
-
+// };
 export default Nationality;

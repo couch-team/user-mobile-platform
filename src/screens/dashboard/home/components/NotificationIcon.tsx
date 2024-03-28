@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageSourcePropType, TouchableOpacity } from 'react-native';
+import { Image, ImageSourcePropType, Pressable } from 'react-native';
 import { styles } from '../style';
 import { Images } from 'theme/config';
 
@@ -17,18 +17,17 @@ const NotificationIcon = ({
   onPressIcon,
 }: NotificationIconProps) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() =>
         navigate ? navigate('Notifications') : onPressIcon && onPressIcon()
       }
-      activeOpacity={0.5}
       style={styles.notificationIconContainer}>
       <Image
         source={sharedImage || Images.notification}
         resizeMode="contain"
         style={[styles.notificationIcon, { tintColor }]}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

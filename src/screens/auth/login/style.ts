@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     height: hp(24),
   },
   bodyContainer: {
-    backgroundColor: Colors.PRIMARY_DARKBLUE,
+    backgroundColor: Colors.PRIMARY_MODAL_200,
     paddingVertical: hp(42),
     height: deviceWidth * 1.6,
     paddingHorizontal: wp(24),
@@ -90,11 +90,9 @@ export const styles = StyleSheet.create({
   },
   forgetPassLink: {
     color: Colors.COUCH_BLUE,
-    fontSize: hp(14),
-    marginTop:wp(9),
-    marginHorizontal:wp(10),
+    fontSize: 14,
     fontFamily: Typography.fontFamily.SoraMedium,
-    fontWeight:"900"
+    fontWeight:"900",
   },
   forgetPassContainer: {
     flexDirection: 'row',
@@ -103,8 +101,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   forgetPassBtn:{
-    height: hp(40),
-    width: wp(100),
+    paddingTop: 10,
+    paddingBottom: 13.49,
+    paddingLeft: 17,
+    paddingRight: 14,
     backgroundColor: Colors.COUCH_BLUE_1200,
     borderRadius: wp(100)
   }

@@ -5,29 +5,30 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
+    "backgroundColor": "#060C23",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/couch.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0A0B2A"
+      "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
       "bundleIdentifier": "com.couchapp.couchapp"
     },
     "android": {
-      "versionCode": 1,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.couchapp.couchapp"
+      "versionCode": 9,
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "package": "com.couchapp.couchapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/foreground.png",
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
-      "favicon": "./assets/appIcon.png"
+      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
@@ -39,6 +40,20 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow couch_mobile to access your microphone."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow couch_mobile to access your camera",
+          "microphonePermission": "Allow couch_mobile to access your microphone",
+          "recordAudioAndroid": true
         }
       ]
     ],

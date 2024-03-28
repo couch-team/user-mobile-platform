@@ -12,6 +12,7 @@ import { Colors, Images } from 'theme/config';
 import { BaseModal } from 'components';
 import { countryList } from 'constants/data';
 import FuzzySearch from 'fuzzy-search';
+import { SEARCH_ICON } from 'assets/svg';
 
 interface CountryListProps {
   isVisible: boolean;
@@ -25,18 +26,8 @@ export const CountryList = ({
   onComplete,
 }: CountryListProps) => {
   const [countryInfo, setCountryInfo] = useState({ code: '', name: '' });
-  const formattedCountryList = useMemo(
-    () =>
-      countryList.map((item, index) => {
-        return {
-          ...item,
-          id: index + 1,
-        };
-      }),
-    [],
-  );
 
-  const [countries, setCountries] = useState(formattedCountryList);
+  const [countries, setCountries] = useState(countryList);
 
   useEffect(() => {
     onComplete(countryInfo);
@@ -47,7 +38,11 @@ export const CountryList = ({
   }, [countryInfo]);
 
   const onSearch = (val: string) => {
-    const searcher = new FuzzySearch(countries, ['name'], {
+    if(!val){
+      setCountries(countryList);
+      return;
+    }
+    const searcher = new FuzzySearch(countryList, ['name'], {
       caseSensitive: false,
     });
 
@@ -59,11 +54,7 @@ export const CountryList = ({
     <BaseModal visible={isVisible} onClose={() => onClose()}>
       <View style={styles.container}>
         <View style={styles.searchInputContainer}>
-          <Image
-            source={Images.search}
-            resizeMode="contain"
-            style={styles.searchIcon}
-          />
+          <SEARCH_ICON/>
           <TextInput
             onChangeText={onSearch}
             selectionColor={Colors.COUCH_BLUE}
@@ -85,7 +76,7 @@ export const CountryList = ({
                 }
                 key={index}
                 style={styles.singleCountryContainer}>
-                <Text style={styles.countryName}>{item.name}</Text>
+                <Text style={styles.countryName}>{item.flag}  {item.name}</Text>
               </TouchableOpacity>
             );
           }}

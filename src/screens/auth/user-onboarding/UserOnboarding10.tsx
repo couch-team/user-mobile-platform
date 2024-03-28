@@ -6,7 +6,7 @@ import OnboardingHeader from './components/OnboardingHeader';
 import { sleepPattern } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 
 const UserOnboarding10 = () => {
   const [selectedStatus, setSelectedStatus] = useState('');

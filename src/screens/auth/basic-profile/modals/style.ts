@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.PRIMARY_MODAL_100,
     paddingVertical: hp(16),
+    paddingHorizontal: 24,
     width: deviceWidth,
     borderTopLeftRadius: hp(16),
     borderTopRightRadius: hp(16),
@@ -17,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   searchInputContainer: {
     marginTop: hp(10),
-    width: wp(320),
+    width: '100%',
     height: hp(50),
     borderRadius: hp(64),
     paddingHorizontal: wp(19),
@@ -27,10 +28,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   contentContainerStyle: {
     paddingBottom: hp(200),
-    marginTop: hp(20),
+    marginTop: 20,
   },
   searchInput: {
     width: wp(250),
@@ -40,8 +42,7 @@ export const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.SoraRegular,
   },
   singleCountryContainer: {
-    marginBottom: hp(10),
-    marginHorizontal: wp(38),
+    height: 56,
   },
   emptyContainer: {
     paddingVertical: hp(130),

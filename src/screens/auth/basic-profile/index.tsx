@@ -16,45 +16,48 @@ import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { RootState } from 'store';
+import { setDob, setGender } from 'store/slice/onboardingSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'BasicProfile'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const BasicProfile = ({ navigation: { navigate } }: Props) => {
+  const { params } = useRoute<RouteProp<AuthParamList, 'BasicProfile'>>();
+  const { gender, dob } = useSelector((state: RootState) => state.Onboarding);
   const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [dateValue, setDateValue] = useState();
+  const [dateValue, setDateValue] = useState('');
+  const dispatch = useAppDispatch();
 
-  const {
-    User: { pendingProfileGender,pendingProfileDOB },
-  } = useDispatch();
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.User.pendingProfileGender,
-  );
-
-  // React.useEffect(() =>{
-  //   getAuthenticate();
-  // }, []);
-
-  // const authProfileDetails = useSelector(
-  //   (state: RootState) => state.Auth.authProfile?.profile,
-  // );
-  // console.log('auth details', authProfileDetails);
-
-  
-  const continueProcess = async () => {
-    await pendingProfileGender(selectedGender === 'male' ? 'M' : 'F')
-    const res = await pendingProfileDOB(dayjs(dateValue).format('YYYY-MM-DD'));
-    if (res) {
-      navigate('Nationality');
-    }
+  const proceed = () => {
+    navigate('Nationality', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
+  // useEffect(() => {
+  //   gender && dob && proceed();
+  // }, []);
+
+  const continueProcess = async () => {
+    dispatch(setGender(selectedGender));
+    dispatch(setDob(dayjs(dateValue).format('YYYY-MM-DD')));
+    proceed();
+  };
+
+  console.log(selectedGender, dayjs(dateValue).format('YYYY-MM-DD'));
 
   useEffect(() => {
     if (isAndroid) {
@@ -158,11 +161,11 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
         </View>
       </View>
       <LongButton
-       hasLongArrow
+        hasLongArrow
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}
-        loading={loading}
+        loading={false}
       />
     </SafeAreaView>
   );

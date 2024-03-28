@@ -9,9 +9,10 @@ import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useForceUpdate } from './UserOnboarding1';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'UserOnboarding8'
 >;

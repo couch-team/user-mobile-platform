@@ -13,31 +13,42 @@ import { Images } from 'theme/config';
 import { FormTextInput, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
 import { showMessage } from 'react-native-flash-message';
+// import { $api } from 'services';
+import useAppDispatch from 'hooks/useAppDispatch';
+import {
+  setAccessToken,
+  setRefreshToken,
+  setEmail as setStoreEmail,
+} from 'store/slice/authSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { login as loginAction } from 'store/actions/login';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Login'>;
+type AuthNavigationProps = NativeStackNavigationProp<AuthParamList, 'Login'>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const Login = ({ navigation: { navigate } }: Props) => {
-  const {
-    Auth: { login,getAuthenticate},
-  } = useDispatch();
-
-
-
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.login,
-  );
-
-  
-
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const dispatch = useAppDispatch();
+  const store = useSelector((state: RootState) => state);
+
+  const login = async () => {
+    try {
+      setLoading(true);
+      await dispatch(loginAction({ email, password }));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isDisabled = email && password ? false : true;
 
@@ -56,14 +67,9 @@ const Login = ({ navigation: { navigate } }: Props) => {
         type: 'danger',
       });
     }
-      const data = {
-        email,
-        password,
-      };
-      // console.log('Logging in with email:', email && data);
-      await login(data);
+    await login();
   };
- 
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={Images.background} style={styles.imageBg}>
@@ -82,6 +88,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
               <FormTextInput
                 label="Email address"
                 editable
+                placeholder="Enter your email"
                 // autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
@@ -91,6 +98,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 label="Password"
                 isPassword
                 show={showPassword}
+                placeholder="Enter your password"
                 onChangeText={(text: string) => setPassword(text)}
                 value={password}
                 showPassword={() => setShowPassword(!showPassword)}
@@ -106,10 +114,10 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.forgetPassBtn}>
-                <Text
-                  // onPress={() => navigate('Register')}
-                  style={styles.forgetPassLink}>
+              <TouchableOpacity
+                style={styles.forgetPassBtn}
+                onPress={() => navigate('ForgetPassword')}>
+                <Text numberOfLines={1} style={styles.forgetPassLink}>
                   Let’s help out
                 </Text>
               </TouchableOpacity>
@@ -117,7 +125,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
             <LongButton
               isNotBottom
               loading={loading}
-              onPress={() => loginAccount()}
+              onPress={loginAccount}
               buttonStyle={styles.buttonStyle}
               title="Log In to Account"
               disabled={isDisabled}
@@ -140,5 +148,3 @@ const Login = ({ navigation: { navigate } }: Props) => {
 };
 
 export default Login;
-
-

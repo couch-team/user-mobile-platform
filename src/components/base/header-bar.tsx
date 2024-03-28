@@ -4,12 +4,11 @@ import {
   View,
   Text,
   ImageSourcePropType,
-  TouchableOpacity,
   Image,
   StatusBar,
   StyleSheet,
+  Pressable,
 } from 'react-native';
-import { hasDynamicIsland, hasNotch } from 'react-native-device-info';
 import { Colors, Images, Typography } from 'theme/config';
 
 interface HeaderBarProps {
@@ -49,8 +48,7 @@ export const HeaderBar = ({
     if (hasBackButton) {
       return (
         <>
-          <TouchableOpacity
-            activeOpacity={0.5}
+          <Pressable
             style={[styles.headerLeftIconContainer]}
             onPress={onPressLeftIcon}>
             <Image
@@ -58,14 +56,13 @@ export const HeaderBar = ({
               resizeMode="contain"
               style={[styles.backIcon, { tintColor }]}
             />
-          </TouchableOpacity>
+          </Pressable>
         </>
       );
     }
     if (hasLeftButton) {
       return (
-        <TouchableOpacity
-          activeOpacity={0.5}
+        <Pressable
           style={[styles.headerLeftIconContainer]}
           onPress={onPressLeftIcon}>
           <Image
@@ -73,7 +70,7 @@ export const HeaderBar = ({
             resizeMode="contain"
             style={[styles.backIcon]}
           />
-        </TouchableOpacity>
+        </Pressable>
       );
     }
   };
@@ -87,8 +84,7 @@ export const HeaderBar = ({
   const renderHeaderRight = () => {
     if (rightIcon) {
       return (
-        <TouchableOpacity
-          activeOpacity={0.5}
+        <Pressable
           style={[styles.headerRightIconContainer]}
           onPress={onPressRightIcon}>
           <Image
@@ -96,7 +92,7 @@ export const HeaderBar = ({
             resizeMode="contain"
             style={[styles.backIcon]}
           />
-        </TouchableOpacity>
+        </Pressable>
       );
     }
     if (rightHeader) {
@@ -160,7 +156,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: Colors.WHITE,
     width: deviceWidth,
-    marginTop:  0 || hp(15),
+    marginTop: 0 || hp(15),
   },
   dropDownArrow: {
     width: wp(20),

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormTextInput, Loader, LongButton } from 'components';
 import { Images } from 'theme/config';
 import { styles } from './style';
@@ -17,10 +17,12 @@ import ResetPasswordHeader from '../reset-password/components/ResetPasswordHeade
 import { wp } from 'constants/layout';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { RootState } from 'store';
 import { showMessage } from 'react-native-flash-message';
+import { $api } from 'services';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'VerifyEmailAccount'
 >;
@@ -33,21 +35,49 @@ export default function VerifyEmailAccount({
   const [otpNumber, setOtpNumber] = React.useState('');
   const { params } = useRoute<RouteProp<AuthParamList, 'VerifyOtp'>>();
   const [seconds, setSeconds] = React.useState(30);
+  const [isLoading, setIsLoading] = useState(false);
+  const [resendCodeLoading, setResendCodeLoading] = useState(false);
   const email = params?.email;
 
-  const {
-    Auth: { resetPasswordToken, initResendToken },
-  } = useDispatch();
+  const resendCode = async () => {
+    try {
+      setResendCodeLoading(true);
+      const response = await $api.post('/api/auth/otp/resend', { email });
+      if ($api.isSuccessful(response)) {
+        setSeconds(30);
+        showMessage({
+          message: 'Resend token sent successfully',
+          duration: 3000,
+          type: 'success',
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setResendCodeLoading(false);
+    }
+  };
 
-  const loading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.resetPasswordToken,
-  );
+  const verifyToken = async () => {
+    try {
+      setIsLoading(true);
+      const response = await $api.post(
+        '/api/auth/password_reset/validate_token/',
+        {
+          token: otpNumber,
+        },
+      );
+      if ($api.isSuccessful(response)) {
+        navigate('ResetPassword', { otpNumber });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const resendLoading = useSelector(
-    (state: RootState) => state.loading.effects.Auth.initResendToken,
-  );
-
-  React.useEffect(() => {
+  useEffect(() => {
     const myInterval = setInterval(() => {
       if (seconds > 0) {
         setSeconds(seconds - 1);
@@ -59,30 +89,7 @@ export default function VerifyEmailAccount({
     return () => {
       clearInterval(myInterval);
     };
-  });
-
-  const resendCode = async () => {
-    const data = {
-      email,
-    };
-    const res = await initResendToken(data);
-    if (res) {
-      setSeconds(30);
-      showMessage({
-        message: 'Resend token sent successfully',
-        duration: 3000,
-        type: 'success',
-      });
-    }
-  };
-
-  const verifyForgetPasswordEmail = async () => {
-    const data = {
-      token: otpNumber,
-    };
-    await resetPasswordToken(data);
-    navigate('ResetPassword', { otpNumber });
-  };
+  }, [seconds]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,64 +102,69 @@ export default function VerifyEmailAccount({
           />
         </View>
         <KeyboardAvoidingView behavior="position">
-        <View style={styles.bodyContainer}>
-          <ResetPasswordHeader
-            progressWidth={wp(98)}
-            firstProgress={1}
-            secondProgress={1}
-          />
-          <View>
-            <Text style={styles.verifyAccountTextColor}>Hold on Tight</Text>
-            <Text style={styles.getStartedText}>Verify your Account</Text>
-            <Text style={styles.verifyAccountTextColor}>
-              Hey Emmanuel, a 6-digit OTP has been sent to the mail. Kindly
-              check your mail and provide OTP to verify account.
-            </Text>
-
-            <View style={styles.formContainer}>
-              <FormTextInput
-                label="OTP"
-                autoCapitalize="none"
-                keyboardType="numeric"
-                onChangeText={(text: string) => setOtpNumber(text)}
-                value={otpNumber}
-                inputIcon={Images['help-circle']}
+          <View style={styles.bodyContainer}>
+            <ResetPasswordHeader
+              progressWidth={wp(98)}
+              firstProgress={1}
+              secondProgress={1}
+            />
+            <View>
+              <Text style={styles.verifyAccountTextColor}>Hold on Tight</Text>
+              <Text style={styles.getStartedText}>Verify your Account</Text>
+              <Text style={styles.verifyAccountTextColor}>
+                Hi, a 6-digit OTP has been sent to the mail. Kindly check your
+                mail and provide OTP to verify account.
+              </Text>
+              <View style={styles.emailTextContainer}>
+                <Text style={styles.emailText}>{email}</Text>
+              </View>
+              <TouchableOpacity onPress={() => navigate('ForgetPassword')}>
+                <Text style={styles.changeEmail}>Change Email</Text>
+              </TouchableOpacity>
+              <View style={styles.formContainer}>
+                <FormTextInput
+                  label="OTP"
+                  autoCapitalize="none"
+                  keyboardType="numeric"
+                  onChangeText={(text: string) => setOtpNumber(text)}
+                  value={otpNumber}
+                  inputIcon={Images['help-circle']}
+                />
+              </View>
+              <View style={styles.resendCodeContainer}>
+                <Text style={styles.resendCodeText}>Didn't see the code?</Text>
+                {seconds === 0 ? (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => resendCode()}
+                    style={styles.resendCodeButtonContainer}>
+                    <Text style={styles.resendCodeButtonText}>Resend code</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View
+                    style={[
+                      styles.resendCodeButtonContainer,
+                      { width: wp(120) },
+                    ]}>
+                    <Text style={styles.resendCodeButtonText}>
+                      Resend in {seconds < 10 ? `0${seconds}` : seconds}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <LongButton
+                isNotBottom
+                loading={isLoading}
+                onPress={() => verifyToken()}
+                buttonStyle={styles.buttonStyle}
+                title="Verify Account"
+                disabled={otpNumber.length === 6 ? false : true}
               />
             </View>
-            <View style={styles.resendCodeContainer}>
-              <Text style={styles.resendCodeText}>Didn't see the code?</Text>
-              {seconds === 0 ? (
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => resendCode()}
-                  style={styles.resendCodeButtonContainer}>
-                  <Text style={styles.resendCodeButtonText}>Resend code</Text>
-                </TouchableOpacity>
-              ) : (
-                <View
-                  style={[
-                    styles.resendCodeButtonContainer,
-                    { width: wp(120) },
-                  ]}>
-                  <Text style={styles.resendCodeButtonText}>
-                    Resend in {seconds < 10 ? `0${seconds}` : seconds}
-                  </Text>
-                </View>
-              )}
-            </View>
-            <LongButton
-              isNotBottom
-              loading={loading}
-              onPress={() => verifyForgetPasswordEmail()}
-              buttonStyle={styles.buttonStyle}
-              title="Verify Account"
-              disabled={otpNumber.length === 6 ? false : true}
-            />
           </View>
-        </View>
         </KeyboardAvoidingView>
       </ImageBackground>
-      <Loader loading={resendLoading} />
+      <Loader loading={resendCodeLoading} />
     </SafeAreaView>
   );
 }

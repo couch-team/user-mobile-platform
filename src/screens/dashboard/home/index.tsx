@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
   ScrollView,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { heavyOptions, moodTracker, podcasts4u } from 'constants/data';
 import { LongButton, HeaderBar, XButton } from 'components';
-import { navigation } from 'navigation/utils';
+// import { navigation } from 'navigation/utils';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import PodcastItem from './components/PodcastItem';
 import { wp } from 'constants/layout';
 import NotificationIcon from './components/NotificationIcon';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { fetchUserDetails } from 'store/actions/userDetails';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'DashboardHome'
 >;
@@ -30,20 +32,18 @@ type Props = {
 
 const Home = ({ navigation: { navigate } }: Props) => {
   const [hideTour, setHideTour] = useState(true);
+  const dispatch = useAppDispatch();
 
-  const authProfileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile?.profile,
-  );
+  const profileDetails = useSelector((state: RootState) => state.User);
 
-  const profileDetails = useSelector(
-    (state: RootState) => state.Auth.authProfile,
-  );
-  const {
-    Auth: { getAuthenticate },
-  } = useDispatch();
+  useEffect(() => {
+    !profileDetails && dispatch(fetchUserDetails());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileDetails]);
 
-  React.useEffect(() => {
-    getAuthenticate();
+  useEffect(() => {
+    !profileDetails?.preference && navigate('UserOnboarding');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -66,8 +66,9 @@ const Home = ({ navigation: { navigate } }: Props) => {
             <View style={styles.moodTrackerContainer}>
               {moodTracker.map(tracker => {
                 return (
-                  <TouchableOpacity
+                  <Pressable
                     key={tracker.id}
+                    onPress={() => navigate('MoodTracker')}
                     style={[
                       styles.singleMoodTrackerContainer,
                       { backgroundColor: tracker.bgColor },
@@ -84,47 +85,47 @@ const Home = ({ navigation: { navigate } }: Props) => {
                       ]}>
                       {tracker.title}
                     </Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 );
               })}
             </View>
           </View>
-          {
-            hideTour && (
-              <View style={styles.tourInfoContainer}>
-                <XButton onXButtonPress={() => setHideTour(!hideTour)} />
-                <View style={styles.tourBodyContainer}>
+          {hideTour && (
+            <View style={styles.tourInfoContainer}>
+              <XButton onXButtonPress={() => setHideTour(!hideTour)} />
+              <View style={styles.tourBodyContainer}>
+                <View style={styles.profileImageContainer}>
                   {profileDetails?.profile?.avatar_url ? (
                     <Image
                       source={{ uri: profileDetails?.profile?.avatar_url }}
-                      resizeMode="contain"
+                      resizeMode="cover"
                       style={styles.profileImage}
                     />
                   ) : (
                     <Image
                       source={Images['profile-image']}
-                      resizeMode="contain"
+                      resizeMode="cover"
                       style={styles.profileImage}
                     />
                   )}
+                </View>
 
-                  <View style={styles.tourBodyInfoContainer}>
-                    <Text style={styles.tourBodyMainText}>Hi There!,</Text>
-                    <Text style={styles.tourBodySubText}>
-                      We've got some exciting features to help your mental
-                      wellbeing
-                    </Text>
-                    <LongButton
-                      isNotBottom
-                      onPress={() => navigation.navigate('TakeTour')}
-                      buttonStyle={styles.buttonStyle}
-                      title="Take a Short Tour"
-                    />
-                  </View>
+                <View style={styles.tourBodyInfoContainer}>
+                  <Text style={styles.tourBodyMainText}>Hi There!,</Text>
+                  <Text style={styles.tourBodySubText}>
+                    We've got some exciting features to help your mental
+                    wellbeing
+                  </Text>
+                  <LongButton
+                    isNotBottom
+                    onPress={() => navigate('TakeTour')}
+                    buttonStyle={styles.buttonStyle}
+                    title="Take a Short Tour"
+                  />
                 </View>
               </View>
-            )
-          }
+            </View>
+          )}
         </View>
         <View style={styles.recommendedSectionContainer}>
           <Text style={styles.recommendedSectionHeaderText}>
@@ -158,10 +159,10 @@ const Home = ({ navigation: { navigate } }: Props) => {
           <View style={styles.optionsListContainer}>
             {heavyOptions.map(options => {
               return (
-                <TouchableOpacity
+                <Pressable
                   key={options.id}
-                  activeOpacity={0.6}
-                  style={styles.optionsItemContainer}>
+                  style={styles.optionsItemContainer}
+                  onPress={() => navigate('Journal')}>
                   <View style={styles.iconContainer}>
                     <Image
                       source={options.icon}
@@ -178,7 +179,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
                       {options.description}
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </Pressable>
               );
             })}
           </View>
