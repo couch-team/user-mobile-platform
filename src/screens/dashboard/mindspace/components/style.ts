@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: hp(66),
-    width: wp(115),
+    width: wp(172.5),
     marginTop: hp(20),
   },
   activeButtonContainer: {

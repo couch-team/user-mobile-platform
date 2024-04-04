@@ -12,6 +12,7 @@ type ScreenProps = NativeStackNavigationProp<DashboardParamList, 'MindSpace'>;
 
 const MindSpace = ({ navigation: { navigate, goBack } }: ScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -25,27 +26,23 @@ const MindSpace = ({ navigation: { navigate, goBack } }: ScreenProps) => {
           setActiveIndex={setActiveIndex}
         />
         <View style={styles.sectionListStyle}>
-          {(() => {
-            if (activeIndex === 0) {
-              return (
-                <View>
-                  <Listen />
-                </View>
-              );
-            } else if (activeIndex === 1) {
-              return (
-                <View>
-                  <Watch />
-                </View>
-              );
-            } else if (activeIndex === 2) {
-              return (
-                <View>
-                  <Read />
-                </View>
-              );
-            }
-          })()}
+          {
+            activeIndex === 0 
+            ? 
+              <View>
+                <Listen />
+              </View>
+            :
+            activeIndex === 1 
+              ? 
+              <View>
+                <Watch />
+              </View>
+              :
+              <View>
+                <Read />
+              </View>
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

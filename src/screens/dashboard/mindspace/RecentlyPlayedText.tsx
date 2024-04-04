@@ -1,12 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import HeaderBar from 'components/base/header-bar';
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
-import HeaderText from 'components/base/header-text';
 import { recentlyRead } from 'constants/data';
+import { HeaderBar, HeaderText } from 'components';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'RecentlyPlayedText'>;
 

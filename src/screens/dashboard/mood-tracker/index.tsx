@@ -87,23 +87,27 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
           ListEmptyComponent={
+            !isFetchingMoods
+              ?
             <View style={styles.emptyMoodTrackerContainer}>
-              <View style={styles.emptyMoodIconContainer}>
-                <Image
-                  source={Images['empty-mood']}
-                  resizeMode="contain"
-                  style={styles.emptyMoodIcon}
-                />
-              </View>
-              <View style={styles.emptyTextContainer}>
-                <Text style={styles.emptyMainText}>
-                  No Mood logged in here yet
-                </Text>
-                <Text style={styles.emptyBodyText}>
-                  Tap the '+' button below to log your mood on the mood tracker.
-                </Text>
-              </View>
+            <View style={styles.emptyMoodIconContainer}>
+              <Image
+                source={Images['empty-mood']}
+                resizeMode="contain"
+                style={styles.emptyMoodIcon}
+              />
             </View>
+            <View style={styles.emptyTextContainer}>
+              <Text style={styles.emptyMainText}>
+                No Mood logged in here yet
+              </Text>
+              <Text style={styles.emptyBodyText}>
+                Tap the '+' button below to log your mood on the mood tracker.
+              </Text>
+            </View>
+          </View>
+            :
+            <View></View>
           }
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24 }}>

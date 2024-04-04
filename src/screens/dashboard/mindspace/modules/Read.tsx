@@ -4,8 +4,8 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { Images } from 'theme/config';
 import { styles } from './style';
 import { categories, recentlyRead } from 'constants/data';
-import HeaderText from 'components/base/header-text';
 import { navigation } from 'navigation/utils';
+import { HeaderText } from 'components';
 
 export const Read = () => {
   return (

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { ImageSourcePropType } from 'react-native';
 
 export type RootNavigationRoutes = {
@@ -67,21 +68,29 @@ export type DashboardParamList = {
   CompleteAddMood: any;
   AddJournal: undefined;
   MindSpace: undefined;
+  MindSpaceSection: {
+    header: string,
+    sub_header: string,
+    content: ReactNode
+  }
   PreviewJournal: any;
   EditJournal: any;
   RecentlyPlayedAudio: undefined;
   RecentlyPlayedText: undefined;
   RecentlyPlayedVideo: undefined;
   Cbt: undefined;
-  SingleCbt: {
-    item: {
-      id: number;
-      title: string;
-      description: string;
-      image: ImageSourcePropType;
-      options: any[];
-    };
+  SingleCbt: { id: string };
+  CbtAudio: {
+    header: string,
+    backgroundImageUri: string,
+    audio_uri: string,
   };
+  CbtVideo: {
+    header: string,
+    backgroundImageUri: string,
+    video_uri: string,
+  };
+  CbtText: undefined;
   UserOnboarding: any;
   UserOnboarding4: any;
   UserOnboarding1: any;
