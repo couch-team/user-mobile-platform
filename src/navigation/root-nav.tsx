@@ -10,7 +10,7 @@ import { Colors } from 'theme/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileOnboardingNavigation from './profile-onboarding';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator<RootNavigationRoutes>();
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
@@ -23,6 +23,14 @@ const AppNavigation = () => {
   const isLoggedIn = !!access_token;
 
   const [initialState, setInitialState] = React.useState();
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#060C23',
+      primary: '#060C23',
+    },
+  };
 
   return (
     <NavigationContainer
@@ -30,7 +38,8 @@ const AppNavigation = () => {
       initialState={__DEV__ ? initialState : undefined}
       onStateChange={state => {
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state));
-      }}>
+      }}
+      theme={MyTheme}>
       <Stack.Navigator
         initialRouteName={
           isLoggedIn
@@ -41,12 +50,16 @@ const AppNavigation = () => {
         }
         screenOptions={{
           headerShown: false,
-          // presentation: 'transparentModal',
+          presentation: 'modal',
         }}>
         {isLoggedIn ? (
           user_data?.profile !== null || is_loading ? (
             <>
-              <Stack.Screen component={DashboardNavigation} name="Dashboard" />
+              <Stack.Screen
+                options={{ presentation: 'modal' }}
+                component={DashboardNavigation}
+                name="Dashboard"
+              />
               <Stack.Group screenOptions={{ presentation: 'modal' }}>
                 <Stack.Screen
                   name="TakeTour"

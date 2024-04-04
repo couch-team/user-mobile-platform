@@ -110,7 +110,153 @@ export const medicalConditions = [
   },
 ];
 
-export const referral_mediums = ["Social media ads","Referral", "Online search", "Event"]
+export const ProfileNumbers = [
+  {
+    id: 1,
+    name: 'Therapy',
+    value: 160,
+    data: [
+      {
+        id: 'a',
+        title: 'Moods logged',
+        value: 128,
+        imgUrl: Images.moods_logged,
+      },
+      {
+        id: 'b',
+        title: 'Video Sessions',
+        value: 12,
+        imgUrl: Images.video_session,
+      },
+      {
+        id: 'c',
+        title: 'Chat Sessions',
+        value: 16,
+        imgUrl: Images.chat_session,
+      },
+      {
+        id: 'd',
+        title: 'Journals Written',
+        value: 45,
+        imgUrl: Images.journal_written,
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Relaxation',
+    value: 90,
+    data: [
+      {
+        id: 'a',
+        title: 'Videos Watched',
+        value: 60,
+        imgUrl: Images['play-audio'],
+      },
+      {
+        id: 'b',
+        title: 'Podcasts Played',
+        value: 16,
+        imgUrl: Images['record-icon-inactive'],
+      },
+      {
+        id: 'c',
+        title: 'Videos Saved',
+        value: 12,
+        imgUrl: Images.video_saved,
+      },
+      {
+        id: 'd',
+        title: 'Podcasts Saved',
+        value: 128,
+        imgUrl: Images.video_saved,
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Community',
+    value: 140,
+    data: [
+      {
+        id: 'a',
+        title: 'Communities Joined',
+        value: 60,
+        imgUrl: Images.community,
+      },
+      {
+        id: 'b',
+        title: 'Posts you’ve made',
+        value: 16,
+        imgUrl: Images.post_made,
+      },
+      {
+        id: 'c',
+        title: 'Posts you’ve liked',
+        value: 12,
+        imgUrl: Images.liked_posts,
+      },
+      {
+        id: 'd',
+        title: 'Replies you’ve given',
+        value: 18,
+        imgUrl: Images.chat_session,
+      },
+    ],
+  },
+];
+
+export const SettingsMenus = [
+  {
+    id: 1,
+    title: 'Edit Profile',
+    desc: 'Edit your Profile details...',
+    imgUrl: Images['edit-profile'],
+    screen: 'EditProfile',
+  },
+  {
+    id: 2,
+    title: 'Notification Preference',
+    desc: 'Configure what you get notified about',
+    imgUrl: Images.notification,
+    screen: 'NotificationPreference',
+  },
+  {
+    id: 3,
+    title: 'Account',
+    desc: 'Change your passwords, Set 2FA....',
+    imgUrl: Images.account,
+    screen: 'Account',
+  },
+  {
+    id: 4,
+    title: 'Subscription & Payments',
+    desc: 'Change your passwords, 2FA....',
+    imgUrl: Images.account,
+    screen: 'Subscription',
+  },
+  {
+    id: 5,
+    title: 'Support',
+    desc: 'send Us a Mail. we respond fast and easy!',
+    imgUrl: Images['more-icon'],
+    screen: 'More',
+  },
+  {
+    id: 6,
+    title: 'Delete Account',
+    desc: 'We are sorry to see you go 😔',
+    imgUrl: Images['delete-account'],
+    screen: 'More',
+  },
+];
+
+export const referral_mediums = [
+  'Social media ads',
+  'Referral',
+  'Online search',
+  'Event',
+];
 
 export const therapistsVisits = [
   {
@@ -1218,6 +1364,191 @@ export const cbtPlayData = [
       },
     ],
   },
+];
+
+export const Subscriptions = [
+  {
+    id: '1',
+    title: 'Freemuium',
+    desc: 'Free anyday!, anytime',
+  },
+  {
+    id: '2',
+    title: 'Pro',
+    desc: '₦3,500 /  month',
+  },
+  {
+    id: '3',
+    title: 'For Teams',
+    desc: '₦6000 / 1 member /  month',
+  },
+];
+
+export const PaymentCards = [
+  {
+    id: '4',
+    name: 'Credit Card',
+    origin: 'masterCard',
+    number: '**** **** **** 8037',
+  },
+  {
+    id: '5',
+    name: 'Debit Card',
+    origin: 'visa',
+    number: '**** **** **** 3826',
+  },
+];
+
+export const Billings = [
+  {
+    id: '6',
+    price: 28,
+    desc: 'Freemium',
+    date: 'May —  30 / 05 / 2023',
+  },
+  {
+    id: '7',
+    price: 48,
+    desc: 'Pro Subscription',
+    date: 'May —  30 / 05 / 2023',
+  },
+  {
+    id: '8',
+    price: 48,
+    desc: 'Pro Subscription',
+    date: 'May —  30 / 05 / 2023',
+  },
+  {
+    id: '9',
+    price: 48,
+    desc: 'Pro Subscription',
+    date: 'May —  30 / 05 / 2023',
+  },
+];
+
+export const PreferencesData = [
+  {
+    name: 'General',
+    preferences: [
+      { id: 1, name: 'Push notifications', type: 'toggle', initialState: true },
+      {
+        id: 2,
+        name: 'Email Notifications',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 3,
+        name: 'News and Update from couch',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  {
+    name: 'Mood Tracker',
+    preferences: [
+      {
+        id: 4,
+        name: 'Notify me to log my Mood Everyday',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  {
+    name: 'Community',
+    preferences: [
+      {
+        id: 5,
+        name: 'Recommended communities  to Join',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 6,
+        name: 'New Posts on a Community',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 7,
+        name: 'New Posts I make in a community',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 8,
+        name: 'Comments on my post',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  {
+    name: 'Store',
+    preferences: [
+      {
+        id: 9,
+        name: 'Recommended items in the store',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 10,
+        name: 'New arrivals in the store that I need',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  {
+    name: 'Mindspace',
+    preferences: [
+      {
+        id: 11,
+        name: 'New podcasts and Videos',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 12,
+        name: 'Recommended playlists and Videos',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 13,
+        name: 'Unfinished Podcasts and Videos played',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  {
+    name: 'Video Teletherapy',
+    preferences: [
+      {
+        id: 14,
+        name: 'Therapy Sessions — 1 hr to the time',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 12,
+        name: 'Therapist Request Acceptance',
+        type: 'checkbox',
+        initialState: true,
+      },
+      {
+        id: 13,
+        name: 'Unfinished Podcasts and Videos played',
+        type: 'checkbox',
+        initialState: true,
+      },
+    ],
+  },
+  // Add more preference groups here if needed
 ];
 
 export const states = [

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, SectionList, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  SectionList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { HeaderBar, HeaderText, Loader, SVGIcon } from 'components';
 import { Colors, Images } from 'theme/config';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,8 +20,9 @@ import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
 import { $api } from 'services';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardNavigationProps = StackNavigationProp<
+type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
   'MoodTracker'
 >;
@@ -24,37 +31,39 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
-  const [ chart_loading, setChartLoading ] = useState(false);
-  const [ chartData, setChartData ] = useState<{ date: string, count: number }[]>([])
+  const [chart_loading, setChartLoading] = useState(false);
+  const [chartData, setChartData] = useState<{ date: string; count: number }[]>(
+    [],
+  );
   const dispatch = useAppDispatch();
-  const [ currentPage, setCurrentPage ] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchChartData = async() => {
-    try{
-        setChartLoading(true)
-        const response = await $api.fetch('/api/mood/stats')
-        if($api.isSuccessful(response)){
-          console.log(response?.data)
-            setChartData(response?.data)
-        }
+  const fetchChartData = async () => {
+    try {
+      setChartLoading(true);
+      const response = await $api.fetch('/api/mood/stats');
+      if ($api.isSuccessful(response)) {
+        console.log(response?.data);
+        setChartData(response?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setChartLoading(false);
     }
-    catch(err){
-        console.log(err)
-    }
-    finally{
-        setChartLoading(false)
-    }
-  }
+  };
 
   useEffect(() => {
-      fetchChartData()
-  },[])
+    fetchChartData();
+  }, []);
 
   useEffect(() => {
-    dispatch(fetchMoods(currentPage))
-  }, [ currentPage ]);
+    dispatch(fetchMoods(currentPage));
+  }, [currentPage]);
 
-  const { moods, isFetchingMoods, hasFetchedMoods, reached_end } = useSelector((state: RootState) => state.Mood);
+  const { moods, isFetchingMoods, hasFetchedMoods, reached_end } = useSelector(
+    (state: RootState) => state.Mood,
+  );
   const groupedMoods = groupTransactions(moods);
 
   return (
@@ -72,7 +81,9 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
       </TouchableOpacity>
       <View style={styles.bodyContainer}>
         <SectionList
-          onEndReached={() => !reached_end && !isFetchingMoods && setCurrentPage(currentPage + 1)}
+          onEndReached={() =>
+            !reached_end && !isFetchingMoods && setCurrentPage(currentPage + 1)
+          }
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
           ListEmptyComponent={
@@ -99,45 +110,47 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
             <View></View>
           }
           ListHeaderComponent={
-            <View style={{ width: '100%', paddingHorizontal: 24, }}>
-              <MoodChart data={chartData} is_loading={chart_loading}/>
+            <View style={{ width: '100%', paddingHorizontal: 24 }}>
+              <MoodChart data={chartData} is_loading={chart_loading} />
             </View>
           }
           ListFooterComponent={
-            reached_end 
-              ?  
-              moods?.length > 0
-                ?           
+            reached_end ? (
+              moods?.length > 0 ? (
                 <View style={styles.reachedEndContainer}>
-                  <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
+                  <Text style={styles.reachedEnd}>
+                    You have reached the end! 🎉
+                  </Text>
                 </View>
-                :
+              ) : (
                 <View style={styles.reachedEndContainer}></View>
-              :
-              (hasFetchedMoods && isFetchingMoods)
-                ?
-                <View style={styles.reachedEndContainer}>
-                  <ActivityIndicator size={'small'} color={Colors.WHITE}/>
-                </View>
-                :
-                <View style={styles.reachedEndContainer}></View>
+              )
+            ) : hasFetchedMoods && isFetchingMoods ? (
+              <View style={styles.reachedEndContainer}>
+                <ActivityIndicator size={'small'} color={Colors.WHITE} />
+              </View>
+            ) : (
+              <View style={styles.reachedEndContainer}></View>
+            )
           }
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity onPress={() => navigate("CompleteAddMood",item)}>
+              <TouchableOpacity
+                onPress={() => navigate('CompleteAddMood', item)}>
                 <View style={styles.itemMoodContainer} key={index}>
-                  { item?.emotion?.mood?.icon_url 
-                      ? 
-                      <Image 
-                        style={styles.moodEmoji}
-                        source={{ uri: item?.emotion?.mood?.icon_url }}
-                        resizeMode='cover'
-                      /> 
-                      : 
-                      <View style={styles.dummyMoodEmoji}></View> 
-                  }
+                  {item?.emotion?.mood?.icon_url ? (
+                    <Image
+                      style={styles.moodEmoji}
+                      source={{ uri: item?.emotion?.mood?.icon_url }}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <View style={styles.dummyMoodEmoji}></View>
+                  )}
                   <View style={styles.itemMoodBodyContainer}>
-                    <Text style={[styles.itemMoodMainText]}>{item?.emotion?.title}</Text>
+                    <Text style={[styles.itemMoodMainText]}>
+                      {item?.emotion?.title}
+                    </Text>
                     <Text style={styles.itemMoodBodyText}>
                       {moment(item.created_at).fromNow()} -{' '}
                       {moment(item.created_at).format('LT')}
@@ -163,7 +176,27 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }}
         />
       </View>
-      <Loader color={Colors.WHITE} loading={!hasFetchedMoods && isFetchingMoods}/>
+      {moods.length === 0 && !isFetchingMoods && (
+        <View style={styles.emptyMoodTrackerContainer}>
+          <View style={styles.emptyMoodIconContainer}>
+            <Image
+              source={Images['empty-mood']}
+              resizeMode="contain"
+              style={styles.emptyMoodIcon}
+            />
+          </View>
+          <View style={styles.emptyTextContainer}>
+            <Text style={styles.emptyMainText}>No Mood logged in here yet</Text>
+            <Text style={styles.emptyBodyText}>
+              Tap the '+' button below to log your mood on the mood tracker.
+            </Text>
+          </View>
+        </View>
+      )}
+      <Loader
+        color={Colors.WHITE}
+        loading={!hasFetchedMoods && isFetchingMoods}
+      />
     </SafeAreaView>
   );
 };

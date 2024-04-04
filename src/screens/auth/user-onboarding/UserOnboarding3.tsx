@@ -4,7 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { medicalConditions, referral_mediums } from 'constants/data';
-import { AuthParamList, DashboardParamList } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  DashboardParamList,
+} from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import {
   FormTextInput,
@@ -22,9 +25,10 @@ import { setGoal, setReferralChannel } from 'store/slice/preferenceSlice';
 import { setPreference } from 'store/slice/userSlice';
 import { showMessage } from 'react-native-flash-message';
 import { fetchUserDetails } from 'store/actions/userDetails';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
-DashboardParamList,
+type AuthNavigationProps = NativeStackNavigationProp<
+  DashboardParamList,
   'UserOnboarding3'
 >;
 type Props = {
@@ -32,51 +36,55 @@ type Props = {
 };
 
 const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
-  const { params } = useRoute<RouteProp<DashboardParamList, 'UserOnboarding4'>>();
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
-  const { goal, ever_had_therapy, physical_status, referral_channel } = useSelector((state: RootState) => state.Preference);
+  const { params } = useRoute<RouteProp<AuthParamList, 'UserOnboarding3'>>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { goal, ever_had_therapy, physical_status, referral_channel } =
+    useSelector((state: RootState) => state.Preference);
   const dispatch = useAppDispatch();
 
-
-  const continueProcess =  async () => {
-    try{
-      setIsSubmitting(true)
-      const response = await $api.post('/api/user/preference/', {
-        goal,
-        ever_had_therapy,
-        physical_status,
-        referral_channel
-      })
-      if($api.isSuccessful(response)){
-        dispatch(setPreference(response?.data))
-        navigate('CompleteOnboarding1');
-      }
-      else{
-        if(response?.response?.status === 400){
-          dispatch(fetchUserDetails())
+  const continueProcess = async () => {
+    try {
+      setIsSubmitting(true);
+      const tokens = params.token;
+      const response = await $api.post(
+        '/api/user/preference/',
+        {
+          goal,
+          ever_had_therapy,
+          physical_status,
+          referral_channel,
+        },
+        false,
+        tokens,
+      );
+      if ($api.isSuccessful(response)) {
+        dispatch(setPreference(response?.data));
+        navigate('CompleteOnboarding1', {
+          email: params.email,
+          password: params.password,
+          token: params.token,
+        });
+      } else {
+        if (response?.response?.status === 400) {
+          dispatch(fetchUserDetails(tokens));
           showMessage({
             type: 'info',
-            message: "Preference already exists",
+            message: 'Preference already exists',
             duration: 3000,
-          })
-          navigate('DashboardHome')
+          });
+          navigate('DashboardHome');
         }
       }
-    }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setIsSubmitting(false)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <SafeAreaView style={styles.onboardingContainer}>
-      <ProgressHeader
-        status={4}
-        bars={4}
-      />
+      <ProgressHeader status={4} bars={4} />
       <OnboardingHeader
         headerTitle="Health Related Info"
         currentCount={4}
@@ -96,7 +104,9 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
                   checkTitle={item.title}
                   index={index}
                   checkBoxStyle={styles.checkboxStyle}
-                  onSelectOption={() => dispatch(setReferralChannel(item.title))}
+                  onSelectOption={() =>
+                    dispatch(setReferralChannel(item.title))
+                  }
                   checkTitleStyle={styles.checkboxTextStyle}
                   selectedCheck={referral_channel == item.title}
                 />
@@ -111,7 +121,11 @@ const UserOnboarding3 = ({ navigation: { navigate } }: Props) => {
             placeholder="Please specify"
             onChangeText={(text: string) => dispatch(setReferralChannel(text))}
             inputIcon={Images['help-circle']}
-            value={referral_mediums.includes(referral_channel) ? "" :referral_channel}
+            value={
+              referral_mediums.includes(referral_channel)
+                ? ''
+                : referral_channel
+            }
           />
         </KeyboardAvoidingView>
       </View>

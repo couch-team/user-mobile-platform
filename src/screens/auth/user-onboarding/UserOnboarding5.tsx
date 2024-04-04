@@ -5,12 +5,16 @@ import { styles } from './style';
 import OnboardingHeader from './components/OnboardingHeader';
 import { anxiousState } from 'constants/data';
 import { LongButton, Checkbox, ProgressHeader } from 'components';
-import { AuthParamList, RootNavigationRoutes } from 'utils/types/navigation-types';
+import {
+  AuthParamList,
+  RootNavigationRoutes,
+} from 'utils/types/navigation-types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type AuthNavigationProps = StackNavigationProp<
+type AuthNavigationProps = NativeStackNavigationProp<
   AuthParamList,
   'UserOnboarding5'
 >;
@@ -21,7 +25,9 @@ type Props = {
 const UserOnboarding5 = ({ navigation: { navigate } }: Props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const userProfile = useSelector((state: RootState) => state.User);
-  const { ever_had_therapy } = useSelector((state: RootState) => state.Preference)
+  const { ever_had_therapy } = useSelector(
+    (state: RootState) => state.Preference,
+  );
 
   const continueProcess = async () => {
     const data = {
@@ -33,7 +39,7 @@ const UserOnboarding5 = ({ navigation: { navigate } }: Props) => {
     };
     // const res = await pendingProfileCompletion(data);
     // if (res) {
-      navigate('UserOnboarding6');
+    navigate('UserOnboarding6');
     // }
   };
   return (

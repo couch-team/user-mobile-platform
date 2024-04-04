@@ -5,15 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
+    "backgroundColor": "#060C23",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
@@ -49,6 +48,14 @@
         "expo-av",
         {
           "microphonePermission": "Allow couch_mobile to access your microphone."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow couch_mobile to access your camera",
+          "microphonePermission": "Allow couch_mobile to access your microphone",
+          "recordAudioAndroid": true
         }
       ]
     ],

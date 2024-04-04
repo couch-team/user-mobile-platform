@@ -1,53 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { Images } from 'theme/config';
 import { CouchDropDown, LongButton } from 'components';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryList, StatesList } from './modals';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { countryList } from 'constants/data';
 import { setCountry, setStateOfResidence } from 'store/slice/onboardingSlice';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'Nationality'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'Nationality'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const Nationality = ({ navigation: { navigate } }: Props) => {
-  const { country, state_of_residence } = useSelector(
-    (state: RootState) => state.Onboarding,
-  );
+  const { params } = useRoute<RouteProp<AuthParamList, 'Nationality'>>();
   const [openCountryList, setOpenCountryList] = useState(false);
   const [openStateList, setOpenStateList] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<string>(country || '');
-  const [selectedState, setSelectedState] = useState(state_of_residence || '');
-  // const dispatch = useAppDispatch();
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedState, setSelectedState] = useState('');
   const dispatch = useAppDispatch();
-  
+
   const proceed = () => {
-    navigate('UploadProfile');
+    navigate('UploadProfile', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
   const completeProfile = () => {
     dispatch(setCountry(selectedCountry));
     dispatch(setStateOfResidence(selectedState));
-    proceed()
-
-  // const completeProfile = () => {
-  //   dispatch(setCountry(selectedCountry));
-  //   dispatch(setStateOfResidence(selectedState));
-  // };
-
-
-  useEffect(() => {
-    selectedCountry && state_of_residence && proceed();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCountry, state_of_residence]);
+    proceed();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,5 +99,5 @@ const Nationality = ({ navigation: { navigate } }: Props) => {
     </SafeAreaView>
   );
 };
-}
+// };
 export default Nationality;

@@ -1,4 +1,3 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,8 +6,9 @@ import { styles } from './style';
 import { MindSpaceHeader } from './components';
 import { Listen, Read, Watch } from './modules';
 import { HeaderBar, HeaderText } from 'components';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type ScreenProps = StackScreenProps<DashboardParamList, 'MindSpace'>;
+type ScreenProps = NativeStackNavigationProp<DashboardParamList, 'MindSpace'>;
 
 const MindSpace = ({ navigation: { navigate, goBack } }: ScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);

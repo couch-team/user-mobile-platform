@@ -30,6 +30,11 @@ import CbtAudio from 'screens/dashboard/cbt/cbtAudio';
 import CbtText from 'screens/dashboard/cbt/cbtText';
 import CbtVideo from 'screens/dashboard/cbt/cbtVideo';
 import MindSpaceSection from 'screens/dashboard/mindspace/modules/mindspaceSection';
+import EditProfile from 'screens/dashboard/profile/menus/EditProfile';
+import Account from 'screens/dashboard/profile/menus/Account';
+import More from 'screens/dashboard/profile/menus/More';
+import NotificationPref from 'screens/dashboard/profile/menus/NotificationPref';
+import Subscription from 'screens/dashboard/profile/menus/Subscription';
 
 const Stack = createNativeStackNavigator<DashboardParamList>();
 
@@ -78,6 +83,14 @@ const DashboardNavigation = () => {
         component={CompleteOnboarding1}
         name="CompleteOnboarding1"
       />
+      <Stack.Screen component={EditProfile} name="EditProfile" />
+      <Stack.Screen component={Account} name="Account" />
+      <Stack.Screen component={More} name="More" />
+      <Stack.Screen
+        component={NotificationPref}
+        name="NotificationPreference"
+      />
+      <Stack.Screen component={Subscription} name="Subscription" />
     </Stack.Navigator>
   );
 };

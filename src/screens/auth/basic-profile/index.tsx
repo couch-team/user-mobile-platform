@@ -13,40 +13,41 @@ import { Images } from 'theme/config';
 import { LongButton, CouchDatePicker } from 'components';
 import { genderRoles } from 'constants/data';
 import { AuthParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { isAndroid } from 'constants/platform';
 import dayjs from 'dayjs';
-import {  useSelector } from 'react-redux';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { RootState } from 'store';
 import { setDob, setGender } from 'store/slice/onboardingSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-type AuthNavigationProps = StackNavigationProp<AuthParamList, 'BasicProfile'>;
+type AuthNavigationProps = NativeStackNavigationProp<
+  AuthParamList,
+  'BasicProfile'
+>;
 type Props = {
   navigation: AuthNavigationProps;
 };
 
 const BasicProfile = ({ navigation: { navigate } }: Props) => {
-  const { gender, dob } = useSelector((state: RootState) => state.Onboarding)
-  const [selectedGender, setSelectedGender] = useState(gender || '');
+  const { params } = useRoute<RouteProp<AuthParamList, 'BasicProfile'>>();
+  const [selectedGender, setSelectedGender] = useState('');
   const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [dateValue, setDateValue] = useState(dob || '');
+  const [dateValue, setDateValue] = useState('');
   const dispatch = useAppDispatch();
 
   const proceed = () => {
-    navigate('Nationality');
-  } 
-
-  useEffect(() => {
-    gender && dob && proceed()
-  },[])
-
-  const continueProcess = async () => {
-    dispatch(setGender(selectedGender))
-    dispatch(setDob(dayjs(dateValue).format('YYYY-MM-DD')))
-    proceed()
+    navigate('Nationality', {
+      token: params.token,
+      email: params.email,
+      password: params.password,
+    });
   };
 
+  const continueProcess = async () => {
+    dispatch(setGender(selectedGender));
+    dispatch(setDob(dayjs(dateValue).format('YYYY-MM-DD')));
+    proceed();
+  };
 
   useEffect(() => {
     if (isAndroid) {
@@ -150,7 +151,7 @@ const BasicProfile = ({ navigation: { navigate } }: Props) => {
         </View>
       </View>
       <LongButton
-       hasLongArrow
+        hasLongArrow
         title="Continue"
         disabled={selectedGender && dateValue ? false : true}
         onPress={() => continueProcess()}
