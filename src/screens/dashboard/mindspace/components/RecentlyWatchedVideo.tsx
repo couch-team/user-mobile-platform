@@ -2,11 +2,11 @@ import { wp } from 'constants/layout';
 import { isIos } from 'constants/platform';
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 import { Colors, Images } from 'theme/config';
 import { styles } from './style';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface RecentlyWatchedVideoProps {
   watched: any;
@@ -30,7 +30,7 @@ export const RecentlyWatchedVideo = ({
             return (
               <View style={[styles.hasTagContainer]}>
                 {isIos ? (
-                  <BlurView blurType="light" style={styles.hasTagBlurContainer}>
+                  <BlurView tint='light' style={styles.hasTagBlurContainer}>
                     <Text style={styles.hasTagText}>{option}</Text>
                   </BlurView>
                 ) : (

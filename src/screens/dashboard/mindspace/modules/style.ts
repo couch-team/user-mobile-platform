@@ -98,6 +98,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  reachedEnd: {
+    fontSize: 20
+  },
+  reachedEndContainer: {
+    paddingHorizontal: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 280
+  },
   arrowIcon: {
     width: wp(23),
     height: hp(23),

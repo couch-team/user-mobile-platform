@@ -76,6 +76,8 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
           ListEmptyComponent={
+            !isFetchingMoods
+              ?
             <View style={styles.emptyMoodTrackerContainer}>
             <View style={styles.emptyMoodIconContainer}>
               <Image
@@ -93,6 +95,8 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
               </Text>
             </View>
           </View>
+            :
+            <View></View>
           }
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24, }}>

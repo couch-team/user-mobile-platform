@@ -107,3 +107,48 @@ export const CHECK = () => {
         </Svg>
     )
 }
+
+export const NEXT_ICON = () => {
+    return(
+        <Svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <Path d="M20 40L19.4405 39.9923C8.65884 39.6957 0 30.8529 0 20C0 8.98 8.96 0 20 0C31.02 0 40 8.98 40 20C40 31.04 31.02 40 20 40ZM16.04 28C16.64 28.6 17.58 28.6 18.16 28L25.14 21.06C25.42 20.78 25.58 20.4 25.58 20C25.58 19.6 25.42 19.22 25.14 18.94L18.16 12C17.88 11.7 17.5 11.56 17.12 11.56C16.72 11.56 16.34 11.7 16.04 12C15.46 12.6 15.46 13.54 16.06 14.12L21.96 20L16.06 25.88C15.46 26.46 15.46 27.42 16.04 28Z" fill="#D0D2F4"/>
+        </Svg>
+    )
+}
+
+export const REPLAY_ICON = () => {
+    return(
+        <Svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <Path d="M2 8V20H14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M7.02 30.0009C8.31679 33.6816 10.7747 36.8412 14.0233 39.0036C17.272 41.166 21.1354 42.2141 25.0314 41.9898C28.9275 41.7656 32.6452 40.2812 35.6243 37.7604C38.6034 35.2396 40.6825 31.8188 41.5484 28.0136C42.4144 24.2084 42.0202 20.2248 40.4252 16.6631C38.8303 13.1014 36.1211 10.1545 32.7057 8.2664C29.2903 6.37834 25.3538 5.6514 21.4894 6.19511C17.6249 6.73881 14.0418 8.52372 11.28 11.2809L2 20.0009" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </Svg>
+    )
+} 
+
+export const PAUSE_ICON = () => {
+    return(
+        <Svg width="45" height="45" viewBox="0 0 45 45" fill="none">
+            <Path d="M18.8333 33.5007V11.5007C18.8333 9.47561 17.1917 7.83398 15.1667 7.83398C13.1416 7.83398 11.5 9.47561 11.5 11.5007V33.5007C11.5 35.5257 13.1416 37.1673 15.1667 37.1673C17.1917 37.1673 18.8333 35.5257 18.8333 33.5007Z" fill="white" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M33.5 33.5007V11.5007C33.5 9.47561 31.8583 7.83398 29.8333 7.83398C27.8082 7.83398 26.1666 9.47561 26.1666 11.5007V33.5007C26.1666 35.5257 27.8082 37.1673 29.8333 37.1673C31.8583 37.1673 33.5 35.5257 33.5 33.5007Z" fill="white" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+        </Svg>
+    )
+}
+
+export const PLAY_ICON = () => {
+    return(
+        <Svg viewBox="0 0 45 45" width="45" height="45">
+            <Rect x="0" y="0" width="45" height="45" rx="10" ry="10" fill="none"/>
+            <Path fill="#FFFFFF" d="M15 30.977L30 22.5 15 14.023z"/>
+        </Svg>
+    )
+}
+
+export const CLOSE = () => {
+    return(
+        <Svg width="21" height="22" viewBox="0 0 21 22" fill="none">
+            <Path d="M15.8214 5.85742L5.53564 16.1431" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M5.53564 5.85742L15.8214 16.1431" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </Svg>
+    )
+}
+

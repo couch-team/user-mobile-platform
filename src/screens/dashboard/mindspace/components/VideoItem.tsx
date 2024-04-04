@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Colors, Images } from 'theme/config';
 import { styles } from './style';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface VideoItemProps {
   video: any;

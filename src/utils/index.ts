@@ -47,3 +47,18 @@ export const groupJournalTransactions = (data: any) => {
 
   return transGroup.reverse();
 };
+
+
+export const convertDuration = (duration: any) => {
+  if(duration){
+    const [hours, minutes, rest] = duration.split(':');
+    const [seconds, milliseconds] = (rest || '0').split('.');
+    const roundedSeconds = Math.round(parseFloat(seconds));
+    const hoursInt = parseInt(hours, 10);
+    const minutesInt = parseInt(minutes, 10);
+    const secondsInt = parseInt(roundedSeconds.toString(), 10);
+    const totalMinutes = hoursInt * 60 + minutesInt;
+    const formattedDuration = `${totalMinutes.toString().padStart(2, '0')}:${secondsInt.toString().padStart(2, '0')}`;
+    return formattedDuration;
+  }
+}

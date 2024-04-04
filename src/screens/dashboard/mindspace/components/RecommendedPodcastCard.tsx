@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { styles } from './style';
 import { recommendedOptions } from 'constants/data';
 import { Colors, Images } from 'theme/config';
-import HeaderText from 'components/base/header-text';
+import { HeaderText } from 'components';
 
 export const RecommendedPodcastCard = () => {
   return (

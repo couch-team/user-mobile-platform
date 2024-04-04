@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   ImageBackground,
   SectionList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -17,22 +18,71 @@ import { cbtPlayData } from 'constants/data';
 import { Image } from 'react-native';
 import { wp } from 'constants/layout';
 import { HeaderBar } from 'components';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
+import { $api } from 'services';
+import { convertDuration } from 'utils';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'SingleCbt'>;
 
-const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
+const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
+  const [ isFetchingCbt, setIsFetchingCbt ] = useState(false);
+  const [ isFetchingContent, setIsFetchingContent ] = useState(false);
+  const [ content, setContent ] = useState([]);
+  const [ data, setData ] = useState<any>('');
   const { params } = useRoute<RouteProp<DashboardParamList, 'SingleCbt'>>();
-  const data = params?.item;
+  const id = params?.id;
+
+  const fetchCbt = async() => {
+    try{
+      setIsFetchingCbt(true)
+      const response = await $api.fetch(`/api/therapy/cbt/${id}/`)
+      if($api.isSuccessful(response)){
+        setData(response?.data)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsFetchingCbt(false)
+    }
+  }
+
+  const fetchContent = async() => {
+    try{
+      setIsFetchingContent(true)
+      const response = await $api.fetch(`/api/therapy/cbt/${id}/content/`)
+      if($api.isSuccessful(response)){
+        setContent(response?.data)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setIsFetchingContent(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchCbt()
+  },[])
+
+  useEffect(() => {
+    fetchContent();
+  },[])
+
+
   const { top } = useSafeAreaInsets();
   return (
     <View style={[styles.container]}>
       <SectionList
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={ isFetchingCbt ? <View style={{ paddingTop: 24 }}><ActivityIndicator size="small" color={Colors.WHITE}/></View> : <Text>No results</Text>}
         ListHeaderComponent={() => {
           return (
             <ImageBackground
-              source={data.image}
+              source={{ uri: data?.background_url }}
               style={[styles.headerContainerImage, { paddingTop: top }]}>
               <View style={styles.headerContainer}>
                 <HeaderBar
@@ -48,13 +98,13 @@ const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
                 <View style={styles.headerContainerItemContainer}>
                   <Text style={styles.cbtHeaderTitleText}>{data?.title}</Text>
                   <Text style={styles.cbtSubHeaderText}>
-                    {data?.description}
+                    {data?.sub_title}
                   </Text>
                   <View style={styles.cbtItemFeaturesContainer}>
-                    {data?.options?.map(option => {
+                    {data?.tags?.map((tag: any) => {
                       return (
-                        <View style={styles.cbtItemBodyContainer} key={option}>
-                          <Text style={styles.cbtItemText}>{option}</Text>
+                        <View style={styles.cbtItemBodyContainer} key={tag}>
+                          <Text style={styles.cbtItemText}>{tag}</Text>
                         </View>
                       );
                     })}
@@ -64,29 +114,38 @@ const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
             </ImageBackground>
           );
         }}
-        sections={cbtPlayData}
+        sections={content}
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item, index }) => {
           const type =
-            item?.type === 'video'
+            item?.resourcetype === 'VideoContent'
               ? Images['video-player']
-              : item?.type === 'audio'
+              : item?.resourcetype === 'AudioContent'
                 ? Images?.['voice-note']
-                : item?.type === 'text'
+                : item?.resourcetype === 'TextContent'
                   ? Images?.document
                   : Images?.['help-circle'];
 
-          const hasPlayed = item?.isPlayed ? Images['circle-check'] : Images['circle-check-box'];
+          // const hasPlayed = item?.isPlayed ? Images['circle-check'] : Images['circle-check-box'];
+          const hasPlayed = Images['circle-check-box'];
 
           return (
             <View style={styles.cbtDataContainer}>
-              <View>
+              <View style={styles.cardLine}>
                 <View style={styles.cbtLine} />
                 <Image source={hasPlayed} resizeMode="contain" style={styles.checkIcon} />
+                <View style={styles.cbtLine} />
               </View>
               <TouchableOpacity
                 key={index}
-                style={styles.cbtItemDataBodyContainer}>
+                style={styles.cbtItemDataBodyContainer}
+                onPress={() => 
+                  item.resourcetype === 'AudioContent' 
+                  ? navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url }) 
+                  : item.resourcetype === 'VideoContent'
+                    ?  navigate('CbtVideo', { header: item.title, backgroundImageUri: item.background_url, video_uri: item.content_url  }) 
+                    :navigate('CbtText') }
+              >
                 <View style={styles.cbtItemIconContainer}>
                   <Image
                     source={type}
@@ -97,10 +156,13 @@ const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
                 <View>
                   <Text style={styles.singleCbtTitleText}>{item?.title}</Text>
                   <View style={[styles.cbtItemFeaturesContainer, { paddingLeft: wp(16) }]}>
-                    {item?.options?.map(option => {
+                    <View style={styles.singleCbtOptionItem}>
+                      <Text style={styles.singleCbtOptionText}>{convertDuration(item?.duration)}</Text>
+                    </View>
+                    {item?.tags?.map((tag: any) => {
                       return (
-                        <View key={option} style={styles.singleCbtOptionItem}>
-                          <Text style={styles.singleCbtOptionText}>{option}</Text>
+                        <View key={tag} style={styles.singleCbtOptionItem}>
+                          <Text style={styles.singleCbtOptionText}>{tag}</Text>
                         </View>
                       );
                     })}
@@ -110,11 +172,15 @@ const SingleCbt = ({ navigation: { goBack } }: ScreenProps) => {
             </View>
           );
         }}
-        renderSectionHeader={({ section: { title, hasStarted } }) => {
+        renderSectionHeader={({ section: { group } }) => {
+          const hasStarted = false
           return (
-            <View style={styles.headerSectionContainer}>
-              {!hasStarted && <Image source={Images.lock} resizeMode="contain" style={styles.lockIcon} />}
-              <Text style={styles.headerTitleStyle}>{title}</Text>
+            <View style={styles.headerSectionWrapper}>
+              <View style={styles.headerSectionContainer}>
+                {!hasStarted && <Image source={Images.lock} resizeMode="contain" style={styles.lockIcon} />}
+                <Text style={styles.headerTitleStyle}>{group}</Text>
+              </View>
+              <View style={[styles.cbtLine, { marginLeft: 12.16, height: 16 }]} />
             </View>
           );
         }}

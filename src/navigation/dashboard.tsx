@@ -26,6 +26,10 @@ import UserOnboarding3 from 'screens/auth/user-onboarding/UserOnboarding3';
 import UserOnboarding4 from 'screens/auth/user-onboarding/UserOnboarding4';
 import CompleteOnboarding1 from 'screens/auth/user-onboarding/CompleteOnboarding1';
 import Planner from 'screens/dashboard/planner';
+import CbtAudio from 'screens/dashboard/cbt/cbtAudio';
+import CbtText from 'screens/dashboard/cbt/cbtText';
+import CbtVideo from 'screens/dashboard/cbt/cbtVideo';
+import MindSpaceSection from 'screens/dashboard/mindspace/modules/mindspaceSection';
 
 const Stack = createNativeStackNavigator<DashboardParamList>();
 
@@ -49,6 +53,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={PreviewJournal} name="PreviewJournal" />
       <Stack.Screen component={EditJournal} name="EditJournal" />
       <Stack.Screen component={MindSpace} name="MindSpace" />
+      <Stack.Screen component={MindSpaceSection} name="MindSpaceSection" />
       <Stack.Screen component={Planner} name="Planner" />
       <Stack.Screen
         component={RecentlyPlayedAudio}
@@ -61,6 +66,9 @@ const DashboardNavigation = () => {
       <Stack.Screen component={RecentlyPlayedText} name="RecentlyPlayedText" />
       <Stack.Screen component={Cbt} name="Cbt" />
       <Stack.Screen component={SingleCbt} name="SingleCbt" />
+      <Stack.Screen component={CbtAudio} name="CbtAudio"/>
+      <Stack.Screen component={CbtVideo} name="CbtVideo"/>
+      <Stack.Screen component={CbtText} name="CbtText"/>
       <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
       <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
       <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />

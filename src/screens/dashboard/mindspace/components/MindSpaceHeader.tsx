@@ -20,11 +20,7 @@ export const MindSpaceHeader = ({
     {
       title: 'Watch',
       icon: Images['note-video'],
-    },
-    {
-      title: 'Read',
-      icon: Images.paper,
-    },
+    }
   ];
   return (
     <ScrollView

@@ -3,10 +3,10 @@ import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Images } from 'theme/config';
 import { styles } from './style';
 import { categories, recentlyWatched, topVideos } from 'constants/data';
-import HeaderText from 'components/base/header-text';
 import { RecentlyWatchedVideo, VideoItem } from '../components';
 import { wp } from 'constants/layout';
 import { navigation } from 'navigation/utils';
+import { HeaderText } from 'components';
 
 export const Watch = () => {
   return (
