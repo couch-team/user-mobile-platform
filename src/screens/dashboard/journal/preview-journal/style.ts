@@ -28,13 +28,12 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   previewButtonContainer: {
-    backgroundColor: Colors.COUCH_BLUE_200,
     height: hp(34),
-    // width:"100%",
     justifyContent: 'center',
-    alignItems: 'center',
-    // marginHorizontal: wp(12),
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
     borderRadius: hp(64),
+    backgroundColor: Colors.COUCH_BLUE_200,
   },
   previewButtonText: {
     color: Colors.COUCH_BLUE,

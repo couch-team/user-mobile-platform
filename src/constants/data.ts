@@ -656,7 +656,7 @@ export const podcasts4u = [
     tags: ['#STRESS', '#RELIEF'],
     iconColor: Colors.LIGHT_PEACHY_RED_200,
     background_url: '',
-    content_url: ''
+    content_url: '',
   },
 ];
 
@@ -667,7 +667,7 @@ export const heavyOptions = [
     description: 'Share with a Therapist',
     icon: Images.phone,
     color: Colors.GREEN_100,
-    screen: 'Telegraphy',
+    screen: 'Therapy',
   },
   {
     id: 2,
@@ -1359,8 +1359,10 @@ export const cbtPlayData = [
         title: 'Try not to believe everything you see',
         resourceType: 'video',
         tags: ['4 Mins', 'Cognitive Journal'],
-        background_url: "https://res.cloudinary.com/couchtechnologies/image/upload/v1711634318/hcw7resavwrro9x95mll.jpg",
-        content_url: "https://res.cloudinary.com/couchtechnologies/video/upload/v1711634319/p6t5vkzeucl1vptpjpeu.mp4",
+        background_url:
+          'https://res.cloudinary.com/couchtechnologies/image/upload/v1711634318/hcw7resavwrro9x95mll.jpg',
+        content_url:
+          'https://res.cloudinary.com/couchtechnologies/video/upload/v1711634319/p6t5vkzeucl1vptpjpeu.mp4',
       },
     ],
   },

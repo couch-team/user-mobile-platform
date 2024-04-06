@@ -113,6 +113,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           // Add more extensions and corresponding MIME types as needed
           '3gp': 'audio/3gp',
           mp3: 'audio/mp3',
+          m4a: 'audio/mp4',
+          aac: 'audio/aac',
+          wav: 'audio/wav',
           // Add more audio extensions and corresponding MIME types as needed
         };
 
@@ -426,7 +429,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
-  const renderItem = (item: any, index: number) => {
+  const RenderItem = (item: any, index: number) => {
     if (item.type === 'text' && item.isEditing) {
       return (
         <KeyboardAvoidingView
@@ -732,7 +735,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onPress={() => setShowPreviesImage(false)}>
+                  onPress={() => setShowPreviesImage(false)}
+                  key={index}>
                   <Pressable>
                     <Image
                       source={{ uri: image }}
@@ -791,7 +795,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             }}>
             <View style={{ paddingBottom: isFocused ? 0 : 100, flex: 1 }}>
               {journalEntries?.map((journal: any, index: number) =>
-                renderItem(journal, index),
+                RenderItem(journal, index),
               )}
             </View>
           </ScrollView>

@@ -8,11 +8,21 @@ import ProfileCardModal from './components/ProfileCardModal';
 import ProfileNumbersModal from './components/ProfileNumbersModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DashboardParamList } from 'utils/types/navigation-types';
 
-const Profile = () => {
+type DashboardNavigationProps = NativeStackNavigationProp<
+  DashboardParamList,
+  'UserProfile'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
+
+const Profile = ({ navigation }: Props) => {
   const [showModal, setShowModal] = useState(false);
   const [showNumberModals, setShowNumberModals] = useState(false);
-  const [markerData, setMarkerData] = useState([]);
+  const [markerData, setMarkerData] = useState<any>([]);
   const { profile, first_name, last_name } = useSelector(
     (state: RootState) => state.User,
   );
@@ -46,7 +56,11 @@ const Profile = () => {
         data={markerData.data}
       />
       <View style={styles.editBtnContainer}>
-        <Pressable style={styles.editBtn}>
+        <Pressable
+          style={styles.editBtn}
+          onPress={() =>
+            navigation.navigate('EditProfile', { id: profile?.id })
+          }>
           <Text style={styles.btnText}>Edit Profile</Text>
         </Pressable>
         <View
@@ -55,6 +69,7 @@ const Profile = () => {
             position: 'absolute',
             left: 0,
             right: 0,
+            top: '-30%',
           }}>
           {profile?.avatar_url ? (
             <Image

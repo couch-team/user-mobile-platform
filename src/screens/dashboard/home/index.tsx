@@ -162,7 +162,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
                 <Pressable
                   key={options.id}
                   style={styles.optionsItemContainer}
-                  onPress={() => navigate('Journal')}>
+                  onPress={() => navigate(options.screen)}>
                   <View style={styles.iconContainer}>
                     <Image
                       source={options.icon}

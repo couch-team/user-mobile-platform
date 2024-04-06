@@ -69,10 +69,10 @@ export type DashboardParamList = {
   AddJournal: undefined;
   MindSpace: undefined;
   MindSpaceSection: {
-    header: string,
-    sub_header: string,
-    content: ReactNode
-  }
+    header: string;
+    sub_header: string;
+    content: ReactNode;
+  };
   PreviewJournal: any;
   EditJournal: any;
   RecentlyPlayedAudio: undefined;
@@ -81,14 +81,14 @@ export type DashboardParamList = {
   Cbt: undefined;
   SingleCbt: { id: string };
   CbtAudio: {
-    header: string,
-    backgroundImageUri: string,
-    audio_uri: string,
+    header: string;
+    backgroundImageUri: string;
+    audio_uri: string;
   };
   CbtVideo: {
-    header: string,
-    backgroundImageUri: string,
-    video_uri: string,
+    header: string;
+    backgroundImageUri: string;
+    video_uri: string;
   };
   CbtText: undefined;
   UserOnboarding: any;
@@ -98,7 +98,7 @@ export type DashboardParamList = {
   UserOnboarding3: any;
   CompleteOnboarding1: any;
   Planner: any;
-  EditProfile: { id: string };
+  EditProfile: { id?: string };
   NotificationPreference: any;
   Account: any;
   Subscription: any;

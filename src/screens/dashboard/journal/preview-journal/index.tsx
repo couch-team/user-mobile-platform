@@ -56,7 +56,6 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const [contentLoading, setContentLoading] = useState(false);
   const [isSeeking, setIsSeeking] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioLoading, setAudioLoading] = useState(false);
 
   const fetchJournal = async () => {
     try {
@@ -307,46 +306,6 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
               overflow: 'hidden',
             }}
           />
-          <View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: 'rgba(0, 0, 0, 0.35)',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {/* Change Image Button */}
-            <Pressable
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.24)',
-                padding: 16,
-                borderRadius: 64,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 16,
-                  fontFamily: Typography.fontFamily.SoraMedium,
-                }}>
-                Change Image
-              </Text>
-            </Pressable>
-
-            {/* Cancel Button */}
-            <Pressable
-              style={{
-                backgroundColor: 'rgba(227, 228, 248, 0.16)',
-                padding: 7,
-                borderRadius: 64,
-                position: 'absolute',
-                right: 10,
-                top: 10,
-              }}>
-              <Image
-                source={Images['cancel-image']}
-                style={{ width: 22, height: 22, resizeMode: 'contain' }}
-              />
-            </Pressable>
-          </View>
         </View>
       );
     } else if (item.type === 'audio') {
@@ -492,7 +451,6 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     );
   };
   const formattedDate = moment(journal?.updated_at).calendar();
-  const containerWidth = formattedDate.length * 8;
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar
@@ -504,8 +462,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
 
       <View style={styles.previewContainer}>
         <Text style={styles.previewTitle}>{journal?.title}</Text>
-        <View
-          style={[styles.previewButtonContainer, { width: containerWidth }]}>
+        <View style={[styles.previewButtonContainer]}>
           <Text style={[styles.previewButtonText, { color: color }]}>
             Updated: {moment(journal?.updated_at).calendar()}
           </Text>
@@ -520,15 +477,8 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         )}
         <View style={styles.previewDocument}>
           <ScrollView
-            // ref={scrollView => {
-            //   this.scrollView = scrollView;
-            // }}
             showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            // onContentSizeChange={() => {
-            //   this.scrollView.scrollToEnd({ animated: true });
-            // }}
-          >
+            keyboardShouldPersistTaps="handled">
             {journalEntries?.map((journ: any, index: number) =>
               renderItem(journ, index),
             )}
