@@ -12,6 +12,8 @@ import {
   StyleSheet,
   Platform,
   ActivityIndicator,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
@@ -30,6 +32,7 @@ import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchJournals } from 'store/actions/journal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Swiper from 'react-native-swiper';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -56,6 +59,15 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const [contentLoading, setContentLoading] = useState(false);
   const [isSeeking, setIsSeeking] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const [showPreviewImage, setShowPreviesImage] = useState(false);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleImagePress = (index: number) => {
+    setCurrentIndex(index);
+    setShowPreviesImage(true);
+  };
 
   const fetchJournal = async () => {
     try {
@@ -86,6 +98,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   useEffect(() => {
     if (journal) {
       const entries = [];
+      const previewImagesArray = [];
 
       // Add text entry
       entries.push({
@@ -122,10 +135,12 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
             type: 'image',
             content: upload.upload_url,
           });
+          previewImagesArray.push(upload.upload_url);
         }
       }
 
       setJournalEntries(entries);
+      setPreviewImages(previewImagesArray);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [journal]);
@@ -297,6 +312,9 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         </Text>
       );
     } else if (item.type === 'image') {
+      const imageIndex = previewImages.findIndex(
+        image => image === item.content,
+      );
       return (
         <View style={{ position: 'relative', marginVertical: 10 }} key={index}>
           <Image
@@ -309,6 +327,34 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
               overflow: 'hidden',
             }}
           />
+          <View
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              backgroundColor: 'rgba(0, 0, 0, 0.35)',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Pressable
+              style={{
+                backgroundColor: 'rgba(227, 228, 248, 0.16)',
+                padding: 7,
+                borderRadius: 64,
+                position: 'absolute',
+                right: 10,
+                top: 10,
+              }}
+              onPress={() => handleImagePress(imageIndex)}>
+              <Image
+                source={Images['zoom-in']}
+                style={{
+                  width: 22,
+                  height: 22,
+                  resizeMode: 'contain',
+                  tintColor: '#E3E4F8',
+                }}
+              />
+            </Pressable>
+          </View>
         </View>
       );
     } else if (item.type === 'audio') {
@@ -458,6 +504,77 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const formattedDate = moment(journal?.updated_at).calendar();
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showPreviewImage}
+        onRequestClose={() => setShowPreviesImage(false)}>
+        <Pressable
+          onPress={() => setShowPreviesImage(false)}
+          style={[
+            {
+              flex: 1,
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            },
+          ]}>
+          <Pressable
+            style={{
+              backgroundColor: 'rgba(227, 228, 248, 0.4)',
+              padding: 7,
+              borderRadius: 64,
+              position: 'absolute',
+              right: 10,
+              top: 50,
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Image
+              source={Images['cancel-image']}
+              style={{ width: 22, height: 22, resizeMode: 'contain' }}
+            />
+          </Pressable>
+          <Pressable
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Swiper
+              loop={false}
+              showsButtons={false}
+              scrollEnabled={true}
+              index={currentIndex}
+              showsPagination={false}>
+              {previewImages.map((image, index) => (
+                <Pressable
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => setShowPreviesImage(false)}
+                  key={index}>
+                  <Pressable>
+                    <Image
+                      source={{ uri: image }}
+                      key={index}
+                      style={{
+                        width: Dimensions.get('window').width,
+                        height: 400,
+                        borderRadius: 8,
+                        resizeMode: 'cover',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </Pressable>
+                </Pressable>
+              ))}
+            </Swiper>
+          </Pressable>
+        </Pressable>
+      </Modal>
       <HeaderBar
         hasBackButton
         onPressLeftIcon={() => goBack()}

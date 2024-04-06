@@ -403,7 +403,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setJournalEntries(updatedEntries);
   };
 
-  const handleChangeImage = async (item: any, index: number) => {
+  const handleChangeImage = async (index: number) => {
     try {
       const result: any = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -411,6 +411,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         // aspect: [4, 3],
         quality: 0.2,
       });
+      const updatedPreviewImages = [...previewImages];
+
+      if (index !== -1) {
+        // If the image already exists in previewImages, update it
+        updatedPreviewImages[index] = result.assets[0].uri;
+      }
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];
@@ -419,6 +425,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           content: result.assets[0].uri,
         };
         setJournalEntries(updatedEntries);
+        setPreviewImages(updatedPreviewImages);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -531,7 +538,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 16,
                 borderRadius: 64,
               }}
-              onPress={() => handleChangeImage(item, index)}>
+              onPress={() => handleChangeImage(index)}>
               <Text
                 style={{
                   color: 'white',
@@ -731,7 +738,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               borderRadius: 64,
               position: 'absolute',
               right: 10,
-              top: 10,
+              top: 50,
             }}
             onPress={() => setShowPreviesImage(false)}>
             <Image
