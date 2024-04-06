@@ -37,9 +37,9 @@ export const styles = StyleSheet.create({
   },
   previewButtonText: {
     color: Colors.COUCH_BLUE,
-    fontFamily: Typography.fontFamily.SoraMedium,
+    fontFamily: Typography.fontFamily.SoraBold,
     fontSize: hp(14),
-    fontWeight: '900',
+    // fontWeight: '900',
     // width: 'auto',
   },
   mood: {

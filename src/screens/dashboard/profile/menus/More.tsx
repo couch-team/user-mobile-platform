@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import Constants from 'expo-constants';
 import { Colors, Images, Typography } from 'theme/config';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -22,7 +23,7 @@ const More = ({ navigation }: Props) => {
         flex: 1,
         backgroundColor: 'rgba(6, 12, 35, 1)',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
       }}>
       <Pressable
         style={styles.headerLeftIconContainer}

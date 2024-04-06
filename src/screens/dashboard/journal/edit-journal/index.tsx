@@ -67,29 +67,10 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [showToolBar, setShowToolBar] = useState(false);
-  const [longPressTimeout, setLongPressTimeout] = useState<number | null | any>(
-    null,
-  );
   const [isLoading, setIsLoading] = useState(false);
   const [bottomMargin, setBottomMargin] = useState(0);
   const [contentLoading, setContentLoading] = useState(false);
   const [openJournalPrompt, setOpenJournalPrompt] = useState(false);
-
-  const handlePressIn = () => {
-    const timeoutId = setTimeout(() => {
-      // Your function to execute after 3 seconds
-      setShowToolBar(true);
-    }, 1500);
-
-    setLongPressTimeout(timeoutId);
-  };
-
-  const handlePressOut = () => {
-    if (longPressTimeout !== null) {
-      clearTimeout(longPressTimeout);
-      setLongPressTimeout(null);
-    }
-  };
 
   const dispatch = useAppDispatch();
 
@@ -155,7 +136,10 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       // Add audio and image entries with index
       let audioIndex = 0;
       for (const upload of journal.uploads) {
-        if (upload.type.startsWith('audio/')) {
+        if (
+          upload.type.startsWith('audio/') ||
+          upload.type.startsWith('application/')
+        ) {
           entries.push({
             type: 'audio',
             content: upload.upload_url,
@@ -718,6 +702,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               onSlidingComplete={value => handleSeek(value, item.index)}
               step={0.01}
               disabled={contentLoading}
+              // thumbImage={require('../../../../assets/images/journal/slider-thumb-image.png')}
             />
             <Text
               style={{
@@ -797,7 +782,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             position: 'absolute',
-            bottom: 0,
+            bottom: 30,
             gap: 10,
             left: 0,
             right: 0,
@@ -906,15 +891,14 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             marginHorizontal: 30,
             alignItems: 'center',
             position: 'absolute',
-            bottom: 0,
+            bottom: 30,
             gap: 10,
             left: 0,
             right: 0,
             marginBottom: 20,
             marginTop: 10,
           }}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}>
+          onPress={() => setShowToolBar(true)}>
           <Text style={{ color: 'white' }}>Press and Hold to Edit Note</Text>
         </Pressable>
       ) : null}

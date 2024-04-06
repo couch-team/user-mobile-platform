@@ -69,17 +69,16 @@ const Profile = ({ navigation }: Props) => {
             position: 'absolute',
             left: 0,
             right: 0,
-            top: '-30%',
+            top: 10,
           }}>
           {profile?.avatar_url ? (
             <Image
               source={{ uri: profile.avatar_url }}
               style={{
-                width: 160,
-                height: 160,
+                width: 140,
+                height: 140,
                 resizeMode: 'cover',
-                top: '100%',
-                zIndex: 1,
+                // top: 100,
                 borderRadius: 100,
                 overflow: 'hidden',
               }}
@@ -102,6 +101,7 @@ const Profile = ({ navigation }: Props) => {
         style={{
           flex: 1,
           backgroundColor: 'rgba(6, 12, 35, 1)',
+          // zIndex: 0,
         }}>
         <View style={{ alignItems: 'center', marginTop: '20%', gap: 6 }}>
           <Text

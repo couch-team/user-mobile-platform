@@ -16,13 +16,14 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
-      "bundleIdentifier": "com.couchapp.couchapp"
+      "bundleIdentifier": "com.couchapp.couchapp",
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
     },
     "android": {
       "versionCode": 10,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.couchapp.couchapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/foreground.png",

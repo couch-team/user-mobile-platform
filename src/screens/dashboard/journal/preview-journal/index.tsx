@@ -106,7 +106,10 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       // Add audio and image entries with index
       let audioIndex = 0;
       for (const upload of journal.uploads) {
-        if (upload.type.startsWith('audio/')) {
+        if (
+          upload.type.startsWith('audio/') ||
+          upload.type.startsWith('application/')
+        ) {
           entries.push({
             type: 'audio',
             content: upload.upload_url,
@@ -350,6 +353,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 10,
+                marginTop: 5,
               }}>
               <Pressable
                 style={{
@@ -414,6 +418,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 color: 'rgba(227, 228, 248, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraMedium,
+                marginLeft: 10,
               }}>
               {formatTime(positions[item.index], item.index)}
             </Text>
@@ -471,7 +476,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         {isFetchingJournal && (
           <ActivityIndicator
             color={Colors.WHITE}
-            size={'large'}
+            size={'small'}
             style={{ alignItems: 'center' }}
           />
         )}
@@ -487,10 +492,14 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
 
       <SettingsModal
-        onPressEdit={() =>
-          navigate('EditJournal', { journal: journal, color: color })
-        }
-        onPressDelete={() => setOpenDeleteModal(true)}
+        onPressEdit={() => {
+          setOpenSettingModal(false);
+          navigate('EditJournal', { journal: journal, color: color });
+        }}
+        onPressDelete={() => {
+          setOpenDeleteModal(true);
+          setOpenSettingModal(false);
+        }}
         isVisible={openSettingModal}
         onClose={() => setOpenSettingModal(false)}
       />

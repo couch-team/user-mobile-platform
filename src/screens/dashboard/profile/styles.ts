@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Typography } from 'theme/config';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingTop: '70%',
+    paddingTop: Dimensions.get('window').height / 3,
     flex: 1,
     backgroundColor: 'rgba(15, 17, 65, 1)',
     // position: 'relative',
@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    paddingTop: 60,
+    paddingTop: 80,
+    zIndex: 50000,
   },
 });

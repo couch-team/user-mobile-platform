@@ -26,7 +26,7 @@ const ProfileCardModal = ({
     // Convert date of birth string to Date object
     const age = differenceInYears(new Date(), new Date(dateOfBirth));
 
-    return age;
+    return age ? age : '';
   };
 
   const agess = calculateAge(profile?.dob);
@@ -212,9 +212,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     // backgroundColor: Colors.white,
     width: '100%',
-    // height: '95%',
-    flex: 1,
+    height: '95%',
+    // flex: 1,
     position: 'relative',
+    // bottom: 0,
     // paddingHorizontal: 16,
     // paddingVertical: 20,
     borderTopLeftRadius: 24,

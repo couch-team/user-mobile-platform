@@ -71,7 +71,8 @@
     "redux-persist": "^6.0.0",
     "redux-persist-transform-filter": "^0.0.22",
     "yup": "^1.1.1",
-    "expo-blur": "~12.4.1"
+    "expo-blur": "~12.4.1",
+    "expo-constants": "~14.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
