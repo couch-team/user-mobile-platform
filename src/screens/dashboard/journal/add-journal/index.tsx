@@ -15,13 +15,13 @@ import {
   ScrollView,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from './style';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { NoteOption, RightHeader } from './components';
+import { RightHeader } from './components';
 import Swiper from 'react-native-swiper';
 
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -36,7 +36,6 @@ import { MoodColors } from 'theme/config/colors';
 import JournalPromptModal from './components/JournalPrompt';
 import { fetchJournals } from 'store/actions/journal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -70,6 +69,24 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const audioRef = useRef<any>([]);
+
+  const requestAudioPermission = async () => {
+    const { status }: { status: Audio.PermissionStatus } =
+      await Audio.requestPermissionsAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true, // Optional, depends on your app's requirements
+      staysActiveInBackground: true,
+    });
+    if (status !== 'granted') {
+      Alert.alert('Audio Permission', 'Audio Permission Denied');
+      // You can handle denial of permission here, such as showing an error message
+    }
+  };
+
+  useEffect(() => {
+    requestAudioPermission();
+  }, []);
 
   const createJournal = async (data: FormData) => {
     try {
@@ -113,6 +130,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           // Add more extensions and corresponding MIME types as needed
           '3gp': 'audio/3gp',
           mp3: 'audio/mp3',
+          m4a: 'audio/mp4',
+          aac: 'audio/aac',
+          wav: 'audio/wav',
+          caf: 'audio/caf',
           // Add more audio extensions and corresponding MIME types as needed
         };
 
@@ -277,6 +298,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
     if (status.didJustFinish) {
       await audioRef.current[index].stopAsync();
+
       setIsPlaying(false);
       setPositions(prevPositions => {
         const newPositions: any = [...prevPositions];
@@ -304,6 +326,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   };
 
   const loadAudio = async (uri: any, index: number) => {
+    // await Audio.setAudioModeAsync({
+    //   allowsRecordingIOS: false,
+    //   playsInSilentModeIOS: false, // Optional, depends on your app's requirements
+    //   staysActiveInBackground: true,
+    // });
     try {
       const { sound } = await Audio.Sound.createAsync(
         { uri: uri },
@@ -376,7 +403,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setJournalEntries(updatedEntries);
   };
 
-  const handleChangeImage = async (item: any, index: number) => {
+  const handleChangeImage = async (index: number) => {
     try {
       const result: any = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -384,6 +411,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         // aspect: [4, 3],
         quality: 0.2,
       });
+      const updatedPreviewImages = [...previewImages];
+
+      if (index !== -1) {
+        // If the image already exists in previewImages, update it
+        updatedPreviewImages[index] = result.assets[0].uri;
+      }
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];
@@ -392,6 +425,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           content: result.assets[0].uri,
         };
         setJournalEntries(updatedEntries);
+        setPreviewImages(updatedPreviewImages);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -426,7 +460,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
-  const renderItem = (item: any, index: number) => {
+  const RenderItem = (item: any, index: number) => {
     if (item.type === 'text' && item.isEditing) {
       return (
         <KeyboardAvoidingView
@@ -504,7 +538,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 16,
                 borderRadius: 64,
               }}
-              onPress={() => handleChangeImage(item, index)}>
+              onPress={() => handleChangeImage(index)}>
               <Text
                 style={{
                   color: 'white',
@@ -704,7 +738,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               borderRadius: 64,
               position: 'absolute',
               right: 10,
-              top: 10,
+              top: 50,
             }}
             onPress={() => setShowPreviesImage(false)}>
             <Image
@@ -732,7 +766,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onPress={() => setShowPreviesImage(false)}>
+                  onPress={() => setShowPreviesImage(false)}
+                  key={index}>
                   <Pressable>
                     <Image
                       source={{ uri: image }}
@@ -791,7 +826,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             }}>
             <View style={{ paddingBottom: isFocused ? 0 : 100, flex: 1 }}>
               {journalEntries?.map((journal: any, index: number) =>
-                renderItem(journal, index),
+                RenderItem(journal, index),
               )}
             </View>
           </ScrollView>
@@ -802,7 +837,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               flexDirection: 'row',
               justifyContent: 'space-around',
               position: 'absolute',
-              bottom: 0,
+              bottom: 30,
               gap: 10,
               left: 0,
               right: 0,

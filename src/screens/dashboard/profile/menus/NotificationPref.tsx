@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import Constants from 'expo-constants';
 import { Colors, Images, Typography } from 'theme/config';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -68,7 +69,7 @@ const NotificationPref = ({ navigation }: Props) => {
       style={{
         flex: 1,
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
       }}>
       <Pressable
         style={styles.headerLeftIconContainer}

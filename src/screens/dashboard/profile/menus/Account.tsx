@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import React, { useState } from 'react';
+import Constants from 'expo-constants';
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -81,7 +82,7 @@ const Account = ({ navigation }: Props) => {
         flex: 1,
         backgroundColor: 'rgba(6, 12, 35, 1)',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
       }}>
       <FirstAccountModal
         visible={showFirstAccountModal}

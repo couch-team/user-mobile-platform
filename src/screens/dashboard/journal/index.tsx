@@ -15,7 +15,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { HeaderBar, VirtualizedScrollView } from 'components';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
@@ -286,7 +285,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       <Pressable onPress={onPress}>
         <Image
           source={arrowImage}
-          style={{ width: 6, height: 12 }}
+          style={{ width: 10, height: 15 }}
           resizeMode="contain"
         />
       </Pressable>
@@ -298,7 +297,10 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     let imageCount = 0;
 
     uploads.forEach((upload: any) => {
-      if (upload.type.startsWith('audio/')) {
+      if (
+        upload.type.startsWith('audio/') ||
+        upload.type.startsWith('application/')
+      ) {
         audioCount++;
       } else if (upload.type.startsWith('image/')) {
         imageCount++;

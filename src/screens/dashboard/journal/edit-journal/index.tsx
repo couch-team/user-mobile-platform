@@ -39,6 +39,7 @@ import { showMessage } from 'react-native-flash-message';
 import { fetchJournals } from 'store/actions/journal';
 import JournalPromptModal from '../add-journal/components/JournalPrompt';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import ImageSlideShow from './ImageSlideShow';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -67,28 +68,17 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [showToolBar, setShowToolBar] = useState(false);
-  const [longPressTimeout, setLongPressTimeout] = useState<number | null | any>(
-    null,
-  );
   const [isLoading, setIsLoading] = useState(false);
   const [bottomMargin, setBottomMargin] = useState(0);
   const [contentLoading, setContentLoading] = useState(false);
   const [openJournalPrompt, setOpenJournalPrompt] = useState(false);
+  const [showPreviewImage, setShowPreviesImage] = useState(false);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handlePressIn = () => {
-    const timeoutId = setTimeout(() => {
-      // Your function to execute after 3 seconds
-      setShowToolBar(true);
-    }, 1500);
-
-    setLongPressTimeout(timeoutId);
-  };
-
-  const handlePressOut = () => {
-    if (longPressTimeout !== null) {
-      clearTimeout(longPressTimeout);
-      setLongPressTimeout(null);
-    }
+  const handleImagePress = (index: number) => {
+    setCurrentIndex(index);
+    setShowPreviesImage(true);
   };
 
   const dispatch = useAppDispatch();
@@ -134,6 +124,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
   useEffect(() => {
     if (journal) {
       const entries = [];
+      const previewImagesArray = [];
 
       // Add text entry
       entries.push({
@@ -155,7 +146,10 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       // Add audio and image entries with index
       let audioIndex = 0;
       for (const upload of journal.uploads) {
-        if (upload.type.startsWith('audio/')) {
+        if (
+          upload.type.startsWith('audio/') ||
+          upload.type.startsWith('application/')
+        ) {
           entries.push({
             type: 'audio',
             content: upload.upload_url,
@@ -168,6 +162,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             type: 'image',
             content: upload.upload_url,
           });
+          previewImagesArray.push(upload.upload_url);
         }
       }
 
@@ -176,6 +171,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       setSelectedMood(journal.mood.icon_url);
       setMoodId(journal.mood.id);
       setMoodType(journal.mood.title);
+      setPreviewImages(previewImagesArray);
     }
   }, [journal]);
 
@@ -303,6 +299,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
           ...journalEntries,
           { type: 'image', content: result.assets[0].uri },
         ]);
+        setPreviewImages([...previewImages, result.assets[0].uri]);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -446,10 +443,18 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     }
   };
 
-  const handleRemoveImage = (index: number) => {
+  const handleRemoveImage = (index: number, item: any) => {
     const updatedEntries: any = [...journalEntries];
     updatedEntries.splice(index, 1);
     setJournalEntries(updatedEntries);
+
+    const imageIndex = previewImages.findIndex(image => image === item.content);
+    // Remove the image from previewImages
+    if (imageIndex !== -1) {
+      const updatedPreviewImages = [...previewImages];
+      updatedPreviewImages.splice(imageIndex, 1);
+      setPreviewImages(updatedPreviewImages);
+    }
   };
 
   const handleRemoveAudio = (index: number) => {
@@ -469,11 +474,23 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];
+        const updatedPreviewImages = [...previewImages];
+
+        const imageIndex = previewImages.findIndex(
+          image => image === item.content,
+        );
+
+        if (imageIndex !== -1) {
+          // If the image already exists in previewImages, update it
+          updatedPreviewImages[imageIndex] = result.assets[0].uri;
+        }
+
         updatedEntries[index] = {
           type: 'image',
           content: result.assets[0].uri,
         };
         setJournalEntries(updatedEntries);
+        setPreviewImages(updatedPreviewImages);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -558,6 +575,9 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         </Text>
       );
     } else if (item.type === 'image') {
+      const imageIndex = previewImages.findIndex(
+        image => image === item.content,
+      );
       return (
         <View style={{ position: 'relative', marginVertical: 10 }} key={index}>
           <Image
@@ -577,6 +597,26 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
+            <Pressable
+              style={{
+                backgroundColor: 'rgba(227, 228, 248, 0.16)',
+                padding: 7,
+                borderRadius: 64,
+                position: 'absolute',
+                left: 10,
+                top: 10,
+              }}
+              onPress={() => handleImagePress(imageIndex)}>
+              <Image
+                source={Images['zoom-in']}
+                style={{
+                  width: 22,
+                  height: 22,
+                  resizeMode: 'contain',
+                  tintColor: '#E3E4F8',
+                }}
+              />
+            </Pressable>
             {/* Change Image Button */}
             <Pressable
               style={{
@@ -606,7 +646,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
                 right: 10,
                 top: 10,
               }}
-              onPress={() => handleRemoveImage(index)}
+              onPress={() => handleRemoveImage(index, item)}
               disabled={!showToolBar}>
               <Image
                 source={Images['cancel-image']}
@@ -718,6 +758,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
               onSlidingComplete={value => handleSeek(value, item.index)}
               step={0.01}
               disabled={contentLoading}
+              // thumbImage={require('../../../../assets/images/journal/slider-thumb-image.png')}
             />
             <Text
               style={{
@@ -739,6 +780,12 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}
       style={[styles.container, isKeyboardVisible && { paddingBottom: 40 }]}>
+      <ImageSlideShow
+        showPreviewImage={showPreviewImage}
+        onClose={() => setShowPreviesImage(false)}
+        currentIndex={currentIndex}
+        previewImages={previewImages}
+      />
       <JournalPromptModal
         isVisible={openJournalPrompt}
         onClose={() => setOpenJournalPrompt(false)}
@@ -797,7 +844,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             position: 'absolute',
-            bottom: 0,
+            bottom: 30,
             gap: 10,
             left: 0,
             right: 0,
@@ -906,15 +953,14 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             marginHorizontal: 30,
             alignItems: 'center',
             position: 'absolute',
-            bottom: 0,
+            bottom: 30,
             gap: 10,
             left: 0,
             right: 0,
             marginBottom: 20,
             marginTop: 10,
           }}
-          onPressIn={handlePressIn}
-          onPressOut={handlePressOut}>
+          onPress={() => setShowToolBar(true)}>
           <Text style={{ color: 'white' }}>Press and Hold to Edit Note</Text>
         </Pressable>
       ) : null}

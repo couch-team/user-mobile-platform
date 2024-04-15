@@ -76,6 +76,11 @@ export type DashboardParamList = {
     header: string,
     sub_header: string,
   }
+  MindSpaceSection: {
+    header: string;
+    sub_header: string;
+    content: ReactNode;
+  };
   PreviewJournal: any;
   EditJournal: any;
   RecentlyPlayedAudio: undefined;
@@ -106,6 +111,9 @@ export type DashboardParamList = {
   CbtExercise: {
     id: string, 
     content: any,
+    header: string;
+    backgroundImageUri: string;
+    audio_uri: string;
   };
   UserOnboarding: any;
   UserOnboarding4: any;
@@ -114,7 +122,7 @@ export type DashboardParamList = {
   UserOnboarding3: any;
   CompleteOnboarding1: any;
   Planner: any;
-  EditProfile: { id: string };
+  EditProfile: { id?: string };
   NotificationPreference: any;
   Account: any;
   Subscription: any;

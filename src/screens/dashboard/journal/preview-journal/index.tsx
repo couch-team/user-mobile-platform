@@ -12,6 +12,8 @@ import {
   StyleSheet,
   Platform,
   ActivityIndicator,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from '@react-native-community/slider';
@@ -30,6 +32,7 @@ import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchJournals } from 'store/actions/journal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Swiper from 'react-native-swiper';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -56,7 +59,15 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   const [contentLoading, setContentLoading] = useState(false);
   const [isSeeking, setIsSeeking] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioLoading, setAudioLoading] = useState(false);
+
+  const [showPreviewImage, setShowPreviesImage] = useState(false);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleImagePress = (index: number) => {
+    setCurrentIndex(index);
+    setShowPreviesImage(true);
+  };
 
   const fetchJournal = async () => {
     try {
@@ -87,6 +98,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
   useEffect(() => {
     if (journal) {
       const entries = [];
+      const previewImagesArray = [];
 
       // Add text entry
       entries.push({
@@ -107,7 +119,10 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       // Add audio and image entries with index
       let audioIndex = 0;
       for (const upload of journal.uploads) {
-        if (upload.type.startsWith('audio/')) {
+        if (
+          upload.type.startsWith('audio/') ||
+          upload.type.startsWith('application/')
+        ) {
           entries.push({
             type: 'audio',
             content: upload.upload_url,
@@ -120,10 +135,12 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
             type: 'image',
             content: upload.upload_url,
           });
+          previewImagesArray.push(upload.upload_url);
         }
       }
 
       setJournalEntries(entries);
+      setPreviewImages(previewImagesArray);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [journal]);
@@ -295,6 +312,9 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         </Text>
       );
     } else if (item.type === 'image') {
+      const imageIndex = previewImages.findIndex(
+        image => image === item.content,
+      );
       return (
         <View style={{ position: 'relative', marginVertical: 10 }} key={index}>
           <Image
@@ -314,24 +334,6 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {/* Change Image Button */}
-            <Pressable
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.24)',
-                padding: 16,
-                borderRadius: 64,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 16,
-                  fontFamily: Typography.fontFamily.SoraMedium,
-                }}>
-                Change Image
-              </Text>
-            </Pressable>
-
-            {/* Cancel Button */}
             <Pressable
               style={{
                 backgroundColor: 'rgba(227, 228, 248, 0.16)',
@@ -340,10 +342,16 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 position: 'absolute',
                 right: 10,
                 top: 10,
-              }}>
+              }}
+              onPress={() => handleImagePress(imageIndex)}>
               <Image
-                source={Images['cancel-image']}
-                style={{ width: 22, height: 22, resizeMode: 'contain' }}
+                source={Images['zoom-in']}
+                style={{
+                  width: 22,
+                  height: 22,
+                  resizeMode: 'contain',
+                  tintColor: '#E3E4F8',
+                }}
               />
             </Pressable>
           </View>
@@ -391,6 +399,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 10,
+                marginTop: 5,
               }}>
               <Pressable
                 style={{
@@ -455,6 +464,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
                 color: 'rgba(227, 228, 248, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraMedium,
+                marginLeft: 10,
               }}>
               {formatTime(positions[item.index], item.index)}
             </Text>
@@ -492,9 +502,79 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
     );
   };
   const formattedDate = moment(journal?.updated_at).calendar();
-  const containerWidth = formattedDate.length * 8;
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showPreviewImage}
+        onRequestClose={() => setShowPreviesImage(false)}>
+        <Pressable
+          onPress={() => setShowPreviesImage(false)}
+          style={[
+            {
+              flex: 1,
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            },
+          ]}>
+          <Pressable
+            style={{
+              backgroundColor: 'rgba(227, 228, 248, 0.4)',
+              padding: 7,
+              borderRadius: 64,
+              position: 'absolute',
+              right: 10,
+              top: 50,
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Image
+              source={Images['cancel-image']}
+              style={{ width: 22, height: 22, resizeMode: 'contain' }}
+            />
+          </Pressable>
+          <Pressable
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => setShowPreviesImage(false)}>
+            <Swiper
+              loop={false}
+              showsButtons={false}
+              scrollEnabled={true}
+              index={currentIndex}
+              showsPagination={false}>
+              {previewImages.map((image, index) => (
+                <Pressable
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  onPress={() => setShowPreviesImage(false)}
+                  key={index}>
+                  <Pressable>
+                    <Image
+                      source={{ uri: image }}
+                      key={index}
+                      style={{
+                        width: Dimensions.get('window').width,
+                        height: 400,
+                        borderRadius: 8,
+                        resizeMode: 'cover',
+                        overflow: 'hidden',
+                      }}
+                    />
+                  </Pressable>
+                </Pressable>
+              ))}
+            </Swiper>
+          </Pressable>
+        </Pressable>
+      </Modal>
       <HeaderBar
         hasBackButton
         onPressLeftIcon={() => goBack()}
@@ -504,8 +584,7 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
 
       <View style={styles.previewContainer}>
         <Text style={styles.previewTitle}>{journal?.title}</Text>
-        <View
-          style={[styles.previewButtonContainer, { width: containerWidth }]}>
+        <View style={[styles.previewButtonContainer]}>
           <Text style={[styles.previewButtonText, { color: color }]}>
             Updated: {moment(journal?.updated_at).calendar()}
           </Text>
@@ -514,21 +593,14 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
         {isFetchingJournal && (
           <ActivityIndicator
             color={Colors.WHITE}
-            size={'large'}
+            size={'small'}
             style={{ alignItems: 'center' }}
           />
         )}
         <View style={styles.previewDocument}>
           <ScrollView
-            // ref={scrollView => {
-            //   this.scrollView = scrollView;
-            // }}
             showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            // onContentSizeChange={() => {
-            //   this.scrollView.scrollToEnd({ animated: true });
-            // }}
-          >
+            keyboardShouldPersistTaps="handled">
             {journalEntries?.map((journ: any, index: number) =>
               renderItem(journ, index),
             )}
@@ -537,10 +609,14 @@ const PreviewJournal = ({ route, navigation: { goBack, navigate } }: Props) => {
       </View>
 
       <SettingsModal
-        onPressEdit={() =>
-          navigate('EditJournal', { journal: journal, color: color })
-        }
-        onPressDelete={() => setOpenDeleteModal(true)}
+        onPressEdit={() => {
+          setOpenSettingModal(false);
+          navigate('EditJournal', { journal: journal, color: color });
+        }}
+        onPressDelete={() => {
+          setOpenDeleteModal(true);
+          setOpenSettingModal(false);
+        }}
         isVisible={openSettingModal}
         onClose={() => setOpenSettingModal(false)}
       />
