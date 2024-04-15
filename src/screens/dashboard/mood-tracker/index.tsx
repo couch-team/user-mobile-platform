@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
   SectionList,
   Text,
   TouchableOpacity,
@@ -21,6 +22,7 @@ import { fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
 import { $api } from 'services';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { clearMoodReducer, setHasFetchedMoods, setMoods, setReachedEnd } from 'store/slice/moodSlice';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -43,7 +45,6 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
       setChartLoading(true);
       const response = await $api.fetch('/api/mood/stats');
       if ($api.isSuccessful(response)) {
-        console.log(response?.data);
         setChartData(response?.data);
       }
     } catch (err) {
@@ -66,6 +67,12 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   );
   const groupedMoods = groupTransactions(moods);
 
+  const resetMoods = () => {
+    dispatch(clearMoodReducer())
+    fetchChartData();
+    currentPage === 1 ? dispatch(fetchMoods(1)) : setCurrentPage(1)
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -86,6 +93,14 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
+          refreshControl={
+            <RefreshControl
+                refreshing={isFetchingMoods && moods?.length === 0}
+                onRefresh={() => resetMoods()}
+                colors={['#ffffff']}
+                progressBackgroundColor="#0D0E36"
+            />
+          }
           ListEmptyComponent={
             !isFetchingMoods
               ?

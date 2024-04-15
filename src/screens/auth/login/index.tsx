@@ -42,7 +42,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
   const login = async () => {
     try {
       setLoading(true);
-      await dispatch(loginAction({ email, password }));
+      await dispatch(loginAction({ email: email.toLowerCase(), password }));
     } catch (err) {
       console.log(err);
     } finally {
@@ -93,6 +93,7 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
                 value={email}
+                textContentType='oneTimeCode'
               />
               <FormTextInput
                 label="Password"

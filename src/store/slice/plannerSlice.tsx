@@ -25,10 +25,18 @@ const PlannerSlice = createSlice({
         setPlansLastPage: ( state, { payload }:PayloadAction<number> ) => { state.plans_last_page = payload },
         setPlansCurrentPage: ( state, { payload }:PayloadAction<number> ) => { state.plans_current_page = payload },
         setHasFetchedPlans: ( state, { payload }:PayloadAction<boolean> ) => { state.hasFetchedPlans = payload },
-        setHasReachedEnd: ( state, { payload }:PayloadAction<boolean> ) => { state.reached_end = payload }
+        setHasReachedEnd: ( state, { payload }:PayloadAction<boolean> ) => { state.reached_end = payload },
+        clearPlannerReducer: state => {
+            state.plans = [];
+            state.hasFetchedPlans = false;
+            state.isFetchingPlans = false;
+            state.plans_current_page = 1;
+            state.plans_last_page = 1;
+            state.reached_end = false;
+        },
     }
 })
 
 const PlannerReducer = PlannerSlice.reducer
 export default PlannerReducer;
-export const { setPlans, setHasReachedEnd, setHasFetchedPlans, setIsFetchingPlans, setPlansCurrentPage, setPlansLastPage } = PlannerSlice.actions
+export const { setPlans, setHasReachedEnd, setHasFetchedPlans, setIsFetchingPlans, setPlansCurrentPage, setPlansLastPage, clearPlannerReducer } = PlannerSlice.actions

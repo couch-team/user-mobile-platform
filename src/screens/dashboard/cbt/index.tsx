@@ -1,6 +1,6 @@
 import { HeaderBar } from 'components/base/header-bar';
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { HeaderText } from 'components/base/header-text';
@@ -14,6 +14,7 @@ import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import { fetchCbts } from 'store/actions/cbt';
 import useAppDispatch from 'hooks/useAppDispatch';
+import { clearCbtReducer } from 'store/slice/cbtSlice';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'Cbt'>;
 
@@ -27,9 +28,22 @@ const Cbt = ({ navigation: { navigate, goBack } }: ScreenProps) => {
 
   const { cbts, isFetchingCbts, hasFetchedCbts, reached_end } = useSelector((state: RootState) => state.Cbt);
 
+  const resetCbt = () => {
+    dispatch(clearCbtReducer())
+    currentPage === 1 ? dispatch(fetchCbts(1)) : setCurrentPage(1)
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+              refreshing={isFetchingCbts && cbts?.length === 0}
+              onRefresh={() => resetCbt()}
+              colors={['#ffffff']}
+              progressBackgroundColor="#0D0E36"
+          />
+        }
         ListHeaderComponent={() => (
           <>
             <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />

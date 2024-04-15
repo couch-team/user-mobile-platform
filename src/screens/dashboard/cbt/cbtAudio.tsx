@@ -12,6 +12,7 @@ import Slider from "@react-native-community/slider";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import dayjs from "dayjs";
+import { $api } from "services";
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -33,6 +34,7 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
     const [ playedDuration, setPlayedDuration ] = useState(0);
 
 
+    var playedDurationRef = useRef(0);
     const fetchAudio = async() => {
         try{
             setIsLoadingAudio(true)
@@ -50,6 +52,31 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
         }
     }
 
+    const completeWatch = async() => {
+        try{
+            const response = await $api.post('/api/therapy/play/', {
+                is_complete: true,
+                // current_duration: playedDuration,
+                content_id: params?.id,
+            })
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    const saveDuration = async(durationToUpload: string) => {
+        try{
+            const response = await $api.post('/api/therapy/play/', {
+                current_duration: durationToUpload,
+                content_id: params?.id,
+            })
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
     const playAudio = async () => {
         if(!sound){
             return
@@ -61,12 +88,14 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
             sound.setOnPlaybackStatusUpdate((status) => {
                 if(status.isLoaded){
                     setPlayedDuration(status.positionMillis);
+                    playedDurationRef.current = status.positionMillis
                     status.isPlaying ? setIsPaused(false) : setIsPaused(true)
                 }
                 if ('didJustFinish' in status && status.didJustFinish) {
                     // setHasStarted(false)
                     setIsPaused(true)
                     setIsCompleted(true);
+                    completeWatch()
                 }
             });
         }
@@ -76,11 +105,24 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
     };
 
     useEffect(() => {
-        fetchAudio()
+        fetchAudio();
     },[])
 
     useEffect(() => {
+        return () => {
+            !params?.is_complete && Number(playedDurationRef.current) > 1000 && saveDuration(dayjs(playedDurationRef.current).format('mm:ss'))
+        }
+    },[])
 
+    useEffect(() => {
+        const durationArray = params?.duration?.split(":")
+
+        if(sound){
+            sound.setPositionAsync( durationArray?.length > 2 ? ( (Number(durationArray[0]) * 60 * 60) + (Number(durationArray[1]) * 60) + Number(durationArray[2])) * 1000 : ((Number(durationArray[0]) * 60) + Number(durationArray[1])) * 1000 )
+        }
+    },[])
+
+    useEffect(() => {
         Audio.setAudioModeAsync({
             staysActiveInBackground: true,
             playsInSilentModeIOS: true,
@@ -142,7 +184,7 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
               <LinearGradient
                 colors={['rgba(38, 28, 64, 0.2)', 'rgba(38, 28, 64, 0.5237)', 'rgba(38, 28, 64, 0.73)', 'rgba(38, 28, 64, 1)']}
                 style={[styles.gradient, { paddingTop: top } ]}>
-                    <TouchableOpacity style={styles.closeButton} onPress={() => goBack()}><CLOSE/></TouchableOpacity>
+                    { isCompleted ? <View></View> : <TouchableOpacity style={styles.closeButton} onPress={() => goBack()}><CLOSE/></TouchableOpacity> }
                     <View style={styles.contentContainer}>
                         <Text style={styles.audioLabel}>How to not believe everything you see</Text>
                         <View style={styles.audioControls}>

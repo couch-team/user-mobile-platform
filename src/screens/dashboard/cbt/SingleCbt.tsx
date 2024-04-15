@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { styles } from './style';
 import { Colors, Images } from 'theme/config';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
 import { cbtPlayData } from 'constants/data';
 import { Image } from 'react-native';
 import { wp } from 'constants/layout';
@@ -68,9 +68,11 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
     fetchCbt()
   },[])
 
-  useEffect(() => {
-    fetchContent();
-  },[])
+  useFocusEffect(
+    useCallback(() => {
+      fetchContent()
+    }, [])
+  );
 
 
   const { top } = useSafeAreaInsets();
@@ -78,7 +80,7 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
     <View style={[styles.container]}>
       <SectionList
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={ isFetchingCbt ? <View style={{ paddingTop: 24 }}><ActivityIndicator size="small" color={Colors.WHITE}/></View> : <Text>No results</Text>}
+        ListEmptyComponent={ isFetchingContent ? <View style={{ paddingTop: 24 }}><ActivityIndicator size="small" color={Colors.WHITE}/></View> : <Text style={{ color: Colors.WHITE }}>No results</Text>}
         ListHeaderComponent={() => {
           return (
             <ImageBackground
@@ -122,12 +124,11 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
               ? Images['video-player']
               : item?.resourcetype === 'AudioContent'
                 ? Images?.['voice-note']
-                : item?.resourcetype === 'TextContent'
+                : item?.resourcetype === 'ReadingContent'
                   ? Images?.document
                   : Images?.['help-circle'];
 
-          // const hasPlayed = item?.isPlayed ? Images['circle-check'] : Images['circle-check-box'];
-          const hasPlayed = Images['circle-check-box'];
+          const hasPlayed = item?.play_history?.is_complete ? Images['circle-check'] : Images['circle-check-box'];
 
           return (
             <View style={styles.cbtDataContainer}>
@@ -140,11 +141,15 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
                 key={index}
                 style={styles.cbtItemDataBodyContainer}
                 onPress={() => 
+                  item?.resourcetype === 'ReadingContent'
+                  ?
+                  navigate('CbtText', { id: item?.id, content: item?.reading })
+                  :
                   item.resourcetype === 'AudioContent' 
-                  ? navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url }) 
+                  ? navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url, id: item?.id, is_complete: item?.play_history?.is_complete, duration: item?.play_history?.current_duration }) 
                   : item.resourcetype === 'VideoContent'
-                    ?  navigate('CbtVideo', { header: item.title, backgroundImageUri: item.background_url, video_uri: item.content_url  }) 
-                    :navigate('CbtText') }
+                    ?  navigate('CbtVideo', { header: item.title, backgroundImageUri: item.background_url, video_uri: item.content_url, id: item?.id, is_complete: item?.play_history?.is_complete, duration: item?.play_history?.current_duration  }) 
+                    :navigate('CbtExercise', { id: item?.id, content: item?.exercises }) }
               >
                 <View style={styles.cbtItemIconContainer}>
                   <Image

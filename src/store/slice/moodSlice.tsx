@@ -60,7 +60,8 @@ const MoodSlice = createSlice({
       state.moods = [];
       state.hasFetchedMoods = false;
       state.isFetchingMoods = false;
-      (state.moods_current_page = 1), (state.moods_last_page = 1);
+      state.moods_current_page = 1;
+      state.moods_last_page = 1;
       state.reached_end = false;
     },
   },
