@@ -68,10 +68,13 @@ export type DashboardParamList = {
   CompleteAddMood: any;
   AddJournal: undefined;
   MindSpace: undefined;
-  MindSpaceSection: {
+  MindSpaceAudioSection: {
     header: string,
     sub_header: string,
-    content: ReactNode
+  }
+  MindSpaceVideoSection: {
+    header: string,
+    sub_header: string,
   }
   PreviewJournal: any;
   EditJournal: any;
@@ -84,13 +87,26 @@ export type DashboardParamList = {
     header: string,
     backgroundImageUri: string,
     audio_uri: string,
+    id: string,
+    is_complete: boolean,
+    duration: string
   };
   CbtVideo: {
     header: string,
     backgroundImageUri: string,
     video_uri: string,
+    id: string,
+    is_complete: boolean,
+    duration: string
   };
-  CbtText: undefined;
+  CbtText: {
+    id: string, 
+    content: any,
+  };
+  CbtExercise: {
+    id: string, 
+    content: any,
+  };
   UserOnboarding: any;
   UserOnboarding4: any;
   UserOnboarding1: any;

@@ -44,7 +44,7 @@ const Register = ({ navigation: { navigate } }: Props) => {
         first_name: firstName,
         last_name: lastName,
         password,
-        email,
+        email: email.toLowerCase(),
         role: 2,
       });
       if ($api.isSuccessful(response)) {

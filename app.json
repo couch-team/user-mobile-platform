@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "couch_mobile",
+    "name": "Couch App",
     "slug": "couch-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "",
+    "icon": "./assets/couch180.png",
     "backgroundColor": "#060C23",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -12,18 +12,28 @@
       "resizeMode": "contain",
       "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "1",
-      "bundleIdentifier": "com.couchapp.couchapp"
+      "buildNumber": "12",
+      "bundleIdentifier": "com.joincouch.app",
+      "icon": "./assets/couch180.png",
+      "iconImageSet": {
+        "120x120": "./assets/couch120.png",
+        "180x180": "./assets/couch180.png",
+        "76x76": "./assets/couch76.png",
+        "152x152": "./assets/couch152.png",
+        "167x167": "./assets/couch167.png"
+      }
     },
     "android": {
-      "versionCode": 10,
+      "versionCode": 12,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.couchapp.couchapp",
+      "package": "com.joincouch.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/foreground.png",
         "backgroundColor": "#ffffff"

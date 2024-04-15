@@ -181,6 +181,7 @@ const Images = {
 
   curve: require('../../assets/images/icons/curve.png'),
   affirmation: require('../../assets/images/affirmation.png'),
+  'initial_exercise_image': require('../../assets/images/initial-exercise-img.png'),
 };
 
 export default Images;

@@ -8,9 +8,15 @@ import { Listen, Read, Watch } from './modules';
 import { HeaderBar, HeaderText } from 'components';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type ScreenProps = NativeStackNavigationProp<DashboardParamList, 'MindSpace'>;
+type DashboardNavigationProps = NativeStackNavigationProp<
+  DashboardParamList,
+  'MindSpace'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
 
-const MindSpace = ({ navigation: { navigate, goBack } }: ScreenProps) => {
+const MindSpace = ({ navigation: { navigate, goBack } }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   
   return (
