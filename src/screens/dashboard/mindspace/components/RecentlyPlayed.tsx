@@ -28,11 +28,9 @@ export const RecentlyPlayed = ({ tags, color, title, duration, background_url, c
         {tags?.map((option: string) => {
           return (
             <View key={option} style={[styles.hasTagContainer]}>
-              <View style={[styles.topVideoTagContainer, { marginTop: 0 }]}>
-                <Text style={[styles.hasTagText, { color: color }]}>
-                  #{option}
-                </Text>
-              </View>
+              <Text style={[styles.hasTagText, { color: color }]}>
+                #{option}
+              </Text>
             </View>
           );
         })}

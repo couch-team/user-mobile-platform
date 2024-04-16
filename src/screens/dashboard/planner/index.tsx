@@ -17,6 +17,7 @@ import AddPlannerModal from "./components/add-planner-modal";
 import EditPlannerModal from "./components/edit-planner-modal";
 import PlanCard from "./components/cards/planCard";
 import { clearPlannerReducer, setPlans } from "store/slice/plannerSlice";
+import { deviceWidth, wp } from "constants/layout";
 
 type DashboardNavigationProps = StackNavigationProp<
   BottomTabParamList,
@@ -39,6 +40,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ addPlannerModalActive, setAddPlannerModalActive ] = useState(false);
     const [ editPlannerModalActive, setEditPlannerModalActive ] = useState(false);
+    const { first_name } = useSelector((state: RootState) => state.User)
 
     useEffect(() => {
         dispatch(fetchPlans(currentPage))
@@ -66,9 +68,10 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
             <View style={styles.topSection}>
                 <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
                 <HeaderText
-                    text="Hi Daniella,"
+                    text={`Hi ${first_name},`}
                     hasSubText="Here’s your routine for today"
                     bannerIcon={<MOON/>}
+                    hasSubTextStyle={{ maxWidth: deviceWidth - wp(100) - 125 }}
                 />
             </View>
             <Image source={Images['curve']} alt="" style={styles.curve}/>
@@ -112,7 +115,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                         </View>
                     }
                     ListHeaderComponent={
-                        <View style={{ width: '100%' }}>
+                        <View style={{ width: '100%', marginBottom: 20 }}>
                             <Text style={styles.headerText}>Today’s Affirmation</Text>
                             <Image source={Images.affirmation} style={styles.affirmationImage} resizeMode="contain"/>
                         </View>

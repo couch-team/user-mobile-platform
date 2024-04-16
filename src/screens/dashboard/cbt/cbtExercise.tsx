@@ -129,7 +129,7 @@ const CbtExercise = ({ navigation: { goBack } }: Props) => {
             const response = await $api.post('/api/therapy/cbt/response/', {
                 is_complete: true,
                 content_id: params?.id,
-                values: values?.map((valueToUpload) => ({ exercise_id: valueToUpload?.exercise_id, response: valueToUpload?.answer }))
+                responses: values?.map((valueToUpload) => ({ exercise_id: valueToUpload?.exercise_id, response: valueToUpload?.answer }))
             })
             if($api.isSuccessful(response)){
                 goBack()
