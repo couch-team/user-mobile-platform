@@ -75,11 +75,11 @@ const Profile = ({ navigation }: Props) => {
         </Pressable>
         <View
           style={{
-            alignItems: 'center',
-            position: 'absolute',
+            // alignItems: 'center',
+            // position: 'absolute',
             left: 0,
             right: 0,
-            top: Dimensions.get('window').height / 30,
+            top: Dimensions.get('window').height / 11,
           }}>
           {profile?.avatar_url ? (
             <Image
@@ -99,8 +99,8 @@ const Profile = ({ navigation }: Props) => {
                 width: 150,
                 height: 150,
                 resizeMode: 'contain',
-                top: '100%',
-                zIndex: 1,
+                // top: '100%',
+                // zIndex: 1,
               }}
             />
           )}
@@ -212,7 +212,7 @@ const Profile = ({ navigation }: Props) => {
           />
           <ProfileNumber value={journals.length} title="Journal Entries" />
 
-          <ProfileNumber value={20} title="Mindspace" />
+          <ProfileNumber title="Mindspace" />
         </View>
       </ScrollView>
     </View>

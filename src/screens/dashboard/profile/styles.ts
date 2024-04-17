@@ -1,9 +1,10 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Typography } from 'theme/config';
+import Constants from 'expo-constants';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingTop: Dimensions.get('window').height / 3,
+    paddingTop: Constants.statusBarHeight,
     flex: 1,
     backgroundColor: 'rgba(15, 17, 65, 1)',
     // position: 'relative',
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     borderColor: 'rgba(138, 142, 227, 1)',
     paddingVertical: 16,
     paddingHorizontal: 40,
-    // top: '100%',
+    top: '15%',
     // marginTop: 70,
   },
   btnText: {
@@ -24,11 +25,13 @@ export const styles = StyleSheet.create({
   },
   editBtnContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     left: 0,
-    position: 'absolute',
+    // position: ''
+    backgroundColor: 'rgba(15, 17, 65, 1)',
     right: 0,
-    paddingTop: 80,
+    paddingBottom: 10,
     zIndex: 50000,
+    // paddingTop: 30,
   },
 });

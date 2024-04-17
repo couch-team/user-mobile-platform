@@ -15,7 +15,8 @@ const ProfileNumber = ({ handleMarkerPress, title, value }: Props) => {
       style={{
         backgroundColor: 'rgba(243, 243, 252, 0.04)',
         flexDirection: 'row',
-        padding: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 5,
         borderRadius: 12,
         marginBottom: 10,
         justifyContent: 'space-between',
@@ -28,7 +29,7 @@ const ProfileNumber = ({ handleMarkerPress, title, value }: Props) => {
           style={{
             color: 'rgba(227, 228, 248, 1)',
             fontSize: 20,
-            fontFamily: Typography.fontFamily.SoraBold,
+            fontFamily: Typography.fontFamily.SoraSemiBold,
           }}>
           {title}
         </Text>
@@ -47,9 +48,11 @@ const ProfileNumber = ({ handleMarkerPress, title, value }: Props) => {
       <Text
         style={{
           color:
-            title === 'Therapy'
+            title === 'Mindful Points'
+              ? 'rgba(168, 97, 235, 1)'
+              : title === 'Moods Logged'
               ? 'rgba(115, 120, 222, 1)'
-              : title === 'Relaxation'
+              : title === 'Journal Entries'
               ? 'rgba(176, 232, 153, 1)'
               : 'rgba(255, 234, 151, 0.8)',
           fontSize: 80,
