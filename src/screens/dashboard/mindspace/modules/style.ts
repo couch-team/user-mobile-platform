@@ -99,13 +99,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   reachedEnd: {
-    fontSize: 20
+    fontFamily: Typography.fontFamily.SoraRegular,
+    color: Colors.WHITE
   },
   reachedEndContainer: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 280
+    height: 100
   },
   arrowIcon: {
     width: wp(23),

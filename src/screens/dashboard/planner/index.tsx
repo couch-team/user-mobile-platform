@@ -1,6 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import styles from "./styles";
-import { View, Image, Text, ActivityIndicator, SectionList, TouchableOpacity } from "react-native";
+import { View, Image, Text, ActivityIndicator, SectionList, TouchableOpacity, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"
 import { BottomTabParamList, DashboardParamList } from "utils/types/navigation-types";
 import { HeaderBar, HeaderText } from "components";
@@ -14,6 +14,10 @@ import useAppDispatch from "hooks/useAppDispatch";
 import { fetchPlans } from "store/actions/planner";
 import { groupTransactions } from "utils";
 import AddPlannerModal from "./components/add-planner-modal";
+import EditPlannerModal from "./components/edit-planner-modal";
+import PlanCard from "./components/cards/planCard";
+import { clearPlannerReducer, setPlans } from "store/slice/plannerSlice";
+import { deviceWidth, wp } from "constants/layout";
 
 type DashboardNavigationProps = StackNavigationProp<
   BottomTabParamList,
@@ -34,7 +38,9 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
     const { plans, reached_end, isFetchingPlans, hasFetchedPlans } = useSelector((state: RootState) => state.Planner);
     const dispatch = useAppDispatch();
     const [ currentPage, setCurrentPage ] = useState(1);
-    const [ addJournalModalActive, setAddJournalModalActive ] = useState(false);
+    const [ addPlannerModalActive, setAddPlannerModalActive ] = useState(false);
+    const [ editPlannerModalActive, setEditPlannerModalActive ] = useState(false);
+    const { first_name } = useSelector((state: RootState) => state.User)
 
     useEffect(() => {
         dispatch(fetchPlans(currentPage))
@@ -44,11 +50,16 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
 
     const isBottomTabVisible = (getState().type as any)  === 'tab'
 
+    const resetPlans = () => {
+        dispatch(clearPlannerReducer())
+        currentPage === 1 ? dispatch(fetchPlans(1)) : setCurrentPage(1)
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <View style={[styles.plusParent, isBottomTabVisible && { paddingBottom: 110, paddingRight: 10 } ]}>
                 <TouchableOpacity
-                    onPress={() => setAddJournalModalActive(true)}
+                    onPress={() => setAddPlannerModalActive(true)}
                     activeOpacity={0.8}
                     style={styles.plusIconContainer}>
                     <Image source={Images.plus} style={styles.plusIcon} />
@@ -57,9 +68,10 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
             <View style={styles.topSection}>
                 <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
                 <HeaderText
-                    text="Hi Daniella,"
+                    text={`Hi ${first_name},`}
                     hasSubText="Here’s your routine for today"
                     bannerIcon={<MOON/>}
+                    hasSubTextStyle={{ maxWidth: deviceWidth - wp(100) - 125 }}
                 />
             </View>
             <Image source={Images['curve']} alt="" style={styles.curve}/>
@@ -71,7 +83,19 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={ItemSeparator}
                     renderSectionFooter={SectionSeparator}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={isFetchingPlans && plans?.length === 0}
+                            onRefresh={() => resetPlans()}
+                            colors={['#ffffff']}
+                            progressBackgroundColor="#0D0E36"
+                        />
+                    }
                     ListEmptyComponent={
+                        isFetchingPlans
+                        ?
+                            <View></View>
+                        :
                         <View style={styles.emptyMoodTrackerContainer}>
                             <View style={styles.emptyMoodIconContainer}>
                                 <Image
@@ -91,7 +115,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                         </View>
                     }
                     ListHeaderComponent={
-                        <View style={{ width: '100%' }}>
+                        <View style={{ width: '100%', marginBottom: 20 }}>
                             <Text style={styles.headerText}>Today’s Affirmation</Text>
                             <Image source={Images.affirmation} style={styles.affirmationImage} resizeMode="contain"/>
                         </View>
@@ -117,41 +141,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                     }
                     renderItem={({ item, index }) => {
                         return (
-                            <View style={styles.cardParent}>
-                                <View style={styles.cardStatus}>
-                                    <View style={[styles.horizontalLine,{ height: 33 }]}></View>
-                                    <View style={styles.completeCircle}>{ item?.is_complete == true && <CHECK/> }</View>
-                                    <View style={[styles.horizontalLine,{ height: 33 }]}></View>
-                                </View>
-                                <TouchableOpacity key={index} style={styles.cardContainer}>
-                                    <View style={[ styles.cardLabel, { backgroundColor: item?.colour } ]}></View>
-                                    <View style={styles.itemMoodBodyContainer}>
-                                        <Text style={[styles.cardHeader]}>{item?.title}</Text>
-                                        <View style={styles.timeWrapper}>
-                                            <View style={styles.cardTimeContainer}>
-                                                <Text style={styles.cardTimeText}>
-                                                    {moment(item?.start).format('hh:mm A')} -
-                                                    {moment(item?.end).format('hh:mm A')}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.cardTimeContainer}>
-                                                <Text style={styles.cardTimeText}>
-                                                    {
-                                                        moment.duration(moment(item?.end).diff(moment(item?.start))).asMinutes() > 60 
-                                                            ?
-                                                            (Math.floor(moment.duration(moment(item?.end).diff(moment(item?.start))).asMinutes()/60)) + ' Hours' + '  ' + (moment.duration(moment(item?.end).diff(moment(item?.start))).asMinutes()%60) + ' Mins'
-                                                            :
-                                                            (moment.duration(moment(item?.end).diff(moment(item?.start))).asMinutes()) + ' Mins'
-                                                    }
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <Text>
-
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            <PlanCard item={item} index={index}/>
                         );
                     }}
                     renderSectionHeader={({ section: { title, isToday } }) => {
@@ -170,7 +160,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                     }}
                     />
             </View>
-            <AddPlannerModal isActive={addJournalModalActive} setIsActive={setAddJournalModalActive}/>
+            <AddPlannerModal isActive={addPlannerModalActive} setIsActive={setAddPlannerModalActive}/>
         </SafeAreaView>
     )
 }

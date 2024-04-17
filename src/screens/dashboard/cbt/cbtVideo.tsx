@@ -10,6 +10,7 @@ import { DashboardParamList } from "utils/types/navigation-types";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ResizeMode, Video } from "expo-av"; // Import Video instead of Audio
 import dayjs from "dayjs";
+import { $api } from "services";
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -21,19 +22,47 @@ type Props = {
 const CbtVideo = ({ navigation: { goBack } }: Props) => {
     const { params } = useRoute<RouteProp<DashboardParamList, 'CbtVideo'>>();
     const [ isCompleted, setIsCompleted ] = useState(false);
-    const [ hasStarted, setHasStarted ] = useState(false);
-    const [ isPaused, setIsPaused ] = useState(true);
-    const { top } = useSafeAreaInsets();
-    const [ progress, setProgress ] = useState(0);
-    const [ isLoadingVideo, setIsLoadingVideo ] = useState(false);
-    const [ duration, setDuration ] = useState(0);
-    const [ playedDuration, setPlayedDuration ] = useState(0);
     const video = useRef(null);
     const [status, setStatus] = useState({});
 
-    const handleRestart = () => {
-        console.log("hello")
+    var playedDuration = useRef(0);
+    const completeWatch = async() => {
+        try{
+            const response = await $api.post('/api/therapy/play/', {
+                is_complete: true,
+                content_id: params?.id,
+            })
+        }
+        catch(err){
+            console.log(err)
+        }
     }
+
+    const saveDuration = async(durationToUpload: string) => {
+        try{
+            const response = await $api.post('/api/therapy/play/', {
+                current_duration: durationToUpload,
+                content_id: params?.id,
+            })
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        return () => {
+            !params?.is_complete && Number(playedDuration.current) > 1000 && saveDuration(dayjs(playedDuration.current).format('mm:ss'))
+        }
+    },[])
+
+    useEffect(() => {
+        const durationArray = params?.duration?.split(":")
+        if(video){
+            (video.current as any).setPositionAsync( durationArray?.length > 2 ? ( (Number(durationArray[0]) * 60 * 60) + (Number(durationArray[1]) * 60) + Number(durationArray[2])) * 1000 : ((Number(durationArray[0]) * 60) + Number(durationArray[1])) * 1000 )
+        }
+    },[])
+
 
     return(
         <View style={styles.container}>
@@ -48,9 +77,11 @@ const CbtVideo = ({ navigation: { goBack } }: Props) => {
                 isLooping
                 onPlaybackStatusUpdate={status => {
                     setStatus(() => status)
+                    status.isLoaded && status.isPlaying && (playedDuration.current = status.positionMillis)
                     if ('didJustFinish' in status && status.didJustFinish) {
                         setIsCompleted(true);
                         (video.current as any).pauseAsync()
+                        completeWatch()
                     }
                 }}
             />

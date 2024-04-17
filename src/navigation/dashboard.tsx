@@ -29,12 +29,15 @@ import Planner from 'screens/dashboard/planner';
 import CbtAudio from 'screens/dashboard/cbt/cbtAudio';
 import CbtText from 'screens/dashboard/cbt/cbtText';
 import CbtVideo from 'screens/dashboard/cbt/cbtVideo';
-import MindSpaceSection from 'screens/dashboard/mindspace/modules/mindspaceSection';
+import MindSpaceSection from 'screens/dashboard/mindspace/modules/mindspaceAudioSection';
 import EditProfile from 'screens/dashboard/profile/menus/EditProfile';
 import Account from 'screens/dashboard/profile/menus/Account';
 import More from 'screens/dashboard/profile/menus/More';
 import NotificationPref from 'screens/dashboard/profile/menus/NotificationPref';
 import Subscription from 'screens/dashboard/profile/menus/Subscription';
+import CbtExercise from 'screens/dashboard/cbt/cbtExercise';
+import MindSpaceAudioSection from 'screens/dashboard/mindspace/modules/mindspaceAudioSection';
+import MindSpaceVideoSection from 'screens/dashboard/mindspace/modules/mindspaceVideoSection';
 
 const Stack = createNativeStackNavigator<DashboardParamList>();
 
@@ -58,7 +61,8 @@ const DashboardNavigation = () => {
       <Stack.Screen component={PreviewJournal} name="PreviewJournal" />
       <Stack.Screen component={EditJournal} name="EditJournal" />
       <Stack.Screen component={MindSpace} name="MindSpace" />
-      <Stack.Screen component={MindSpaceSection} name="MindSpaceSection" />
+      <Stack.Screen component={MindSpaceAudioSection} name="MindSpaceAudioSection" />
+      <Stack.Screen component={MindSpaceVideoSection} name="MindSpaceVideoSection" />
       <Stack.Screen component={Planner} name="Planner" />
       <Stack.Screen
         component={RecentlyPlayedAudio}
@@ -74,6 +78,7 @@ const DashboardNavigation = () => {
       <Stack.Screen component={CbtAudio} name="CbtAudio"/>
       <Stack.Screen component={CbtVideo} name="CbtVideo"/>
       <Stack.Screen component={CbtText} name="CbtText"/>
+      <Stack.Screen component={CbtExercise} name="CbtExercise"/>
       <Stack.Screen component={UserOnboarding} name="UserOnboarding" />
       <Stack.Screen component={UserOnboarding1} name="UserOnboarding1" />
       <Stack.Screen component={UserOnboarding2} name="UserOnboarding2" />

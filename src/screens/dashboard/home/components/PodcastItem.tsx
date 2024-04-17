@@ -18,6 +18,8 @@ interface PodcastItemData {
   tags: any[];
   background_url: string;
   content_url: string;
+  play_history: any;
+  id: string
 }
 
 
@@ -27,7 +29,7 @@ const PodcastItem = ({ item }: PodcastItemProps) => {
   const navigation = useNavigation<NavigationProp<DashboardParamList, 'MindSpace'>>();
 
   return (
-    <TouchableOpacity activeOpacity={0.6} style={styles.podcastItemContainer} onPress={() => navigation.navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url }) }>
+    <TouchableOpacity activeOpacity={0.6} style={styles.podcastItemContainer} onPress={() => navigation.navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url, id: item?.id, is_complete: true, duration: item?.play_history?.current_duration || '00:00' }) }>
       <View>
         <View style={styles.podcastHeaderContainer}>
           <View style={styles.voiceIconContainer}>
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
   },
   hashtagText: {
     fontFamily: Typography.fontFamily.SoraBold,
+    fontWeight: "700",
     fontSize: hp(12),
     lineHeight: hp(17),
   },

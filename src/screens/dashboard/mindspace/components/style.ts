@@ -1,4 +1,4 @@
-import { hp, wp } from 'constants/layout';
+import { deviceWidth, hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
 
@@ -13,11 +13,10 @@ export const styles = StyleSheet.create({
     // backgroundColor: Colors.PEACHY_RED,
   },
   recommendedSectionItemContainer: {
-    marginHorizontal: wp(24),
     backgroundColor: Colors.PRIMARY_DARKBLUE,
-    paddingVertical: hp(20),
-    paddingHorizontal: wp(16),
     borderRadius: hp(14),
+    width: deviceWidth - 48,
+    height: 220
   },
   recommendedSectionHeaderContainer: {
     flexDirection: 'row',
@@ -135,8 +134,15 @@ export const styles = StyleSheet.create({
     marginTop: hp(20),
   },
   topVideoStyle: {
-    height: hp(280),
-    width: wp(235),
+    height: '100%',
+    width: '100%',
+    borderRadius: hp(16),
+    position: 'absolute',
+    zIndex: -100,
+  },
+  recommendedVideoStyle: {
+    height: '100%',
+    width: '100%',
     borderRadius: hp(16),
     position: 'absolute',
     zIndex: -100,
@@ -147,6 +153,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp(12),
     paddingVertical: hp(20),
     borderRadius: hp(16),
+    justifyContent: 'space-between'
+  },
+  recommendedVideoStyleGradient: {
+    height: '100%',
+    width: '100%',
+    paddingHorizontal: wp(12),
+    paddingVertical: hp(20),
+    borderRadius: hp(16),
+    justifyContent: 'space-between'
   },
   recentlyWatchedImage: {
     width: wp(333),
@@ -168,7 +183,11 @@ export const styles = StyleSheet.create({
   },
   hasTagContainer: {
     maxWidth: wp(120),
+    borderRadius: 64,
+    backgroundColor: '#FFFFFF1F',
     marginRight: wp(10),
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   hasTagBlurContainer: {
     paddingHorizontal: wp(12),
@@ -181,6 +200,7 @@ export const styles = StyleSheet.create({
   },
   hasTagText: {
     fontFamily: Typography.fontFamily.SoraBold,
+    fontWeight: "700",
     fontSize: hp(10),
     color: Colors.WHITE,
     textTransform: 'uppercase',

@@ -1,6 +1,6 @@
 import { BaseModal, CouchDatePicker } from 'components'
 import styles from "./styles"
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View, ScrollView, TextInput } from "react-native";
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Colors } from 'theme/config';
 import { CALENDAR, HELP_CIRCLE, TIME } from 'assets/svg';
@@ -8,12 +8,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dayjs from 'dayjs';
 import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
-import { useNavigation } from '@react-navigation/native';
-import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { fetchPlans } from 'store/actions/planner';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 const AddPlannerModal = ({ isActive, setIsActive } : { 
     isActive: boolean,
