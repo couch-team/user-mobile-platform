@@ -29,7 +29,7 @@
       }
     },
     "android": {
-      "versionCode": 13,
+      "versionCode": 14,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
