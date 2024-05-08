@@ -111,9 +111,6 @@ export type DashboardParamList = {
   CbtExercise: {
     id: string, 
     content: any,
-    header: string;
-    backgroundImageUri: string;
-    audio_uri: string;
   };
   UserOnboarding: any;
   UserOnboarding4: any;

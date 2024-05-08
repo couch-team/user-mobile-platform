@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { CLOSE, NEXT_ICON, PAUSE_ICON, PLAY_ICON, REPLAY_ICON } from "assets/svg";
-import { deviceHeight, deviceWidth } from "constants/layout";
+import { deviceHeight, deviceWidth, getStatusBarHeight } from "constants/layout";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native"
@@ -58,8 +58,10 @@ const CbtVideo = ({ navigation: { goBack } }: Props) => {
 
     useEffect(() => {
         const durationArray = params?.duration?.split(":")
-        if(video){
-            (video.current as any).setPositionAsync( durationArray?.length > 2 ? ( (Number(durationArray[0]) * 60 * 60) + (Number(durationArray[1]) * 60) + Number(durationArray[2])) * 1000 : ((Number(durationArray[0]) * 60) + Number(durationArray[1])) * 1000 )
+        if(durationArray){
+            if(video){
+                (video.current as any).setPositionAsync( durationArray?.length > 2 ? ( (Number(durationArray[0]) * 60 * 60) + (Number(durationArray[1]) * 60) + Number(durationArray[2])) * 1000 : ((Number(durationArray[0]) * 60) + Number(durationArray[1])) * 1000 )
+            }
         }
     },[])
 
@@ -85,6 +87,7 @@ const CbtVideo = ({ navigation: { goBack } }: Props) => {
                     }
                 }}
             />
+            { !isCompleted && <TouchableOpacity style={styles.closeButton} onPress={() => goBack()}><CLOSE/></TouchableOpacity> }
             {/* <View style={styles.buttons}>
                 <Button
                 title={status.isPlaying ? 'Pause' : 'Play'}
@@ -117,6 +120,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.PRIMARY_MODAL_200
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 88,
+        width: 48,
+        height: 48,
+        borderRadius: 48,
+        backgroundColor: '#E3E4F83B',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'flex-end'
     },
     video: {
         width: '100%',

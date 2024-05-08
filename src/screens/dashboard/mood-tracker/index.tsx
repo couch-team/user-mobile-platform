@@ -18,7 +18,7 @@ import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/actions/mood';
+import { fetchChartData, fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
 import { $api } from 'services';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -40,22 +40,9 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchChartData = async () => {
-    try {
-      setChartLoading(true);
-      const response = await $api.fetch('/api/mood/stats');
-      if ($api.isSuccessful(response)) {
-        setChartData(response?.data);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setChartLoading(false);
-    }
-  };
 
   useEffect(() => {
-    fetchChartData();
+    dispatch(fetchChartData());
   }, []);
 
   useEffect(() => {
@@ -69,7 +56,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
 
   const resetMoods = () => {
     dispatch(clearMoodReducer())
-    fetchChartData();
+    dispatch(fetchChartData());
     currentPage === 1 ? dispatch(fetchMoods(1)) : setCurrentPage(1)
   }
   

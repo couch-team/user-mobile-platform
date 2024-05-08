@@ -1,7 +1,7 @@
 import debounce from "helpers/debounce"
 import { $api } from "services"
 import { AppThunk } from "store"
-import { setHasFetchedMoods, setIsFetchingMoods, setMoods, setMoodsCurrentPage, setMoodsLastPage, setReachedEnd } from "store/slice/moodSlice"
+import { setChartData, setChartDataLoading, setHasFetchedMoods, setIsFetchingMoods, setMoods, setMoodsCurrentPage, setMoodsLastPage, setReachedEnd } from "store/slice/moodSlice"
 
 const debounceFetchMoods = debounce(async(current_page, dispatch) => {
     try{
@@ -28,3 +28,17 @@ export const fetchMoods = (current_page: number, isSilent?: boolean):AppThunk =>
     !isSilent && dispatch(setIsFetchingMoods(true))
     debounceFetchMoods(current_page, dispatch)
 }
+
+export const fetchChartData = ():AppThunk => async(dispatch) => {
+    try {
+      dispatch(setChartDataLoading(true));
+      const response = await $api.fetch('/api/mood/stats');
+      if ($api.isSuccessful(response)) {
+        dispatch(setChartData(response?.data))
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(setChartDataLoading(false))
+    }
+  };
