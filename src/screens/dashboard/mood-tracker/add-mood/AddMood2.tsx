@@ -14,7 +14,7 @@ import { RootState } from 'store';
 import { $api } from 'services';
 import { HELP_CIRCLE } from 'assets/svg';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/actions/mood';
+import { fetchChartData, fetchMoods } from 'store/actions/mood';
 
 type DashboardNavigationProps = StackNavigationProp<
   DashboardParamList,
@@ -39,6 +39,7 @@ const AddMood2 = ({ navigation: { navigate, goBack } }: Props) => {
       })
       if($api.isSuccessful(response)){
         dispatch(fetchMoods(1));
+        dispatch(fetchChartData());
         navigate('CompleteAddMood',  response?.data );
       }
     }
