@@ -20,6 +20,8 @@ interface IMoodsPayload {
   moods_current_page: number;
   hasFetchedMoods: boolean;
   reached_end: boolean;
+  chart_data: any[],
+  chart_data_loading: boolean,
 }
 
 const initialState: IMoodsPayload = {
@@ -29,6 +31,9 @@ const initialState: IMoodsPayload = {
   moods_current_page: 1,
   hasFetchedMoods: false,
   reached_end: false,
+  chart_data: [],
+  chart_data_loading: false
+
 };
 const MoodSlice = createSlice({
   name: 'Mood',
@@ -56,6 +61,12 @@ const MoodSlice = createSlice({
     setReachedEnd: (state, { payload }: PayloadAction<boolean>) => {
       state.reached_end = payload;
     },
+    setChartDataLoading: (state, { payload }:PayloadAction<boolean>) => {
+      state.chart_data_loading = payload;
+    },
+    setChartData: (state, { payload }:PayloadAction<any[]>) => {
+      state.chart_data= payload;
+    },
     clearMoodReducer: state => {
       state.moods = [];
       state.hasFetchedMoods = false;
@@ -78,4 +89,6 @@ export const {
   setIsFetchingMoods,
   setReachedEnd,
   clearMoodReducer,
+  setChartData,
+  setChartDataLoading
 } = MoodSlice.actions;
