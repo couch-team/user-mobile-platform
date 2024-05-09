@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,7 @@ import { MoodColors, MoodColorsBackground } from 'theme/config/colors';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { fetchJournals } from 'store/actions/journal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { JournalType } from 'store/slice/journalSlice';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -84,12 +85,13 @@ type Direction = 'left' | 'right';
 
 const Journal = ({ navigation: { goBack, navigate } }: Props) => {
   const [selectedId, setSelectedId] = useState(null);
-  const [page, setPage] = useState(1);
   const flatListRef: any = useRef(null);
   const dispatch = useAppDispatch();
   const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
   const [inputText, setInoutText] = useState('');
   const [showCalender, setShowCalender] = useState(false);
+  const [selectedCalenderDate, setCalenderDate] = useState('');
+  const [filteredJournals, setFilteredJournals] = useState<JournalType[]>([]);
 
   const authProfileDetails = useSelector((state: RootState) => state.User);
   const { journals, isFetchingJournals, journals_current_page } = useSelector(
@@ -113,6 +115,22 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
     setMarkedDates(journalData);
   };
 
+  function filterJournals() {
+    return journals.filter(
+      journal =>
+        journal.title.toLowerCase().includes(inputText.toLowerCase()) &&
+        (!selectedCalenderDate ||
+          moment(journal.updated_at).format('MM/DD/YYYY') ===
+            selectedCalenderDate),
+    );
+  }
+
+  useEffect(() => {
+    const filtered = filterJournals();
+    setFilteredJournals(filtered);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputText, selectedCalenderDate]);
+
   const renderDay = (day: any, item: any, isCurrentMonth: boolean) => {
     const isToday = moment().isSame(day.dateString, 'day');
     return (
@@ -124,7 +142,12 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           marginVertical: 18,
           display: isCurrentMonth ? 'flex' : 'none',
         }}>
-        <View
+        <Pressable
+          onPress={() => {
+            const selectedDate = moment(day.dateString).format('MM/DD/YYYY'); // Format the selected date
+            setCalenderDate(selectedDate);
+            setShowCalender(false);
+          }}
           style={{
             backgroundColor: isToday
               ? 'rgba(234, 235, 250, 1)'
@@ -147,7 +170,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
             }}>
             {day.day}
           </Text>
-        </View>
+        </Pressable>
       </View>
     );
   };
@@ -270,10 +293,6 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
 
     return { images, color, audioImages, bgcolor };
   };
-
-  const filteredJournals = journals.filter(journal =>
-    journal.title.toLowerCase().includes(inputText.toLowerCase()),
-  );
 
   const CustomArrow = ({ direction, onPress }: any) => {
     const arrowImage =
@@ -489,7 +508,11 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       <VirtualizedScrollView
         style={styles.bodyContainer}
         refreshing={isFetchingJournals}
-        onRefresh={() => dispatch(fetchJournals(journals_current_page))}
+        onRefresh={() => {
+          dispatch(fetchJournals(journals_current_page));
+          setCalenderDate('');
+          setInoutText('');
+        }}
         ListFooterComponent={
           <TouchableOpacity
             style={styles.paginationButtonContainer}
@@ -504,9 +527,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
           keyExtractor={item => item.id}
           extraData={selectedId}
           renderItem={({ item }) => {
-            const { color, images, audioImages, bgcolor } = RenderBasedOnMood(
-              item?.mood,
-            );
+            const { color, bgcolor } = RenderBasedOnMood(item?.mood);
             const { audioCount, imageCount } = countUploads(item.uploads);
             return (
               <Pressable
@@ -585,7 +606,9 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
               </Pressable>
             );
           }}
-          renderSectionHeader={({ section: { title, isToday, index } }) => {
+          renderSectionHeader={({
+            section: { title, isToday, index, isYesterday },
+          }) => {
             const maxIndex = Math.max(
               ...groupJournalTransactions(filteredJournals).map(
                 section => section.index,
@@ -594,7 +617,11 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
             return (
               <View style={styles.headerSectionContainer}>
                 <Text style={styles.headerTitleStyle}>
-                  {isToday === 'Today' ? 'Today' : title}
+                  {isToday === 'Today'
+                    ? 'Today'
+                    : isYesterday
+                    ? isYesterday
+                    : title}
                 </Text>
                 {index === maxIndex && ( // Check if it's the first section
                   <Pressable onPress={() => setShowCalender(true)}>

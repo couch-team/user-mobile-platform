@@ -34,7 +34,7 @@ export const groupJournalTransactions = (data: any) => {
   );
   Object.keys(groups).forEach((i, index) => {
     transGroup.push({
-      title: moment(i).calendar(),
+      title: moment(i).format('DD MMMM YYYY'),
       isToday:
         moment(i).format('DD MMMM') === moment().format('DD MMMM') && 'Today',
       isYesterday:
@@ -48,9 +48,8 @@ export const groupJournalTransactions = (data: any) => {
   return transGroup.reverse();
 };
 
-
 export const convertDuration = (duration: any) => {
-  if(duration){
+  if (duration) {
     const [hours, minutes, rest] = duration.split(':');
     const [seconds, milliseconds] = (rest || '0').split('.');
     const roundedSeconds = Math.round(parseFloat(seconds));
@@ -58,7 +57,9 @@ export const convertDuration = (duration: any) => {
     const minutesInt = parseInt(minutes, 10);
     const secondsInt = parseInt(roundedSeconds.toString(), 10);
     const totalMinutes = hoursInt * 60 + minutesInt;
-    const formattedDuration = `${totalMinutes.toString().padStart(2, '0')}:${secondsInt.toString().padStart(2, '0')}`;
+    const formattedDuration = `${totalMinutes
+      .toString()
+      .padStart(2, '0')}:${secondsInt.toString().padStart(2, '0')}`;
     return formattedDuration;
   }
-}
+};

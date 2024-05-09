@@ -113,7 +113,7 @@ export const medicalConditions = [
 export const ProfileNumbers = [
   {
     id: 1,
-    name: 'Therapy',
+    name: 'Mindful Points',
     value: 160,
     data: [
       {
@@ -144,7 +144,7 @@ export const ProfileNumbers = [
   },
   {
     id: 2,
-    name: 'Relaxation',
+    name: 'Moods Logged',
     value: 90,
     data: [
       {
@@ -175,7 +175,7 @@ export const ProfileNumbers = [
   },
   {
     id: 3,
-    name: 'Community',
+    name: 'Journal Entries',
     value: 140,
     data: [
       {
@@ -201,6 +201,37 @@ export const ProfileNumbers = [
         title: 'Replies you’ve given',
         value: 18,
         imgUrl: Images.chat_session,
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Mindspace',
+    value: 90,
+    data: [
+      {
+        id: 'a',
+        title: 'Videos Watched',
+        value: 60,
+        imgUrl: Images['play-audio'],
+      },
+      {
+        id: 'b',
+        title: 'Podcasts Played',
+        value: 16,
+        imgUrl: Images['record-icon-inactive'],
+      },
+      {
+        id: 'c',
+        title: 'Videos Saved',
+        value: 12,
+        imgUrl: Images.video_saved,
+      },
+      {
+        id: 'd',
+        title: 'Podcasts Saved',
+        value: 128,
+        imgUrl: Images.video_saved,
       },
     ],
   },
