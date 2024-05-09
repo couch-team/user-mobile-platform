@@ -27,7 +27,7 @@ type ScreenProps = StackScreenProps<DashboardParamList, 'SingleCbt'>;
 const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
   const [ isFetchingCbt, setIsFetchingCbt ] = useState(false);
   const [ isFetchingContent, setIsFetchingContent ] = useState(false);
-  const [ content, setContent ] = useState([]);
+  const [ content, setContent ] = useState<any[]>([]);
   const [ data, setData ] = useState<any>('');
   const { params } = useRoute<RouteProp<DashboardParamList, 'SingleCbt'>>();
   const id = params?.id;
@@ -118,7 +118,10 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
         }}
         sections={content}
         contentContainerStyle={styles.contentContainerStyle}
-        renderItem={({ item, index }) => {
+        renderItem={({ item, index, section }: any) => {
+          const sectionIndex = content.findIndex((sec: any) => sec.group === section.group);
+
+          const is_disabled = sectionIndex === 0 ? false : content[sectionIndex - 1]?.data?.every((item: any) => item.play_history && item.play_history.is_complete === true) ? false : true
           const type =
             item?.resourcetype === 'VideoContent'
               ? Images['video-player']
@@ -131,7 +134,7 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
           const hasPlayed = item?.play_history?.is_complete ? Images['circle-check'] : Images['circle-check-box'];
 
           return (
-            <View style={styles.cbtDataContainer}>
+            <View style={[styles.cbtDataContainer, is_disabled && { opacity: 0.6 }]}>
               <View style={styles.cardLine}>
                 <View style={styles.cbtLine} />
                 <Image source={hasPlayed} resizeMode="contain" style={styles.checkIcon} />
@@ -140,6 +143,7 @@ const SingleCbt = ({ navigation: { goBack, navigate } }: ScreenProps) => {
               <TouchableOpacity
                 key={index}
                 style={styles.cbtItemDataBodyContainer}
+                disabled={is_disabled}
                 onPress={() => 
                   item?.resourcetype === 'ReadingContent'
                   ?
