@@ -12,7 +12,7 @@ import { RootState } from "store";
 import { Fragment, useEffect, useState } from "react";
 import useAppDispatch from "hooks/useAppDispatch";
 import { fetchPlans } from "store/actions/planner";
-import { groupTransactions } from "utils";
+import { groupPlans, groupTransactions } from "utils";
 import AddPlannerModal from "./components/add-planner-modal";
 import EditPlannerModal from "./components/edit-planner-modal";
 import PlanCard from "./components/cards/planCard";
@@ -46,7 +46,7 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
         dispatch(fetchPlans(currentPage))
     }, [ currentPage ]);
 
-    const groupedPlans = groupTransactions(plans)
+    const groupedPlans = groupPlans(plans)
 
     const isBottomTabVisible = (getState().type as any)  === 'tab'
 

@@ -77,6 +77,7 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                         placeholderTextColor="#9F98B273"
                         value={title}
                         onChangeText={(value) => setTitle(value)}
+                        autoFocus
                     />
                     <View style={styles.unitInputContainer}>
                         <View style={styles.inputLabelContainer}>
