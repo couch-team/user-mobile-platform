@@ -138,7 +138,7 @@ const EditPlannerModal = ({ isActive, setIsActive, prev_title, prev_description,
                         value={title}
                         onChangeText={(value) => setTitle(value)}
                         editable={!is_complete}
-                        
+                        autoFocus
                     />
                     <View style={styles.unitInputContainer}>
                         <View style={styles.inputLabelContainer}>

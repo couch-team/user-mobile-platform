@@ -26,6 +26,25 @@ export const groupTransactions = (data: MoodType[]) => {
   return transGroup.reverse();
 };
 
+export const groupPlans = (data: MoodType[]) => {
+  let transGroup: { title: string; isToday: string | boolean; data: any[] }[] =
+    [];
+  const sorted = sortBy(data, ['start']);
+  const groups = groupBy(sorted, (d: any) =>
+    moment(d?.start).startOf('day').format(),
+  );
+  Object.keys(groups).forEach(i => {
+    transGroup.push({
+      title: moment(i).format('ddd Do MMMM, YYYY'),
+      isToday:
+        moment(i).format('DD MMMM') === moment().format('DD MMMM') && 'Today',
+      data: groups[i]?.reverse(),
+    });
+  });
+
+  return transGroup.reverse();
+};
+
 export const groupJournalTransactions = (data: any) => {
   let transGroup: any[] = [];
   const sorted = sortBy(data, ['updated_at']);
