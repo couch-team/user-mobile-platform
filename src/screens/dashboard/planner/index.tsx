@@ -11,13 +11,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "store";
 import { Fragment, useEffect, useState } from "react";
 import useAppDispatch from "hooks/useAppDispatch";
-import { fetchPlans } from "store/actions/planner";
+import { fetchPlans, fetchTodayPlans } from "store/actions/planner";
 import { groupPlans, groupTransactions } from "utils";
 import AddPlannerModal from "./components/add-planner-modal";
 import EditPlannerModal from "./components/edit-planner-modal";
 import PlanCard from "./components/cards/planCard";
 import { clearPlannerReducer, setPlans } from "store/slice/plannerSlice";
 import { deviceWidth, wp } from "constants/layout";
+import { MindSpaceHeader } from "../mindspace/components";
+import { PlannerHeader } from "./components/planner-header";
 
 type DashboardNavigationProps = StackNavigationProp<
   BottomTabParamList,
@@ -35,24 +37,41 @@ const SectionSeparator = () => {
 };
 
 const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
-    const { plans, reached_end, isFetchingPlans, hasFetchedPlans } = useSelector((state: RootState) => state.Planner);
+    const { plans, todayPlans, reached_end, isFetchingPlans, hasFetchedPlans, today_plans_reached_end, isFetchingTodayPlans, hasFetchedTodayPlans } = useSelector((state: RootState) => state.Planner);
     const dispatch = useAppDispatch();
     const [ currentPage, setCurrentPage ] = useState(1);
+    const [ currentPageTodayPlans, setCurrentPageTodayPlans ] = useState(1);
     const [ addPlannerModalActive, setAddPlannerModalActive ] = useState(false);
     const [ editPlannerModalActive, setEditPlannerModalActive ] = useState(false);
     const { first_name } = useSelector((state: RootState) => state.User)
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         dispatch(fetchPlans(currentPage))
+        dispatch(fetchTodayPlans(currentPageTodayPlans))
     }, [ currentPage ]);
 
     const groupedPlans = groupPlans(plans)
+    const groupedTodayPlans = groupPlans(todayPlans)
 
     const isBottomTabVisible = (getState().type as any)  === 'tab'
 
     const resetPlans = () => {
         dispatch(clearPlannerReducer())
-        currentPage === 1 ? dispatch(fetchPlans(1)) : setCurrentPage(1)
+        currentPage === 1 ? getPlans() : setCurrentPage(1)
+    }
+
+    const getPlans = () => {
+        dispatch(fetchPlans(1))
+        dispatch(fetchTodayPlans(1))
+    }
+
+    const reachedTodayPlansEnd = () => {
+        !today_plans_reached_end && !isFetchingTodayPlans && setCurrentPageTodayPlans(currentPageTodayPlans + 1)
+    }
+
+    const reachedPlansEnd = () => {
+        !reached_end && !isFetchingPlans && setCurrentPage(currentPage + 1)
     }
 
     return(
@@ -77,15 +96,15 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
             <Image source={Images['curve']} alt="" style={styles.curve}/>
             <View style={styles.body}>
                 <SectionList
-                    onEndReached={() => !reached_end && !isFetchingPlans && setCurrentPage(currentPage + 1)}
-                    sections={groupedPlans}
+                    onEndReached={() => activeIndex === 0 ? reachedTodayPlansEnd() : reachedPlansEnd()  }
+                    sections={ activeIndex === 0 ? groupedTodayPlans : groupedPlans}
                     contentContainerStyle={styles.contentContainerStyle}
                     showsVerticalScrollIndicator={false}
                     ItemSeparatorComponent={ItemSeparator}
                     renderSectionFooter={SectionSeparator}
                     refreshControl={
                         <RefreshControl
-                            refreshing={isFetchingPlans && plans?.length === 0}
+                            refreshing={(isFetchingPlans || isFetchingTodayPlans) && (plans?.length === 0 || todayPlans?.length === 0 )}
                             onRefresh={() => resetPlans()}
                             colors={['#ffffff']}
                             progressBackgroundColor="#0D0E36"
@@ -106,38 +125,64 @@ const Planner = ({ navigation: { goBack, navigate, getState } }: Props) => {
                             </View>
                             <View style={styles.emptyTextContainer}>
                                 <Text style={styles.emptyMainText}>
-                                    Not Notes in your Journal as for now
+                                    No Tasks in your planner for now
                                 </Text>
                                 <Text style={styles.emptyBodyText}>
-                                    Tap the '+' button below to log your mood on the mood tracker.
+                                    Tap the '+' button below to add a task to your planner.
                                 </Text>
                             </View>
                         </View>
                     }
                     ListHeaderComponent={
-                        <View style={{ width: '100%', marginBottom: 20 }}>
-                            <Text style={styles.headerText}>Today’s Affirmation</Text>
-                            <Image source={Images.affirmation} style={styles.affirmationImage} resizeMode="contain"/>
+                        <View>
+                            <View style={{ width: '100%', marginBottom: 20 }}>
+                                <Text style={styles.headerText}>Today’s Affirmation</Text>
+                                <Image source={Images.affirmation} style={styles.affirmationImage} resizeMode="contain"/>
+                            </View>
+                            <PlannerHeader
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                            />
                         </View>
                     }
                     ListFooterComponent={
-                        reached_end 
-                        ?  
-                        plans?.length > 0
-                            ?           
-                            <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
-                                <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
-                            </View>
-                            :
-                            <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
-                        :
-                        (hasFetchedPlans && isFetchingPlans)
+                        activeIndex === 0
                             ?
-                            <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
-                                <ActivityIndicator size={'small'} color={Colors.WHITE}/>
-                            </View>
+                        today_plans_reached_end
+                            ?  
+                            todayPlans?.length > 0
+                                ?           
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
+                                    <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
+                                </View>
+                                :
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
                             :
-                            <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
+                            (hasFetchedTodayPlans && isFetchingTodayPlans)
+                                ?
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
+                                    <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+                                </View>
+                                :
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
+                            :
+                            reached_end 
+                            ?  
+                            plans?.length > 0
+                                ?           
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
+                                    <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
+                                </View>
+                                :
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
+                            :
+                            (hasFetchedPlans && isFetchingPlans)
+                                ?
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}>
+                                    <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+                                </View>
+                                :
+                                <View style={[styles.reachedEndContainer, isBottomTabVisible && { height: 170 } ]}></View>
                     }
                     renderItem={({ item, index }) => {
                         return (
