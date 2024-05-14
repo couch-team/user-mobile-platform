@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchPlans } from 'store/actions/planner';
+import { fetchPlans, fetchTodayPlans } from 'store/actions/planner';
 import { setHasReachedEnd } from 'store/slice/plannerSlice';
 
 const EditPlannerModal = ({ isActive, setIsActive, prev_title, prev_description, prev_date, prev_end_time, prev_start_time, prev_label, id, is_complete } : { 
@@ -46,7 +46,7 @@ const EditPlannerModal = ({ isActive, setIsActive, prev_title, prev_description,
     const refetchPlans = () => {
         setIsActive(false)
         dispatch(setHasReachedEnd(false))
-        dispatch(fetchPlans(1))
+        dispatch(fetchTodayPlans(1))
     }
 
     const finishPlan = async() => {
