@@ -79,6 +79,11 @@ const Images = {
   'calender-right-arrow': require('../../assets/images/icons/calender-right-arrow.png'),
   'profile-image-placeholder': require('../../assets/images/profile-placeholder-image.png'),
   'profile-card': require('../../assets/images/profile-card-image.png'),
+  'self-help-img': require('../../assets/images/self-help-img.png'),
+  'mindspace-img': require('../../assets/images/mindspace-img.png'),
+  'mood-tracker-img': require('../../assets/images/mood-tracker-img.png'),
+  'self-help-exercises-img': require('../../assets/images/self-help-exercises-img.png'),
+  planner: require('../../assets/images/planner-img.png'),
 
   // Profile
   moods_logged: require('../../assets/images/profile/moods-logged.png'),
@@ -181,7 +186,7 @@ const Images = {
 
   curve: require('../../assets/images/icons/curve.png'),
   affirmation: require('../../assets/images/affirmation.png'),
-  'initial_exercise_image': require('../../assets/images/initial-exercise-img.png'),
+  initial_exercise_image: require('../../assets/images/initial-exercise-img.png'),
 };
 
 export default Images;

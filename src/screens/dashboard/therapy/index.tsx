@@ -20,7 +20,7 @@ const Therapy = ({ navigation: { goBack, navigate } }: Props) => {
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
       <HeaderText
-        text="Therapy"
+        text="Self help"
         hasSubText="it’s a beautiful morning Today..."
       />
       <View style={styles.bodyContainer}>
@@ -39,7 +39,7 @@ const Therapy = ({ navigation: { goBack, navigate } }: Props) => {
                   <Image
                     source={item.icon}
                     resizeMode="contain"
-                    style={[styles.exploreIcon, { tintColor: item.color }]}
+                    style={[styles.exploreIcon]}
                   />
                 </View>
                 <View style={styles.exploreInfoContainer}>

@@ -89,6 +89,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       () => {
         setIsKeyboardVisible(true);
         setBottomMargin(50);
+        setIsFocused(false);
       },
     );
 
@@ -101,11 +102,11 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        if (isKeyboardVisible && isFocused) {
+        if (isKeyboardVisible) {
           // The keyboard is fully hidden, and the TextInput is still focused
           // Add any additional conditions as needed
           setIsKeyboardVisible(false);
-          setIsFocused(false);
+          setIsFocused(true);
           if (!journalEntries[journalEntries.length - 1].content.trim()) {
             // Remove the entry if it's empty
             const updatedEntries = [...journalEntries];
@@ -119,7 +120,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     return () => {
       keyboardDidHideListener.remove();
     };
-  }, [isKeyboardVisible, isFocused, journalEntries]);
+  }, [isKeyboardVisible, journalEntries]);
 
   useEffect(() => {
     if (journal) {
@@ -173,6 +174,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
       setMoodType(journal.mood.title);
       setPreviewImages(previewImagesArray);
     }
+    setIsFocused(false);
   }, [journal]);
 
   const loadAudios = async (uri: any, index: number) => {
@@ -193,6 +195,31 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
     }
     setContentLoading(false);
   };
+
+  useEffect(() => {
+    const removeEmptyTextEntries = () => {
+      for (let i = 1; i < journalEntries.length; i++) {
+        const entry = journalEntries[i];
+        if (entry.type === 'text' && entry.content.trim() === '') {
+          journalEntries.splice(i, 1);
+          i--;
+        }
+      }
+    };
+
+    const lastEntryType =
+      journalEntries.length > 0
+        ? journalEntries[journalEntries.length - 1].type
+        : '';
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      removeEmptyTextEntries();
+    }
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      addTextEntry();
+    }
+  }, [journalEntries]);
 
   const editJournalFile = async () => {
     try {
@@ -250,7 +277,6 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
         formdata,
         true,
       );
-      console.log(formdata);
       if ($api.isSuccessful(response)) {
         const { data }: { data: JournalType } = response;
         dispatch(
@@ -282,8 +308,8 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
 
     setJournalEntries([...journalEntries, newEntry]);
     // setShowToolBar(false);
-    setIsKeyboardVisible(true);
-    setIsFocused(true);
+    // setIsKeyboardVisible(true);
+    // setIsFocused(true);
   };
 
   const addImageEntry = async () => {
@@ -535,28 +561,24 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
           <TextInput
             style={[
               {
-                // paddingHorizontal: 5,
                 marginVertical: 5,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
               },
             ]}
-            placeholder="Enter a new paragraph"
-            placeholderTextColor={'white'}
             multiline
             value={item.content}
-            autoFocus={isFocused}
+            // autoFocus={isFocused}
             returnKeyType="done"
             onChangeText={text => {
               const updatedEntries = [...journalEntries];
               updatedEntries[index].content = text;
               setJournalEntries(updatedEntries);
             }}
-            onFocus={() => setIsFocused(true)}
             onBlur={() => {
               setIsKeyboardVisible(false);
-              setIsFocused(false);
+              // setIsFocused(false);
               if (!item.content.trim()) {
                 // Remove the entry if it's empty
                 const updatedEntries = [...journalEntries];
@@ -819,7 +841,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
           // onPress={addTextEntry}
           style={{
             flex: 1,
-            paddingTop: 20,
+            // paddingTop: 20,
             paddingHorizontal: 20,
           }}>
           <ScrollView
@@ -828,17 +850,20 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             }}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
+            // contentContainerStyle={{ flex: 1 }}
             onContentSizeChange={() => {
               this.scrollView.scrollToEnd({ animated: true });
             }}>
-            {journalEntries?.map((journ: any, index: number) =>
-              renderItem(journ, index),
-            )}
+            <View style={{ paddingBottom: !isFocused ? 0 : 100, flex: 1 }}>
+              {journalEntries?.map((journ: any, index: number) =>
+                renderItem(journ, index),
+              )}
+            </View>
           </ScrollView>
         </View>
       </View>
 
-      {!isFocused && showToolBar ? (
+      {showToolBar ? (
         <View
           style={{
             flexDirection: 'row',
@@ -943,7 +968,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
             />
           </Pressable>
         </View>
-      ) : !isFocused && !showToolBar ? (
+      ) : (
         <Pressable
           style={{
             backgroundColor: 'rgba(243, 243, 252, 0.08)',
@@ -963,7 +988,7 @@ const EditJournal = ({ route, navigation: { navigate } }: Props) => {
           onPress={() => setShowToolBar(true)}>
           <Text style={{ color: 'white' }}>Press and Hold to Edit Note</Text>
         </Pressable>
-      ) : null}
+      )}
 
       <MoodModal
         isVisible={isModalVisible}
