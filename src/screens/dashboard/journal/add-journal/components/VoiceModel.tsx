@@ -46,30 +46,10 @@ const VoiceModal = ({
   const startRecording = async () => {
     try {
       setIsRecording(true);
-      const recordingOptions = {
-        isMeteringEnabled: true,
-        android: {
-          extension: '.3gp', // Specify the desired audio format (e.g., mp3)
-          outputFormat: Audio.AndroidOutputFormat.THREE_GPP,
-          audioEncoder: Audio.AndroidAudioEncoder.DEFAULT,
-          sampleRate: Audio.RECORDING_OPTION_ANDROID_SAMPLE_RATE_44100,
-          numberOfChannels: Audio.RECORDING_OPTION_ANDROID_NUMBER_OF_CHANNELS_2,
-          bitRate: 192,
-        },
-        ios: {
-          extension: '.wav', // Specify the desired audio format for iOS (e.g., caf)
-          outputFormat: Audio.IOSOutputFormat.MPEG4AAC,
-          audioQuality: Audio.IOSAudioQuality.MAX,
-          sampleRate: Audio.RECORDING_OPTION_IOS_SAMPLE_RATE_MAX,
-          // numberOfChannels: Audio.Nu.MAX,
-          bitRate: 192,
-        },
-        web: {
-          numberOfChannels: Audio.RECORDING_OPTION_ANDROID_NUMBER_OF_CHANNELS_2,
-        },
-      };
       // eslint-disable-next-line @typescript-eslint/no-shadow
-      const { recording } = await Audio.Recording.createAsync(recordingOptions);
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY,
+      );
 
       setRecording(recording);
 
@@ -121,10 +101,6 @@ const VoiceModal = ({
 
       // const { sound, status } = await recording.createNewLoadedSoundAsync();
       setHasStoppedPlaying(true);
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: false,
-      });
       // clearInterval(recordIntervalId);
     } catch (error) {
       console.error('Error stopping recording:', error);

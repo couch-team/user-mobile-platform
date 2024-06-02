@@ -17,15 +17,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "12",
+      "buildNumber": "19",
       "bundleIdentifier": "com.joincouch.app",
       "icon": "./assets/couch180.png",
-      "iconImageSet": {
-        "120x120": "./assets/couch120.png",
-        "180x180": "./assets/couch180.png",
-        "76x76": "./assets/couch76.png",
-        "152x152": "./assets/couch152.png",
-        "167x167": "./assets/couch167.png"
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {

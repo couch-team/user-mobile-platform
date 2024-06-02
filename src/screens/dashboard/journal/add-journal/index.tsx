@@ -331,14 +331,11 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       shouldDuckAndroid: true,
       // playThroughEarpieceAndroid: true,
     });
+    setIsFocused(false);
+    addTextEntry();
   }, []);
 
   const loadAudio = async (uri: any, index: number) => {
-    // await Audio.setAudioModeAsync({
-    //   allowsRecordingIOS: false,
-    //   playsInSilentModeIOS: false, // Optional, depends on your app's requirements
-    //   staysActiveInBackground: true,
-    // });
     try {
       const { sound } = await Audio.Sound.createAsync(
         { uri: uri },
@@ -351,6 +348,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         ...prevEntries,
         { type: 'audio', content: uri, index: index },
       ]);
+      addTextEntry();
     } catch (error) {
       console.error('Error loading audio:', error);
     }
@@ -367,7 +365,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setJournalEntries([...journalEntries, newEntry]);
 
     setIsKeyboardVisible(true);
-    setIsFocused(true);
+    // setIsFocused(true);
   };
 
   const addImageEntry = async () => {
@@ -388,7 +386,33 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     } catch (error) {
       console.error('Error picking image:', error);
     }
+    // addTextEntry();
   };
+
+  useEffect(() => {
+    const removeEmptyTextEntries = () => {
+      for (let i = 1; i < journalEntries.length; i++) {
+        const entry = journalEntries[i];
+        if (entry.type === 'text' && entry.content.trim() === '') {
+          journalEntries.splice(i, 1);
+          i--;
+        }
+      }
+    };
+
+    const lastEntryType =
+      journalEntries.length > 0
+        ? journalEntries[journalEntries.length - 1].type
+        : '';
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      removeEmptyTextEntries();
+    }
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      addTextEntry();
+    }
+  }, [journalEntries]);
 
   const handleImagePress = (index: number) => {
     setCurrentIndex(index);
@@ -479,16 +503,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           <TextInput
             style={[
               {
-                // paddingHorizontal: 5,
                 marginVertical: 10,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
               },
-              // isKeyboardVisible && { paddingBottom: bottomMargin },
             ]}
-            placeholder="Enter a new paragraph"
-            placeholderTextColor={'white'}
             multiline
             value={item.content}
             autoFocus={isFocused}
@@ -498,10 +518,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               updatedEntries[index].content = text;
               setJournalEntries(updatedEntries);
             }}
-            onFocus={() => setIsFocused(true)}
+            // onFocus={() => setIsFocused(true)}
             onBlur={() => {
               setIsKeyboardVisible(false);
-              setIsFocused(false);
+              // setIsFocused(false);
               if (!item.content.trim()) {
                 // Remove the entry if it's empty
                 const updatedEntries = [...journalEntries];
@@ -820,7 +840,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         <View
           style={{
             flex: 1,
-            paddingTop: 20,
+            // paddingTop: 20,
             paddingHorizontal: 20,
           }}>
           <ScrollView
@@ -880,7 +900,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 10,
                 borderRadius: 100,
               }}
-              onPress={addTextEntry}>
+              // onPress={addTextEntry}
+            >
               <Image
                 source={Images['note-text']}
                 style={{
