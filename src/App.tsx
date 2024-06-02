@@ -12,6 +12,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 // import { NavigationContainer } from '@react-navigation/native';
 import useFonts from 'hooks/useFont';
 
+
+
 const App = () => {
   const appIsReady = useFonts();
 

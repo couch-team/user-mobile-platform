@@ -83,11 +83,17 @@ export const styles = StyleSheet.create({
   notificationBodyTextContainer: {
     marginLeft: wp(10),
   },
-  notificationBodyMainText: {
+  notificationBodyMainTitle: {
     fontFamily: Typography.fontFamily.SoraRegular,
     fontSize: hp(12),
     width: wp(230),
     color: Colors.WHITE,
+  },
+  notificationBodyMainText: {
+    fontFamily: Typography.fontFamily.SoraLight,
+    fontSize: hp(10),
+    color: Colors.WHITE,
+    marginTop: 6,
   },
   notificationTimeText: {
     paddingTop: hp(4),
@@ -95,4 +101,15 @@ export const styles = StyleSheet.create({
     fontSize: hp(10),
     color: Colors.COUCH_TEXT_COLOR,
   },
+  reachedEndContainer: {
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100
+  },
+  reachedEnd: {
+    color: Colors.WHITE,
+    textAlign: 'center',
+    fontFamily: Typography.fontFamily.SoraMedium,
+  }
 });

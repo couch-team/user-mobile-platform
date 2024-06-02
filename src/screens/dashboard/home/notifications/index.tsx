@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, SectionList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { HeaderText, HeaderBar } from 'components';
 import NotificationHeader from './components/NotificationHeader';
-import { notifications } from 'constants/data';
+// import { notifications } from 'constants/data';
 import RenderNotificationList from './components/RenderNotificationList';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { $api } from 'services';
+import NotificationSection from './components/notificationSection';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -16,59 +18,10 @@ type DashboardNavigationProps = NativeStackNavigationProp<
 type Props = {
   navigation: DashboardNavigationProps;
 };
-
-export const groupAccounts = (data = []) => {
-  let transGroup = [{ data: data }];
-  return transGroup.reverse();
-};
-
+// 
 const Notifications = ({ navigation: { goBack } }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const RenderBottomSection = () => {
-    const moodTrackers = notifications.filter(t => t.title === 'Mood trackers');
-    const therapy = notifications.filter(t => t.title === 'Therapy');
-    const community = notifications.filter(t => t.title === 'Community');
-    const productivity = notifications.filter(t => t.title === 'Productivity');
-    const store = notifications.filter(t => t.title === 'Store');
 
-    const getCurrentDetials = () => {
-      switch (activeIndex) {
-        case 0:
-          return moodTrackers;
-
-        case 1:
-          return therapy;
-
-        case 2:
-          return community;
-
-        case 3:
-          return productivity;
-
-        case 4:
-          return store;
-
-        default:
-          return moodTrackers;
-      }
-    };
-    //@ts-ignore
-    const data = groupAccounts(getCurrentDetials());
-
-    return (
-      <View>
-        <SectionList
-          style={styles.sectionListStyle}
-          sections={data}
-          contentContainerStyle={styles.sectionListContainer}
-          renderItem={({ item, index }) => {
-            // TODO: implement empty state for notifications
-            return <RenderNotificationList key={index} item={item} />;
-          }}
-        />
-      </View>
-    );
-  };
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -80,7 +33,7 @@ const Notifications = ({ navigation: { goBack } }: Props) => {
         activeIndex={activeIndex}
         setActiveIndex={setActiveIndex}
       />
-      <RenderBottomSection />
+      <NotificationSection index={activeIndex}/>
     </SafeAreaView>
   );
 };

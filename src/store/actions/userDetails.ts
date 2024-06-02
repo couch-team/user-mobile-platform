@@ -10,6 +10,8 @@ import {
   setUserId,
   setUserVerified,
 } from 'store/slice/userSlice';
+import * as Device from 'expo-device';
+import { setPushNotificationsSetup } from 'store/slice/authSlice';
 
 export const fetchUserDetails =
   (token?: string): AppThunk =>
@@ -32,3 +34,19 @@ export const fetchUserDetails =
       dispatch(setUserDataLoading(false));
     }
   };
+
+export const subscribeToPushNotifications = (token?: string):AppThunk => async dispatch => {
+  try{
+    const device_type = Device.deviceName
+    const response = await $api.post('/api/notification/device/', {
+      device_type,
+      expo_token: token,
+    })
+    if($api.isSuccessful(response)){
+      dispatch(setPushNotificationsSetup(true))
+    }
+  }
+  catch(err){
+    console.log(err)
+  }
+}
