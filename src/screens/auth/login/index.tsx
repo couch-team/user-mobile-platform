@@ -16,13 +16,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { showMessage } from 'react-native-flash-message';
 // import { $api } from 'services';
 import useAppDispatch from 'hooks/useAppDispatch';
-import {
-  setAccessToken,
-  setRefreshToken,
-  setEmail as setStoreEmail,
-} from 'store/slice/authSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import { login as loginAction } from 'store/actions/login';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -37,7 +30,6 @@ const Login = ({ navigation: { navigate } }: Props) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
   const dispatch = useAppDispatch();
-  const store = useSelector((state: RootState) => state);
 
   const login = async () => {
     try {

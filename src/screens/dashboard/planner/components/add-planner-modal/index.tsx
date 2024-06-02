@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchPlans } from 'store/actions/planner';
+import { fetchPlans, fetchTodayPlans } from 'store/actions/planner';
 
 const AddPlannerModal = ({ isActive, setIsActive } : { 
     isActive: boolean,
@@ -42,7 +42,6 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                 end: date + 'T' + endTime,
                 is_complete: false
             })
-            console.log(response)
             if($api.isSuccessful(response)){
                 showMessage({
                     type: 'success',
@@ -51,6 +50,7 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                 })
                 setIsActive(false)
                 dispatch(fetchPlans(1))
+                dispatch(fetchTodayPlans(1))
             }
         }
         catch(err){
@@ -77,6 +77,7 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                         placeholderTextColor="#9F98B273"
                         value={title}
                         onChangeText={(value) => setTitle(value)}
+                        autoFocus
                     />
                     <View style={styles.unitInputContainer}>
                         <View style={styles.inputLabelContainer}>

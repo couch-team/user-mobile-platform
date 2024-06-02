@@ -12,11 +12,10 @@ const NotificationHeader = ({
   setActiveIndex,
 }: NotificationHeaderProps) => {
   const buttons = [
-    'Mood trackers',
-    'Therapy',
-    'Community',
-    'Productivity',
-    'Store',
+    'All',
+    'Mood',
+    'Journal',
+    'Planner',
   ];
   return (
     <ScrollView
