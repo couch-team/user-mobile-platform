@@ -18,7 +18,7 @@ import {
   Alert,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { Audio } from 'expo-av';
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from './style';
 import { RightHeader } from './components';
@@ -73,11 +73,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const requestAudioPermission = async () => {
     const { status }: { status: Audio.PermissionStatus } =
       await Audio.requestPermissionsAsync();
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      playsInSilentModeIOS: true, // Optional, depends on your app's requirements
-      staysActiveInBackground: true,
-    });
+
     if (status !== 'granted') {
       Alert.alert('Audio Permission', 'Audio Permission Denied');
       // You can handle denial of permission here, such as showing an error message
@@ -324,6 +320,18 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
       }
     }
   };
+
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true, // Optional, depends on your app's requirements
+      staysActiveInBackground: true,
+      interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+      interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+      shouldDuckAndroid: true,
+      // playThroughEarpieceAndroid: true,
+    });
+  }, []);
 
   const loadAudio = async (uri: any, index: number) => {
     // await Audio.setAudioModeAsync({

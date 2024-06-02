@@ -37,56 +37,39 @@ const VoiceModal = ({
   const [recordTime, setRecordTime] = useState('00:00');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  // const [recordings, setRecording] = useState<any>();
-  // const [permissionResponse, requestPermission]: any = Audio.usePermissions();
   const [hasStoppedPlaying, setHasStoppedPlaying] = useState(false);
   const [recordIntervalId, setRecordIntervalId] = useState<any>('');
-  const [audioPermission, setAudioPermission] = useState(false);
-
-  // const [duration, setDuration] = useState(0);
 
   const [isRecording, setIsRecording] = useState(false);
   const [recording, setRecording] = useState<any>();
-  // const [isPlaying, setIsPlaying] = useState(false);
 
   const startRecording = async () => {
     try {
-      getPermission();
-      if (audioPermission) {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
-      }
       setIsRecording(true);
       const recordingOptions = {
         isMeteringEnabled: true,
         android: {
-          extension: '.mp3', // Specify the desired audio format (e.g., mp3)
-          outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
-          audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+          extension: '.3gp', // Specify the desired audio format (e.g., mp3)
+          outputFormat: Audio.AndroidOutputFormat.THREE_GPP,
+          audioEncoder: Audio.AndroidAudioEncoder.DEFAULT,
           sampleRate: Audio.RECORDING_OPTION_ANDROID_SAMPLE_RATE_44100,
           numberOfChannels: Audio.RECORDING_OPTION_ANDROID_NUMBER_OF_CHANNELS_2,
-          bitRate: Audio.RECORDING_OPTION_ANDROID_BIT_RATE_128000,
+          bitRate: 192,
         },
         ios: {
-          extension: '.caf', // Specify the desired audio format for iOS (e.g., caf)
-          outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
-          audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
+          extension: '.wav', // Specify the desired audio format for iOS (e.g., caf)
+          outputFormat: Audio.IOSOutputFormat.MPEG4AAC,
+          audioQuality: Audio.IOSAudioQuality.MAX,
           sampleRate: Audio.RECORDING_OPTION_IOS_SAMPLE_RATE_MAX,
-          numberOfChannels: Audio.RECORDING_OPTION_IOS_NUMBER_OF_CHANNELS_MAX,
-          bitRate: Audio.RECORDING_OPTION_IOS_BIT_RATE_MAX,
-          linearPCMBitDepth: Audio.RECORDING_OPTION_IOS_LINEARPCM_BIT_DEPTH_16,
-          linearPCMIsBigEndian:
-            Audio.RECORDING_OPTION_IOS_LINEARPCM_IS_BIG_ENDIAN_FALSE,
-          linearPCMIsFloat: Audio.RECORDING_OPTION_IOS_LINEARPCM_IS_FLOAT_FALSE,
+          // numberOfChannels: Audio.Nu.MAX,
+          bitRate: 192,
+        },
+        web: {
+          numberOfChannels: Audio.RECORDING_OPTION_ANDROID_NUMBER_OF_CHANNELS_2,
         },
       };
       // eslint-disable-next-line @typescript-eslint/no-shadow
-      const { recording } = await Audio.Recording.createAsync(
-        // Audio.RecordingOptionsPresets.HIGH_QUALITY,
-        recordingOptions,
-      );
+      const { recording } = await Audio.Recording.createAsync(recordingOptions);
 
       setRecording(recording);
 
@@ -113,16 +96,6 @@ const VoiceModal = ({
     }
   };
 
-  async function getPermission() {
-    await Audio.requestPermissionsAsync()
-      .then(permission => {
-        setAudioPermission(permission.granted);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   const addRecording = async () => {
     try {
       const audioUri: any = recording.getURI();
@@ -148,6 +121,10 @@ const VoiceModal = ({
 
       // const { sound, status } = await recording.createNewLoadedSoundAsync();
       setHasStoppedPlaying(true);
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: false,
+      });
       // clearInterval(recordIntervalId);
     } catch (error) {
       console.error('Error stopping recording:', error);
