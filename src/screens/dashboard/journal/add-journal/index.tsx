@@ -496,7 +496,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     if (item.type === 'text' && item.isEditing) {
       return (
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={'height'}
           keyboardVerticalOffset={0}
           key={index}
           style={{ marginVertical: 7 }}>
@@ -852,7 +852,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             onContentSizeChange={() => {
               this.scrollView.scrollToEnd({ animated: true });
             }}>
-            <View style={{ paddingBottom: isFocused ? 0 : 100, flex: 1 }}>
+            <View style={{ paddingBottom: 100, flex: 1 }}>
               {journalEntries?.map((journal: any, index: number) =>
                 RenderItem(journal, index),
               )}

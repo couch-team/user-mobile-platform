@@ -207,7 +207,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
             })}
           </ScrollView>
         </View>
-        <View style={styles.podcastSectionContainer}>
+        {/* <View style={styles.podcastSectionContainer}>
           <Text style={styles.podcastSectionHeaderText}>
             Recommended Communities to Join
           </Text>
@@ -232,7 +232,7 @@ const Home = ({ navigation: { navigate } }: Props) => {
               );
             })}
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );
