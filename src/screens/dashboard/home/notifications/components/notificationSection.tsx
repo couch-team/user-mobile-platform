@@ -41,6 +41,7 @@ const NotificationSection = ({ index } : { index: number }) => {
     }
   
     useEffect(() => {
+      setIsFetchingNotifications(true)
       fetchNotifications(currentPage)
     },[ currentPage, index ])
 
@@ -70,11 +71,11 @@ const NotificationSection = ({ index } : { index: number }) => {
                 ListEmptyComponent={
                     isFetchingNotifications
                       ?
-                      <View style={[styles.reachedEndContainer, {width: deviceWidth - 48 }]}>
+                      <View style={[styles.reachedEndContainer, {width: deviceWidth }]}>
                         <ActivityIndicator size={'small'} color={Colors.WHITE}/>
                       </View>
                       :
-                      <View style={{ paddingVertical: 40, width: deviceWidth - 48 }}>
+                      <View style={{ paddingVertical: 40, width: deviceWidth }}>
                         <Text style={{ fontFamily: Typography.fontFamily.SoraRegular, textAlign: 'center', color: Colors.WHITE }}>No result</Text>
                       </View>
                   }

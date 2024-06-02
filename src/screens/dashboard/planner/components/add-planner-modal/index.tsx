@@ -38,8 +38,8 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                 title,
                 colour: label,
                 description,
-                start: date + 'T' + startTime,
-                end: date + 'T' + endTime,
+                start: new Date(date + 'T' + startTime).toISOString(),
+                end: new Date(date + 'T' + endTime + 'Z').toISOString(),
                 is_complete: false
             })
             if($api.isSuccessful(response)){

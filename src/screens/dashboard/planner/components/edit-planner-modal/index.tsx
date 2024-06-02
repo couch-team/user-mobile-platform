@@ -79,8 +79,8 @@ const EditPlannerModal = ({ isActive, setIsActive, prev_title, prev_description,
                 title,
                 colour: label,
                 description,
-                start: prev_start_time === startTime ? undefined : date + 'T' + startTime,
-                end: prev_end_time === endTime ? undefined : date + 'T' + endTime,
+                start: prev_start_time === startTime ? undefined : new Date(date + 'T' + startTime).toISOString(),
+                end: prev_end_time === endTime ? undefined : new Date(date + 'T' + endTime).toISOString(),
             })
             if($api.isSuccessful(response)){
                 showMessage({
