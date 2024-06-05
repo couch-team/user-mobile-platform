@@ -12,12 +12,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#060C23"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "19",
+      "buildNumber": "27",
       "bundleIdentifier": "com.joincouch.app",
       "icon": "./assets/couch180.png",
       "config": {
@@ -26,9 +24,7 @@
     },
     "android": {
       "versionCode": 14,
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.joincouch.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/foreground.png",

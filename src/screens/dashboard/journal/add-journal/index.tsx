@@ -823,7 +823,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             activeColor={color}
             pressConfirmButton={() => createJournalFile()}
             pressCloseButton={() => goBack()}
-            disabled={!title || journalEntries.length === 0}
+            disabled={!title || journalEntries.length === 0 || isLoading}
           />
         }
       />
