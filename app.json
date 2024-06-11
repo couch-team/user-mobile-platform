@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "26",
+      "buildNumber": "28",
       "bundleIdentifier": "com.joincouch.app",
       "icon": "./assets/couch180.png",
       "iconImageSet": {

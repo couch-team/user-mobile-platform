@@ -41,7 +41,7 @@ const Explore = ({ navigation: { navigate } }: Props) => {
                   <Image
                     source={item.icon}
                     resizeMode="contain"
-                    style={[styles.exploreIcon, { tintColor: item.color }]}
+                    style={[styles.exploreIcon]}
                   />
                 </View>
                 <View style={styles.exploreInfoContainer}>

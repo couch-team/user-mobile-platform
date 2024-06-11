@@ -180,7 +180,7 @@ const Journal = ({ navigation: { goBack, navigate } }: Props) => {
       dispatch(fetchJournals(journals_current_page));
       fetchJournalEntries();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
+    }, [dispatch]),
   );
 
   const nextPage = () => journals_current_page + 1;

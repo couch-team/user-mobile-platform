@@ -81,11 +81,11 @@ const Login = ({ navigation: { navigate } }: Props) => {
                 label="Email address"
                 editable
                 placeholder="Enter your email"
-                // autoCapitalize="none"
+                autoCapitalize="none"
                 keyboardType="email-address"
                 onChangeText={(text: string) => setEmail(text)}
                 value={email}
-                textContentType='oneTimeCode'
+                textContentType="oneTimeCode"
               />
               <FormTextInput
                 label="Password"
