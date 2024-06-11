@@ -124,7 +124,14 @@ class ServiceApi {
       )
     ) {
       if (validationErrorCodes.includes(response?.response?.status)) {
-        if(response?.response?.message){
+        if(response?.response?.data?.message){
+          showMessage({
+            message: response?.response?.data?.message,
+            duration: 3000,
+            type: 'danger',
+          });
+        }
+        else if(response?.response?.message){
           showMessage({
             message: response?.response?.message,
             duration: 3000,

@@ -33,13 +33,8 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
-  const [chart_loading, setChartLoading] = useState(false);
-  const [chartData, setChartData] = useState<{ date: string; count: number }[]>(
-    [],
-  );
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-
 
   useEffect(() => {
     dispatch(fetchChartData());
@@ -113,7 +108,7 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24 }}>
-              <MoodChart data={chartData} is_loading={chart_loading} />
+              <MoodChart />
             </View>
           }
           ListFooterComponent={
