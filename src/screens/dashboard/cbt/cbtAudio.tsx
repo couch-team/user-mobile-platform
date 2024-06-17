@@ -218,7 +218,7 @@ const CbtAudio = ({ navigation: { goBack } }: Props) => {
           )}
           <View style={styles.contentContainer}>
             <Text style={styles.audioLabel}>
-              How to not believe everything you see
+              {params?.header}
             </Text>
             <View style={styles.audioControls}>
               <TouchableOpacity

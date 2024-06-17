@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
   recommendedSectionItemContainer: {
     backgroundColor: Colors.PRIMARY_DARKBLUE,
     borderRadius: hp(14),
-    width: deviceWidth - 48,
-    height: 220
+    width: deviceWidth - 40,
+    padding: 20,
   },
   recommendedSectionHeaderContainer: {
     flexDirection: 'row',
@@ -182,7 +182,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hasTagContainer: {
-    maxWidth: wp(120),
     borderRadius: 64,
     backgroundColor: '#FFFFFF1F',
     marginRight: wp(10),
@@ -220,6 +219,7 @@ export const styles = StyleSheet.create({
   },
   recentlyPlayedTextContainer: {
     marginLeft: wp(16),
+    width: deviceWidth - 140,
   },
   recentlyHeaderTextStyle: {
     fontFamily: Typography.fontFamily.SoraSemiBold,
