@@ -8,6 +8,7 @@ import { convertDuration } from 'utils';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { DashboardParamList } from 'utils/types/navigation-types';
 
+
 export const RecommendedPodcastCard = ({ item } : { item: any }) => {
   const navigation = useNavigation<NavigationProp<DashboardParamList, 'MindSpace'>>();
   return (

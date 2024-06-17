@@ -11,6 +11,9 @@ import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation
 import { DashboardParamList } from 'utils/types/navigation-types';
 import debounce from 'helpers/debounce';
 
+const SeparatorComponent = () => {
+  return <View style={{ width: 10 }} />; // Adjust width as per your requirement
+};
 export const Listen = () => {
   const [ isFetchingAudio, setIsFetchingAudio ] = useState(false);
   const [ isFetchingCategories, setIsFetchingCategories ] = useState(false);
@@ -132,6 +135,7 @@ export const Listen = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.podcastContentContainer}
         pagingEnabled
+        ItemSeparatorComponent={SeparatorComponent}
       />
       <HeaderText
         text="Top podcasts"
