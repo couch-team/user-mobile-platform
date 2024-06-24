@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Dimensions, FlatList, Text, View } from "react-native";
 import { BarChart, LineChart } from "react-native-gifted-charts";
+import { useSelector } from "react-redux";
 import { $api } from "services";
+import { RootState } from "store";
 import { Colors, Typography } from "theme/config";
         
-const MoodChart = ({ data, is_loading } : { is_loading: boolean, data: any }) => {
+const MoodChart = () => {
+    const { chart_data, chart_data_loading } = useSelector((state: RootState) => state.Mood)
     const { width } = Dimensions.get('window');
     const [ moods, setMoods ] = useState<any[]>([]);
 
@@ -24,7 +27,8 @@ const MoodChart = ({ data, is_loading } : { is_loading: boolean, data: any }) =>
         fetchMoods()
     },[])
 
-    return ( data?.length === 0 && !is_loading ) ? <View></View> : (
+
+    return ( chart_data?.length === 0 && !chart_data_loading ) ? <View></View> : (
         <View style={{ backgroundColor: '#FFFFFF0D', minHeight: 150, justifyContent: 'center', alignItems: 'center', paddingVertical: 24, borderRadius: 16, marginBottom: 32 }}>
             <Text style={{ color: '#D0D2F4', fontSize: 14, lineHeight: 17.6, letterSpacing: -0.48, marginBottom: 27  }}>Mood Tracking Graph</Text>
             <FlatList
@@ -44,12 +48,12 @@ const MoodChart = ({ data, is_loading } : { is_loading: boolean, data: any }) =>
                 }}
                 />
             {
-                is_loading
+                chart_data_loading
                     ?
                     <ActivityIndicator size='small' color={Colors.WHITE}/>
                     : 
                     <BarChart 
-                        stackData={data?.map((dataToRender: any) => ({ label: dataToRender?.date?.split('-')[1] + '/' + dataToRender?.date?.split('-')[2], stacks: dataToRender?.data?.map((chartData: any) => ({ color: chartData?.colour, value: chartData?.count })) }))}
+                        stackData={chart_data?.map((dataToRender: any) => ({ label: dataToRender?.date?.split('-')[1] + '/' + dataToRender?.date?.split('-')[2], stacks: dataToRender?.data?.map((chartData: any) => ({ color: chartData?.colour, value: chartData?.count })) }))}
                         // color={'#7378DE'}
                         hideRules
                         xAxisColor="#7378DE"

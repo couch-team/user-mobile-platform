@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
   SectionList,
   Text,
   TouchableOpacity,
@@ -17,10 +18,11 @@ import { RootState } from 'store';
 import { groupTransactions } from 'utils';
 import moment from 'moment';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchMoods } from 'store/actions/mood';
+import { fetchChartData, fetchMoods } from 'store/actions/mood';
 import MoodChart from 'components/charts/moodChart';
 import { $api } from 'services';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { clearMoodReducer, setHasFetchedMoods, setMoods, setReachedEnd } from 'store/slice/moodSlice';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -31,30 +33,11 @@ type Props = {
 };
 
 const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
-  const [chart_loading, setChartLoading] = useState(false);
-  const [chartData, setChartData] = useState<{ date: string; count: number }[]>(
-    [],
-  );
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchChartData = async () => {
-    try {
-      setChartLoading(true);
-      const response = await $api.fetch('/api/mood/stats');
-      if ($api.isSuccessful(response)) {
-        console.log(response?.data);
-        setChartData(response?.data);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setChartLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchChartData();
+    dispatch(fetchChartData());
   }, []);
 
   useEffect(() => {
@@ -66,6 +49,12 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
   );
   const groupedMoods = groupTransactions(moods);
 
+  const resetMoods = () => {
+    dispatch(clearMoodReducer())
+    dispatch(fetchChartData());
+    currentPage === 1 ? dispatch(fetchMoods(1)) : setCurrentPage(1)
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -86,28 +75,40 @@ const MoodTracker = ({ navigation: { navigate, goBack } }: Props) => {
           }
           sections={groupedMoods}
           contentContainerStyle={styles.contentContainerStyle}
+          refreshControl={
+            <RefreshControl
+                refreshing={isFetchingMoods && moods?.length === 0}
+                onRefresh={() => resetMoods()}
+                colors={['#ffffff']}
+                progressBackgroundColor="#0D0E36"
+            />
+          }
           ListEmptyComponent={
+            !isFetchingMoods
+              ?
             <View style={styles.emptyMoodTrackerContainer}>
-              <View style={styles.emptyMoodIconContainer}>
-                <Image
-                  source={Images['empty-mood']}
-                  resizeMode="contain"
-                  style={styles.emptyMoodIcon}
-                />
-              </View>
-              <View style={styles.emptyTextContainer}>
-                <Text style={styles.emptyMainText}>
-                  No Mood logged in here yet
-                </Text>
-                <Text style={styles.emptyBodyText}>
-                  Tap the '+' button below to log your mood on the mood tracker.
-                </Text>
-              </View>
+            <View style={styles.emptyMoodIconContainer}>
+              <Image
+                source={Images['empty-mood']}
+                resizeMode="contain"
+                style={styles.emptyMoodIcon}
+              />
             </View>
+            <View style={styles.emptyTextContainer}>
+              <Text style={styles.emptyMainText}>
+                No Mood logged in here yet
+              </Text>
+              <Text style={styles.emptyBodyText}>
+                Tap the '+' button below to log your mood on the mood tracker.
+              </Text>
+            </View>
+          </View>
+            :
+            <View></View>
           }
           ListHeaderComponent={
             <View style={{ width: '100%', paddingHorizontal: 24 }}>
-              <MoodChart data={chartData} is_loading={chart_loading} />
+              <MoodChart />
             </View>
           }
           ListFooterComponent={

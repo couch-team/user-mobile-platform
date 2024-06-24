@@ -26,6 +26,25 @@ export const groupTransactions = (data: MoodType[]) => {
   return transGroup.reverse();
 };
 
+export const groupPlans = (data: MoodType[]) => {
+  let transGroup: { title: string; isToday: string | boolean; data: any[] }[] =
+    [];
+  const sorted = sortBy(data, ['start']);
+  const groups = groupBy(sorted, (d: any) =>
+    moment(d?.start).startOf('day').format(),
+  );
+  Object.keys(groups).forEach(i => {
+    transGroup.push({
+      title: moment(i).format('ddd Do MMMM, YYYY'),
+      isToday:
+        moment(i).format('DD MMMM') === moment().format('DD MMMM') && 'Today',
+      data: groups[i]?.reverse(),
+    });
+  });
+
+  return transGroup.reverse();
+};
+
 export const groupJournalTransactions = (data: any) => {
   let transGroup: any[] = [];
   const sorted = sortBy(data, ['updated_at']);
@@ -34,7 +53,7 @@ export const groupJournalTransactions = (data: any) => {
   );
   Object.keys(groups).forEach((i, index) => {
     transGroup.push({
-      title: moment(i).calendar(),
+      title: moment(i).format('DD MMMM YYYY'),
       isToday:
         moment(i).format('DD MMMM') === moment().format('DD MMMM') && 'Today',
       isYesterday:
@@ -46,4 +65,20 @@ export const groupJournalTransactions = (data: any) => {
   });
 
   return transGroup.reverse();
+};
+
+export const convertDuration = (duration: any) => {
+  if (duration) {
+    const [hours, minutes, rest] = duration.split(':');
+    const [seconds, milliseconds] = (rest || '0').split('.');
+    const roundedSeconds = Math.round(parseFloat(seconds));
+    const hoursInt = parseInt(hours, 10);
+    const minutesInt = parseInt(minutes, 10);
+    const secondsInt = parseInt(roundedSeconds.toString(), 10);
+    const totalMinutes = hoursInt * 60 + minutesInt;
+    const formattedDuration = `${totalMinutes
+      .toString()
+      .padStart(2, '0')}:${secondsInt.toString().padStart(2, '0')}`;
+    return formattedDuration;
+  }
 };

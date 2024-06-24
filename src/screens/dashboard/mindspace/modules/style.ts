@@ -98,6 +98,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  reachedEnd: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    color: Colors.WHITE
+  },
+  reachedEndContainer: {
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100
+  },
   arrowIcon: {
     width: wp(23),
     height: hp(23),

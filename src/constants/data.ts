@@ -113,7 +113,7 @@ export const medicalConditions = [
 export const ProfileNumbers = [
   {
     id: 1,
-    name: 'Therapy',
+    name: 'Mindful Points',
     value: 160,
     data: [
       {
@@ -144,7 +144,7 @@ export const ProfileNumbers = [
   },
   {
     id: 2,
-    name: 'Relaxation',
+    name: 'Moods Logged',
     value: 90,
     data: [
       {
@@ -175,7 +175,7 @@ export const ProfileNumbers = [
   },
   {
     id: 3,
-    name: 'Community',
+    name: 'Journal Entries',
     value: 140,
     data: [
       {
@@ -201,6 +201,37 @@ export const ProfileNumbers = [
         title: 'Replies you’ve given',
         value: 18,
         imgUrl: Images.chat_session,
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Mindspace',
+    value: 90,
+    data: [
+      {
+        id: 'a',
+        title: 'Videos Watched',
+        value: 60,
+        imgUrl: Images['play-audio'],
+      },
+      {
+        id: 'b',
+        title: 'Podcasts Played',
+        value: 16,
+        imgUrl: Images['record-icon-inactive'],
+      },
+      {
+        id: 'c',
+        title: 'Videos Saved',
+        value: 12,
+        imgUrl: Images.video_saved,
+      },
+      {
+        id: 'd',
+        title: 'Podcasts Saved',
+        value: 128,
+        imgUrl: Images.video_saved,
       },
     ],
   },
@@ -415,19 +446,19 @@ export const moodTracker = [
 export const tourInfoData = [
   {
     id: 1,
-    title: 'Self care',
+    title: 'Self Help',
     color: Colors.PURPLE_100,
     icon: 'self-care',
-    description: 'Personalized self care tools & resources ❤️',
-    text: 'Discover a variety of self-care resources, including videos, tips, and soothing sounds to help you relax and recharge.',
+    description: 'Personalised self help coaching',
+    text: 'Enhance your mental well-being with personal development strategies through guided self help topics based on evidence based tools and resources ',
   },
   {
     id: 2,
-    title: 'Journals',
+    title: 'Journaling',
     color: Colors.COUCH_BLUE,
     icon: 'journal',
     description: 'Write how you feel...',
-    text: 'Unleash your thoughts and emotions with intuitive journaling. Reflect and find clarity with our journal prompts as you write your way to self-discovery.',
+    text: 'Put down your thoughts and emotions with intuitive journaling. Reflect and find clarity with our journal prompts as you write your way to self-discovery.',
   },
   {
     id: 3,
@@ -439,7 +470,7 @@ export const tourInfoData = [
   },
   {
     id: 4,
-    title: 'Mind Space',
+    title: 'Mindspace',
     color: Colors.GREEN_CYAN,
     description: 'A library for mindfulness and self care.',
     icon: 'mindspace',
@@ -447,11 +478,11 @@ export const tourInfoData = [
   },
   {
     id: 5,
-    title: 'Therapy',
-    description: 'Let out your frustrations on us ❤️',
+    title: ' Planner',
+    description: 'Build healthy habits',
     color: Colors.GREEN_100,
     icon: 'therapy',
-    text: 'Access a network of  licensed professionals, schedule virtual sessions, and find the support you need to thrive.',
+    text: 'Set tasks and plan your day in the right way as you build healthy routines and habits for a healthier and better you.',
   },
 ];
 
@@ -652,29 +683,11 @@ export const podcasts4u = [
   {
     id: 1,
     title: 'Overcoming Work-related Stress',
-    time: '3:45',
-    played: '1.5M',
-    shared: '400.56K',
-    hashTags: ['#STRESS', '#RELIEF'],
+    duration: '3:45',
+    tags: ['#STRESS', '#RELIEF'],
     iconColor: Colors.LIGHT_PEACHY_RED_200,
-  },
-  {
-    id: 2,
-    title: 'Overcoming Work-related Stress',
-    time: '3:45',
-    played: '1.5M',
-    shared: '400.56K',
-    hashTags: ['#STRESS', '#RELIEF'],
-    iconColor: Colors.LIGHT_YELLOW_200,
-  },
-  {
-    id: 3,
-    title: 'Overcoming Work-related Stress',
-    time: '3:45',
-    played: '1.5M',
-    shared: '400.56K',
-    hashTags: ['#STRESS', '#RELIEF'],
-    iconColor: Colors.LIGHT_GREEN_200,
+    background_url: '',
+    content_url: '',
   },
 ];
 
@@ -685,7 +698,7 @@ export const heavyOptions = [
     description: 'Share with a Therapist',
     icon: Images.phone,
     color: Colors.GREEN_100,
-    screen: 'Telegraphy',
+    screen: 'Therapy',
   },
   {
     id: 2,
@@ -700,60 +713,54 @@ export const heavyOptions = [
 export const exploreOptions = [
   {
     id: 1,
-    title: 'THERAPY',
-    description: 'Share problems with a Therapist',
-    icon: Images['phone-calling'],
-    color: Colors.GREEN_100,
+    title: 'SELF HELP',
+    description: 'Guided mental support  & exercises for your  well-being.',
+    icon: Images['self-help-img'],
+    color: '#B67BEE',
     screen: 'Therapy',
   },
   {
     id: 2,
-    title: 'STORE',
-    description: 'Get items to help your mental wellbeing.',
-    icon: Images.bag,
-    color: Colors.WARNING_AMBER,
+    title: 'MIND SPACE',
+    description: 'Mindful videos and sounds just for you.',
+    icon: Images['mindspace-img'],
+    color: '#89DAD5',
+    screen: 'MindSpace',
   },
   {
     id: 3,
-    title: 'COMMUNITY',
-    description: 'Join heartwarming communities ',
-    icon: Images.users,
-    color: Colors.COUCH_BLUE,
+    title: 'MOOD TRACKER',
+    description: 'Track your mood and feel better in no time!',
+    icon: Images['mood-tracker-img'],
+    color: '#FFC634',
+    screen: 'MoodTracker',
   },
   {
     id: 4,
-    title: 'CBT',
-    description: 'A little brain test would not hurt you...',
-    icon: Images.activity,
-    color: Colors.PURPLE,
-    screen: 'Cbt',
+    title: 'JOURNAL',
+    description: 'Put down your thoughts and feelings.',
+    icon: Images.journal,
+    color: '#8E93FB',
+    screen: 'Journal',
   },
 ];
 
 export const therapyOptions = [
   {
     id: 1,
-    title: 'Planner',
-    description: 'Set daily tasks and reminders',
-    icon: Images['phone-calling'],
+    title: 'SELF HELP EXERCISES',
+    description: 'Set & Crush goals and eat up tasks like biscuits.',
+    icon: Images['self-help-exercises-img'],
     color: Colors.PURPLE,
     url: 'Planner',
   },
   {
     id: 2,
-    title: 'RELAXATION HUB',
-    description: 'Join heartwarming communities ',
+    title: 'SELF ASESSMENT QUIZ',
+    description: 'Personality tests, self  analysis etc.',
     icon: Images.headphones,
     color: Colors.GREEN_100,
     url: 'MindSpace',
-  },
-  {
-    id: 3,
-    title: 'JOURNAL',
-    description: 'Write down your thoughts and feelings.',
-    icon: Images.journal,
-    textColor: Colors.COUCH_BLUE,
-    url: 'Journal',
   },
   {
     id: 4,
@@ -1361,135 +1368,26 @@ export const cbtData = [
   {
     id: 1,
     title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-1'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
-  },
-  {
-    id: 2,
-    title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-2'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
-  },
-  {
-    id: 3,
-    title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-3'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
-  },
-  {
-    id: 4,
-    title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-4'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
-  },
-  {
-    id: 5,
-    title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-1'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
-  },
-  {
-    id: 6,
-    title: 'Overcoming Anxiety and Fear',
-    description: 'Beat up fear and anxiety. Own your mind and thoughts.',
-    image: Images['cbt-2'],
-    options: ['10 Sessions', '4 Days', '~10Mins / Day'],
+    sub_title: 'Beat up fear and anxiety. Own your mind and thoughts.',
+    background_url: Images['cbt-1'],
+    tags: ['10 Sessions', '4 Days', '~10Mins / Day'],
   },
 ];
 
 export const cbtPlayData = [
   {
-    title: 'Day 1',
+    group: 'Day 1',
     hasStarted: true,
     data: [
       {
         id: 1,
         title: 'Try not to believe everything you see',
-        type: 'video',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 2,
-        title: 'How to view things positively from a negative mindset',
-        type: 'text',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 3,
-        title: 'How to view things positively from a negative mindset',
-        type: 'audio',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-    ],
-  },
-  {
-    title: 'Day 2',
-    hasStarted: true,
-    data: [
-      {
-        id: 1,
-        title: 'Try not to believe everything you see',
-        type: 'video',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 2,
-        title: 'How to view things positively from a negative mindset',
-        type: 'text',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 3,
-        title: 'How to view things positively from a negative mindset',
-        type: 'test',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['6 Mins', 'Trivia'],
-      },
-    ],
-  },
-  {
-    title: 'Day 3',
-    hasStarted: false,
-    data: [
-      {
-        id: 1,
-        title: 'Try not to believe everything you see',
-        type: 'video',
-        isPlayed: true,
-        hasStarted: false,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 2,
-        title: 'How to view things positively from a negative mindset',
-        type: 'text',
-        isPlayed: true,
-        hasStarted: false,
-        options: ['4 Mins', 'Cognitive Journal'],
-      },
-      {
-        id: 3,
-        title: 'How to view things positively from a negative mindset',
-        type: 'test',
-        isPlayed: true,
-        hasStarted: true,
-        options: ['6 Mins', 'Trivia'],
+        resourceType: 'video',
+        tags: ['4 Mins', 'Cognitive Journal'],
+        background_url:
+          'https://res.cloudinary.com/couchtechnologies/image/upload/v1711634318/hcw7resavwrro9x95mll.jpg',
+        content_url:
+          'https://res.cloudinary.com/couchtechnologies/video/upload/v1711634319/p6t5vkzeucl1vptpjpeu.mp4',
       },
     ],
   },

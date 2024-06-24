@@ -47,7 +47,6 @@ export const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: hp(16),
     lineHeight: hp(23),
-    width: wp(211),
   },
   cbtSubHeaderText: {
     paddingTop: hp(20),
@@ -125,8 +124,6 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.COUCH_GREEN_500,
     alignSelf: 'flex-start',
     flexDirection: 'row',
-    marginBottom: hp(16),
-    marginHorizontal: 10,
     zIndex: 1000,
   },
   lockIcon: {
@@ -143,20 +140,71 @@ export const styles = StyleSheet.create({
   checkIcon: {
     width: wp(24),
     height: hp(24),
-    marginRight: wp(10),
+  },
+  cardLine: {
+    alignItems: 'center',
+    marginRight: 9
   },
   cbtDataContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 10,
   },
+  headerSectionWrapper: {
+    marginHorizontal: 10,
+  },
   cbtLine: {
     borderLeftWidth: 0.6,
     borderLeftColor: Colors.COUCH_BLUE_400,
-    height: hp(200),
-    left: hp(10),
-    position: 'absolute',
-    zIndex: -10,
+    height: 53,
     borderColor: Colors.WHITE,
+  },
+  reachedEndContainer: {
+    height: 100,
+    paddingTop: 20,
+  },
+  reachedEnd: {
+    color: Colors.WHITE,
+    textAlign: 'center',
+    fontFamily: Typography.fontFamily.SoraMedium,
+  },
+  emptyMoodTrackerContainer: {
+    marginTop: hp(20),
+    height: hp(450),
+    marginHorizontal: wp(24),
+    borderRadius: hp(16),
+    backgroundColor: Colors.WHITE_TRANSPARENT,
+  },
+  emptyMoodIconContainer: {
+    width: 160,
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.COUCH_BLUE_2200,
+    alignSelf: 'center',
+    borderRadius: 100,
+    marginTop: 69,
+  },
+  emptyMoodIcon: {
+    width: 85,
+    height: 85,
+  },
+  emptyTextContainer: {
+    marginTop: hp(40),
+    paddingHorizontal: wp(28),
+  },
+  emptyMainText: {
+    color: Colors.COUCH_BLUE_1100,
+    fontFamily: Typography.fontFamily.SoraMedium,
+    textAlign: 'center',
+    fontSize: hp(14),
+    lineHeight: hp(19),
+  },
+  emptyBodyText: {
+    fontFamily: Typography.fontFamily.SoraRegular,
+    paddingTop: hp(16),
+    textAlign: 'center',
+    color: Colors.COUCH_TEXT_COLOR,
+    fontSize: hp(13),
   },
 });

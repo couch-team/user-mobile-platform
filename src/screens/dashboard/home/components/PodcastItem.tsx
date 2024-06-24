@@ -1,64 +1,77 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { hp, wp } from 'constants/layout';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Colors, Images, Typography } from 'theme/config';
+import { convertDuration } from 'utils';
+import { DashboardParamList } from 'utils/types/navigation-types';
 
 interface PodcastItemProps {
   item: PodcastItemData;
 }
 
 interface PodcastItemData {
-  time: string;
+  duration: string;
   iconColor: string;
   title: string;
-  shared: string;
-  played: string;
-  hashTags: any[];
+  tags: any[];
+  background_url: string;
+  content_url: string;
+  play_history: any;
+  id: string
 }
 
+
+type ScreenProps = StackScreenProps<DashboardParamList, 'MindSpace'>;
+
 const PodcastItem = ({ item }: PodcastItemProps) => {
+  const navigation = useNavigation<NavigationProp<DashboardParamList, 'MindSpace'>>();
+
   return (
-    <TouchableOpacity activeOpacity={0.6} style={styles.podcastItemContainer}>
-      <View style={styles.podcastHeaderContainer}>
-        <View style={styles.voiceIconContainer}>
-          <Image
-            source={Images['voice-note']}
-            resizeMode="contain"
-            style={[styles.voiceIcon, { tintColor: item.iconColor }]}
-          />
-        </View>
-        <View style={styles.timeItemContainer}>
-          <Text style={[styles.timeText, { color: item.iconColor }]}>
-            {item.time}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.podcastBodyContainer}>
-        <Text style={styles.podcastMainText}>{item.title}</Text>
-        <View style={styles.podcastItemIconContainer}>
-          <View style={styles.podcastItemIconBody}>
+    <TouchableOpacity activeOpacity={0.6} style={styles.podcastItemContainer} onPress={() => navigation.navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url, id: item?.id, is_complete: true, duration: item?.play_history?.current_duration || '00:00' }) }>
+      <View>
+        <View style={styles.podcastHeaderContainer}>
+          <View style={styles.voiceIconContainer}>
             <Image
-              source={Images.play}
+              source={Images['voice-note']}
               resizeMode="contain"
-              style={[styles.podcastItemIcon, { tintColor: item.iconColor }]}
+              style={[styles.voiceIcon, { tintColor: Colors.LIGHT_PEACHY_RED_200 }]}
             />
-            <Text style={styles.podcastText}>{item.played}</Text>
           </View>
-          <View style={styles.podcastItemIconBody}>
-            <Image
-              source={Images.upload}
-              resizeMode="contain"
-              style={[styles.podcastItemIcon, { tintColor: item.iconColor }]}
-            />
-            <Text style={styles.podcastText}>{item.shared}</Text>
+          <View style={styles.timeItemContainer}>
+            <Text style={[styles.timeText, { color: Colors.LIGHT_PEACHY_RED_200 }]}>
+              {convertDuration(item.duration)}
+            </Text>
           </View>
+        </View>
+        <View style={styles.podcastBodyContainer}>
+          <Text style={styles.podcastMainText}>{item.title}</Text>
+          {/* <View style={styles.podcastItemIconContainer}>
+            <View style={styles.podcastItemIconBody}>
+              <Image
+                source={Images.play}
+                resizeMode="contain"
+                style={[styles.podcastItemIcon, { tintColor: item.iconColor }]}
+              />
+              <Text style={styles.podcastText}>1.2m</Text>
+            </View>
+            <View style={styles.podcastItemIconBody}>
+              <Image
+                source={Images.upload}
+                resizeMode="contain"
+                style={[styles.podcastItemIcon, { tintColor: item.iconColor }]}
+              />
+              <Text style={styles.podcastText}>1.6m</Text>
+            </View>
+          </View> */}
         </View>
       </View>
       <View style={styles.podcastHashTagContainer}>
-        {item.hashTags.map((hashTag, index) => {
+        {item.tags?.length > 0 && item?.tags?.map((hashTag, index) => {
           return (
             <View style={styles.hashtagItemContainer} key={index}>
-              <Text style={[styles.hashtagText, { color: item.iconColor }]}>
+              <Text style={[styles.hashtagText, { color: Colors.LIGHT_PEACHY_RED_200 }]}>
                 {hashTag}
               </Text>
             </View>
@@ -79,6 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: hp(16),
     paddingVertical: hp(20),
     paddingHorizontal: wp(12),
+    justifyContent: 'space-between'
   },
   podcastHeaderContainer: {
     flexDirection: 'row',
@@ -154,6 +168,7 @@ const styles = StyleSheet.create({
   },
   hashtagText: {
     fontFamily: Typography.fontFamily.SoraBold,
+    fontWeight: "700",
     fontSize: hp(12),
     lineHeight: hp(17),
   },

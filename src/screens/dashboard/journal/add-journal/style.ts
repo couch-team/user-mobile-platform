@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.PRIMARY,
     // position: 'relative',
+    paddingTop: 30,
   },
   noteOptionBodyContainer: {
     // marginHorizontal: wp(10),

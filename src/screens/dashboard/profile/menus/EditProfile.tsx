@@ -19,6 +19,7 @@ import * as ImagePicker from 'expo-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useSelector } from 'react-redux';
 import { showMessage } from 'react-native-flash-message';
+import Constants from 'expo-constants';
 
 import { Colors, Images, Typography } from 'theme/config';
 import { hp, wp } from 'constants/layout';
@@ -258,7 +259,7 @@ const EditProfile = ({ navigation }: Props) => {
         flex: 1,
         backgroundColor: 'rgba(6, 12, 35, 1)',
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
       }}>
       {showCamera && (
         <Camera style={styles.camera} type={cameraType} ref={cameraRef}>
@@ -586,7 +587,7 @@ const EditProfile = ({ navigation }: Props) => {
         />
 
         <AppCountryPicker
-          showCountryPicker={() => setShowStatesModal(true)}
+          showCountryPicker={() => selectedCountry && setShowStatesModal(true)}
           placeholder="Select your state of origin"
           label="States"
           value={selectedState?.name || profile?.state_of_residence}

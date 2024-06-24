@@ -1,33 +1,47 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import { Images, Typography } from 'theme/config';
 import { styles } from './styles';
-import { ProfileNumbers } from 'constants/data';
 import ProfileCardModal from './components/ProfileCardModal';
 import ProfileNumbersModal from './components/ProfileNumbersModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DashboardParamList } from 'utils/types/navigation-types';
+import ProfileNumber from './components/ProfileNumber';
+import MIndfulPoint from './components/MindfulPoint';
 
-const Profile = () => {
+type DashboardNavigationProps = NativeStackNavigationProp<
+  DashboardParamList,
+  'UserProfile'
+>;
+type Props = {
+  navigation: DashboardNavigationProps;
+};
+
+const Profile = ({ navigation }: Props) => {
   const [showModal, setShowModal] = useState(false);
   const [showNumberModals, setShowNumberModals] = useState(false);
-  const [markerData, setMarkerData] = useState([]);
+  const [showMindfulModal, setShowMindfulModal] = useState(false);
   const { profile, first_name, last_name } = useSelector(
     (state: RootState) => state.User,
   );
+  const { moods } = useSelector((state: RootState) => state.Mood);
+
   const { email } = useSelector((state: RootState) => state.Auth);
+  const { journals } = useSelector((state: RootState) => state.Journal);
 
-  const handleMarkerPress = (markerDatas: any) => {
+  const handleMarkerPress = () => {
     setShowNumberModals(true);
-    setMarkerData(markerDatas);
   };
-
-  const totalSum = (data: any) =>
-    data.reduce(
-      (accumulator: any, current: any) => accumulator + current.value,
-      0,
-    );
   return (
     <View style={styles.container}>
       <ProfileCardModal
@@ -41,30 +55,39 @@ const Profile = () => {
       <ProfileNumbersModal
         visible={showNumberModals}
         onClose={() => setShowNumberModals(false)}
-        title={markerData && markerData.name}
+        title={'Moods Logged'}
         animationType={'fade'}
-        data={markerData.data}
+        data={moods}
+      />
+      <MIndfulPoint
+        visible={showMindfulModal}
+        onClose={() => setShowMindfulModal(false)}
+        title={'Mindful points'}
+        animationType={'fade'}
       />
       <View style={styles.editBtnContainer}>
-        <Pressable style={styles.editBtn}>
+        <Pressable
+          style={styles.editBtn}
+          onPress={() =>
+            navigation.navigate('EditProfile', { id: profile?.id })
+          }>
           <Text style={styles.btnText}>Edit Profile</Text>
         </Pressable>
         <View
           style={{
-            alignItems: 'center',
-            position: 'absolute',
+            // alignItems: 'center',
+            // position: 'absolute',
             left: 0,
             right: 0,
+            top: Dimensions.get('window').height / 11,
           }}>
           {profile?.avatar_url ? (
             <Image
               source={{ uri: profile.avatar_url }}
               style={{
-                width: 160,
-                height: 160,
+                width: 140,
+                height: 140,
                 resizeMode: 'cover',
-                top: '100%',
-                zIndex: 1,
                 borderRadius: 100,
                 overflow: 'hidden',
               }}
@@ -73,11 +96,11 @@ const Profile = () => {
             <Image
               source={Images['profile-image-placeholder']}
               style={{
-                width: 160,
-                height: 160,
+                width: 150,
+                height: 150,
                 resizeMode: 'contain',
-                top: '100%',
-                zIndex: 1,
+                // top: '100%',
+                // zIndex: 1,
               }}
             />
           )}
@@ -87,6 +110,7 @@ const Profile = () => {
         style={{
           flex: 1,
           backgroundColor: 'rgba(6, 12, 35, 1)',
+          // zIndex: 0,
         }}>
         <View style={{ alignItems: 'center', marginTop: '20%', gap: 6 }}>
           <Text
@@ -177,54 +201,18 @@ const Profile = () => {
             You’ve got some interesting Numbers
           </Text>
 
-          {ProfileNumbers.map(numbers => (
-            <Pressable
-              style={{
-                backgroundColor: 'rgba(243, 243, 252, 0.04)',
-                flexDirection: 'row',
-                padding: 16,
-                borderRadius: 12,
-                marginBottom: 10,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-              key={numbers.id}
-              onPress={() => handleMarkerPress(numbers)}>
-              <View style={{ gap: 12 }}>
-                <Text
-                  style={{
-                    color: 'rgba(227, 228, 248, 1)',
-                    fontSize: 20,
-                    fontFamily: Typography.fontFamily.SoraBold,
-                  }}>
-                  {numbers.name}
-                </Text>
-                <Text
-                  style={{
-                    color: 'rgba(159, 152, 178, 1)',
-                    fontSize: 14,
-                    fontFamily: Typography.fontFamily.SoraRegular,
-                  }}>
-                  View full details
-                </Text>
-              </View>
+          <ProfileNumber
+            title="Mindful Points"
+            handleMarkerPress={() => setShowMindfulModal(true)}
+          />
+          <ProfileNumber
+            value={moods.length}
+            title="Moods Logged"
+            handleMarkerPress={() => handleMarkerPress()}
+          />
+          <ProfileNumber value={journals.length} title="Journal Entries" />
 
-              <Text
-                style={{
-                  color:
-                    numbers.name === 'Therapy'
-                      ? 'rgba(115, 120, 222, 1)'
-                      : numbers.name === 'Relaxation'
-                      ? 'rgba(176, 232, 153, 1)'
-                      : 'rgba(255, 234, 151, 0.8)',
-                  fontSize: 80,
-                  fontFamily: Typography.fontFamily.SoraExtraBold,
-                  letterSpacing: -0.09,
-                }}>
-                {totalSum(numbers.data)}
-              </Text>
-            </Pressable>
-          ))}
+          <ProfileNumber title="Mindspace" />
         </View>
       </ScrollView>
     </View>

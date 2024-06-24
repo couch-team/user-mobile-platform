@@ -1,6 +1,6 @@
 import { BaseModal, CouchDatePicker } from 'components'
 import styles from "./styles"
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View, ScrollView, TextInput } from "react-native";
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Colors } from 'theme/config';
 import { CALENDAR, HELP_CIRCLE, TIME } from 'assets/svg';
@@ -8,12 +8,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dayjs from 'dayjs';
 import { $api } from 'services';
 import { showMessage } from 'react-native-flash-message';
-import { useNavigation } from '@react-navigation/native';
-import { DashboardParamList } from 'utils/types/navigation-types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import useAppDispatch from 'hooks/useAppDispatch';
-import { fetchPlans } from 'store/actions/planner';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { fetchPlans, fetchTodayPlans } from 'store/actions/planner';
 
 const AddPlannerModal = ({ isActive, setIsActive } : { 
     isActive: boolean,
@@ -42,11 +38,10 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                 title,
                 colour: label,
                 description,
-                start: date + 'T' + startTime,
-                end: date + 'T' + endTime,
+                start: new Date(date + 'T' + startTime).toISOString(),
+                end: new Date(date + 'T' + endTime + 'Z').toISOString(),
                 is_complete: false
             })
-            console.log(response)
             if($api.isSuccessful(response)){
                 showMessage({
                     type: 'success',
@@ -55,6 +50,7 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                 })
                 setIsActive(false)
                 dispatch(fetchPlans(1))
+                dispatch(fetchTodayPlans(1))
             }
         }
         catch(err){
@@ -81,6 +77,7 @@ const AddPlannerModal = ({ isActive, setIsActive } : {
                         placeholderTextColor="#9F98B273"
                         value={title}
                         onChangeText={(value) => setTitle(value)}
+                        autoFocus
                     />
                     <View style={styles.unitInputContainer}>
                         <View style={styles.inputLabelContainer}>

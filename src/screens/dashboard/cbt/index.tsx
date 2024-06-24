@@ -1,20 +1,49 @@
 import { HeaderBar } from 'components/base/header-bar';
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 import { HeaderText } from 'components/base/header-text';
-import { cbtData } from 'constants/data';
 import { DashboardParamList } from 'utils/types/navigation-types';
 import { StackScreenProps } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
+import { $api } from 'services';
+import { Colors, Images } from 'theme/config';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { groupTransactions } from 'utils';
+import { fetchCbts } from 'store/actions/cbt';
+import useAppDispatch from 'hooks/useAppDispatch';
+import { clearCbtReducer } from 'store/slice/cbtSlice';
 
 type ScreenProps = StackScreenProps<DashboardParamList, 'Cbt'>;
 
 const Cbt = ({ navigation: { navigate, goBack } }: ScreenProps) => {
+  const dispatch = useAppDispatch();
+  const [ currentPage, setCurrentPage ] = useState(1);
+
+  useEffect(() => {
+    dispatch(fetchCbts(currentPage))
+  }, [ currentPage ]);
+
+  const { cbts, isFetchingCbts, hasFetchedCbts, reached_end } = useSelector((state: RootState) => state.Cbt);
+
+  const resetCbt = () => {
+    dispatch(clearCbtReducer())
+    currentPage === 1 ? dispatch(fetchCbts(1)) : setCurrentPage(1)
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+              refreshing={isFetchingCbts && cbts?.length === 0}
+              onRefresh={() => resetCbt()}
+              colors={['#ffffff']}
+              progressBackgroundColor="#0D0E36"
+          />
+        }
         ListHeaderComponent={() => (
           <>
             <HeaderBar hasBackButton onPressLeftIcon={() => goBack()} />
@@ -24,16 +53,59 @@ const Cbt = ({ navigation: { navigate, goBack } }: ScreenProps) => {
             />
           </>
         )}
-        data={cbtData}
+        onEndReached={() => !reached_end && !isFetchingCbts && setCurrentPage(currentPage + 1)}
+        data={cbts}
+        ListEmptyComponent={
+          !isFetchingCbts
+            ?
+          <View style={styles.emptyMoodTrackerContainer}>
+          <View style={styles.emptyMoodIconContainer}>
+            <Image
+              source={Images['empty-mood']}
+              resizeMode="contain"
+              style={styles.emptyMoodIcon}
+            />
+          </View>
+          <View style={styles.emptyTextContainer}>
+            <Text style={styles.emptyMainText}>
+              No cbt exercises yet
+            </Text>
+            <Text style={styles.emptyBodyText}>
+              Cbt exercises will be added soon
+            </Text>
+          </View>
+        </View>
+          :
+          <View></View>
+        }
+        ListFooterComponent={
+          reached_end 
+            ?  
+            cbts?.length > 0
+              ?           
+              <View style={styles.reachedEndContainer}>
+                <Text style={styles.reachedEnd}>You have reached the end! 🎉</Text>
+              </View>
+              :
+              <View style={styles.reachedEndContainer}></View>
+            :
+            (hasFetchedCbts && isFetchingCbts)
+              ?
+              <View style={styles.reachedEndContainer}>
+                <ActivityIndicator size={'small'} color={Colors.WHITE}/>
+              </View>
+              :
+              <View style={styles.reachedEndContainer}></View>
+        }
         renderItem={({ item, index }) => {
           return (
             <TouchableOpacity
               activeOpacity={0.9}
-              onPress={() => navigate('SingleCbt', { item })}
+              onPress={() => navigate('SingleCbt', { id: item?.id })}
               style={styles.cbtItemContainer}
               key={index}>
               <Image
-                source={item.image}
+                source={{ uri: item?.background_url }}
                 resizeMode="cover"
                 style={styles.cbtImageStyle}
               />
@@ -43,13 +115,13 @@ const Cbt = ({ navigation: { navigate, goBack } }: ScreenProps) => {
                 <View>
                   <Text style={styles.cbtHeaderTitleText}>{item?.title}</Text>
                   <Text style={styles.cbtSubHeaderText}>
-                    {item?.description}
+                    {item?.sub_title}
                   </Text>
                   <View style={styles.cbtItemFeaturesContainer}>
-                    {item?.options?.map(option => {
+                    {item?.tags?.map((tag: any)=> {
                       return (
-                        <View style={styles.cbtItemBodyContainer} key={option}>
-                          <Text style={styles.cbtItemText}>{option}</Text>
+                        <View style={styles.cbtItemBodyContainer} key={tag}>
+                          <Text style={styles.cbtItemText}>{tag}</Text>
                         </View>
                       );
                     })}

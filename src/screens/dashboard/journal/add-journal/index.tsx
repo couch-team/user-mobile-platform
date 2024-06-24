@@ -15,13 +15,13 @@ import {
   ScrollView,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { Audio } from 'expo-av';
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from './style';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { NoteOption, RightHeader } from './components';
+import { RightHeader } from './components';
 import Swiper from 'react-native-swiper';
 
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -36,7 +36,6 @@ import { MoodColors } from 'theme/config/colors';
 import JournalPromptModal from './components/JournalPrompt';
 import { fetchJournals } from 'store/actions/journal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-// import { showMessage } from 'react-native-flash-message';
 
 type DashboardNavigationProps = NativeStackNavigationProp<
   DashboardParamList,
@@ -70,6 +69,20 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const audioRef = useRef<any>([]);
+
+  const requestAudioPermission = async () => {
+    const { status }: { status: Audio.PermissionStatus } =
+      await Audio.requestPermissionsAsync();
+
+    if (status !== 'granted') {
+      Alert.alert('Audio Permission', 'Audio Permission Denied');
+      // You can handle denial of permission here, such as showing an error message
+    }
+  };
+
+  useEffect(() => {
+    requestAudioPermission();
+  }, []);
 
   const createJournal = async (data: FormData) => {
     try {
@@ -113,6 +126,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           // Add more extensions and corresponding MIME types as needed
           '3gp': 'audio/3gp',
           mp3: 'audio/mp3',
+          m4a: 'audio/mp4',
+          aac: 'audio/aac',
+          wav: 'audio/wav',
+          caf: 'audio/caf',
           // Add more audio extensions and corresponding MIME types as needed
         };
 
@@ -277,6 +294,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
     if (status.didJustFinish) {
       await audioRef.current[index].stopAsync();
+
       setIsPlaying(false);
       setPositions(prevPositions => {
         const newPositions: any = [...prevPositions];
@@ -303,6 +321,20 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true, // Optional, depends on your app's requirements
+      staysActiveInBackground: true,
+      interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+      interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+      shouldDuckAndroid: true,
+      // playThroughEarpieceAndroid: true,
+    });
+    setIsFocused(false);
+    addTextEntry();
+  }, []);
+
   const loadAudio = async (uri: any, index: number) => {
     try {
       const { sound } = await Audio.Sound.createAsync(
@@ -316,6 +348,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         ...prevEntries,
         { type: 'audio', content: uri, index: index },
       ]);
+      addTextEntry();
     } catch (error) {
       console.error('Error loading audio:', error);
     }
@@ -332,7 +365,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setJournalEntries([...journalEntries, newEntry]);
 
     setIsKeyboardVisible(true);
-    setIsFocused(true);
+    // setIsFocused(true);
   };
 
   const addImageEntry = async () => {
@@ -353,7 +386,33 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     } catch (error) {
       console.error('Error picking image:', error);
     }
+    // addTextEntry();
   };
+
+  useEffect(() => {
+    const removeEmptyTextEntries = () => {
+      for (let i = 1; i < journalEntries.length; i++) {
+        const entry = journalEntries[i];
+        if (entry.type === 'text' && entry.content.trim() === '') {
+          journalEntries.splice(i, 1);
+          i--;
+        }
+      }
+    };
+
+    const lastEntryType =
+      journalEntries.length > 0
+        ? journalEntries[journalEntries.length - 1].type
+        : '';
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      removeEmptyTextEntries();
+    }
+
+    if (lastEntryType === 'image' || lastEntryType === 'audio') {
+      addTextEntry();
+    }
+  }, [journalEntries]);
 
   const handleImagePress = (index: number) => {
     setCurrentIndex(index);
@@ -376,7 +435,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     setJournalEntries(updatedEntries);
   };
 
-  const handleChangeImage = async (item: any, index: number) => {
+  const handleChangeImage = async (index: number) => {
     try {
       const result: any = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -384,6 +443,12 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         // aspect: [4, 3],
         quality: 0.2,
       });
+      const updatedPreviewImages = [...previewImages];
+
+      if (index !== -1) {
+        // If the image already exists in previewImages, update it
+        updatedPreviewImages[index] = result.assets[0].uri;
+      }
       if (!result.canceled) {
         // User selected a new image
         const updatedEntries = [...journalEntries];
@@ -392,6 +457,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
           content: result.assets[0].uri,
         };
         setJournalEntries(updatedEntries);
+        setPreviewImages(updatedPreviewImages);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -426,27 +492,23 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
     }
   };
 
-  const renderItem = (item: any, index: number) => {
+  const RenderItem = (item: any, index: number) => {
     if (item.type === 'text' && item.isEditing) {
       return (
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={'height'}
           keyboardVerticalOffset={0}
           key={index}
           style={{ marginVertical: 7 }}>
           <TextInput
             style={[
               {
-                // paddingHorizontal: 5,
                 marginVertical: 10,
                 color: 'rgba(159, 152, 178, 1)',
                 fontSize: 16,
                 fontFamily: Typography.fontFamily.SoraRegular,
               },
-              // isKeyboardVisible && { paddingBottom: bottomMargin },
             ]}
-            placeholder="Enter a new paragraph"
-            placeholderTextColor={'white'}
             multiline
             value={item.content}
             autoFocus={isFocused}
@@ -456,10 +518,10 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               updatedEntries[index].content = text;
               setJournalEntries(updatedEntries);
             }}
-            onFocus={() => setIsFocused(true)}
+            // onFocus={() => setIsFocused(true)}
             onBlur={() => {
               setIsKeyboardVisible(false);
-              setIsFocused(false);
+              // setIsFocused(false);
               if (!item.content.trim()) {
                 // Remove the entry if it's empty
                 const updatedEntries = [...journalEntries];
@@ -504,7 +566,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 16,
                 borderRadius: 64,
               }}
-              onPress={() => handleChangeImage(item, index)}>
+              onPress={() => handleChangeImage(index)}>
               <Text
                 style={{
                   color: 'white',
@@ -704,7 +766,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               borderRadius: 64,
               position: 'absolute',
               right: 10,
-              top: 10,
+              top: 50,
             }}
             onPress={() => setShowPreviesImage(false)}>
             <Image
@@ -732,7 +794,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onPress={() => setShowPreviesImage(false)}>
+                  onPress={() => setShowPreviesImage(false)}
+                  key={index}>
                   <Pressable>
                     <Image
                       source={{ uri: image }}
@@ -760,7 +823,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             activeColor={color}
             pressConfirmButton={() => createJournalFile()}
             pressCloseButton={() => goBack()}
-            disabled={!title || journalEntries.length === 0}
+            disabled={!title || journalEntries.length === 0 || isLoading}
           />
         }
       />
@@ -777,7 +840,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
         <View
           style={{
             flex: 1,
-            paddingTop: 20,
+            // paddingTop: 20,
             paddingHorizontal: 20,
           }}>
           <ScrollView
@@ -789,9 +852,9 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
             onContentSizeChange={() => {
               this.scrollView.scrollToEnd({ animated: true });
             }}>
-            <View style={{ paddingBottom: isFocused ? 0 : 100, flex: 1 }}>
+            <View style={{ paddingBottom: 100, flex: 1 }}>
               {journalEntries?.map((journal: any, index: number) =>
-                renderItem(journal, index),
+                RenderItem(journal, index),
               )}
             </View>
           </ScrollView>
@@ -802,7 +865,7 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
               flexDirection: 'row',
               justifyContent: 'space-around',
               position: 'absolute',
-              bottom: 0,
+              bottom: 30,
               gap: 10,
               left: 0,
               right: 0,
@@ -837,7 +900,8 @@ const AddJournal = ({ navigation: { goBack } }: Props) => {
                 padding: 10,
                 borderRadius: 100,
               }}
-              onPress={addTextEntry}>
+              // onPress={addTextEntry}
+            >
               <Image
                 source={Images['note-text']}
                 style={{

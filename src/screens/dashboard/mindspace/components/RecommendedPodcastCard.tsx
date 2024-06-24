@@ -3,16 +3,21 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { styles } from './style';
 import { recommendedOptions } from 'constants/data';
 import { Colors, Images } from 'theme/config';
-import HeaderText from 'components/base/header-text';
+import { HeaderText } from 'components';
+import { convertDuration } from 'utils';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { DashboardParamList } from 'utils/types/navigation-types';
 
-export const RecommendedPodcastCard = () => {
+
+export const RecommendedPodcastCard = ({ item } : { item: any }) => {
+  const navigation = useNavigation<NavigationProp<DashboardParamList, 'MindSpace'>>();
   return (
-    <View style={styles.recommendedSectionItemContainer}>
+    <TouchableOpacity style={styles.recommendedSectionItemContainer} onPress={() => navigation.navigate('CbtAudio', { header: item.title, backgroundImageUri: item.background_url, audio_uri: item.content_url, id: item?.id, is_complete: item?.play_history?.is_complete, duration: item?.play_history?.current_duration }) }>
       <View style={styles.recommendedSectionHeaderContainer}>
-        {recommendedOptions.map(option => {
+        {item?.tags?.length > 0 && item?.tags?.map((tag: string, index: number) => {
           return (
-            <View style={styles.recommendedOptionContainer} key={option.id}>
-              <Text style={styles.recommendedOptionText}>{option.title}</Text>
+            <View style={styles.recommendedOptionContainer} key={index}>
+              <Text style={styles.recommendedOptionText}>{tag}</Text>
             </View>
           );
         })}
@@ -20,15 +25,15 @@ export const RecommendedPodcastCard = () => {
       <View style={styles.podcastTitleContainer}>
         <HeaderText
           headerTextStyle={styles.headerTextStyle}
-          text="Productivity 101"
+          text={item?.title}
           textStyle={styles.textStyle}
-          hasSubText="12:48 — Playtime"
+          hasSubText={ convertDuration(item?.duration) + " — Playtime"}
         />
       </View>
 
       <View style={styles.podcastItemIconContainer}>
         <View style={styles.podcastRateContainer}>
-          <View
+          {/* <View
             style={[styles.podcastItemIconBody, styles.sideBorderContainer]}>
             <Image
               source={Images.play}
@@ -50,7 +55,7 @@ export const RecommendedPodcastCard = () => {
               ]}
             />
             <Text style={styles.podcastText}>400.56K</Text>
-          </View>
+          </View> */}
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -62,6 +67,6 @@ export const RecommendedPodcastCard = () => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

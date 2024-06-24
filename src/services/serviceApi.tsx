@@ -124,20 +124,64 @@ class ServiceApi {
       )
     ) {
       if (validationErrorCodes.includes(response?.response?.status)) {
-        const keys = Object.keys(response?.response?.data?.errors);
-        if (response?.response?.data?.errors[keys[0]][0]) {
-          keys.forEach(key => {
-            response?.response?.data?.errors[key].forEach(
-              (errorMessage: string) => {
-                showMessage({
-                  message: errorMessage,
-                  duration: 3000,
-                  type: 'danger',
-                });
-              },
-            );
+        if(response?.response?.data?.message){
+          showMessage({
+            message: response?.response?.data?.message,
+            duration: 3000,
+            type: 'danger',
           });
-        } else {
+        }
+        else if(response?.response?.message){
+          showMessage({
+            message: response?.response?.message,
+            duration: 3000,
+            type: 'danger',
+          });
+        }
+        else if(response?.response?.data?.errors){
+          const keys = Object.keys(response?.response?.data?.errors);
+          if (response?.response?.data?.errors[keys[0]][0]) {
+            keys.forEach(key => {
+              response?.response?.data?.errors[key].forEach(
+                (errorMessage: string) => {
+                  showMessage({
+                    message: errorMessage,
+                    duration: 3000,
+                    type: 'danger',
+                  });
+                },
+              );
+            });
+          } 
+        } 
+        else if(response?.response?.data?.non_field_errors){
+          response?.response?.data?.non_field_errors?.map((message: string) => {
+            return(
+              showMessage({
+                message: message,
+                duration: 3000,
+                type: 'danger',
+              })
+            )
+          })
+        }
+        else if(response?.response?.data){
+          const keys = Object.keys(response?.response?.data);
+          if (response?.response?.data[keys[0]][0]) {
+            keys.forEach(key => {
+              response?.response?.data[key].forEach(
+                (errorMessage: string) => {
+                  showMessage({
+                    message: errorMessage,
+                    duration: 3000,
+                    type: 'danger',
+                  });
+                },
+              );
+            });
+          } 
+        }
+        else {
           showMessage({
             message: response?.response?.data?.message,
             duration: 3000,
@@ -145,7 +189,7 @@ class ServiceApi {
           });
         }
       }
-    } else if (response?.response?.status === 500) {
+    } else if (response?.response?.status == 500) {
       showMessage({
         message: 'server Error',
         duration: 3000,

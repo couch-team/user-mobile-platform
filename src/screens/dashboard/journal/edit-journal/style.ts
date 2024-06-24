@@ -1,12 +1,14 @@
 import { hp, wp } from 'constants/layout';
 import { StyleSheet } from 'react-native';
 import { Colors, Typography } from 'theme/config';
+import Constants from 'expo-constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.PRIMARY,
     position: 'relative',
+    paddingTop: Constants.statusBarHeight,
   },
   noteOptionBodyContainer: {
     flex: 1,

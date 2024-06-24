@@ -1,22 +1,25 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Colors, Images } from 'theme/config';
 import { styles } from './style';
+import { LinearGradient } from 'expo-linear-gradient';
+import { convertDuration } from 'utils';
+import { DashboardParamList } from 'utils/types/navigation-types';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-interface VideoItemProps {
-  video: any;
-}
+export const VideoItem = ({ item } : { item: any }) => {
+  const navigation = useNavigation<NavigationProp<DashboardParamList, 'MindSpace'>>();
 
-export const VideoItem = ({ video }: VideoItemProps) => {
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.recentlyWatchedItemContainer,
         styles.topVideoItemContainer,
-      ]}>
+      ]}
+      onPress={() => navigation.navigate('CbtVideo', { header: item?.title, backgroundImageUri: item?.background_url, video_uri: item?.content_url, id: item?.id, is_complete: true, duration: item?.current_duration || '00:00'  }) }
+    >
       <Image
-        source={Images['top-video']}
+        source={{ uri: item?.background_url }}
         resizeMode="cover"
         style={styles.topVideoStyle}
       />
@@ -32,12 +35,12 @@ export const VideoItem = ({ video }: VideoItemProps) => {
             />
           </View>
           <View style={styles.durationContainer}>
-            <Text style={styles.durationText}>3:45</Text>
+            <Text style={styles.durationText}>{convertDuration(item?.duration)}</Text>
           </View>
         </View>
-        <Text style={styles.topVideoTitleText}>{video.title}</Text>
+        <Text style={styles.topVideoTitleText}>{item.title}</Text>
         <View style={styles.hasMarginTop}>
-          <View
+          {/* <View
             style={[styles.podcastItemIconBody, styles.sideBorderContainer]}>
             <Image
               source={Images.play}
@@ -53,20 +56,18 @@ export const VideoItem = ({ video }: VideoItemProps) => {
               style={[styles.podcastItemIcon, { tintColor: Colors.WHITE }]}
             />
             <Text style={styles.podcastText}>400.56K</Text>
-          </View>
+          </View> */}
         </View>
         <View style={styles.recentlyWatchedHashTagContainer}>
-          {video.options?.map((option: string) => {
+          {item?.tags?.length > 0 && item?.tags?.map((option: string) => {
             return (
               <View key={option} style={[styles.hasTagContainer]}>
-                <View style={styles.topVideoTagContainer}>
-                  <Text style={styles.hasTagText}>{option}</Text>
-                </View>
+                <Text style={styles.hasTagText}>{option}</Text>
               </View>
             );
           })}
         </View>
       </LinearGradient>
-    </View>
+    </TouchableOpacity>
   );
 };

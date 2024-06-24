@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, { useState } from 'react';
+import Constants from 'expo-constants';
 import { Colors, Images, Typography } from 'theme/config';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DashboardParamList } from 'utils/types/navigation-types';
@@ -44,8 +45,7 @@ const Subscription = ({ navigation }: Props) => {
       style={{
         flex: 1,
         backgroundColor: 'rgba(6, 12, 35, 1)',
-
-        paddingTop: 20,
+        paddingTop: Constants.statusBarHeight,
       }}>
       <SubscriptionModal
         visible={showSubscriptionModal}

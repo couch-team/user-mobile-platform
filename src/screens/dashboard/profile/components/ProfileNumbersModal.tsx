@@ -1,7 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Images, Typography } from 'theme/config';
+import MoodLogged from './MoodLogged';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 interface Props {
   visible: boolean;
@@ -16,8 +19,34 @@ const ProfileNumbersModal = ({
   onClose,
   title,
   animationType,
-  data,
 }: Props) => {
+  const [excitedCount, setExcitedCount] = useState(0);
+  const [happyCount, setHappyCount] = useState(0);
+  const [sadNeutralCount, setSadNeutralCount] = useState(0);
+  const [angryCount, setAngryCount] = useState(0);
+
+  const { moods } = useSelector((state: RootState) => state.Mood);
+  useEffect(() => {
+    setExcitedCount(0);
+    setHappyCount(0);
+    setSadNeutralCount(0);
+    setAngryCount(0);
+
+    // Count occurrences for each category
+    moods.forEach(mood => {
+      const moodTitle = mood.emotion.mood.title;
+      if (moodTitle === 'Excited') {
+        setExcitedCount(prevCount => prevCount + 1);
+      } else if (moodTitle === 'Happy') {
+        setHappyCount(prevCount => prevCount + 1);
+      } else if (moodTitle === 'Sad' || moodTitle === 'Neutral') {
+        setSadNeutralCount(prevCount => prevCount + 1);
+      } else if (moodTitle === 'Angry') {
+        setAngryCount(prevCount => prevCount + 1);
+      }
+    });
+  }, [moods]);
+
   return (
     <Modal
       animationType={animationType}
@@ -67,63 +96,34 @@ const ProfileNumbersModal = ({
               flexWrap: 'wrap',
               justifyContent: 'space-around',
             }}>
-            {data?.map(info => (
-              <View
-                style={{
-                  backgroundColor: 'rgba(253, 249, 238, 0.04)',
-                  padding: 20,
-                  margin: 10,
-                  width: '43%',
-                  borderRadius: 16,
-                }}
-                key={info.id}>
-                <View
-                  style={{
-                    backgroundColor: 'rgba(255, 245, 203, 0.12)',
-                    // padding: 10,
-                    paddingVertical: 10,
-                    width: 45,
-                    alignItems: 'center',
-                    borderRadius: 100,
-                  }}>
-                  <Image
-                    source={info.imgUrl}
-                    style={{
-                      width: 25,
-                      height: 25,
-                      resizeMode: 'contain',
-                      tintColor:
-                        info.title === 'Podcasts Saved'
-                          ? 'rgba(249, 114, 211, 1)'
-                          : info.title === 'Podcasts Played'
-                          ? 'rgba(0, 194, 136, 1)'
-                          : info.title === 'Replies you’ve given'
-                          ? 'rgba(255, 184, 0, 1)'
-                          : undefined,
-                    }}
-                  />
-                </View>
-
-                <View style={{ marginTop: 20, gap: 16 }}>
-                  <Text
-                    style={{
-                      color: 'rgba(227, 228, 248, 1)',
-                      fontFamily: Typography.fontFamily.SoraBold,
-                      fontSize: 24,
-                    }}>
-                    {info.value}
-                  </Text>
-                  <Text
-                    style={{
-                      color: 'rgba(159, 152, 178, 1)',
-                      fontFamily: Typography.fontFamily.SoraRegular,
-                      fontSize: 14,
-                    }}>
-                    {info.title}
-                  </Text>
-                </View>
-              </View>
-            ))}
+            <MoodLogged
+              info={'Excited'}
+              count={excitedCount}
+              uri={
+                'https://res.cloudinary.com/couchtechnologies/image/upload/v1707517293/Group_8979_bivcxw.png'
+              }
+            />
+            <MoodLogged
+              info={'Happy'}
+              count={happyCount}
+              uri={
+                'https://res.cloudinary.com/couchtechnologies/image/upload/v1707517291/Group_8975_wrvvg2.png'
+              }
+            />
+            <MoodLogged
+              info={'Sad/Neutral'}
+              count={sadNeutralCount}
+              uri={
+                'https://res.cloudinary.com/couchtechnologies/image/upload/v1707517293/Group_8978_ewcqgi.png'
+              }
+            />
+            <MoodLogged
+              info={'Angry'}
+              count={angryCount}
+              uri={
+                'https://res.cloudinary.com/couchtechnologies/image/upload/v1707517292/Group_8976_wx5ske.png'
+              }
+            />
           </View>
         </Pressable>
       </Pressable>
